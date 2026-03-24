@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service — LeadQ</title>
+<meta name="description" content="LeadQ's terms of service governing the use of SMS and other services provided by LeadQ INC.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-dark: #0a0a0c;
+  --bg-light: #f8f7f4;
+  --bg-warm: #f1efe8;
+  --bg-card: #ffffff;
+  --text-primary: #0a0a0c;
+  --text-secondary: #6b6a65;
+  --text-light: #f8f7f4;
+  --text-muted: #9c9a92;
+  --accent: #3574B8;
+  --border: rgba(10,10,12,0.08);
+  --font-body: 'DM Sans', -apple-system, sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: var(--font-body); color: var(--text-primary); background: var(--bg-light); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+.label { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); }
+.label-light { color: rgba(248,247,244,0.35); }
+@keyframes pulse { 0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(53,116,184,0.4); } 50% { opacity: 0.8; box-shadow: 0 0 0 6px rgba(53,116,184,0); } }
+
+/* NAV */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.25rem 0; transition: background 0.4s var(--ease-smooth), backdrop-filter 0.4s, padding 0.3s; }
+.nav.scrolled { background: rgba(10,10,12,0.88); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); padding: 0.75rem 0; }
+.nav .container { display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { text-decoration: none; }
+.nav-logo img { height: 56px; display: block; }
+.nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+.nav-links a { color: rgba(248,247,244,0.55); text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text-light); }
+.nav-cta { background: var(--accent) !important; color: #fff !important; padding: 0.5rem 1.25rem; border-radius: 6px; font-weight: 500; font-size: 0.85rem !important; transition: transform 0.2s var(--ease-out), box-shadow 0.2s; }
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(53,116,184,0.35); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-light); margin: 5px 0; transition: 0.3s; }
+
+/* PAGE HERO */
+.page-hero { background: var(--bg-dark); padding: 10rem 0 5rem; position: relative; overflow: hidden; }
+.page-hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 70%; height: 120%; background: radial-gradient(ellipse, rgba(53,116,184,0.06) 0%, transparent 70%); pointer-events: none; }
+.page-hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(53,116,184,0.2), transparent); }
+.page-hero-content { position: relative; z-index: 1; }
+.page-hero-eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem; }
+.page-hero-eyebrow .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
+.page-hero h1 { font-size: clamp(2.4rem, 5vw, 3.5rem); font-weight: 500; line-height: 1.08; color: var(--text-light); letter-spacing: -0.03em; margin-bottom: 0.75rem; }
+.page-hero-sub { font-size: 0.95rem; color: rgba(248,247,244,0.4); font-family: var(--font-mono); }
+
+/* POLICY CONTENT */
+.policy-content { padding: 6rem 0 8rem; background: var(--bg-light); }
+.policy-inner { max-width: 780px; }
+.policy-section { margin-bottom: 3rem; }
+.policy-section:last-child { margin-bottom: 0; }
+.policy-section h2 { font-size: 1.15rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.75rem; letter-spacing: -0.01em; }
+.policy-section p { font-size: 1rem; line-height: 1.8; color: var(--text-secondary); }
+.policy-section a { color: var(--accent); text-decoration: none; }
+.policy-section a:hover { text-decoration: underline; }
+.policy-intro { font-size: 1.05rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 3.5rem; padding-bottom: 3rem; border-bottom: 1px solid var(--border); }
+.terms-list { list-style: none; display: flex; flex-direction: column; gap: 0.9rem; margin-top: 0.25rem; }
+.terms-list li { font-size: 1rem; line-height: 1.8; color: var(--text-secondary); padding-left: 1.25rem; position: relative; }
+.terms-list li::before { content: '—'; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
+
+/* FOOTER */
+.footer { background: var(--bg-dark); color: var(--text-light); padding: 4rem 0 2rem; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+.footer-brand p { font-size: 0.875rem; color: rgba(248,247,244,0.4); line-height: 1.6; margin-top: 1rem; max-width: 280px; }
+.footer h4 { font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(248,247,244,0.35); margin-bottom: 1.25rem; }
+.footer ul { list-style: none; }
+.footer ul li { margin-bottom: 0.75rem; }
+.footer ul a { color: rgba(248,247,244,0.55); text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
+.footer ul a:hover { color: var(--text-light); }
+.footer-bottom { padding-top: 2rem; border-top: 1px solid rgba(248,247,244,0.06); display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: rgba(248,247,244,0.25); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
+  .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(10,10,12,0.95); backdrop-filter: blur(20px); padding: 2rem; gap: 1.25rem; }
+  .page-hero { padding: 8rem 0 4rem; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: 0.75rem; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="container">
+    <a href="index.html" class="nav-logo"><img src="leadq-logo.png" alt="LeadQ" style="height:112px;"></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="index.html#process">How it works</a></li>
+      <li><a href="index.html#results">Results</a></li>
+      <li><a href="about.html">About us</a></li>
+      <li><a href="index.html#demo">Try our AI</a></li>
+      <li><a href="https://api.leadconnectorhq.com/widget/form/B9xxx1R160aPNKkePHxa" class="nav-cta" target="_blank">Get started</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-content">
+      <div class="page-hero-eyebrow">
+        <span class="dot"></span>
+        <span class="label label-light">Legal</span>
+      </div>
+      <h1>Terms of Service</h1>
+      <p class="page-hero-sub">Last updated: 2026</p>
+    </div>
+  </div>
+</section>
+
+<!-- TERMS CONTENT -->
+<section class="policy-content">
+  <div class="container">
+    <div class="policy-inner">
+      <p class="policy-intro">These terms and conditions govern the use of SMS services provided by LeadQ INC. By subscribing to the service, you agree to be bound by these terms and conditions.</p>
+
+      <div class="policy-section">
+        <h2>Subscription &amp; Opt-In</h2>
+        <ul class="terms-list">
+          <li>To subscribe to the SMS service, the User must opt-in by providing their mobile number to LeadQ INC.</li>
+          <li>The User acknowledges that message and data rates may apply.</li>
+          <li>LeadQ INC is not responsible for any charges incurred by the User.</li>
+          <li>The User acknowledges that they may receive up to 1–2 messages per week.</li>
+        </ul>
+      </div>
+
+      <div class="policy-section">
+        <h2>Opting Out</h2>
+        <ul class="terms-list">
+          <li>The User may opt-out of the SMS service at any time by replying "STOP" to any message received.</li>
+          <li>LeadQ will promptly stop sending messages to the User upon receipt of the opt-out request.</li>
+        </ul>
+      </div>
+
+      <div class="policy-section">
+        <h2>Disclaimer of Liability</h2>
+        <ul class="terms-list">
+          <li>LeadQ INC will not be liable for any loss, damage, or inconvenience caused by the use of the SMS service.</li>
+          <li>The User assumes all risks and responsibility for the use of the SMS service.</li>
+        </ul>
+      </div>
+
+      <div class="policy-section">
+        <h2>Agreement</h2>
+        <p>By subscribing to the SMS service provided by LeadQ INC, the User agrees to be bound by these terms and conditions. If the User does not agree to these terms and conditions, they should not subscribe to the SMS service.</p>
+      </div>
+
+      <div class="policy-section">
+        <h2>Contact Information</h2>
+        <p>For questions regarding these terms, please contact us at <a href="mailto:info@leadq.co">info@leadq.co</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo"><img src="leadq-logo.png" alt="LeadQ" style="height:104px;"></a>
+        <p>We transform labor-intensive businesses into automated powerhouses. AI-powered lead capture, qualification, and booking — built and managed for you.</p>
+      </div>
+      <div><h4>Services</h4><ul><li><a href="index.html#services">Voice AI</a></li><li><a href="index.html#services">Chat AI</a></li><li><a href="index.html#services">CRM automations</a></li><li><a href="index.html#process">How it works</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="about.html">About us</a></li><li><a href="index.html#results">Results</a></li><li><a href="index.html#demo">Try our AI</a></li><li><a href="https://api.leadconnectorhq.com/widget/form/B9xxx1R160aPNKkePHxa" target="_blank">Get started</a></li></ul></div>
+      <div><h4>Connect</h4><ul><li><a href="mailto:info@leadq.co">info@leadq.co</a></li><li><a href="https://www.linkedin.com/company/leadq-inc/posts/?feedView=all" target="_blank">LinkedIn</a></li><li><a href="privacy-policy.html">Privacy policy</a></li><li><a href="terms-of-service.html">Terms of service</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>&copy; 2026 LeadQ. All rights reserved.</span></div>
+  </div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 60); }, { passive: true });
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => navLinks.classList.remove('open')); });
+</script>
+</body>
+</html>

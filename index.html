@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeadQ — Stop Chasing. Start Closing.</title>
+<meta name="description" content="LeadQ transforms labor-intensive businesses into automated powerhouses. Conversational AI, CRM automations, and appointment scheduling — built and managed for you.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-dark: #0a0a0c;
+  --bg-deep: #101014;
+  --bg-light: #f8f7f4;
+  --bg-warm: #f1efe8;
+  --bg-card: #ffffff;
+  --text-primary: #0a0a0c;
+  --text-secondary: #6b6a65;
+  --text-light: #f8f7f4;
+  --text-muted: #9c9a92;
+  --accent: #3574B8;
+  --accent-light: #4A8ED4;
+  --accent-dim: #2D6AAF;
+  --accent-glow: rgba(53,116,184,0.15);
+  --red-soft: #E8453C;
+  --green-soft: #2D8A3E;
+  --border: rgba(10,10,12,0.08);
+  --border-dark: rgba(248,247,244,0.08);
+  --font-body: 'DM Sans', -apple-system, sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: var(--font-body); color: var(--text-primary); background: var(--bg-light); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+.label { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); }
+.label-light { color: rgba(248,247,244,0.35); }
+.accent { color: var(--accent); }
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+@keyframes pulse { 0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(53,116,184,0.4); } 50% { opacity: 0.8; box-shadow: 0 0 0 6px rgba(53,116,184,0); } }
+
+/* NAV */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.25rem 0; transition: background 0.4s var(--ease-smooth), backdrop-filter 0.4s, padding 0.3s; }
+.nav.scrolled { background: rgba(10,10,12,0.88); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); padding: 0.75rem 0; }
+.nav .container { display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { text-decoration: none; }
+.nav-logo img { height: 36px; display: block; }
+.nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+.nav-links a { color: rgba(248,247,244,0.55); text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text-light); }
+.nav-cta { background: var(--accent) !important; color: #fff !important; padding: 0.5rem 1.25rem; border-radius: 6px; font-weight: 500; font-size: 0.85rem !important; transition: transform 0.2s var(--ease-out), box-shadow 0.2s; }
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(53,116,184,0.35); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-light); margin: 5px 0; transition: 0.3s; }
+
+/* BUTTONS */
+.btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--accent); color: #fff; padding: 0.875rem 1.75rem; border-radius: 8px; font-weight: 500; font-size: 0.95rem; text-decoration: none; border: none; cursor: pointer; transition: transform 0.2s var(--ease-out), box-shadow 0.3s; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(53,116,184,0.3); }
+.btn-primary svg { transition: transform 0.2s; }
+.btn-primary:hover svg { transform: translateX(3px); }
+.btn-ghost { display: inline-flex; align-items: center; gap: 0.5rem; background: transparent; color: rgba(248,247,244,0.65); padding: 0.875rem 1.5rem; border-radius: 8px; font-size: 0.95rem; text-decoration: none; border: 1px solid rgba(248,247,244,0.12); cursor: pointer; transition: color 0.2s, border-color 0.2s, background 0.2s; }
+.btn-ghost:hover { color: var(--text-light); border-color: rgba(248,247,244,0.25); background: rgba(248,247,244,0.04); }
+.btn-dark { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--bg-dark); color: var(--text-light); padding: 0.875rem 2rem; border-radius: 8px; font-weight: 500; font-size: 0.95rem; text-decoration: none; border: none; cursor: pointer; transition: transform 0.2s var(--ease-out), box-shadow 0.3s; }
+.btn-dark:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(10,10,12,0.15); }
+.btn-outline { display: inline-flex; align-items: center; gap: 0.5rem; background: transparent; color: var(--text-primary); padding: 0.875rem 2rem; border-radius: 8px; font-size: 0.95rem; text-decoration: none; border: 1px solid var(--border); cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+.btn-outline:hover { border-color: rgba(10,10,12,0.2); background: rgba(10,10,12,0.02); }
+.btn-blue-outline { display: inline-flex; align-items: center; gap: 0.5rem; background: transparent; color: var(--accent); padding: 0.875rem 2rem; border-radius: 8px; font-size: 0.95rem; text-decoration: none; border: 1px solid var(--accent); cursor: pointer; font-weight: 500; transition: background 0.2s, color 0.2s, transform 0.2s var(--ease-out); }
+.btn-blue-outline:hover { background: var(--accent); color: #fff; transform: translateY(-2px); }
+
+/* HERO */
+.hero { background: var(--bg-dark); min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: -40%; right: -20%; width: 70%; height: 120%; background: radial-gradient(ellipse, rgba(53,116,184,0.06) 0%, transparent 70%); pointer-events: none; }
+.hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(53,116,184,0.2), transparent); }
+.hero-layout { display: flex; align-items: center; justify-content: space-between; gap: 3rem; width: 100%; padding: 8rem 0 6rem; }
+.hero-content { position: relative; z-index: 1; max-width: 620px; }
+.hero-gear { position: relative; z-index: 1; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.hero-gear img { width: 640px; height: auto; opacity: 0.92; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem; }
+.hero-eyebrow .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
+.hero h1 { font-size: clamp(2.8rem, 6vw, 4.5rem); font-weight: 500; line-height: 1.06; color: var(--text-light); letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+.hero h1 em { font-style: italic; color: var(--accent); font-weight: 300; }
+.hero-sub { font-size: 1.15rem; line-height: 1.7; color: rgba(248,247,244,0.5); max-width: 520px; margin-bottom: 2.5rem; }
+.hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+
+/* STATS */
+.stats { background: var(--bg-dark); border-top: 1px solid rgba(248,247,244,0.05); padding: 3.5rem 0; }
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+.stat { text-align: center; position: relative; }
+.stat:not(:last-child)::after { content: ''; position: absolute; right: -1rem; top: 10%; height: 80%; width: 1px; background: rgba(248,247,244,0.06); }
+.stat-number { font-size: 2.5rem; font-weight: 500; color: var(--text-light); letter-spacing: -0.03em; line-height: 1; margin-bottom: 0.5rem; }
+.stat-number span { color: var(--accent); }
+.stat-label { font-size: 0.8rem; color: rgba(248,247,244,0.35); }
+
+/* PROBLEM */
+.problem { padding: 7rem 0; background: var(--bg-light); }
+.problem-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.problem h2 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 500; letter-spacing: -0.02em; line-height: 1.12; margin-bottom: 0.5rem; }
+.problem h2 .strike { text-decoration: line-through; text-decoration-color: var(--red-soft); text-decoration-thickness: 2px; color: var(--text-muted); }
+.problem-sub { font-size: 1.1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 2rem; }
+.pain-list { display: flex; flex-direction: column; gap: 1rem; }
+.pain-item { display: flex; gap: 1rem; align-items: flex-start; padding: 1.25rem 1.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; transition: transform 0.2s var(--ease-out), box-shadow 0.2s; }
+.pain-item:hover { transform: translateX(4px); box-shadow: 0 4px 20px rgba(10,10,12,0.04); }
+.pain-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: #fef0ef; color: var(--red-soft); }
+.pain-item h4 { font-size: 0.95rem; font-weight: 500; margin-bottom: 0.25rem; }
+.pain-item p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+.problem-visual { position: relative; display: flex; flex-direction: column; gap: 1rem; }
+.grind-stat { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem 1.75rem; display: flex; align-items: center; gap: 1.25rem; }
+.grind-stat-number { font-size: 2rem; font-weight: 600; color: var(--red-soft); letter-spacing: -0.02em; line-height: 1; }
+.grind-stat-text { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5; }
+.grind-stat-text strong { color: var(--text-primary); font-weight: 500; }
+
+/* SOLUTION */
+.solution { padding: 7rem 0; background: var(--bg-dark); color: var(--text-light); position: relative; overflow: hidden; }
+.solution::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(53,116,184,0.06) 0%, transparent 70%); pointer-events: none; }
+.solution-header { text-align: center; max-width: 640px; margin: 0 auto 4rem; position: relative; }
+.solution-header h2 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 500; letter-spacing: -0.02em; line-height: 1.15; margin-top: 0.75rem; margin-bottom: 1rem; }
+.solution-header p { font-size: 1.05rem; color: rgba(248,247,244,0.5); line-height: 1.7; }
+.solution-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; position: relative; }
+.solution-card { background: rgba(248,247,244,0.03); border: 1px solid rgba(248,247,244,0.06); border-radius: 16px; padding: 2rem; transition: transform 0.3s var(--ease-out), border-color 0.3s, background 0.3s; }
+.solution-card:hover { transform: translateY(-4px); border-color: rgba(53,116,184,0.25); background: rgba(53,116,184,0.04); }
+.solution-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; background: rgba(53,116,184,0.1); color: var(--accent-light); }
+.solution-card h3 { font-size: 1.2rem; font-weight: 500; margin-bottom: 0.75rem; letter-spacing: -0.01em; }
+.solution-card p { font-size: 0.9rem; line-height: 1.65; color: rgba(248,247,244,0.5); }
+.solution-card ul { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(248,247,244,0.06); list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+.solution-card li { font-size: 0.8rem; color: rgba(248,247,244,0.4); display: flex; align-items: center; gap: 0.5rem; }
+.solution-card li::before { content: ''; width: 5px; height: 5px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+
+/* PROCESS */
+.process { padding: 7rem 0; background: var(--bg-warm); }
+.process-header { margin-bottom: 3.5rem; }
+.process-header h2 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 500; letter-spacing: -0.02em; line-height: 1.15; margin-top: 0.75rem; }
+.process-header p { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.7; margin-top: 1rem; max-width: 560px; }
+.process-timeline { position: relative; display: flex; flex-direction: column; gap: 0; }
+.process-step { display: grid; grid-template-columns: 80px 1fr; gap: 2rem; padding: 2.5rem 0; border-bottom: 1px solid var(--border); position: relative; }
+.process-step:first-child { padding-top: 0; }
+.process-step:last-child { border-bottom: none; }
+.step-marker { text-align: center; }
+.step-number { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+.step-phase { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem; }
+.step-content h3 { font-size: 1.35rem; font-weight: 500; margin-bottom: 0.35rem; letter-spacing: -0.01em; }
+.step-content .timeframe { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+.step-content p { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.65; max-width: 560px; }
+.step-deliverables { margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.step-tag { font-size: 0.75rem; padding: 0.3rem 0.75rem; background: rgba(53,116,184,0.06); color: var(--accent); border-radius: 4px; font-family: var(--font-mono); }
+
+/* DIFFERENTIATOR */
+.differ { padding: 7rem 0; background: var(--bg-light); }
+.differ-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.differ h2 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 500; letter-spacing: -0.02em; line-height: 1.15; margin-top: 0.75rem; margin-bottom: 1.5rem; }
+.differ-text p { font-size: 1rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1rem; }
+.differ-points { margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+.differ-point { display: flex; gap: 1rem; align-items: flex-start; }
+.differ-point-marker { width: 32px; height: 32px; border-radius: 8px; background: rgba(53,116,184,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; color: var(--accent); }
+.differ-point h4 { font-size: 0.95rem; font-weight: 500; margin-bottom: 0.25rem; }
+.differ-point p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0; }
+.differ-table { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+.differ-table-head { display: grid; grid-template-columns: 1.4fr 1fr 1fr; padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); }
+.differ-table-row { display: grid; grid-template-columns: 1.4fr 1fr 1fr; padding: 0.875rem 1.5rem; border-bottom: 1px solid rgba(10,10,12,0.04); font-size: 0.875rem; align-items: center; }
+.differ-table-row:last-child { border-bottom: none; }
+.differ-table-row span:first-child { color: var(--text-secondary); }
+.check { color: var(--accent); font-weight: 600; }
+.cross { color: rgba(10,10,12,0.15); }
+
+/* TESTIMONIALS */
+.testimonials { padding: 7rem 0; background: var(--bg-dark); color: var(--text-light); }
+.testimonial-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; margin-top: 3rem; }
+.testimonial-card { background: rgba(248,247,244,0.03); border: 1px solid rgba(248,247,244,0.06); border-radius: 16px; padding: 2rem; transition: border-color 0.3s; }
+.testimonial-card:hover { border-color: rgba(53,116,184,0.2); }
+.testimonial-stars { display: flex; gap: 2px; margin-bottom: 1rem; }
+.testimonial-stars svg { color: #f0a800; }
+.testimonial-card blockquote { font-size: 0.975rem; line-height: 1.7; color: rgba(248,247,244,0.8); font-style: italic; margin-bottom: 1.25rem; }
+.testimonial-author { display: flex; align-items: center; gap: 0.75rem; }
+.testimonial-avatar { width: 40px; height: 40px; border-radius: 50%; background: rgba(53,116,184,0.15); display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 0.8rem; color: var(--accent-light); }
+.testimonial-meta h4 { font-size: 0.875rem; font-weight: 500; }
+.testimonial-meta p { font-size: 0.8rem; color: rgba(248,247,244,0.35); }
+
+/* DEMO */
+.demo { padding: 7rem 0; background: var(--bg-warm); }
+.demo-wrapper { background: var(--bg-dark); border-radius: 20px; padding: 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+.demo-text h2 { font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 500; color: var(--text-light); letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1rem; }
+.demo-text p { font-size: 1rem; line-height: 1.7; color: rgba(248,247,244,0.5); margin-bottom: 2rem; }
+.demo-embed { background: rgba(248,247,244,0.03); border: 1px solid rgba(248,247,244,0.08); border-radius: 12px; min-height: 360px; display: flex; align-items: center; justify-content: center; color: rgba(248,247,244,0.2); font-size: 0.85rem; font-family: var(--font-mono); text-align: center; padding: 2rem; line-height: 1.6; }
+
+/* CTA */
+.cta-section { padding: 7rem 0; background: var(--bg-light); text-align: center; }
+.cta-section h2 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 500; letter-spacing: -0.02em; margin-bottom: 1rem; }
+.cta-sub { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 2.5rem; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+.cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.booking-embed { margin-top: 3rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; min-height: 420px; max-width: 640px; margin-left: auto; margin-right: auto; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.85rem; font-family: var(--font-mono); text-align: center; padding: 2rem; line-height: 1.6; }
+
+/* FOOTER */
+.footer { background: var(--bg-dark); color: var(--text-light); padding: 4rem 0 2rem; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+.footer-brand p { font-size: 0.875rem; color: rgba(248,247,244,0.4); line-height: 1.6; margin-top: 1rem; max-width: 280px; }
+.footer h4 { font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(248,247,244,0.35); margin-bottom: 1.25rem; }
+.footer ul { list-style: none; }
+.footer ul li { margin-bottom: 0.75rem; }
+.footer ul a { color: rgba(248,247,244,0.55); text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
+.footer ul a:hover { color: var(--text-light); }
+.footer-bottom { padding-top: 2rem; border-top: 1px solid rgba(248,247,244,0.06); display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: rgba(248,247,244,0.25); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .problem-layout, .differ-layout, .solution-grid { grid-template-columns: 1fr; }
+  .solution-grid { gap: 1rem; }
+  .testimonial-grid { grid-template-columns: 1fr; }
+  .demo-wrapper { grid-template-columns: 1fr; padding: 2.5rem; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat:nth-child(2)::after { display: none; }
+  .process-step { grid-template-columns: 1fr; gap: 0.5rem; }
+  .step-marker { text-align: left; display: flex; gap: 0.75rem; }
+}
+@media (max-width: 900px) {
+  .hero-layout { flex-direction: column; align-items: flex-start; }
+  .hero-gear { display: none; }
+}
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
+  .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(10,10,12,0.95); backdrop-filter: blur(20px); padding: 2rem; gap: 1.25rem; }
+  .hero-layout { padding: 7rem 0 4rem; }
+  .hero h1 { font-size: 2.4rem; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .stat::after { display: none; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: 0.75rem; text-align: center; }
+  .demo-wrapper { padding: 2rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="container">
+    <a href="#" class="nav-logo"><img src="leadq-logo.png" alt="LeadQ" style="height:112px;"></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">How it works</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="about.html">About us</a></li>
+      <li><a href="#demo">Try our AI</a></li>
+      <li><a href="https://api.leadconnectorhq.com/widget/form/B9xxx1R160aPNKkePHxa" class="nav-cta" target="_blank">Get started</a></li>
+      <li><a href="https://app.leadq.co/" target="_blank">Login</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-layout">
+      <div class="hero-content">
+        <div class="hero-eyebrow reveal">
+          <span class="dot"></span>
+          <span class="label label-light">Done-for-you AI systems</span>
+        </div>
+        <h1 class="reveal reveal-delay-1">Stop chasing.<br>Start <em>closing</em></h1>
+        <p class="hero-sub reveal reveal-delay-2">We transform labor-intensive businesses into automated powerhouses. AI-powered lead capture, qualification, and appointment booking — built and managed for you.</p>
+        <div class="hero-actions reveal reveal-delay-3">
+          <a href="https://api.leadconnectorhq.com/widget/form/B9xxx1R160aPNKkePHxa" class="btn-primary" target="_blank">Get started <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="#video" class="btn-ghost"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg> Watch video</a>
+        </div>
+      </div>
+      <div class="hero-gear reveal reveal-delay-2">
+        <img src="GearLogo.png" alt="LeadQ Gear">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat reveal"><div class="stat-number">10<span>+</span></div><div class="stat-label">Years of experience</div></div>
+      <div class="stat reveal reveal-delay-1"><div class="stat-number">100s</div><div class="stat-label">Client wins delivered</div></div>
+      <div class="stat reveal reveal-delay-2"><div class="stat-number">3<span>x</span></div><div class="stat-label">Average booking rate lift</div></div>
+      <div class="stat reveal reveal-delay-3"><div class="stat-number">24/7</div><div class="stat-label">AI receptionist uptime</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM — THE CRUSHING MANUAL GRIND -->
+<section class="problem">
+  <div class="container">
+    <div class="problem-layout">
+      <div class="reveal">
+        <span class="label">Sound familiar?</span>
+        <h2>Less <span class="strike">grind</span>,<br>more <span class="accent">growth</span></h2>
+        <p class="problem-sub">Legacy systems and fragmented processes are crushing your close rates. Your team wastes hours on tasks AI could handle in seconds.</p>
+        <div class="pain-list">
+          <div class="pain-item reveal reveal-delay-1">
+            <div class="pain-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+            <div><h4>Missed calls, missed revenue</h4><p>Every unanswered call is a lost lead. Your competitors pick up what you leave behind.</p></div>
+          </div>
+          <div class="pain-item reveal reveal-delay-2">
+            <div class="pain-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+            <div><h4>Manual follow-up bottlenecks</h4><p>Leads go cold while your team juggles spreadsheets, texts, and email chains.</p></div>
+          </div>
+          <div class="pain-item reveal reveal-delay-3">
+            <div class="pain-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg></div>
+            <div><h4>Disconnected tech stack</h4><p>Your CRM, phone system, calendar, and forms don't talk to each other.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="problem-visual">
+        <div class="grind-stat reveal reveal-delay-1"><div class="grind-stat-number">78%</div><div class="grind-stat-text"><strong>of leads buy from the first responder.</strong> Speed to lead is everything — and manual processes are too slow.</div></div>
+        <div class="grind-stat reveal reveal-delay-2"><div class="grind-stat-number">5min</div><div class="grind-stat-text"><strong>Response time drops conversion by 80%</strong> after just five minutes. Your AI responds in under 5 seconds.</div></div>
+        <div class="grind-stat reveal reveal-delay-3"><div class="grind-stat-number">1/3</div><div class="grind-stat-text"><strong>the cost of a single appointment setter.</strong> We automate your entire top of funnel for less.</div></div>
+        <a href="#services" class="btn-blue-outline reveal reveal-delay-4" style="align-self:flex-start; margin-top:0.5rem;">See the solution <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION — SERVICES -->
+<section class="solution" id="services">
+  <div class="container">
+    <div class="solution-header reveal">
+      <span class="label label-light">The solution</span>
+      <h2>LeadQ's fully automated<br>AI system</h2>
+      <p>Three integrated AI systems running on one platform. We build them, train them, and run them — so you can focus on closing.</p>
+    </div>
+    <div class="solution-grid">
+      <div class="solution-card reveal">
+        <div class="solution-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><path d="M12 19v4M8 23h8"/></svg></div>
+        <h3>Voice AI receptionist</h3>
+        <p>A human-like phone agent that answers every call, qualifies leads in real time, and books appointments directly into your calendar.</p>
+        <ul><li>Natural, engaging conversations</li><li>Instant appointment scheduling</li><li>Triggers CRM workflows on call end</li><li>Available 24/7 — never misses a call</li></ul>
+      </div>
+      <div class="solution-card reveal reveal-delay-1">
+        <div class="solution-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <h3>Conversational chat AI</h3>
+        <p>An intelligent assistant that engages website visitors, captures lead data, and routes qualified prospects to your sales process.</p>
+        <ul><li>Embeds on any website or landing page</li><li>Captures lead info conversationally</li><li>Routes hot leads to your calendar</li><li>Learns your business context</li></ul>
+      </div>
+      <div class="solution-card reveal reveal-delay-2">
+        <div class="solution-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+        <h3>CRM automations</h3>
+        <p>Custom workflows connecting your entire pipeline — from first touch to booked appointment to follow-up. All on one platform.</p>
+        <ul><li>Custom workflow builder</li><li>Lead nurture sequences</li><li>Multi-platform integrations</li><li>All managed inside one CRM</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS — FROM FRICTION TO FLOW -->
+<section class="process" id="process">
+  <div class="container">
+    <div class="process-header reveal">
+      <span class="label">From friction to flow</span>
+      <h2>LeadQ's proven process</h2>
+      <p>We don't hand you software and wish you luck. We join your team for 90 days and build until everything runs on autopilot.</p>
+    </div>
+    <div class="process-timeline">
+      <div class="process-step reveal">
+        <div class="step-marker"><div class="step-number">01</div><div class="step-phase">Setup</div></div>
+        <div class="step-content">
+          <h3>Discover &amp; build</h3>
+          <div class="timeframe">Days 1 — 14</div>
+          <p>We audit your existing pipeline, map your ideal customer journey, and build your AI agents and CRM workflows from scratch. Everything goes live — connected and tested.</p>
+          <div class="step-deliverables"><span class="step-tag">AI agents configured</span><span class="step-tag">CRM setup</span><span class="step-tag">Calendar integration</span><span class="step-tag">Custom workflows</span></div>
+        </div>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-marker"><div class="step-number">02</div><div class="step-phase">Optimize</div></div>
+        <div class="step-content">
+          <h3>Train &amp; refine</h3>
+          <div class="timeframe">Days 15 — 60</div>
+          <p>We embed with your team — hands-on training, real-time script refinement, and conversion optimization based on actual lead data. Weekly performance reports keep you in the loop.</p>
+          <div class="step-deliverables"><span class="step-tag">Performance reports</span><span class="step-tag">Script refinements</span><span class="step-tag">Workflow tuning</span><span class="step-tag">Conversion lifts</span></div>
+        </div>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-marker"><div class="step-number">03</div><div class="step-phase">Scale</div></div>
+        <div class="step-content">
+          <h3>Launch &amp; grow</h3>
+          <div class="timeframe">Days 61 — 90</div>
+          <p>Your AI runs autonomously — booking appointments while you focus on closing. We hand off with full documentation, or stay on as your managed growth partner.</p>
+          <div class="step-deliverables"><span class="step-tag">Autonomous pipeline</span><span class="step-tag">Full SOPs</span><span class="step-tag">Team training</span><span class="step-tag">Optional managed support</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY LEADQ -->
+<section class="differ" id="about">
+  <div class="container">
+    <div class="differ-layout">
+      <div class="reveal">
+        <span class="label">Why LeadQ</span>
+        <h2>No empty promises.<br>Real <span class="accent">partnership</span>.</h2>
+        <p>Most AI resellers sell tools you could grab yourself — and call it "innovation." We sell partnership. For 90 days, we don't just set up your AI. We join your team.</p>
+        <div class="differ-points">
+          <div class="differ-point">
+            <div class="differ-point-marker"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
+            <div><h4>Hands-on execution</h4><p>We build, train, and run your AI systems — not just hand you software.</p></div>
+          </div>
+          <div class="differ-point">
+            <div class="differ-point-marker"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
+            <div><h4>Real human support</h4><p>Talk to real people, not chatbots. We're in the trenches with you.</p></div>
+          </div>
+          <div class="differ-point">
+            <div class="differ-point-marker"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
+            <div><h4>Flexible commitment</h4><p>Fully managed or collaborative — your choice, your pace, your results.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="differ-table reveal reveal-delay-1">
+        <div class="differ-table-head"><span></span><span>LeadQ</span><span>Typical AI vendor</span></div>
+        <div class="differ-table-row"><span>Done-for-you setup</span><span class="check">&#10003;</span><span class="cross">&#10005;</span></div>
+        <div class="differ-table-row"><span>90-day partnership</span><span class="check">&#10003;</span><span class="cross">&#10005;</span></div>
+        <div class="differ-table-row"><span>Custom workflows</span><span class="check">&#10003;</span><span class="cross">&#10005;</span></div>
+        <div class="differ-table-row"><span>Human support team</span><span class="check">&#10003;</span><span class="cross">&#10005;</span></div>
+        <div class="differ-table-row"><span>Ongoing optimization</span><span class="check">&#10003;</span><span class="cross">&#10005;</span></div>
+        <div class="differ-table-row"><span>All-in-one CRM</span><span class="check">&#10003;</span><span class="cross">&#10005;</span></div>
+        <div class="differ-table-row"><span>Less than 1 hire</span><span class="check">&#10003;</span><span class="cross">&#10005;</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="results">
+  <div class="container">
+    <div class="reveal">
+      <span class="label label-light">Client results</span>
+      <h2 style="font-size:clamp(2rem,4vw,2.8rem);font-weight:500;letter-spacing:-0.02em;line-height:1.15;margin-top:0.75rem;color:var(--text-light);">Proven across industries</h2>
+    </div>
+    <div class="testimonial-grid">
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <blockquote>"LeadQ has been instrumental in transforming our solar lead conversion process. Thanks to their expertise, we were able to triple our appointment set rate."</blockquote>
+        <div class="testimonial-author"><div class="testimonial-avatar">CJ</div><div class="testimonial-meta"><h4>Cooper Jones</h4><p>Breezy Service</p></div></div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-1">
+        <div class="testimonial-stars"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <blockquote>"Their expertise, attention to detail, and strategic approach have consistently led to outstanding results. I highly recommend LeadQ to anyone looking for a trusted partner."</blockquote>
+        <div class="testimonial-author"><div class="testimonial-avatar">ZM</div><div class="testimonial-meta"><h4>Zach Morris</h4><p>Rise Roofing and Home Service</p></div></div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-2">
+        <div class="testimonial-stars"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <blockquote>"LeadQ are truly exceptional at what they do. Their incredible abilities in building and optimizing campaigns have been instrumental to my success. The AI systems they built for us run like a machine — appointments get booked while we focus on what we do best: closing deals and serving clients."</blockquote>
+        <div class="testimonial-author"><div class="testimonial-avatar">TT</div><div class="testimonial-meta"><h4>Tim Taylor</h4><p>Titan Corporate Solutions</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI DEMO -->
+<section class="demo" id="demo">
+  <div class="container">
+    <div class="demo-wrapper reveal" style="grid-template-columns: 1fr;">
+      <div class="demo-text">
+        <span class="label label-light">See it in action</span>
+        <h2>Talk to one of our<br>AI assistants</h2>
+        <p>Don't take our word for it. Have a live conversation with one of our AI assistants and experience what your leads would get.</p>
+        <a href="https://api.leadconnectorhq.com/widget/form/B9xxx1R160aPNKkePHxa" class="btn-primary" target="_blank">Chat Now <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA + BOOKING -->
+<section class="cta-section" id="book">
+  <div class="container">
+    <div class="reveal">
+      <span class="label">Get started</span>
+      <h2>Ready to automate<br>your pipeline?</h2>
+      <p class="cta-sub">Get a free strategy session. We'll audit your current process and show you exactly how AI can book more appointments — no commitments.</p>
+    </div>
+    <div class="cta-actions reveal reveal-delay-1">
+      <a href="https://api.leadconnectorhq.com/widget/form/B9xxx1R160aPNKkePHxa" class="btn-dark" target="_blank">Get started <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo"><img src="leadq-logo.png" alt="LeadQ" style="height:104px;"></a>
+        <p>We transform labor-intensive businesses into automated powerhouses. AI-powered lead capture, qualification, and booking — built and managed for you.</p>
+      </div>
+      <div><h4>Services</h4><ul><li><a href="#services">Voice AI</a></li><li><a href="#services">Chat AI</a></li><li><a href="#services">CRM automations</a></li><li><a href="#process">How it works</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="about.html">About us</a></li><li><a href="#results">Results</a></li><li><a href="#demo">Try our AI</a></li><li><a href="#book">Get started</a></li></ul></div>
+      <div><h4>Connect</h4><ul><li><a href="mailto:info@leadq.co">info@leadq.co</a></li><li><a href="https://www.linkedin.com/company/leadq-inc/posts/?feedView=all" target="_blank">LinkedIn</a></li><li><a href="privacy-policy.html">Privacy policy</a></li><li><a href="terms-of-service.html">Terms of service</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>&copy; 2026 LeadQ. All rights reserved.</span></div>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 60); }, { passive: true });
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => navLinks.classList.remove('open')); });
+document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function(e) { e.preventDefault(); const target = document.querySelector(this.getAttribute('href')); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }); });
+</script>
+</body>
+</html>
