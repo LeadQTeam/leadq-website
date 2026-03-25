@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get Started — LeadQ</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ─── Variables ─── */
+:root {
+  --bg-dark: #0a0a0c;
+  --bg-deep: #101014;
+  --bg-light: #f8f7f4;
+  --bg-warm: #f1efe8;
+  --text-primary: #0a0a0c;
+  --text-secondary: #6b6a65;
+  --text-light: #f8f7f4;
+  --text-muted: #9c9a92;
+  --accent: #3574B8;
+  --accent-light: #4A8ED4;
+  --accent-dim: #2D6AAF;
+  --accent-glow: rgba(53,116,184,0.15);
+  --green-soft: #2D8A3E;
+  --border: rgba(10,10,12,0.1);
+  --font-body: 'DM Sans', -apple-system, sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --radius: 10px;
+}
+
+/* ─── Reset ─── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg-light);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ─── Header ─── */
+.header {
+  background: var(--bg-dark);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+}
+.header-logo img {
+  height: 32px;
+  width: auto;
+}
+.header-logo span {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-light);
+  letter-spacing: -0.02em;
+}
+.header-secure {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(248,247,244,0.35);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.header-secure svg { opacity: 0.5; }
+
+/* ─── Progress Bar ─── */
+.progress-wrap {
+  background: rgba(10,10,12,0.06);
+  height: 3px;
+}
+.progress-bar {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.5s var(--ease-out);
+  width: 0%;
+}
+
+/* ─── Main Layout ─── */
+.form-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+}
+
+/* ─── Step Label ─── */
+.step-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+/* ─── Question ─── */
+.question-title {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+.question-sub {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+/* ─── Option Grid ─── */
+.option-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+}
+.option-grid.single-col {
+  grid-template-columns: 1fr;
+}
+.option-grid.three-col {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+@media (max-width: 520px) {
+  .option-grid,
+  .option-grid.three-col { grid-template-columns: 1fr; }
+}
+
+/* ─── Option Button ─── */
+.option-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.95rem 1.1rem;
+  background: #ffffff;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.18s var(--ease-smooth),
+              background 0.18s var(--ease-smooth),
+              transform 0.18s var(--ease-smooth),
+              box-shadow 0.18s var(--ease-smooth);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+.option-btn:hover {
+  border-color: var(--accent);
+  background: rgba(53,116,184,0.04);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(53,116,184,0.1);
+}
+.option-btn.selected {
+  border-color: var(--accent);
+  background: rgba(53,116,184,0.07);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.option-btn.selected .option-check {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.option-btn.selected .option-check::after {
+  opacity: 1;
+}
+.option-check {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(10,10,12,0.2);
+  background: transparent;
+  position: relative;
+  transition: background 0.18s, border-color 0.18s;
+}
+.option-check::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+/* ─── Nav Buttons ─── */
+.nav-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.btn-next {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.85rem 1.75rem;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s, opacity 0.2s;
+  position: relative;
+}
+.btn-next:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(53,116,184,0.32);
+}
+.btn-next:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.btn-next svg { transition: transform 0.2s; }
+.btn-next:hover:not(:disabled) svg { transform: translateX(3px); }
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  padding: 0.85rem 0.5rem;
+  transition: color 0.2s;
+}
+.btn-back:hover { color: var(--text-primary); }
+
+/* ─── Contact Form ─── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.contact-grid.full { grid-template-columns: 1fr; }
+
+@media (max-width: 480px) {
+  .contact-grid { grid-template-columns: 1fr; }
+}
+
+.field-wrap { display: flex; flex-direction: column; gap: 0.4rem; }
+.field-label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.01em;
+}
+.field-input {
+  padding: 0.85rem 1rem;
+  background: #ffffff;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+  -webkit-appearance: none;
+}
+.field-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.field-input::placeholder { color: var(--text-muted); }
+.field-error {
+  font-size: 0.78rem;
+  color: #E8453C;
+  display: none;
+}
+.field-wrap.has-error .field-input { border-color: #E8453C; }
+.field-wrap.has-error .field-error { display: block; }
+
+/* ─── Submit button ─── */
+.btn-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--accent);
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s;
+  min-width: 180px;
+  justify-content: center;
+}
+.btn-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(53,116,184,0.32);
+}
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.btn-submit .spinner {
+  display: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+.btn-submit.loading .spinner { display: block; }
+.btn-submit.loading .btn-text { display: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── Trust Strip ─── */
+.trust-strip {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.trust-item svg { opacity: 0.5; }
+
+/* ─── Success State ─── */
+.success-screen {
+  display: none;
+  text-align: center;
+  padding: 4rem 1rem;
+}
+.success-icon {
+  width: 64px;
+  height: 64px;
+  background: rgba(45,138,62,0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+.success-icon svg { color: var(--green-soft); }
+.success-screen h2 {
+  font-size: 1.8rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+}
+.success-screen p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  max-width: 380px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ─── Error Banner ─── */
+.error-banner {
+  display: none;
+  background: rgba(232,69,60,0.08);
+  border: 1px solid rgba(232,69,60,0.2);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.85rem;
+  color: #c0392b;
+  margin-bottom: 1rem;
+}
+
+/* ─── Step Transitions ─── */
+.step {
+  animation: stepIn 0.35s var(--ease-out) both;
+}
+@keyframes stepIn {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.step.exit {
+  animation: stepOut 0.25s var(--ease-smooth) both;
+}
+@keyframes stepOut {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(-24px); }
+}
+
+/* ─── Footer ─── */
+.form-footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  margin-top: 2rem;
+}
+.form-footer a { color: var(--text-muted); }
+.form-footer a:hover { color: var(--text-secondary); }
+</style>
+</head>
+<body>
+
+<!-- ─── Header ─── -->
+<header class="header">
+  <a href="/" class="header-logo">
+    <img src="/leadq-logo.png" alt="LeadQ">
+    <span>LeadQ</span>
+  </a>
+  <div class="header-secure">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    Secure Form
+  </div>
+</header>
+
+<!-- ─── Progress ─── -->
+<div class="progress-wrap">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<!-- ─── Form Wrapper ─── -->
+<div class="form-wrap" id="formWrap">
+
+  <!-- ── STEP 1: Lead Source ── -->
+  <div class="step" id="step-1">
+    <div class="step-label">Step 1 of 7</div>
+    <h1 class="question-title">How are you currently getting leads?</h1>
+    <p class="question-sub">Select the option that best describes your primary lead source.</p>
+    <div class="option-grid" id="grid-1">
+      <button class="option-btn" data-field="lead_source" data-value="Running Ads" onclick="selectOption(this, 1)">
+        <span class="option-check"></span> Running Ads
+      </button>
+      <button class="option-btn" data-field="lead_source" data-value="Buying a List" onclick="selectOption(this, 1)">
+        <span class="option-check"></span> Buying a List
+      </button>
+      <button class="option-btn" data-field="lead_source" data-value="Affiliate Partners" onclick="selectOption(this, 1)">
+        <span class="option-check"></span> Affiliate Partners
+      </button>
+      <button class="option-btn" data-field="lead_source" data-value="None" onclick="selectOption(this, 1)">
+        <span class="option-check"></span> None
+      </button>
+    </div>
+    <div class="nav-row">
+      <button class="btn-next" id="next-1" onclick="goTo(2)" disabled>
+        <span>Continue</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── STEP 2: Schedule Rate ── -->
+  <div class="step" id="step-2" style="display:none">
+    <div class="step-label">Step 2 of 7</div>
+    <h1 class="question-title">What's your current schedule rate from your leads?</h1>
+    <p class="question-sub">What percentage of your leads convert into booked appointments?</p>
+    <div class="option-grid single-col" id="grid-2">
+      <button class="option-btn" data-field="schedule_rate" data-value="Less than 20%" onclick="selectOption(this, 2)">
+        <span class="option-check"></span> Less than 20%
+      </button>
+      <button class="option-btn" data-field="schedule_rate" data-value="20-30%" onclick="selectOption(this, 2)">
+        <span class="option-check"></span> 20–30%
+      </button>
+      <button class="option-btn" data-field="schedule_rate" data-value="30-40%" onclick="selectOption(this, 2)">
+        <span class="option-check"></span> 30–40%
+      </button>
+      <button class="option-btn" data-field="schedule_rate" data-value="40-50%" onclick="selectOption(this, 2)">
+        <span class="option-check"></span> 40–50%
+      </button>
+      <button class="option-btn" data-field="schedule_rate" data-value="Greater than 50%" onclick="selectOption(this, 2)">
+        <span class="option-check"></span> Greater than 50%
+      </button>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goTo(1)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back
+      </button>
+      <button class="btn-next" id="next-2" onclick="goTo(3)" disabled>
+        <span>Continue</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── STEP 3: Areas to Improve ── -->
+  <div class="step" id="step-3" style="display:none">
+    <div class="step-label">Step 3 of 7</div>
+    <h1 class="question-title">What areas are you most interested in improving?</h1>
+    <p class="question-sub">Pick the one that matters most to your business right now.</p>
+    <div class="option-grid single-col" id="grid-3">
+      <button class="option-btn" data-field="improvement_area" data-value="Improving my follow up" onclick="selectOption(this, 3)">
+        <span class="option-check"></span> Improving my follow up
+      </button>
+      <button class="option-btn" data-field="improvement_area" data-value="Booking more appointments" onclick="selectOption(this, 3)">
+        <span class="option-check"></span> Booking more appointments
+      </button>
+      <button class="option-btn" data-field="improvement_area" data-value="Automating my workflow" onclick="selectOption(this, 3)">
+        <span class="option-check"></span> Automating my workflow
+      </button>
+      <button class="option-btn" data-field="improvement_area" data-value="All of the above" onclick="selectOption(this, 3)">
+        <span class="option-check"></span> All of the above
+      </button>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goTo(2)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back
+      </button>
+      <button class="btn-next" id="next-3" onclick="goTo(4)" disabled>
+        <span>Continue</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── STEP 4: Timeline ── -->
+  <div class="step" id="step-4" style="display:none">
+    <div class="step-label">Step 4 of 7</div>
+    <h1 class="question-title">How soon are you looking to fix this?</h1>
+    <p class="question-sub">This helps us prioritize your strategy session.</p>
+    <div class="option-grid" id="grid-4">
+      <button class="option-btn" data-field="timeline" data-value="Immediately" onclick="selectOption(this, 4)">
+        <span class="option-check"></span> Immediately
+      </button>
+      <button class="option-btn" data-field="timeline" data-value="Next Week" onclick="selectOption(this, 4)">
+        <span class="option-check"></span> Next Week
+      </button>
+      <button class="option-btn" data-field="timeline" data-value="This Month" onclick="selectOption(this, 4)">
+        <span class="option-check"></span> This Month
+      </button>
+      <button class="option-btn" data-field="timeline" data-value="In the next 6 months" onclick="selectOption(this, 4)">
+        <span class="option-check"></span> In the next 6 months
+      </button>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goTo(3)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back
+      </button>
+      <button class="btn-next" id="next-4" onclick="goTo(5)" disabled>
+        <span>Continue</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── STEP 5: Role ── -->
+  <div class="step" id="step-5" style="display:none">
+    <div class="step-label">Step 5 of 7</div>
+    <h1 class="question-title">What's your role in your company?</h1>
+    <p class="question-sub">So we can tailor the conversation to your level of decision-making.</p>
+    <div class="option-grid" id="grid-5">
+      <button class="option-btn" data-field="role" data-value="Owner" onclick="selectOption(this, 5)">
+        <span class="option-check"></span> Owner
+      </button>
+      <button class="option-btn" data-field="role" data-value="VP" onclick="selectOption(this, 5)">
+        <span class="option-check"></span> VP
+      </button>
+      <button class="option-btn" data-field="role" data-value="Director" onclick="selectOption(this, 5)">
+        <span class="option-check"></span> Director
+      </button>
+      <button class="option-btn" data-field="role" data-value="Manager" onclick="selectOption(this, 5)">
+        <span class="option-check"></span> Manager
+      </button>
+      <button class="option-btn" data-field="role" data-value="Employee" onclick="selectOption(this, 5)">
+        <span class="option-check"></span> Employee
+      </button>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goTo(4)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back
+      </button>
+      <button class="btn-next" id="next-5" onclick="goTo(6)" disabled>
+        <span>Continue</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── STEP 6: Revenue ── -->
+  <div class="step" id="step-6" style="display:none">
+    <div class="step-label">Step 6 of 7</div>
+    <h1 class="question-title">What's your current monthly revenue?</h1>
+    <p class="question-sub">This helps us recommend the right solution for your stage.</p>
+    <div class="option-grid" id="grid-6">
+      <button class="option-btn" data-field="monthly_revenue" data-value="$0 - $5,000" onclick="selectOption(this, 6)">
+        <span class="option-check"></span> $0 – $5,000
+      </button>
+      <button class="option-btn" data-field="monthly_revenue" data-value="$5,000 - $10,000" onclick="selectOption(this, 6)">
+        <span class="option-check"></span> $5,000 – $10,000
+      </button>
+      <button class="option-btn" data-field="monthly_revenue" data-value="$10,000 - $20,000" onclick="selectOption(this, 6)">
+        <span class="option-check"></span> $10k – $20k
+      </button>
+      <button class="option-btn" data-field="monthly_revenue" data-value="$20,000 - $30,000" onclick="selectOption(this, 6)">
+        <span class="option-check"></span> $20k – $30k
+      </button>
+      <button class="option-btn" data-field="monthly_revenue" data-value="$30,000 - $40,000" onclick="selectOption(this, 6)">
+        <span class="option-check"></span> $30k – $40k
+      </button>
+      <button class="option-btn" data-field="monthly_revenue" data-value="$50,000+" onclick="selectOption(this, 6)">
+        <span class="option-check"></span> $50k+
+      </button>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goTo(5)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back
+      </button>
+      <button class="btn-next" id="next-6" onclick="goTo(7)" disabled>
+        <span>Continue</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── STEP 7: Contact Info ── -->
+  <div class="step" id="step-7" style="display:none">
+    <div class="step-label">Step 7 of 7 — Almost done!</div>
+    <h1 class="question-title">Where should we send your strategy?</h1>
+    <p class="question-sub">We'll use this to book your free session and send you a custom breakdown.</p>
+
+    <div id="errorBanner" class="error-banner">Something went wrong. Please try again or email us at info@leadq.co.</div>
+
+    <div class="contact-grid">
+      <div class="field-wrap" id="wrap-first_name">
+        <label class="field-label" for="first_name">First Name</label>
+        <input class="field-input" type="text" id="first_name" name="first_name" placeholder="Jane" autocomplete="given-name">
+        <span class="field-error">Please enter your first name.</span>
+      </div>
+      <div class="field-wrap" id="wrap-last_name">
+        <label class="field-label" for="last_name">Last Name</label>
+        <input class="field-input" type="text" id="last_name" name="last_name" placeholder="Smith" autocomplete="family-name">
+        <span class="field-error">Please enter your last name.</span>
+      </div>
+      <div class="field-wrap" id="wrap-phone">
+        <label class="field-label" for="phone">Mobile Phone</label>
+        <input class="field-input" type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000" autocomplete="tel">
+        <span class="field-error">Please enter a valid phone number.</span>
+      </div>
+      <div class="field-wrap" id="wrap-email">
+        <label class="field-label" for="email">Email Address</label>
+        <input class="field-input" type="email" id="email" name="email" placeholder="jane@company.com" autocomplete="email">
+        <span class="field-error">Please enter a valid email address.</span>
+      </div>
+    </div>
+
+    <div class="nav-row" style="flex-wrap:wrap; gap:0.75rem;">
+      <button class="btn-back" onclick="goTo(6)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back
+      </button>
+      <button class="btn-submit" id="submitBtn" onclick="submitForm()">
+        <span class="spinner"></span>
+        <span class="btn-text">Get My Free Strategy Session
+          <svg style="margin-left:6px;vertical-align:-2px" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </button>
+    </div>
+
+    <div class="trust-strip">
+      <div class="trust-item">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        No spam, ever
+      </div>
+      <div class="trust-item">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        100% free session
+      </div>
+      <div class="trust-item">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Responds within 1 business day
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SUCCESS ── -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h2>You're all set!</h2>
+    <p>We've received your info and will be in touch within one business day to book your free strategy session.</p>
+  </div>
+
+</div><!-- /form-wrap -->
+
+<footer class="form-footer">
+  <a href="/privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="/terms-of-service.html">Terms of Service</a><br>
+  &copy; 2026 LeadQ Inc. All rights reserved.
+</footer>
+
+<script>
+// ─── Config ───────────────────────────────────────────────
+// Replace this URL with your N8N webhook URL before going live.
+const N8N_WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/Rp242cWZbAPVTlbMSIr5/webhook-trigger/53c15f04-8b4a-4e8d-9533-b68c91295415';
+
+// ─── State ────────────────────────────────────────────────
+const TOTAL_STEPS = 7;
+let currentStep = 1;
+const answers = {};
+
+// ─── Progress ─────────────────────────────────────────────
+function updateProgress(step) {
+  const pct = ((step - 1) / TOTAL_STEPS) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+
+// ─── Option Selection ─────────────────────────────────────
+function selectOption(btn, step) {
+  // Deselect siblings in same grid
+  const grid = document.getElementById('grid-' + step);
+  grid.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+
+  // Select clicked
+  btn.classList.add('selected');
+
+  // Store answer
+  const field = btn.dataset.field;
+  const value = btn.dataset.value;
+  answers[field] = value;
+
+  // Enable next button
+  const nextBtn = document.getElementById('next-' + step);
+  if (nextBtn) nextBtn.disabled = false;
+}
+
+// ─── Navigation ───────────────────────────────────────────
+function goTo(targetStep) {
+  const current = document.getElementById('step-' + currentStep);
+  const target  = document.getElementById('step-' + targetStep);
+  if (!target) return;
+
+  // Exit animation on current
+  current.classList.add('exit');
+  setTimeout(() => {
+    current.style.display = 'none';
+    current.classList.remove('exit');
+    target.style.display  = 'block';
+    target.style.animation = 'none';
+    // Force reflow
+    void target.offsetWidth;
+    target.style.animation = '';
+    currentStep = targetStep;
+    updateProgress(targetStep);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, 220);
+}
+
+// ─── Contact Validation ───────────────────────────────────
+function validateContact() {
+  let valid = true;
+
+  const first = document.getElementById('first_name').value.trim();
+  const last  = document.getElementById('last_name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const email = document.getElementById('email').value.trim();
+
+  const setError = (id, hasError) => {
+    document.getElementById('wrap-' + id).classList.toggle('has-error', hasError);
+  };
+
+  if (!first) { setError('first_name', true); valid = false; } else { setError('first_name', false); }
+  if (!last)  { setError('last_name',  true); valid = false; } else { setError('last_name',  false); }
+  if (!phone || phone.replace(/\D/g,'').length < 7) { setError('phone', true); valid = false; } else { setError('phone', false); }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('email', true); valid = false; } else { setError('email', false); }
+
+  return valid;
+}
+
+// ─── Submit ───────────────────────────────────────────────
+async function submitForm() {
+  if (!validateContact()) return;
+
+  const btn = document.getElementById('submitBtn');
+  const banner = document.getElementById('errorBanner');
+  banner.style.display = 'none';
+  btn.disabled = true;
+  btn.classList.add('loading');
+
+  const payload = {
+    ...answers,
+    first_name: document.getElementById('first_name').value.trim(),
+    last_name:  document.getElementById('last_name').value.trim(),
+    phone:      document.getElementById('phone').value.trim(),
+    email:      document.getElementById('email').value.trim(),
+    submitted_at: new Date().toISOString(),
+    source: 'leadq-intake-form',
+  };
+
+  try {
+    const res = await fetch(N8N_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) throw new Error('Network response was not ok');
+
+    // Success
+    document.getElementById('formWrap').querySelectorAll('.step').forEach(s => s.style.display = 'none');
+    document.getElementById('successScreen').style.display = 'block';
+    document.getElementById('progressBar').style.width = '100%';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  } catch (err) {
+    console.error('Submission error:', err);
+    banner.style.display = 'block';
+    btn.disabled = false;
+    btn.classList.remove('loading');
+  }
+}
+
+// ─── Init ─────────────────────────────────────────────────
+updateProgress(1);
+
+// Live-clear field errors on input
+['first_name','last_name','phone','email'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => {
+    document.getElementById('wrap-' + id).classList.remove('has-error');
+  });
+});
+</script>
+</body>
+</html>
