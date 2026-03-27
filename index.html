@@ -4,15 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LeadQ — Stop Chasing. Start Closing.</title>
-<meta name="description" content="LeadQ transforms labor-intensive businesses into automated powerhouses. AI assistant, done-for-you CRM, Voice AI, and appointments on autopilot — built and managed for you.">
-<meta name="keywords" content="AI assistant, done-for-you CRM, Voice AI, appointments on autopilot, AI appointment booking, lead generation automation, CRM automations, conversational AI, AI receptionist, automated pipeline">
+<meta name="description" content="LeadQ is your one team for everything — Voice AI, chat AI, CRM automations, custom website design, and your own custom CRM. Built and managed for you.">
+<meta name="keywords" content="AI assistant, done-for-you CRM, Voice AI, appointments on autopilot, AI appointment booking, lead generation automation, CRM automations, conversational AI, AI receptionist, automated pipeline, custom website design, custom CRM development, done-for-you website">
 <link rel="canonical" href="https://www.leadq.co/">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.leadq.co/">
 <meta property="og:title" content="LeadQ — Stop Chasing. Start Closing.">
-<meta property="og:description" content="AI assistant, done-for-you CRM, Voice AI, and appointments on autopilot — built and managed for your business.">
+<meta property="og:description" content="One team for everything — Voice AI, chat AI, CRM automations, custom website design, and your own custom CRM. Built and managed for your business.">
 <meta property="og:image" content="https://www.leadq.co/LeadQOpenGraph.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -36,7 +36,7 @@
   "description": "LeadQ provides done-for-you AI systems including Voice AI receptionists, conversational chat AI, and CRM automations to help businesses book more appointments on autopilot.",
   "email": "info@leadq.co",
   "areaServed": ["US", "CA"],
-  "serviceType": ["AI Appointment Booking", "Done-for-you CRM", "Voice AI", "Lead Generation Automation", "Conversational AI"],
+  "serviceType": ["AI Appointment Booking", "Done-for-you CRM", "Voice AI", "Lead Generation Automation", "Conversational AI", "Custom Website Design", "Custom CRM Development"],
   "sameAs": ["https://www.linkedin.com/company/leadq-inc/"]
 }
 </script>
@@ -160,7 +160,10 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
 .solution-header { text-align: center; max-width: 640px; margin: 0 auto 4rem; position: relative; }
 .solution-header h2 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 500; letter-spacing: -0.02em; line-height: 1.15; margin-top: 0.75rem; margin-bottom: 1rem; }
 .solution-header p { font-size: 1.05rem; color: rgba(248,247,244,0.5); line-height: 1.7; }
-.solution-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; position: relative; }
+.solution-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1.25rem; position: relative; }
+.solution-grid .solution-card { grid-column: span 2; }
+.solution-grid .solution-card:nth-child(4) { grid-column: 2 / span 2; }
+.solution-grid .solution-card:nth-child(5) { grid-column: 4 / span 2; }
 .solution-card { background: rgba(248,247,244,0.03); border: 1px solid rgba(248,247,244,0.06); border-radius: 16px; padding: 2rem; transition: transform 0.3s var(--ease-out), border-color 0.3s, background 0.3s; }
 .solution-card:hover { transform: translateY(-4px); border-color: rgba(53,116,184,0.25); background: rgba(53,116,184,0.04); }
 .solution-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; background: rgba(53,116,184,0.1); color: var(--accent-light); }
@@ -246,8 +249,11 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
-  .problem-layout, .differ-layout, .solution-grid { grid-template-columns: 1fr; }
-  .solution-grid { gap: 1rem; }
+  .problem-layout, .differ-layout { grid-template-columns: 1fr; }
+  .solution-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .solution-grid .solution-card,
+  .solution-grid .solution-card:nth-child(4),
+  .solution-grid .solution-card:nth-child(5) { grid-column: 1 / -1; }
   .testimonial-grid { grid-template-columns: 1fr; }
   .demo-wrapper { grid-template-columns: 1fr; padding: 2.5rem; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -363,8 +369,8 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
   <div class="container">
     <div class="solution-header reveal">
       <span class="label label-light">The solution</span>
-      <h2>LeadQ's fully automated<br>AI system</h2>
-      <p>Three integrated AI systems running on one platform. We build them, train them, and run them — so you can focus on closing.</p>
+      <h2>One team.<br>Everything built.</h2>
+      <p>We're not just an automation agency. We build and run your entire digital operation — AI, website, and CRM — under one roof, so you never have to juggle vendors again.</p>
     </div>
     <div class="solution-grid">
       <div class="solution-card reveal">
@@ -384,6 +390,18 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
         <h3>CRM automations</h3>
         <p>Custom workflows connecting your entire pipeline — from first touch to booked appointment to follow-up. All on one platform.</p>
         <ul><li>Custom workflow builder</li><li>Lead nurture sequences</li><li>Multi-platform integrations</li><li>All managed inside one CRM</li></ul>
+      </div>
+      <div class="solution-card reveal reveal-delay-3">
+        <div class="solution-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div>
+        <h3>Website design &amp; build</h3>
+        <p>A fully custom, high-converting website built from the ground up — designed to match your brand and engineered to turn visitors into booked appointments.</p>
+        <ul><li>Custom design — no templates</li><li>Mobile-first &amp; fast-loading</li><li>Built-in lead capture &amp; AI chat</li><li>Delivered ready to launch</li></ul>
+      </div>
+      <div class="solution-card reveal reveal-delay-4">
+        <div class="solution-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 8h4M7 12h2"/><circle cx="16" cy="10" r="2"/></svg></div>
+        <h3>Your own custom CRM</h3>
+        <p>A fully custom CRM built specifically around your business — your pipeline, your workflows, your data. No bloated software. Just exactly what you need.</p>
+        <ul><li>Built to your exact workflow</li><li>Pipeline, tasks &amp; invoicing</li><li>Client portal &amp; reporting</li><li>You own it completely</li></ul>
       </div>
     </div>
   </div>
@@ -528,7 +546,7 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
         <a href="#" class="nav-logo"><img src="leadq-logo.png" alt="LeadQ" style="height:104px;"></a>
         <p>We transform labor-intensive businesses into automated powerhouses. AI-powered lead capture, qualification, and booking — built and managed for you.</p>
       </div>
-      <div><h4>Services</h4><ul><li><a href="#services">Voice AI</a></li><li><a href="#services">Chat AI</a></li><li><a href="#services">CRM automations</a></li><li><a href="#process">How it works</a></li></ul></div>
+      <div><h4>Services</h4><ul><li><a href="#services">Voice AI</a></li><li><a href="#services">Chat AI</a></li><li><a href="#services">CRM automations</a></li><li><a href="#services">Website build</a></li><li><a href="#services">Custom CRM</a></li><li><a href="#process">How it works</a></li></ul></div>
       <div><h4>Company</h4><ul><li><a href="about.html">About us</a></li><li><a href="#results">Results</a></li><li><a href="#demo">Try our AI</a></li><li><a href="#book">Get started</a></li></ul></div>
       <div><h4>Connect</h4><ul><li><a href="mailto:info@leadq.co">info@leadq.co</a></li><li><a href="https://www.linkedin.com/company/leadq-inc/posts/?feedView=all" target="_blank">LinkedIn</a></li><li><a href="privacy-policy.html">Privacy policy</a></li><li><a href="terms-of-service.html">Terms of service</a></li></ul></div>
     </div>
