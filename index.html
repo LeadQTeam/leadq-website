@@ -121,8 +121,8 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
 .hero { background: var(--bg-dark); min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; }
 .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 85% 20%, rgba(53,116,184,0.20) 0%, transparent 50%), radial-gradient(ellipse at 12% 80%, rgba(100,60,220,0.15) 0%, transparent 45%); pointer-events: none; }
 .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(53,116,184,0.25), transparent); }
-.hero-layout { display: flex; align-items: center; justify-content: space-between; gap: 3rem; width: 100%; padding: 8rem 0 6rem; }
-.hero-content { position: relative; z-index: 1; max-width: 580px; }
+.hero-layout { display: flex; align-items: center; justify-content: space-between; gap: 4rem; width: 100%; padding: 9rem 0 7rem; }
+.hero-content { position: relative; z-index: 1; max-width: 640px; }
 .hero-eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem; }
 .hero-eyebrow .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
 .hero h1 { font-size: clamp(2.8rem, 6vw, 4.5rem); font-weight: 500; line-height: 1.06; color: var(--text-light); letter-spacing: -0.03em; margin-bottom: 1.5rem; }
@@ -131,8 +131,8 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
 .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
 /* Hero panel */
 .hero-panel { position: relative; z-index: 1; flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 420px; height: 420px; }
-.hero-gear-bg { position: absolute; inset: -60px; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 0; }
-.hero-gear-bg img { width: 560px; height: auto; opacity: 0.06; filter: blur(2px); }
+.hero-gear-bg { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 0; }
+.hero-gear-bg img { width: 1000px; height: auto; opacity: 0.055; filter: blur(1px); }
 .activity-panel { position: relative; z-index: 1; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.11); border-radius: 18px; padding: 1.5rem; width: 340px; box-shadow: 0 8px 48px rgba(0,0,0,0.55), 0 0 80px rgba(53,116,184,0.08), inset 0 1px 0 rgba(255,255,255,0.09); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
 .ap-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; padding-bottom: 0.875rem; border-bottom: 1px solid rgba(255,255,255,0.07); }
 .live-badge { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.12em; color: #2ecc71; }
@@ -333,6 +333,9 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
 </nav>
 
 <section class="hero">
+  <div class="hero-gear-bg">
+    <img src="GearLogo.png" alt="" aria-hidden="true">
+  </div>
   <div class="container">
     <div class="hero-layout">
       <div class="hero-content">
@@ -348,9 +351,6 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
         </div>
       </div>
       <div class="hero-panel reveal reveal-delay-2">
-        <div class="hero-gear-bg">
-          <img src="GearLogo.png" alt="" aria-hidden="true">
-        </div>
         <div class="activity-panel">
           <div class="ap-header">
             <div class="live-badge"><span class="live-dot"></span>LIVE</div>
