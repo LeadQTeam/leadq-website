@@ -180,6 +180,13 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
 .ap-name { font-size: 0.82rem; font-weight: 500; color: var(--text-primary); margin-bottom: 0.2rem; line-height: 1.3; }
 .ap-meta { font-size: 0.73rem; color: var(--text-secondary); }
 .ap-status { color: #2ecc71; }
+.hero-phone-cta { margin-top: 1.1rem; font-size: 0.76rem; color: rgba(200,208,255,0.38); font-family: var(--font-mono); letter-spacing: 0.06em; text-align: center; text-transform: uppercase; }
+/* Card mini-demos */
+.card-demo { margin-top: 1.1rem; padding-top: 1rem; border-top: 1px solid rgba(248,247,244,0.06); display: flex; flex-direction: column; gap: 5px; min-height: 72px; }
+.card-bubble { max-width: 88%; padding: 5px 9px; border-radius: 10px; font-size: 0.71rem; line-height: 1.4; animation: bubble-in 0.25s var(--ease-out) both; }
+.card-bubble.ai { align-self: flex-start; background: rgba(53,116,184,0.16); border: 1px solid rgba(53,116,184,0.22); color: var(--text-primary); border-bottom-left-radius: 3px; }
+.card-bubble.lead { align-self: flex-end; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.10); color: var(--text-primary); border-bottom-right-radius: 3px; }
+.card-bubble.typing { display: inline-flex; align-items: center; gap: 3px; padding: 7px 10px; }
 
 /* STATS */
 .stats { background: var(--bg-dark); border-top: 1px solid rgba(248,247,244,0.05); padding: 3.5rem 0; }
@@ -402,17 +409,17 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
               <div class="ap-item">
                 <div class="ap-icon ap-icon--lead">⚡</div>
                 <div>
-                  <div class="ap-name">Lead captured — Sarah T.</div>
+                  <div class="ap-name" id="feed-lead-name">Lead captured — Sarah T.</div>
                   <div class="ap-meta">qualifying now · <span class="ap-status">active</span></div>
                 </div>
               </div>
             </div>
             <div class="phone-sms">
               <div class="sms-header">
-                <div class="sms-avatar">ST</div>
+                <div class="sms-avatar" id="sms-avatar">ST</div>
                 <div>
-                  <div class="sms-name">Sarah T.</div>
-                  <div class="sms-sub">LeadQ AI · roofing inquiry</div>
+                  <div class="sms-name" id="sms-contact-name">Sarah T.</div>
+                  <div class="sms-sub" id="sms-contact-sub">LeadQ AI · roofing inquiry</div>
                 </div>
               </div>
               <div class="sms-thread" id="sms-thread"></div>
@@ -420,6 +427,7 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
           </div>
           <div class="phone-home"></div>
         </div>
+        <p class="hero-phone-cta">Your AI. Working 24/7.</p>
       </div>
     </div>
   </div>
@@ -483,12 +491,14 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
         <h3>Voice AI receptionist</h3>
         <p>A human-like phone agent that answers every call, qualifies leads in real time, and books appointments directly into your calendar.</p>
         <ul><li>Natural, engaging conversations</li><li>Instant appointment scheduling</li><li>Triggers CRM workflows on call end</li><li>Available 24/7 — never misses a call</li></ul>
+        <div class="card-demo" data-demo="voice"></div>
       </div>
       <div class="solution-card reveal reveal-delay-1">
         <div class="solution-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
         <h3>Conversational chat AI</h3>
         <p>An intelligent assistant that engages website visitors, captures lead data, and routes qualified prospects to your sales process.</p>
         <ul><li>Embeds on any website or landing page</li><li>Captures lead info conversationally</li><li>Routes hot leads to your calendar</li><li>Learns your business context</li></ul>
+        <div class="card-demo" data-demo="chat"></div>
       </div>
       <div class="solution-card reveal reveal-delay-2">
         <div class="solution-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
@@ -670,50 +680,112 @@ navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
 navLinks.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => navLinks.classList.remove('open')); });
 document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function(e) { e.preventDefault(); const target = document.querySelector(this.getAttribute('href')); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }); });
 
-// SMS conversation loop
+// Hero SMS — multi-industry rotation
 (function() {
   const thread = document.getElementById('sms-thread');
   if (!thread) return;
-  const convo = [
-    { from: 'ai',   text: 'Hi! You just filled out our form — still looking for a roof quote?', ms: 1400 },
-    { from: 'lead', text: 'Yeah I am',                                                           ms: 950  },
-    { from: 'ai',   text: 'Great! We have Tuesday 2pm or Wednesday 10am — which works better?',  ms: 1600 },
-    { from: 'lead', text: 'Tuesday works!',                                                       ms: 850  },
-    { from: 'ai',   text: "Perfect — you're booked! ✓ Confirmation on its way.",                 ms: 1200 },
+  const nameEl   = document.getElementById('sms-contact-name');
+  const subEl    = document.getElementById('sms-contact-sub');
+  const avatarEl = document.getElementById('sms-avatar');
+  const feedEl   = document.getElementById('feed-lead-name');
+  const scenarios = [
+    {
+      name: 'Sarah T.', initials: 'ST', sub: 'LeadQ AI · roofing inquiry',
+      convo: [
+        { from: 'ai',   text: "Hey Sarah! You requested a roofing quote — is the leak still an issue?",   ms: 1400 },
+        { from: 'lead', text: "Yeah, been bad since last week",                                            ms: 1000 },
+        { from: 'ai',   text: "Got it. Mike can come out Tuesday 2pm or Wednesday 10am — which works?",   ms: 1600 },
+        { from: 'lead', text: "Tuesday works!",                                                            ms: 850  },
+        { from: 'ai',   text: "Done — Mike's Roofing, Tuesday 2pm. ✓ Confirmation on its way!",           ms: 1200 },
+      ]
+    },
+    {
+      name: 'James K.', initials: 'JK', sub: 'LeadQ AI · HVAC repair',
+      convo: [
+        { from: 'ai',   text: "Hi James! You reached out about AC repair — still not cooling?",            ms: 1400 },
+        { from: 'lead', text: "Yeah it's been 3 days, it's rough",                                         ms: 1000 },
+        { from: 'ai',   text: "Yikes! I can have a tech out today at 4pm or tomorrow 9am — which?",        ms: 1500 },
+        { from: 'lead', text: "Today if possible",                                                          ms: 800  },
+        { from: 'ai',   text: "Locked in — tech arrives today by 4pm. ✓ You'll get a heads-up text.",      ms: 1300 },
+      ]
+    },
   ];
   const sleep = ms => new Promise(r => setTimeout(r, ms));
+  let idx = 0;
   async function runLoop() {
     while (true) {
+      const s = scenarios[idx % scenarios.length]; idx++;
+      if (nameEl)   nameEl.textContent   = s.name;
+      if (subEl)    subEl.textContent    = s.sub;
+      if (avatarEl) avatarEl.textContent = s.initials;
+      if (feedEl)   feedEl.textContent   = 'Lead captured — ' + s.name;
       thread.innerHTML = '';
-      for (const msg of convo) {
+      for (const msg of s.convo) {
         const dot = document.createElement('div');
         dot.className = `sms-bubble typing ${msg.from}`;
         dot.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
-        thread.appendChild(dot);
-        thread.scrollTop = thread.scrollHeight;
+        thread.appendChild(dot); thread.scrollTop = thread.scrollHeight;
         await sleep(msg.ms);
         dot.remove();
-        const bubble = document.createElement('div');
-        bubble.className = `sms-bubble ${msg.from}`;
-        bubble.textContent = msg.text;
-        thread.appendChild(bubble);
-        thread.scrollTop = thread.scrollHeight;
+        const b = document.createElement('div');
+        b.className = `sms-bubble ${msg.from}`; b.textContent = msg.text;
+        thread.appendChild(b); thread.scrollTop = thread.scrollHeight;
         await sleep(msg.from === 'ai' ? 750 : 520);
       }
       await sleep(3000);
-      thread.style.transition = 'opacity 0.65s ease';
-      thread.style.opacity = '0';
-      await sleep(700);
-      thread.innerHTML = '';
-      thread.style.opacity = '1';
+      thread.style.transition = 'opacity 0.65s ease'; thread.style.opacity = '0';
+      await sleep(700); thread.innerHTML = ''; thread.style.opacity = '1';
       await sleep(700);
     }
   }
   const panel = document.querySelector('.hero-panel');
-  const io = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) { io.disconnect(); runLoop(); }
-  }, { threshold: 0.15 });
+  const io = new IntersectionObserver(e => { if (e[0].isIntersecting) { io.disconnect(); runLoop(); } }, { threshold: 0.15 });
   io.observe(panel || thread);
+})();
+
+// Service card mini-demos
+(function() {
+  const demos = {
+    voice: [
+      { from: 'lead', text: "Hey, need someone to check my roof",             ms: 700  },
+      { from: 'ai',   text: "Of course! Tuesday 2pm work for you?",           ms: 1000 },
+      { from: 'lead', text: "That works",                                     ms: 600  },
+      { from: 'ai',   text: "Booked! ✓ See you Tuesday.",                    ms: 850  },
+    ],
+    chat: [
+      { from: 'lead', text: "Do you offer same-day service?",                  ms: 650  },
+      { from: 'ai',   text: "Yes! What's your zip and best time to call?",    ms: 1000 },
+      { from: 'lead', text: "78701, mornings",                                 ms: 600  },
+      { from: 'ai',   text: "Done — call coming by 10am. ✓",                  ms: 850  },
+    ],
+  };
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  async function runCardDemo(el, key) {
+    while (true) {
+      el.innerHTML = '';
+      for (const msg of demos[key]) {
+        const dot = document.createElement('div');
+        dot.className = `card-bubble typing ${msg.from}`;
+        dot.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+        el.appendChild(dot);
+        await sleep(msg.ms); dot.remove();
+        const b = document.createElement('div');
+        b.className = `card-bubble ${msg.from}`; b.textContent = msg.text;
+        el.appendChild(b);
+        await sleep(msg.from === 'ai' ? 600 : 400);
+      }
+      await sleep(2500);
+      el.style.transition = 'opacity 0.5s ease'; el.style.opacity = '0';
+      await sleep(550); el.innerHTML = ''; el.style.opacity = '1';
+      await sleep(500);
+    }
+  }
+  document.querySelectorAll('.card-demo').forEach(el => {
+    const key = el.dataset.demo;
+    if (!demos[key]) return;
+    const io = new IntersectionObserver(e => { if (e[0].isIntersecting) { io.disconnect(); runCardDemo(el, key); } }, { threshold: 0.4 });
+    io.observe(el);
+  });
 })();
 </script>
 </body>
