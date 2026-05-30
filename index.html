@@ -908,6 +908,16 @@ async function submitDemoForm() {
     document.getElementById('d-wrap-' + id.replace('d_','')).classList.remove('has-error');
   });
 });
+document.getElementById('d_phone').addEventListener('input', function() {
+  const digits = this.value.replace(/\D/g, '').slice(0, 10);
+  if (digits.length > 6) {
+    this.value = digits.slice(0,3) + '-' + digits.slice(3,6) + '-' + digits.slice(6);
+  } else if (digits.length > 3) {
+    this.value = digits.slice(0,3) + '-' + digits.slice(3);
+  } else {
+    this.value = digits;
+  }
+});
 document.getElementById('d_consent').addEventListener('change', () => {
   document.getElementById('d-wrap-consent').classList.remove('has-error');
 });
