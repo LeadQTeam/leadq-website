@@ -297,6 +297,35 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
 .demo-text h2 { font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 500; color: var(--text-light); letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1rem; }
 .demo-text p { font-size: 1rem; line-height: 1.7; color: rgba(200,208,255,0.5); margin-bottom: 2rem; }
 .demo-embed { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; min-height: 360px; display: flex; align-items: center; justify-content: center; color: rgba(200,208,255,0.25); font-size: 0.85rem; font-family: var(--font-mono); text-align: center; padding: 2rem; line-height: 1.6; }
+.demo-form-card { background: #ffffff; border-radius: 16px; padding: 2rem; }
+.demo-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 1rem; }
+.demo-field-wrap { display: flex; flex-direction: column; gap: 0.35rem; }
+.demo-field-label { font-size: 0.75rem; font-weight: 500; color: #6b6a65; }
+.demo-field-input { padding: 0.75rem 0.9rem; background: #ffffff; border: 1.5px solid rgba(10,10,12,0.12); border-radius: 8px; font-family: var(--font-body); font-size: 0.9rem; color: #0a0a0c; outline: none; transition: border-color 0.18s, box-shadow 0.18s; -webkit-appearance: none; width: 100%; }
+.demo-field-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(53,116,184,0.15); }
+.demo-field-input::placeholder { color: rgba(10,10,12,0.3); }
+.demo-field-wrap.has-error .demo-field-input { border-color: #E8453C; }
+.demo-field-error { font-size: 0.72rem; color: #E8453C; display: none; }
+.demo-field-wrap.has-error .demo-field-error { display: block; }
+.demo-consent { display: flex; gap: 0.65rem; align-items: flex-start; margin-bottom: 1.1rem; }
+.demo-consent input[type="checkbox"] { flex-shrink: 0; width: 15px; height: 15px; margin-top: 2px; accent-color: var(--accent); cursor: pointer; }
+.demo-consent label { font-size: 0.72rem; color: #6b6a65; line-height: 1.5; cursor: pointer; }
+.demo-consent.has-error label { color: #E8453C; }
+.demo-btn-submit { width: 100%; padding: 0.85rem; background: var(--accent); color: #fff; border: none; border-radius: 8px; font-family: var(--font-body); font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: transform 0.2s var(--ease-out), box-shadow 0.2s, opacity 0.2s; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+.demo-btn-submit:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(53,116,184,0.35); }
+.demo-btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+.demo-btn-submit .d-spinner { display: none; width: 15px; height: 15px; border: 2px solid rgba(255,255,255,0.35); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.demo-btn-submit.loading .d-spinner { display: block; }
+.demo-btn-submit.loading .d-btn-text { display: none; }
+.demo-form-links { text-align: center; margin-top: 0.85rem; font-size: 0.7rem; color: rgba(10,10,12,0.35); }
+.demo-form-links a { color: rgba(10,10,12,0.4); text-decoration: underline; }
+.demo-form-links a:hover { color: rgba(10,10,12,0.65); }
+.demo-form-success { display: none; text-align: center; padding: 2.5rem 1rem; }
+.demo-form-success h3 { font-size: 1.2rem; font-weight: 500; color: #0a0a0c; margin-bottom: 0.5rem; }
+.demo-form-success p { font-size: 0.875rem; color: #6b6a65; line-height: 1.5; }
+.demo-form-success .d-success-icon { width: 52px; height: 52px; background: rgba(45,138,62,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; color: #2D8A3E; }
+.demo-error-banner { display: none; background: rgba(232,69,60,0.08); border: 1px solid rgba(232,69,60,0.2); border-radius: 8px; padding: 0.6rem 0.85rem; font-size: 0.8rem; color: #c0392b; margin-bottom: 0.85rem; }
 
 /* CTA */
 .cta-section { padding: 7rem 0; background: var(--bg-light); text-align: center; position: relative; overflow: hidden; }
@@ -347,6 +376,7 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
   .footer-grid { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; gap: 0.75rem; text-align: center; }
   .demo-wrapper { padding: 2rem 1.5rem; }
+  .demo-form-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -628,12 +658,56 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
 <!-- AI DEMO -->
 <section class="demo" id="demo">
   <div class="container">
-    <div class="demo-wrapper reveal" style="grid-template-columns: 1fr;">
+    <div class="demo-wrapper reveal">
       <div class="demo-text">
         <span class="label label-light">See it in action</span>
         <h2>Talk to one of our<br>AI assistants</h2>
-        <p>Don't take our word for it. Have a live conversation with one of our AI assistants and experience what your leads would get.</p>
-        <a href="https://api.leadconnectorhq.com/widget/form/B9xxx1R160aPNKkePHxa" class="btn-primary" target="_blank">Chat Now <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <p>Don't take our word for it. Fill in your details and our AI assistant will reach out to you directly — experience exactly what your leads get.</p>
+      </div>
+      <div class="demo-form-card">
+        <div id="demoFormInner">
+          <div id="demoErrorBanner" class="demo-error-banner">Something went wrong. Please try again or email us at info@leadq.co.</div>
+          <div class="demo-form-grid">
+            <div class="demo-field-wrap" id="d-wrap-first_name">
+              <label class="demo-field-label" for="d_first_name">First Name</label>
+              <input class="demo-field-input" type="text" id="d_first_name" placeholder="Jane" autocomplete="given-name">
+              <span class="demo-field-error">Required.</span>
+            </div>
+            <div class="demo-field-wrap" id="d-wrap-last_name">
+              <label class="demo-field-label" for="d_last_name">Last Name</label>
+              <input class="demo-field-input" type="text" id="d_last_name" placeholder="Smith" autocomplete="family-name">
+              <span class="demo-field-error">Required.</span>
+            </div>
+            <div class="demo-field-wrap" id="d-wrap-phone">
+              <label class="demo-field-label" for="d_phone">Mobile Phone *</label>
+              <input class="demo-field-input" type="tel" id="d_phone" placeholder="+1 (555) 000-0000" autocomplete="tel">
+              <span class="demo-field-error">Enter a valid phone number.</span>
+            </div>
+            <div class="demo-field-wrap" id="d-wrap-email">
+              <label class="demo-field-label" for="d_email">Email *</label>
+              <input class="demo-field-input" type="email" id="d_email" placeholder="jane@company.com" autocomplete="email">
+              <span class="demo-field-error">Enter a valid email.</span>
+            </div>
+          </div>
+          <div class="demo-consent" id="d-wrap-consent">
+            <input type="checkbox" id="d_consent">
+            <label for="d_consent">I Consent to Receive SMS Notifications, Alerts &amp; Occasional Marketing Communication from LeadQ. Message frequency varies. Message &amp; data rates may apply. You can reply STOP to unsubscribe at any time.</label>
+          </div>
+          <button class="demo-btn-submit" id="demoSubmitBtn" onclick="submitDemoForm()">
+            <span class="d-spinner"></span>
+            <span class="d-btn-text">Try our AI <svg style="vertical-align:-2px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          </button>
+          <div class="demo-form-links">
+            <a href="/privacy-policy.html">Privacy Policy</a> | <a href="/terms-of-service.html">Terms of Service</a>
+          </div>
+        </div>
+        <div class="demo-form-success" id="demoSuccess">
+          <div class="d-success-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>You're in!</h3>
+          <p>Our AI is reaching out to you now. Keep an eye on your phone!</p>
+        </div>
       </div>
     </div>
   </div>
@@ -786,6 +860,57 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventLis
     io.observe(el);
   });
 })();
+
+// Demo form
+async function submitDemoForm() {
+  const DEMO_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/Rp242cWZbAPVTlbMSIr5/webhook-trigger/92caf892-3482-4c73-814a-be3f8203a634';
+  const first = document.getElementById('d_first_name').value.trim();
+  const last  = document.getElementById('d_last_name').value.trim();
+  const phone = document.getElementById('d_phone').value.trim();
+  const email = document.getElementById('d_email').value.trim();
+  const consent = document.getElementById('d_consent').checked;
+
+  let valid = true;
+  const setErr = (id, err) => document.getElementById('d-wrap-' + id).classList.toggle('has-error', err);
+
+  if (!first) { setErr('first_name', true); valid = false; } else { setErr('first_name', false); }
+  if (!last)  { setErr('last_name',  true); valid = false; } else { setErr('last_name',  false); }
+  if (!phone || phone.replace(/\D/g,'').length < 7) { setErr('phone', true); valid = false; } else { setErr('phone', false); }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setErr('email', true); valid = false; } else { setErr('email', false); }
+  if (!consent) { document.getElementById('d-wrap-consent').classList.add('has-error'); valid = false; } else { document.getElementById('d-wrap-consent').classList.remove('has-error'); }
+
+  if (!valid) return;
+
+  const btn = document.getElementById('demoSubmitBtn');
+  const banner = document.getElementById('demoErrorBanner');
+  banner.style.display = 'none';
+  btn.disabled = true;
+  btn.classList.add('loading');
+
+  try {
+    const res = await fetch(DEMO_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ first_name: first, last_name: last, phone, email, sms_consent: true, source: 'leadq-ai-demo', submitted_at: new Date().toISOString() }),
+    });
+    if (!res.ok) throw new Error('failed');
+    document.getElementById('demoFormInner').style.display = 'none';
+    document.getElementById('demoSuccess').style.display = 'block';
+  } catch {
+    banner.style.display = 'block';
+    btn.disabled = false;
+    btn.classList.remove('loading');
+  }
+}
+
+['d_first_name','d_last_name','d_phone','d_email'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => {
+    document.getElementById('d-wrap-' + id.replace('d_','')).classList.remove('has-error');
+  });
+});
+document.getElementById('d_consent').addEventListener('change', () => {
+  document.getElementById('d-wrap-consent').classList.remove('has-error');
+});
 </script>
 </body>
 </html>
