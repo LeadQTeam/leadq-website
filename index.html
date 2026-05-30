@@ -680,7 +680,7 @@ body { font-family: var(--font-body); color: var(--text-primary); background: va
             </div>
             <div class="demo-field-wrap" id="d-wrap-phone">
               <label class="demo-field-label" for="d_phone">Mobile Phone *</label>
-              <input class="demo-field-input" type="tel" id="d_phone" placeholder="+1 (555) 000-0000" autocomplete="tel">
+              <input class="demo-field-input" type="tel" id="d_phone" placeholder="555-123-4567" autocomplete="tel">
               <span class="demo-field-error">Enter a valid phone number.</span>
             </div>
             <div class="demo-field-wrap" id="d-wrap-email">
@@ -875,7 +875,7 @@ async function submitDemoForm() {
 
   if (!first) { setErr('first_name', true); valid = false; } else { setErr('first_name', false); }
   if (!last)  { setErr('last_name',  true); valid = false; } else { setErr('last_name',  false); }
-  if (!phone || phone.replace(/\D/g,'').length < 7) { setErr('phone', true); valid = false; } else { setErr('phone', false); }
+  if (!phone || phone.replace(/\D/g,'').length !== 10) { setErr('phone', true); valid = false; } else { setErr('phone', false); }
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setErr('email', true); valid = false; } else { setErr('email', false); }
   if (!consent) { document.getElementById('d-wrap-consent').classList.add('has-error'); valid = false; } else { document.getElementById('d-wrap-consent').classList.remove('has-error'); }
 
@@ -909,7 +909,9 @@ async function submitDemoForm() {
   });
 });
 document.getElementById('d_phone').addEventListener('input', function() {
-  const digits = this.value.replace(/\D/g, '').slice(0, 10);
+  let digits = this.value.replace(/\D/g, '');
+  if (digits.startsWith('1') && digits.length > 10) digits = digits.slice(1);
+  digits = digits.slice(0, 10);
   if (digits.length > 6) {
     this.value = digits.slice(0,3) + '-' + digits.slice(3,6) + '-' + digits.slice(6);
   } else if (digits.length > 3) {
