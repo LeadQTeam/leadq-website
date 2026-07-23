@@ -882,11 +882,11 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventLis
 })();
 
 // Demo form
-// Voice AI demo -> existing GHL webhook (triggers the AI receptionist to call the lead).
-const VOICE_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/Rp242cWZbAPVTlbMSIr5/webhook-trigger/92caf892-3482-4c73-814a-be3f8203a634';
-// Texting agent demo -> GHL capture webhook. GHL creates the contact, sends the first demo
-// text, and tags the lead; the Claude + n8n workflow then handles the conversational replies.
-const SMS_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/Rp242cWZbAPVTlbMSIr5/webhook-trigger/53c15f04-8b4a-4e8d-9533-b68c91295415';
+// "Call me now" -> dedicated Voice AI workflow (GHL Voice AI receptionist calls the lead right away).
+const VOICE_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/Rp242cWZbAPVTlbMSIr5/webhook-trigger/07f5063a-0fac-4239-b8e8-cfe5049f798d';
+// "Text me now" -> 1c. Curious Demo Form Fill. GHL creates the contact, tags it, sends the first
+// demo text; the Claude + n8n reply agent then handles the conversational replies.
+const SMS_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/Rp242cWZbAPVTlbMSIr5/webhook-trigger/92caf892-3482-4c73-814a-be3f8203a634';
 
 let demoChannel = 'voice';
 function selectChannel(ch) {
