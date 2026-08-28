@@ -277,6 +277,7 @@ body {
   color: var(--text-secondary);
   letter-spacing: 0.01em;
 }
+.field-label .req { color: #E8453C; margin-left: 0.15rem; }
 .field-input {
   padding: 0.85rem 1rem;
   background: #ffffff;
@@ -363,17 +364,8 @@ body {
   color: var(--text-muted);
 }
 .consent-block a { color: var(--accent); text-decoration: underline; }
-.consent-error {
-  display: none;
-  margin-top: 0.6rem;
-  padding-left: 1.9rem;
-  font-size: 0.78rem;
-  color: #E8453C;
-}
-.consent-block.has-error { border-color: #E8453C; }
-.consent-block.has-error .consent-error { display: block; }
 @media (max-width: 480px) {
-  .consent-fine, .consent-error { padding-left: 0; }
+  .consent-fine { padding-left: 0; }
 }
 
 /* ─── Submit button ─── */
@@ -730,22 +722,21 @@ body {
 
     <div class="contact-grid">
       <div class="field-wrap" id="wrap-first_name">
-        <label class="field-label" for="first_name">First Name</label>
+        <label class="field-label" for="first_name">First Name<span class="req" aria-hidden="true">*</span></label>
         <input class="field-input" type="text" id="first_name" name="first_name" placeholder="Jane" autocomplete="given-name">
         <span class="field-error">Please enter your first name.</span>
       </div>
       <div class="field-wrap" id="wrap-last_name">
         <label class="field-label" for="last_name">Last Name</label>
         <input class="field-input" type="text" id="last_name" name="last_name" placeholder="Smith" autocomplete="family-name">
-        <span class="field-error">Please enter your last name.</span>
       </div>
       <div class="field-wrap" id="wrap-phone">
-        <label class="field-label" for="phone">Mobile Phone</label>
+        <label class="field-label" for="phone">Mobile Phone<span class="req" aria-hidden="true">*</span></label>
         <input class="field-input" type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000" autocomplete="tel">
         <span class="field-error">Please enter a valid phone number.</span>
       </div>
       <div class="field-wrap" id="wrap-email">
-        <label class="field-label" for="email">Email Address</label>
+        <label class="field-label" for="email">Email Address<span class="req" aria-hidden="true">*</span></label>
         <input class="field-input" type="email" id="email" name="email" placeholder="jane@company.com" autocomplete="email">
         <span class="field-error">Please enter a valid email address.</span>
       </div>
@@ -759,7 +750,6 @@ body {
       <div class="consent-fine">
         Messages are sent from +1 (447) 410-4464. Message frequency varies. Message and data rates may apply. Reply STOP to opt out at any time, or HELP for help. Consent is not a condition of any purchase. See our <a href="/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a> and <a href="/terms-of-service.html" target="_blank" rel="noopener">SMS Terms</a>.
       </div>
-      <div class="consent-error">Please check the box above so we can text and call you about your demo.</div>
     </div>
 
     <div class="nav-row" style="flex-wrap:wrap; gap:0.75rem;">
@@ -797,7 +787,7 @@ body {
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
     </div>
     <h2>You're all set!</h2>
-    <p>Our AI is reaching out to you right now to book your demo. Keep an eye on your phone!</p>
+    <p id="successMsg">Our AI is reaching out to you right now to book your demo. Keep an eye on your phone!</p>
   </div>
 
 </div><!-- /form-wrap -->
@@ -864,12 +854,28 @@ function goTo(targetStep) {
   }, 220);
 }
 
+// ─── Phone ────────────────────────────────────────────────
+// Returns the number in E.164, or '' if it cannot be one. We are about to point a
+// registered A2P number at whatever comes through here, so structurally impossible
+// numbers get rejected rather than texted.
+function normalizePhone(raw) {
+  const typed = String(raw || '').trim();
+  const intl = typed.charAt(0) === '+';
+  const d = typed.replace(/\D/g, '');
+  if (!d || d.split('').every(c => c === d.charAt(0))) return '';   // 0000000000, 5555555555
+  const nanp = (n) => /^[2-9]\d{2}[2-9]\d{6}$/.test(n);           // area + exchange cannot start 0 or 1
+  if (d.length === 10) return nanp(d) ? '+1' + d : '';
+  if (d.length === 11 && d.charAt(0) === '1') return nanp(d.slice(1)) ? '+' + d : '';
+  if (intl && d.length >= 8 && d.length <= 15) return '+' + d;
+  if (d.length >= 11 && d.length <= 15) return '+' + d;            // international, typed without the +
+  return '';
+}
+
 // ─── Contact Validation ───────────────────────────────────
 function validateContact() {
   let valid = true;
 
   const first = document.getElementById('first_name').value.trim();
-  const last  = document.getElementById('last_name').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const email = document.getElementById('email').value.trim();
 
@@ -878,14 +884,8 @@ function validateContact() {
   };
 
   if (!first) { setError('first_name', true); valid = false; } else { setError('first_name', false); }
-  if (!last)  { setError('last_name',  true); valid = false; } else { setError('last_name',  false); }
-  if (!phone || phone.replace(/\D/g,'').length < 7) { setError('phone', true); valid = false; } else { setError('phone', false); }
+  if (!normalizePhone(phone)) { setError('phone', true); valid = false; } else { setError('phone', false); }
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('email', true); valid = false; } else { setError('email', false); }
-
-  // A2P 10DLC: express written consent is required before we can call or text.
-  const consented = document.getElementById('sms_consent').checked;
-  document.getElementById('consentBlock').classList.toggle('has-error', !consented);
-  if (!consented) valid = false;
 
   return valid;
 }
@@ -893,6 +893,9 @@ function validateContact() {
 // ─── Submit ───────────────────────────────────────────────
 async function submitForm() {
   if (!validateContact()) return;
+
+  // Opting in is optional. Nothing may be texted or called without it.
+  const consented = document.getElementById('sms_consent').checked;
 
   const btn = document.getElementById('submitBtn');
   const banner = document.getElementById('errorBanner');
@@ -904,11 +907,12 @@ async function submitForm() {
     ...answers,
     first_name: document.getElementById('first_name').value.trim(),
     last_name:  document.getElementById('last_name').value.trim(),
-    phone:      document.getElementById('phone').value.trim(),
+    phone:      normalizePhone(document.getElementById('phone').value),
+    phone_entered: document.getElementById('phone').value.trim(),
     email:      document.getElementById('email').value.trim(),
-    sms_consent: true,
-    sms_consent_at: new Date().toISOString(),
-    sms_consent_text: consentText(),
+    sms_consent: consented,
+    sms_consent_at: consented ? new Date().toISOString() : '',
+    sms_consent_text: consented ? consentText() : '',
     consent_page: window.location.href,
     submitted_at: new Date().toISOString(),
     source: 'leadq-intake-form',
@@ -925,6 +929,9 @@ async function submitForm() {
 
     // Success
     document.getElementById('formWrap').querySelectorAll('.step').forEach(s => s.style.display = 'none');
+    document.getElementById('successMsg').textContent = consented
+      ? 'Our AI is reaching out to you right now to book your demo. Keep an eye on your phone!'
+      : 'We got your request. Check your email shortly for your demo booking link and custom breakdown.';
     document.getElementById('successScreen').style.display = 'block';
     document.getElementById('progressBar').style.width = '100%';
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -953,10 +960,6 @@ updateProgress(1);
   document.getElementById(id).addEventListener('input', () => {
     document.getElementById('wrap-' + id).classList.remove('has-error');
   });
-});
-
-document.getElementById('sms_consent').addEventListener('change', (e) => {
-  if (e.target.checked) document.getElementById('consentBlock').classList.remove('has-error');
 });
 </script>
 </body>
