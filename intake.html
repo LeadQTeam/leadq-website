@@ -302,6 +302,80 @@ body {
 .field-wrap.has-error .field-input { border-color: #E8453C; }
 .field-wrap.has-error .field-error { display: block; }
 
+/* ─── SMS / call consent (A2P 10DLC) ─── */
+.consent-block {
+  background: #ffffff;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+  margin: 0 0 1.75rem;
+  transition: border-color 0.18s;
+}
+.consent-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  cursor: pointer;
+}
+.consent-row input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin: 1px 0 0;
+  background: #fff;
+  border: 1.5px solid rgba(10,10,12,0.28);
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
+}
+.consent-row input[type="checkbox"]:focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.consent-row input[type="checkbox"]:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.consent-row input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.consent-text {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--text-primary);
+}
+.consent-fine {
+  margin-top: 0.6rem;
+  padding-left: 1.9rem;
+  font-size: 0.72rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+.consent-block a { color: var(--accent); text-decoration: underline; }
+.consent-error {
+  display: none;
+  margin-top: 0.6rem;
+  padding-left: 1.9rem;
+  font-size: 0.78rem;
+  color: #E8453C;
+}
+.consent-block.has-error { border-color: #E8453C; }
+.consent-block.has-error .consent-error { display: block; }
+@media (max-width: 480px) {
+  .consent-fine, .consent-error { padding-left: 0; }
+}
+
 /* ─── Submit button ─── */
 .btn-submit {
   display: inline-flex;
@@ -677,6 +751,17 @@ body {
       </div>
     </div>
 
+    <div class="consent-block" id="consentBlock">
+      <label class="consent-row" for="sms_consent">
+        <input type="checkbox" id="sms_consent" name="sms_consent">
+        <span class="consent-text">I agree to receive text messages and phone calls from LeadQ Inc at the mobile number I provided, including automated and AI-generated messages, about my demo request, appointment scheduling and reminders, and LeadQ products and services.</span>
+      </label>
+      <div class="consent-fine">
+        Messages are sent from +1 (447) 410-4464. Message frequency varies. Message and data rates may apply. Reply STOP to opt out at any time, or HELP for help. Consent is not a condition of any purchase. See our <a href="/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a> and <a href="/terms-of-service.html" target="_blank" rel="noopener">SMS Terms</a>.
+      </div>
+      <div class="consent-error">Please check the box above so we can text and call you about your demo.</div>
+    </div>
+
     <div class="nav-row" style="flex-wrap:wrap; gap:0.75rem;">
       <button class="btn-back" onclick="goTo(6)">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
@@ -797,6 +882,11 @@ function validateContact() {
   if (!phone || phone.replace(/\D/g,'').length < 7) { setError('phone', true); valid = false; } else { setError('phone', false); }
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('email', true); valid = false; } else { setError('email', false); }
 
+  // A2P 10DLC: express written consent is required before we can call or text.
+  const consented = document.getElementById('sms_consent').checked;
+  document.getElementById('consentBlock').classList.toggle('has-error', !consented);
+  if (!consented) valid = false;
+
   return valid;
 }
 
@@ -816,6 +906,10 @@ async function submitForm() {
     last_name:  document.getElementById('last_name').value.trim(),
     phone:      document.getElementById('phone').value.trim(),
     email:      document.getElementById('email').value.trim(),
+    sms_consent: true,
+    sms_consent_at: new Date().toISOString(),
+    sms_consent_text: consentText(),
+    consent_page: window.location.href,
     submitted_at: new Date().toISOString(),
     source: 'leadq-intake-form',
   };
@@ -843,6 +937,14 @@ async function submitForm() {
   }
 }
 
+// ─── Consent record ───
+// Stores the exact wording the lead agreed to, for A2P / TCPA proof of opt-in.
+function consentText() {
+  const main = document.querySelector('#consentBlock .consent-text');
+  const fine = document.querySelector('#consentBlock .consent-fine');
+  return [main, fine].map(el => (el ? el.textContent.replace(/\s+/g, ' ').trim() : '')).join(' ').trim();
+}
+
 // ─── Init ─────────────────────────────────────────────────
 updateProgress(1);
 
@@ -851,6 +953,10 @@ updateProgress(1);
   document.getElementById(id).addEventListener('input', () => {
     document.getElementById('wrap-' + id).classList.remove('has-error');
   });
+});
+
+document.getElementById('sms_consent').addEventListener('change', (e) => {
+  if (e.target.checked) document.getElementById('consentBlock').classList.remove('has-error');
 });
 </script>
 </body>
