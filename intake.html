@@ -318,6 +318,7 @@ body {
   gap: 0.7rem;
   cursor: pointer;
 }
+.consent-row + .consent-row { margin-top: 0.8rem; }
 .consent-row input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
@@ -745,10 +746,14 @@ body {
     <div class="consent-block" id="consentBlock">
       <label class="consent-row" for="sms_consent">
         <input type="checkbox" id="sms_consent" name="sms_consent">
-        <span class="consent-text">I agree to receive text messages and phone calls from LeadQ Inc at the mobile number I provided, including automated and AI-generated messages, about my demo request, appointment scheduling and reminders, and LeadQ products and services.</span>
+        <span class="consent-text">I agree to receive text messages and phone calls from LeadQ Inc at the mobile number I provided, including automated and AI-generated messages, about my demo request and my appointment scheduling and reminders.</span>
+      </label>
+      <label class="consent-row" for="marketing_consent">
+        <input type="checkbox" id="marketing_consent" name="marketing_consent">
+        <span class="consent-text">Separately, I agree to receive promotional and marketing text messages from LeadQ Inc about products, offers and news.</span>
       </label>
       <div class="consent-fine">
-        Messages are sent from +1 (447) 410-4464. Message frequency varies. Message and data rates may apply. Reply STOP to opt out at any time, or HELP for help. Consent is not a condition of any purchase. See our <a href="/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a> and <a href="/terms-of-service.html" target="_blank" rel="noopener">SMS Terms</a>.
+        Both boxes are optional and independent. Messages are sent from +1 (447) 410-4464. Message frequency varies. Message and data rates may apply. Reply STOP to opt out at any time, or HELP for help. Consent is not a condition of any purchase. See our <a href="/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a> and <a href="/terms-of-service.html" target="_blank" rel="noopener">SMS Terms</a>.
       </div>
     </div>
 
@@ -894,8 +899,11 @@ function validateContact() {
 async function submitForm() {
   if (!validateContact()) return;
 
-  // Opting in is optional. Nothing may be texted or called without it.
+  // Both opt-ins are optional and independent: carriers require marketing consent
+  // to be captured separately from transactional consent. Neither may be assumed.
   const consented = document.getElementById('sms_consent').checked;
+  const marketing = document.getElementById('marketing_consent').checked;
+  const now = new Date().toISOString();
 
   const btn = document.getElementById('submitBtn');
   const banner = document.getElementById('errorBanner');
@@ -911,8 +919,11 @@ async function submitForm() {
     phone_entered: document.getElementById('phone').value.trim(),
     email:      document.getElementById('email').value.trim(),
     sms_consent: consented,
-    sms_consent_at: consented ? new Date().toISOString() : '',
-    sms_consent_text: consented ? consentText() : '',
+    sms_consent_at: consented ? now : '',
+    sms_consent_text: consented ? consentText('sms_consent') : '',
+    marketing_consent: marketing,
+    marketing_consent_at: marketing ? now : '',
+    marketing_consent_text: marketing ? consentText('marketing_consent') : '',
     consent_page: window.location.href,
     submitted_at: new Date().toISOString(),
     source: 'leadq-intake-form',
@@ -946,8 +957,9 @@ async function submitForm() {
 
 // ─── Consent record ───
 // Stores the exact wording the lead agreed to, for A2P / TCPA proof of opt-in.
-function consentText() {
-  const main = document.querySelector('#consentBlock .consent-text');
+function consentText(id) {
+  const box = document.getElementById(id);
+  const main = box ? box.parentNode.querySelector('.consent-text') : null;
   const fine = document.querySelector('#consentBlock .consent-fine');
   return [main, fine].map(el => (el ? el.textContent.replace(/\s+/g, ' ').trim() : '')).join(' ').trim();
 }
