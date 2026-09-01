@@ -82,82 +82,56 @@
   </div>
 </section>
 
-<!-- plans -->
+<!-- plans + comparison (combined) -->
 <section class="section tint">
   <div class="wrap">
-    <div class="plans">
+    <p class="eyebrow">Plans</p>
+    <h2>Pick a plan — the whole spec is right here.</h2>
+    <p class="lead">The core assistant is in every plan. Booking, follow-ups and voice unlock as you
+      move up. Prices are in your local currency — switch market at the top.</p>
 
-      <div class="plan">
-        <div class="pname">Starter</div>
-        <div class="pfor">Solo or just trying it out</div>
-        <div class="price"><span id="price-starter">$59</span><small>/mo</small></div>
-        <div class="plan-cta"><a href="https://app.leadq.co" class="btn ghost block">Choose Starter</a></div>
-        <div class="incl">250 AI conversations · 1 seat</div>
-        <ul>
-          <li>One channel (web chat or WhatsApp)</li>
-          <li>Assistant persona, FAQ, lead capture</li>
-          <li>Contact list</li>
-        </ul>
-      </div>
-
-      <div class="plan feat">
-        <span class="flag">Most popular</span>
-        <div class="pname">Growth</div>
-        <div class="pfor">The main plan for a growing business</div>
-        <div class="price"><span id="price-growth">$149</span><small>/mo</small></div>
-        <div class="plan-cta"><a href="https://app.leadq.co" class="btn block">Start with Growth</a></div>
-        <div class="incl">1,000 conversations · 1 number · 3 seats</div>
-        <ul>
-          <li>WhatsApp + SMS + web chat</li>
-          <li>Booking, calendar &amp; reminders</li>
-          <li>Follow-ups, custom fields, profiles</li>
-          <li>500 SMS segments included <span class="mono">(US/CA)</span></li>
-        </ul>
-      </div>
-
-      <div class="plan">
-        <div class="pname">Pro</div>
-        <div class="pfor">Established, multi-channel, with voice</div>
-        <div class="price"><span id="price-pro">$399</span><small>/mo</small></div>
-        <div class="plan-cta"><a href="https://app.leadq.co" class="btn ghost block">Choose Pro</a></div>
-        <div class="incl">5,000 conversations · 2 numbers · 10 seats</div>
-        <ul>
-          <li><span style="color:var(--pop-ink);font-weight:700">Voice AI receptionist</span> · 300 min included</li>
-          <li>All channels + support mode</li>
-          <li>Troubleshooting KB, image/vision, tickets</li>
-          <li>Integrations, analytics, API</li>
-          <li>Remove “Powered by LeadQ”</li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- feature matrix -->
-<section class="section">
-  <div class="wrap">
-    <p class="eyebrow">What's in each plan</p>
-    <h2>Everything in each plan.</h2>
-    <p class="lead">The core assistant is in every plan, so it always works. Booking, follow-ups
-      and support mode unlock as you move up.</p>
-    <div class="twrap">
-      <table class="w">
-        <thead><tr><th>Capability</th><th>Starter</th><th>Growth</th><th>Pro</th></tr></thead>
+    <div class="twrap pricetable">
+      <table class="w cmp">
+        <thead>
+          <tr>
+            <th class="cmp-corner"><span>Compare plans</span></th>
+            <th class="cmp-head">
+              <span class="ch-name">Starter</span>
+              <span class="ch-for">Solo or just trying it out</span>
+              <span class="ch-price"><b id="price-starter">$59</b><small>/mo</small></span>
+              <a href="https://app.leadq.co" class="btn ghost block ch-cta">Choose Starter</a>
+            </th>
+            <th class="cmp-head feat">
+              <span class="ch-flag">Most popular</span>
+              <span class="ch-name">Growth</span>
+              <span class="ch-for">The main plan for a growing business</span>
+              <span class="ch-price"><b id="price-growth">$149</b><small>/mo</small></span>
+              <a href="https://app.leadq.co" class="btn block ch-cta">Start with Growth</a>
+            </th>
+            <th class="cmp-head">
+              <span class="ch-name">Pro</span>
+              <span class="ch-for">Established, multi-channel, with voice</span>
+              <span class="ch-price"><b id="price-pro">$399</b><small>/mo</small></span>
+              <a href="https://app.leadq.co" class="btn ghost block ch-cta">Choose Pro</a>
+            </th>
+          </tr>
+        </thead>
         <tbody>
-          <tr><td>Assistant, FAQ &amp; lead capture</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-          <tr><td>Channels</td><td>1</td><td>WA · SMS · Web</td><td>All</td></tr>
-          <tr><td>Booking, calendar &amp; reminders</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-          <tr><td>Follow-ups, custom fields, profiles</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-          <tr><td>Support mode (troubleshooting, vision, tickets)</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
-          <tr><td>Integrations, analytics, API</td><td class="no">—</td><td>Basic</td><td class="yes">✓</td></tr>
-          <tr><td>AI voice receptionist <span class="mono muted">(300 min)</span></td><td class="no">—</td><td class="no">—</td><td class="yes" style="color:var(--pop)">✓</td></tr>
-          <tr><td>Seats · locations</td><td class="n">1</td><td class="n">3</td><td class="n">10</td></tr>
-          <tr><td>Included AI conversations / mo</td><td class="n">250</td><td class="n">1,000</td><td class="n">5,000</td></tr>
-          <tr><td>Remove LeadQ branding</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
+          <tr><th class="cmp-row">Included AI conversations <span class="mono muted">/ mo</span></th><td>250</td><td class="feat">1,000</td><td>5,000</td></tr>
+          <tr><th class="cmp-row">Seats</th><td>1</td><td class="feat">3</td><td>10</td></tr>
+          <tr><th class="cmp-row">Phone numbers</th><td class="no">—</td><td class="feat">1</td><td>2</td></tr>
+          <tr><th class="cmp-row">Channels</th><td>1</td><td class="feat">WA · SMS · Web</td><td>All</td></tr>
+          <tr><th class="cmp-row">Assistant, FAQ &amp; lead capture</th><td class="yes">✓</td><td class="yes feat">✓</td><td class="yes">✓</td></tr>
+          <tr><th class="cmp-row">Booking, calendar &amp; reminders</th><td class="no">—</td><td class="yes feat">✓</td><td class="yes">✓</td></tr>
+          <tr><th class="cmp-row">Follow-ups, custom fields, profiles</th><td class="no">—</td><td class="yes feat">✓</td><td class="yes">✓</td></tr>
+          <tr><th class="cmp-row">Integrations, analytics, API</th><td class="no">—</td><td class="feat">Basic</td><td class="yes">✓</td></tr>
+          <tr><th class="cmp-row">Support mode <span class="mono muted">(troubleshooting, vision, tickets)</span></th><td class="no">—</td><td class="no feat">—</td><td class="yes">✓</td></tr>
+          <tr><th class="cmp-row">AI voice receptionist <span class="mono muted">(300 min)</span></th><td class="no">—</td><td class="no feat">—</td><td class="yes" style="color:var(--pop)">✓</td></tr>
+          <tr><th class="cmp-row">Remove LeadQ branding</th><td class="no">—</td><td class="no feat">—</td><td class="yes">✓</td></tr>
         </tbody>
       </table>
     </div>
+    <p class="tiny" style="margin-top:14px">Every plan includes the core assistant. “AI conversation” = one customer thread in a rolling monthly window.</p>
   </div>
 </section>
 

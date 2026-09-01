@@ -151,6 +151,35 @@ table.w td.n,table.w th.n{text-align:right;font-family:var(--mono);font-variant-
 .no{color:var(--ink-3);opacity:.55}
 td.hl{background:var(--warn-soft)}
 
+/* combined plan + comparison table */
+.pricetable{margin-top:22px}
+table.w.cmp{min-width:720px}
+table.w.cmp thead th{position:static;background:transparent;text-transform:none;letter-spacing:normal;
+  color:var(--ink);vertical-align:bottom;padding:18px 14px;border-bottom:1px solid var(--line)}
+.cmp-corner{width:34%;font:700 11.5px/1.3 var(--sans);letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3)}
+.cmp-head{position:relative;text-align:center;width:22%}
+.cmp-head .ch-name{display:block;font-size:19px;font-weight:780;letter-spacing:-.01em}
+.cmp-head .ch-for{display:block;font-size:12px;font-weight:500;color:var(--ink-3);
+  margin:4px auto 12px;min-height:32px;max-width:22ch;line-height:1.35}
+.cmp-head .ch-price{display:block;font-family:var(--mono);font-size:24px;font-weight:700;letter-spacing:-.02em;margin-bottom:12px}
+.cmp-head .ch-price small{font-size:12.5px;font-weight:600;color:var(--ink-3);font-family:var(--sans);margin-left:2px}
+.ch-cta{width:100%;box-sizing:border-box}
+.cmp-head .ch-flag{position:absolute;top:-9px;left:50%;transform:translateX(-50%);white-space:nowrap;
+  background:var(--accent);color:#fff;font:700 10.5px/1 var(--sans);letter-spacing:.04em;
+  text-transform:uppercase;padding:5px 11px;border-radius:100px}
+/* highlighted Growth lane */
+table.w.cmp thead th.feat,table.w.cmp tbody td.feat{background:var(--accent-soft)}
+table.w.cmp thead th.feat{border-top:2px solid var(--accent);border-radius:12px 12px 0 0;padding-top:24px}
+table.w.cmp tbody tr:last-child td.feat{border-radius:0 0 12px 12px}
+/* body rows */
+table.w.cmp tbody th.cmp-row{font-weight:600;color:var(--ink);text-align:left;font-size:13.5px;background:transparent}
+table.w.cmp tbody td{text-align:center;color:var(--ink-2);font-variant-numeric:tabular-nums}
+@media(max-width:640px){
+  .cmp-head .ch-name{font-size:17px}
+  .cmp-head .ch-price{font-size:21px}
+  .cmp-corner{width:30%}
+}
+
 /* fields + notes */
 .field{width:100%;border:1px solid var(--line);border-radius:9px;padding:11px 13px;
   background:var(--surface);font:14px var(--sans);color:var(--ink)}
