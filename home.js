@@ -96,7 +96,7 @@ function playSettings(advance) {
       chRow(SVG.phone, "Voice", "+1 (555) 771-0064") +
     '</div>' +
     '<div class="ap-seclabel">Assistant</div><div class="ap-list">' +
-      setRow(SVG.persona, "Persona", "Ava · Warm and consultative") +
+      setRow(SVG.persona, "Persona", "Baxter · Warm and consultative") +
       setRow(SVG.kb, "Knowledge base", "Business info · 4 Q&amp;As") +
       setRow(SVG.svc, "Services", "5 active") +
     '</div>' +

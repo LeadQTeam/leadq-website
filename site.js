@@ -54,13 +54,14 @@ function applyMarket() {
   document.querySelectorAll("[data-market-chip]").forEach((c) =>
     c.classList.toggle("on", c.dataset.marketChip === MKT));
 
-  ["starter", "growth", "pro", "agency"].forEach((t) => {
+  ["starter", "growth", "pro"].forEach((t) => {
     setText(`price-${t}`, money(m, m.tiers[t]));
   });
 
   // usage (overage rates the customer pays)
   setText("u-conv", money(m, m.usage.conv));
   setText("u-wa", money(m, m.usage.wa));
+  setText("u-voice", money(m, m.voiceOver));
   setText("u-number", m.number);
   const smsRow = document.getElementById("row-sms");
   if (smsRow) smsRow.hidden = !m.hasSMS;
@@ -79,8 +80,7 @@ function applyMarket() {
   if (a2pRow) a2pRow.hidden = m.addons.a2p == null;
   if (m.addons.a2p != null) setAddon("a-a2p", m.addons.a2p, " once");
 
-  // voice module
-  document.querySelectorAll("[data-voice-price]").forEach((e) => e.textContent = money(m, m.voice));
+  // voice module (included in Pro; only the per-minute overage varies by market)
   setText("voice-over", money(m, m.voiceOver));
 
   const waHint = document.getElementById("wa-first-hint");
