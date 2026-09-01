@@ -39,7 +39,8 @@
 <main>
 
 <!-- hero -->
-<section class="section" style="padding-top:54px">
+<section class="section uc-hero" style="padding-top:54px">
+  <div class="uc-herobg" id="uc-herobg"></div>
   <div class="wrap hero-grid">
     <div>
       <p class="eyebrow">Use cases</p>
@@ -91,6 +92,32 @@
         <div class="uc-h">With LeadQ</div>
         <ul class="uc-list" id="uc-outcomes"></ul>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- industry photo cards -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">By industry</p>
+    <h2>See it set up for your world.</h2>
+    <div class="uc-cards">
+      <a class="uc-card" href="for-dental.html">
+        <img src="img/verticals/dental.jpg" loading="lazy" decoding="async" alt="A patient in a modern dental clinic">
+        <span class="uc-cardlbl"><b>Dental &amp; clinics</b><span class="sub">Fill chairs, cut no-shows</span><span class="go">Explore →</span></span>
+      </a>
+      <a class="uc-card" href="for-salons.html">
+        <img src="img/verticals/salon.jpg" loading="lazy" decoding="async" alt="A stylist working in a hair salon">
+        <span class="uc-cardlbl"><b>Salons</b><span class="sub">Reply while your hands are full</span><span class="go">Explore →</span></span>
+      </a>
+      <a class="uc-card" href="for-home-services.html">
+        <img src="img/verticals/home.jpg" loading="lazy" decoding="async" alt="A technician on a home-services job">
+        <span class="uc-cardlbl"><b>Home services</b><span class="sub">Book jobs from the field</span><span class="go">Explore →</span></span>
+      </a>
+      <a class="uc-card" href="for-real-estate.html">
+        <img src="img/verticals/realestate.jpg" loading="lazy" decoding="async" alt="A modern home exterior for sale">
+        <span class="uc-cardlbl"><b>Real estate</b><span class="sub">Answer leads in seconds</span><span class="go">Explore →</span></span>
+      </a>
     </div>
   </div>
 </section>
@@ -204,6 +231,8 @@ function apptRow(a){
 function set(id,v){var el=document.getElementById(id);if(el)el.textContent=v;}
 function apply(k){
   var n = N[k]; if(!n) return;
+  var bg = document.getElementById("uc-herobg");
+  if(bg) bg.style.backgroundImage = "url(img/verticals/"+k+".jpg)";
   set("uc-word", n.word);
   set("uc-sub", n.sub);
   set("uc-daycount", n.appts.length);
