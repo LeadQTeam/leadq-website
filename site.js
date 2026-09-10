@@ -9,7 +9,8 @@ const MARKETS = {
     included: { starter: 250, growth: 1000, pro: 5000 },
     voice: 99, voiceOver: 0.25,
     usage: { conv: 0.05, sms: 0.04, wa: 0.10 }, number: "1 incl., $8/mo",
-    addons: { number: 8, pack: 29, seat: 15, setup: 299, a2p: 99 },
+    addons: { number: 8, seat: 15, setup: 299, a2p: 99 },
+    packs: { small: 25, standard: 55, large: 120, bulk: 270 },
   },
   CA: {
     label: "Canada", cur: "$", pos: "pre", per: "/mo", hasSMS: true, waFirst: false,
@@ -17,7 +18,8 @@ const MARKETS = {
     included: { starter: 250, growth: 1000, pro: 5000 },
     voice: 129, voiceOver: 0.30,
     usage: { conv: 0.07, sms: 0.05, wa: 0.12 }, number: "1 incl., $10/mo",
-    addons: { number: 10, pack: 39, seat: 19, setup: 399, a2p: null },
+    addons: { number: 10, seat: 19, setup: 399, a2p: null },
+    packs: { small: 35, standard: 75, large: 165, bulk: 369 },
   },
   UAE: {
     label: "UAE", cur: "AED", pos: "post", per: "/mo", hasSMS: false, waFirst: true,
@@ -25,7 +27,8 @@ const MARKETS = {
     included: { starter: 250, growth: 1000, pro: 5000 },
     voice: 349, voiceOver: 0.90,
     usage: { conv: 0.20, sms: null, wa: 0.40 }, number: "WhatsApp-based",
-    addons: { number: null, pack: 109, seat: 55, setup: 1099, a2p: null },
+    addons: { number: null, seat: 55, setup: 1099, a2p: null },
+    packs: { small: 95, standard: 205, large: 445, bulk: 995 },
   },
 };
 
@@ -58,14 +61,13 @@ function applyMarket() {
     setText(`price-${t}`, money(m, m.tiers[t]));
   });
 
-  // usage (overage rates the customer pays)
-  setText("u-conv", money(m, m.usage.conv));
-  setText("u-wa", money(m, m.usage.wa));
-  setText("u-voice", money(m, m.voiceOver));
-  setText("u-number", m.number);
-  const smsRow = document.getElementById("row-sms");
-  if (smsRow) smsRow.hidden = !m.hasSMS;
-  if (m.hasSMS) setText("u-sms", money(m, m.usage.sms));
+  // top-up credit packs (buy more when the monthly pool runs low; local price, no FX)
+  if (m.packs) {
+    setText("pack-small", money(m, m.packs.small));
+    setText("pack-standard", money(m, m.packs.standard));
+    setText("pack-large", money(m, m.packs.large));
+    setText("pack-bulk", money(m, m.packs.bulk));
+  }
 
   // add-ons
   const setAddon = (id, v, suffix) => {
@@ -73,15 +75,11 @@ function applyMarket() {
     if (el) el.textContent = v == null ? "—" : money(m, v) + (suffix || "");
   };
   setAddon("a-number", m.addons.number, m.per);
-  setAddon("a-pack", m.addons.pack, m.per);
   setAddon("a-seat", m.addons.seat, m.per);
   setAddon("a-setup", m.addons.setup, " once");
   const a2pRow = document.getElementById("row-a2p");
   if (a2pRow) a2pRow.hidden = m.addons.a2p == null;
   if (m.addons.a2p != null) setAddon("a-a2p", m.addons.a2p, " once");
-
-  // voice module (included in Pro; only the per-minute overage varies by market)
-  setText("voice-over", money(m, m.voiceOver));
 
   const waHint = document.getElementById("wa-first-hint");
   if (waHint) waHint.hidden = !m.waFirst;

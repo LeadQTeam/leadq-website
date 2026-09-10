@@ -44,7 +44,7 @@
     <div>
       <p class="eyebrow">Pricing</p>
       <h1>Plans, priced for your market.</h1>
-      <p class="lead">Value-priced plans, metered usage you can see, and a short list of add-ons.
+      <p class="lead">Value-priced plans, one simple credit pool for all your usage, and a short list of add-ons.
         Always shown in your local currency, never an FX conversion.</p>
       <div class="chips" role="tablist" aria-label="Market">
         <button class="chip" data-market-chip="US">United States</button>
@@ -117,7 +117,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr><th class="cmp-row">Included AI conversations <span class="mono muted">/ mo</span></th><td>250</td><td class="feat">1,000</td><td>5,000</td></tr>
+          <tr><th class="cmp-row">Included credits <span class="mono muted">/ mo</span></th><td>20,000</td><td class="feat">45,000</td><td>120,000</td></tr>
           <tr><th class="cmp-row">Seats</th><td>1</td><td class="feat">3</td><td>10</td></tr>
           <tr><th class="cmp-row">Phone numbers</th><td class="no">—</td><td class="feat">1</td><td>2</td></tr>
           <tr><th class="cmp-row">Channels</th><td>1</td><td class="feat">WA · SMS · Web</td><td>All</td></tr>
@@ -126,37 +126,54 @@
           <tr><th class="cmp-row">Follow-ups, custom fields, profiles</th><td class="no">—</td><td class="yes feat">✓</td><td class="yes">✓</td></tr>
           <tr><th class="cmp-row">Integrations, analytics, API</th><td class="no">—</td><td class="feat">Basic</td><td class="yes">✓</td></tr>
           <tr><th class="cmp-row">Support mode <span class="mono muted">(troubleshooting, vision, tickets)</span></th><td class="no">—</td><td class="no feat">—</td><td class="yes">✓</td></tr>
-          <tr><th class="cmp-row">AI voice receptionist <span class="mono muted">(300 min)</span></th><td class="no">—</td><td class="no feat">—</td><td class="yes" style="color:var(--pop)">✓</td></tr>
+          <tr><th class="cmp-row">AI voice receptionist</th><td class="no">—</td><td class="no feat">—</td><td class="yes" style="color:var(--pop)">✓</td></tr>
           <tr><th class="cmp-row">Remove LeadQ branding</th><td class="no">—</td><td class="no feat">—</td><td class="yes">✓</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="tiny" style="margin-top:14px">Every plan includes the core assistant. “AI conversation” = one customer thread in a rolling monthly window.</p>
+    <p class="tiny" style="margin-top:14px">Every plan includes the core assistant and a monthly credit pool that covers all your usage across every channel.</p>
   </div>
 </section>
 
 <!-- usage -->
 <section class="section tint">
   <div class="wrap">
-    <p class="eyebrow">Usage &amp; metering</p>
-    <h2>An allowance each month, then credits.</h2>
-    <p class="lead">Each plan bundles an allowance. Go over it and the extra runs on LeadQ credits at
-      the rates below. You never see an itemized Twilio or Meta bill.</p>
+    <p class="eyebrow">Usage &amp; credits</p>
+    <h2>One credit pool for everything.</h2>
+    <p class="lead">Every plan includes a monthly pool of credits. AI conversations, texts, WhatsApp,
+      voice and email all draw from the same pool — no per-channel math, and you never see an
+      itemized Twilio or Meta bill. Run low and you top up anytime.</p>
     <div class="twrap">
       <table class="w">
-        <thead><tr><th>Metered unit</th><th class="n">Rate</th></tr></thead>
+        <thead><tr><th>Roughly what a credit covers</th><th class="n">Credits</th></tr></thead>
         <tbody>
-          <tr><td>AI conversation</td><td class="n" id="u-conv">$0.05</td></tr>
-          <tr id="row-sms"><td>SMS segment <span class="mono muted">(US/CA)</span></td><td class="n" id="u-sms">$0.04</td></tr>
-          <tr><td>WhatsApp conversation <span class="mono muted">(24h)</span></td><td class="n" id="u-wa">$0.10</td></tr>
-          <tr><td>Voice minute <span class="mono muted">(Pro, after 300 incl.)</span></td><td class="n" id="u-voice">$0.25</td></tr>
-          <tr><td>Dedicated number rental</td><td class="n" id="u-number">1 incl., $8/mo</td></tr>
+          <tr><td>AI conversation <span class="mono muted">(a thread in a 24h window)</span></td><td class="n">~80</td></tr>
+          <tr><td>Text message <span class="mono muted">(per segment)</span></td><td class="n">~15</td></tr>
+          <tr><td>WhatsApp reply <span class="mono muted">(in-window)</span></td><td class="n">included</td></tr>
+          <tr><td>Voice minute</td><td class="n">~220</td></tr>
+          <tr><td>Email</td><td class="n">~1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tiny" style="margin-top:14px">So Growth's 45,000 credits is around 550 AI conversations —
+      or any mix of texts, calls and email across every channel.</p>
+
+    <h3 style="margin-top:28px">Top-up packs</h3>
+    <p class="lead">Need more before your next monthly reset? Add credits in one tap — they never
+      expire and roll over.</p>
+    <div class="twrap">
+      <table class="w">
+        <thead><tr><th>Pack</th><th class="n">Credits</th><th class="n">Price</th></tr></thead>
+        <tbody>
+          <tr><td>Small</td><td class="n">10,000</td><td class="n" id="pack-small">$25</td></tr>
+          <tr><td>Standard</td><td class="n">25,000</td><td class="n" id="pack-standard">$55</td></tr>
+          <tr><td>Large</td><td class="n">60,000</td><td class="n" id="pack-large">$120</td></tr>
+          <tr><td>Bulk</td><td class="n">150,000</td><td class="n" id="pack-bulk">$270</td></tr>
         </tbody>
       </table>
     </div>
     <p class="tiny" style="margin-top:14px">UAE runs WhatsApp-first, with no SMS or A2P line at all.
-      Canada needs no A2P registration; the US does, and that difference lives in the one-time
-      activation add-on, not the monthly price.</p>
+      Canada needs no A2P registration; the US does, and that one-time activation lives in the add-ons.</p>
   </div>
 </section>
 
@@ -164,13 +181,12 @@
 <section class="section">
   <div class="wrap">
     <p class="eyebrow">Add-ons</p>
-    <h2>Five extras. That's the whole menu.</h2>
+    <h2>Four extras. That's the whole menu.</h2>
     <div class="twrap">
       <table class="w">
         <thead><tr><th>Add-on</th><th>When</th><th class="n">Price</th></tr></thead>
         <tbody>
           <tr><td>Extra phone number</td><td>monthly</td><td class="n" id="a-number">$8/mo</td></tr>
-          <tr><td>Conversation pack (+1,000)</td><td>monthly</td><td class="n" id="a-pack">$29/mo</td></tr>
           <tr><td>Extra seat</td><td>monthly</td><td class="n" id="a-seat">$15/mo</td></tr>
           <tr><td>Done-for-you setup + KB load</td><td>one-time</td><td class="n" id="a-setup">$299 once</td></tr>
           <tr id="row-a2p"><td>SMS activation (A2P) <span class="mono muted">US only</span></td><td>one-time</td><td class="n" id="a-a2p">$99 once</td></tr>
@@ -186,14 +202,14 @@
     <p class="eyebrow" style="color:var(--pop-ink)">Part of Pro</p>
     <h2>AI Receptionist · voice</h2>
     <p class="lead">The same assistant now answers the phone, books live, and captures every missed
-      call. It's included in the Pro plan, with 300 minutes a month. Beyond that it's metered per
-      minute, because voice costs 5–10× a text interaction. Inbound first, outbound later.</p>
+      call. It's included in the Pro plan and runs from your monthly credit pool — about 220 credits
+      a minute, since a call costs more than a text. Inbound first, outbound later.</p>
     <div class="voice-module">
       <div class="vm-price">
         <div class="vm-label">In the Pro plan</div>
         <div class="price">Included</div>
-        <div class="cadref">300 voice minutes / mo</div>
-        <div class="over">Then <span id="voice-over">$0.25</span> / min</div>
+        <div class="cadref">Runs from your credit pool</div>
+        <div class="over">About 220 credits / min</div>
         <div class="plan-cta" style="margin-top:16px"><a href="voice.html" class="btn pop">See the AI Receptionist</a></div>
       </div>
       <div class="vm-caps">
@@ -212,7 +228,7 @@
 
 <section class="section">
   <div class="wrap">
-    <p class="tiny">“AI conversation” = one customer thread in a rolling monthly window. Prices shown in your local currency.</p>
+    <p class="tiny">Credits are LeadQ's universal usage unit — they cover every channel and roll over month to month. Prices shown in your local currency.</p>
   </div>
 </section>
 
