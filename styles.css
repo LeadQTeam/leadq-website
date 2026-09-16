@@ -119,8 +119,21 @@ main{display:block}
 .nav-pill{pointer-events:auto;position:relative;display:flex;align-items:center;gap:4px;padding:6px 6px 6px 18px;border-radius:999px;
   background:var(--glass);-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);
   border:1px solid var(--glass-line);box-shadow:var(--e2);max-width:100%}
-.brand{font-family:var(--display);font-weight:650;font-size:19px;letter-spacing:-.02em;color:var(--ink);margin-right:14px;white-space:nowrap}
+.brand{display:inline-flex;align-items:center;gap:9px;font-family:var(--display);font-weight:650;font-size:19px;letter-spacing:-.02em;color:var(--ink);margin-right:14px;white-space:nowrap}
 .brand:hover{text-decoration:none}
+/* the real wordmark, in its night-background version */
+.brand-logo{height:20px;width:auto;display:block}
+.footer .brand-logo{height:26px}
+.brand-ink{display:none}
+:root[data-theme="light"] .brand-ink{display:block}
+:root[data-theme="light"] .brand-night{display:none}
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]) .brand-ink{display:block}
+  :root:not([data-theme="dark"]) .brand-night{display:none}
+}
+/* the app icon, wherever the app itself is the subject */
+.app-icon{width:46px;height:46px;border-radius:12px;flex:none;box-shadow:var(--e1)}
+.item.with-icon{display:flex;align-items:flex-start;gap:14px}
 .brand .q,.q{color:var(--accent)}
 .nav-links{display:flex;align-items:center;gap:2px}
 .nav-links a{font-size:14px;color:var(--ink-2);padding:7px 12px;border-radius:999px;white-space:nowrap}
