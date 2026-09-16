@@ -419,9 +419,13 @@ main{display:block}
 .home-hero{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);gap:30px;align-items:center}
 .home-hero .lead{max-width:48ch}
 .stage{position:relative;height:620px;perspective:1400px}
-.stage-word{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);font-family:var(--display);font-weight:700;font-stretch:75%;
-  font-size:clamp(180px,24vw,340px);letter-spacing:-.06em;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(123,166,255,.2);
-  white-space:nowrap;user-select:none;pointer-events:none}
+/* the wordmark itself, behind the phone: the PNG is used as a mask so the letters are
+   painted in the page light instead of showing up as a grey image on the night background */
+.stage-word{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);z-index:1;
+  width:min(640px,104%);aspect-ratio:512/199;pointer-events:none;user-select:none;opacity:.26;
+  background:linear-gradient(100deg,color-mix(in srgb,var(--c) 80%,#fff),var(--c2,var(--c)));
+  -webkit-mask:url(img/brand/leadq-wordmark.png) center/contain no-repeat;
+  mask:url(img/brand/leadq-wordmark.png) center/contain no-repeat}
 .orb{position:absolute;left:50%;top:50%;width:440px;height:440px;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;
   background:radial-gradient(circle at 35% 30%, rgba(143,182,255,.55), rgba(47,109,246,.35) 35%, transparent 70%);filter:blur(2px)}
 .orb::after{content:"";position:absolute;inset:0;border-radius:50%;background-image:radial-gradient(rgba(190,215,255,.55) 1.2px, transparent 1.4px);
