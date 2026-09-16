@@ -1,0 +1,6 @@
+# GitHub Pages builds this repo straight to www.leadq.co, so every file at the root is
+# public on the web. The design docs live in docs/ for the team and are excluded from the
+# built site: they stay in git, they are never served as pages.
+exclude:
+  - docs/
+  - _config.yml
