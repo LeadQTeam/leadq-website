@@ -3,18 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LeadQ — one AI assistant for every channel</title>
+<title>LeadQ | One AI assistant for every channel</title>
 <meta name="description" content="LeadQ answers WhatsApp, SMS, web chat, email and your phone line with one AI assistant, and books the appointment while you work. Live in minutes.">
+<meta name="theme-color" content="#0a0f18">
 <link rel="canonical" href="https://www.leadq.co/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="LeadQ">
-<meta property="og:title" content="LeadQ — one AI assistant for every channel">
+<meta property="og:title" content="LeadQ | One AI assistant for every channel">
 <meta property="og:description" content="One AI assistant answers WhatsApp, SMS, web chat, email and your phone line, and books the appointment while you work.">
 <meta property="og:url" content="https://www.leadq.co/">
 <meta property="og:image" content="https://www.leadq.co/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="leadq-logo.png">
+<script>document.documentElement.classList.add("js")</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="styles.css">
+<script src="site.js" defer></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"LeadQ","url":"https://www.leadq.co","logo":"https://www.leadq.co/leadq-logo.png"}
 </script>
@@ -22,249 +30,241 @@
 {"@context":"https://schema.org","@type":"WebSite","name":"LeadQ","url":"https://www.leadq.co"}
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"LeadQ","applicationCategory":"BusinessApplication","operatingSystem":"Web, iOS, Android","description":"One AI assistant for your whole business. It answers WhatsApp, SMS, web chat, email and your phone line, and books the appointment automatically.","offers":{"@type":"Offer","price":"59","priceCurrency":"USD"}}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"LeadQ","applicationCategory":"BusinessApplication","operatingSystem":"Web","description":"One AI assistant for your whole business. It answers WhatsApp, SMS, web chat, email and your phone line, and books the appointment automatically.","offers":{"@type":"Offer","price":"59","priceCurrency":"USD"}}
 </script>
-<link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What's a credit?","acceptedAnswer":{"@type":"Answer","text":"Credits are how LeadQ measures usage. AI conversations, texts, calls and email all draw from one monthly pool, so there's no per-channel math to do. Run low and you top up in one tap. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account."}},{"@type":"Question","name":"What happens if I run out of credits?","acceptedAnswer":{"@type":"Answer","text":"Your assistant stops replying until your pool resets or you top up. Topping up takes one tap in the app, and it picks straight back up."}},{"@type":"Question","name":"Is there a contract?","acceptedAnswer":{"@type":"Answer","text":"No. Plans are month to month, and you can cancel whenever you want from inside the app. If you cancel, we release the phone numbers on the account."}},{"@type":"Question","name":"Do I need to register for texting?","acceptedAnswer":{"@type":"Answer","text":"In the US, business texting needs A2P registration. We guide you through it inside the app. Canada doesn't need it, and the UAE runs on WhatsApp instead."}},{"@type":"Question","name":"Can I keep my WhatsApp number?","acceptedAnswer":{"@type":"Answer","text":"Yes. Connect a new number or bring the one your customers already message."}},{"@type":"Question","name":"Can I take over a conversation?","acceptedAnswer":{"@type":"Answer","text":"Any time. Pause the assistant for one contact or a whole channel, reply yourself, then hand it back."}}]}
+</script>
 </head>
-<body>
+<body style="--c:#4d86ff;--c2:#38d3ff">
 
 <header class="nav">
-  <div class="nav-in">
-    <a class="brand" href="index.html">Lead<span class="q">Q</span></a>
-    <nav class="nav-links">
-      <a href="#how">How it works</a>
-      <a href="use-cases.html">Use cases</a>
-      <a href="pricing.html">Pricing</a>
-      <a class="voice" href="voice.html">Voice AI</a>
-    </nav>
-    <div class="nav-right">
-      <a href="https://app.leadq.co" class="muted" style="font-size:14px">Log in</a>
-      <a href="https://app.leadq.co" class="btn">Get started</a>
-      <button class="nav-toggle" aria-label="Menu">☰</button>
+  <div class="nav-pill">
+    <a class="brand" href="index.html" aria-label="LeadQ home">Lead<span class="q">Q</span></a>
+    <nav class="nav-links" aria-label="Main"><a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="pricing.html">Pricing</a><a href="voice.html">Voice AI</a></nav>
+    <div class="nav-actions">
+      <a class="btn btn-ghost btn-sm login" href="https://app.leadq.co">Log in</a>
+      <a class="btn btn-primary btn-sm" href="https://app.leadq.co">Get started</a>
+      <button class="nav-menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav-sheet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
+    <div class="nav-sheet" id="nav-sheet" hidden><a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="pricing.html">Pricing</a><a href="voice.html">Voice AI</a><a href="about.html">About</a><a href="https://app.leadq.co">Log in</a></div>
   </div>
 </header>
 
 <main>
 
 <!-- hero -->
-<section class="hero">
-  <div class="wrap hero-grid">
+<section class="lit-hero">
+  <div class="wrap home-hero">
     <div>
-      <p class="eyebrow">One assistant · every channel</p>
-      <h1 class="tagline">Stop chasing.<br>Start <span class="grad">closing</span></h1>
-      <p class="lead">Every message you don't answer is a job someone else books. LeadQ builds you an
-        AI assistant that never misses one. It learns your services, your voice, and how you talk to
-        customers, and replies in seconds. At midnight, on a Sunday, or while you're with someone else.</p>
-
-      <div class="hero-cta" style="margin-top:26px">
-        <a href="https://app.leadq.co" class="btn lg">Get started</a>
-        <a href="#how" class="btn ghost lg">See how it works</a>
+      <span class="pill">One assistant. Every channel.</span>
+      <h1 class="h-hero">Stop chasing. Start closing.</h1>
+      <p class="lead">Every message you miss is a job someone else books. LeadQ answers WhatsApp, texts, web chat, email and your phone line in seconds, then books the appointment. At midnight, on a Sunday, or while you're with a customer.</p>
+      <div class="ctas">
+        <a class="btn btn-primary btn-lg" href="https://app.leadq.co">Get started</a>
+        <a class="btn btn-ghost btn-lg" href="#how" data-open-chat>See it work</a>
       </div>
-      <p class="tiny" style="margin-top:14px">Set it up from your phone in minutes. No AI knowledge needed.</p>
+      <p class="fine">Set it up from your phone in minutes. No AI knowledge needed.</p>
     </div>
-
-    <div class="phone-wrap">
-      <div class="ch-toggle" role="tablist" aria-label="What you're seeing">
-        <button class="chip on" data-mode="messaging">Messaging</button>
-        <button class="chip" data-mode="settings">Settings</button>
-        <button class="chip" data-mode="voice">Voice AI</button>
+    <div class="stage">
+      <div class="stage-word" aria-hidden="true">leadq</div>
+      <div class="orb" aria-hidden="true"></div>
+      <div class="stage-tilt">
+        <div class="stage-drift">
+        <div class="phone" role="img" aria-label="The LeadQ app booking an appointment over text">
+          <div class="ap-screen">
+            <div class="ap-island"></div>
+            <div class="ap-status"><span>9:41</span><span>5G</span></div>
+            <div class="ap-header"><span class="ap-av">J</span><span><span class="ap-hname">Jane Doe</span><span class="ap-hsub"><span class="ch">SMS</span>, Baxter is replying</span></span><span class="ap-live">Live</span></div>
+            <div class="ap-body"><div class="ap-chat live-chat">
+              <div class="ap-bubble in">Can I come in Thursday?</div>
+              <div class="ap-bubble out">Thursday at 3:00 PM works. Want it?</div>
+              <div class="ap-bubble in">Yes please</div>
+              <div class="ap-typing" aria-hidden="true"><i></i><i></i><i></i></div>
+              <div class="ap-bubble out">You're booked. Reminder coming Wednesday.</div>
+              <div class="ap-booked"><b>Booked, reminder set</b>Thu, 3:00 PM</div>
+            </div></div>
+            
+            <div class="ap-nav"><span class="ap-tab"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.4l1.65 4.45a3 3 0 0 0 1.78 1.78L19.6 10.3l-4.17 1.55a3 3 0 0 0-1.78 1.78L12 18.2l-1.65-4.45a3 3 0 0 0-1.78-1.78L4.4 10.3l4.17-1.67a3 3 0 0 0 1.78-1.78z"/></svg>Assistant</span><span class="ap-tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>Inbox</span><span class="ap-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Schedule</span><span class="ap-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="3.1"/><path d="M19.5 12.9a7.5 7.5 0 0 0 0-1.8l1.9-1.5-1.9-3.3-2.3 1a7.5 7.5 0 0 0-1.6-.9L15.2 4H8.8l-.4 2.4a7.5 7.5 0 0 0-1.6.9l-2.3-1-1.9 3.3 1.9 1.5a7.5 7.5 0 0 0 0 1.8l-1.9 1.5 1.9 3.3 2.3-1a7.5 7.5 0 0 0 1.6.9l.4 2.4h6.4l.4-2.4a7.5 7.5 0 0 0 1.6-.9l2.3 1 1.9-3.3z"/></svg>Settings</span></div>
+          </div>
+        </div>
+        </div>
       </div>
+      <div class="float-card fc-1" aria-hidden="true"><span class="faint">Replied</span><b>In seconds</b></div>
+      <div class="float-card fc-2 good" aria-hidden="true"><b>New booking</b><span class="faint">Added to Schedule</span></div>
+    </div>
+  </div>
+</section>
 
-      <div class="appphone" role="img" aria-label="The LeadQ app: messaging, setup, and choosing a voice">
-        <div class="ap-notch"></div>
-        <div class="ap-top"></div>
-        <div class="ap-header" id="ap-header"></div>
-        <div class="ap-aibar" id="ap-aibar" hidden>
-          <span class="ap-aistate"><span class="ap-aidot"></span><span id="ap-aitext">Baxter is replying</span></span>
-          <span class="ap-switch" aria-hidden="true"></span>
-        </div>
-        <div class="ap-body" id="ap-body"></div>
-        <div class="ap-composer" id="ap-composer" hidden>
-          <span class="ap-input">Baxter replies automatically…</span>
-          <span class="ap-send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg></span>
-        </div>
-        <div class="ap-nav">
-          <span class="ap-tab" data-tab="assistant"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.4l1.65 4.45a3 3 0 0 0 1.78 1.78L19.6 10.3l-4.17 1.55a3 3 0 0 0-1.78 1.78L12 18.2l-1.65-4.45a3 3 0 0 0-1.78-1.78L4.4 10.3l4.17-1.67a3 3 0 0 0 1.78-1.78z"/><path d="M18.6 3.2l.62 1.68 1.68.62-1.68.62-.62 1.68-.62-1.68-1.68-.62 1.68-.62z"/></svg>Assistant</span>
-          <span class="ap-tab" data-tab="inbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>Inbox</span>
-          <span class="ap-tab" data-tab="schedule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Schedule</span>
-          <span class="ap-tab" data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="3.1"/><path d="M19.5 12.9a7.5 7.5 0 0 0 0-1.8l1.9-1.5-1.9-3.3-2.3 1a7.5 7.5 0 0 0-1.6-.9L15.2 4H8.8l-.4 2.4a7.5 7.5 0 0 0-1.6.9l-2.3-1-1.9 3.3 1.9 1.5a7.5 7.5 0 0 0 0 1.8l-1.9 1.5 1.9 3.3 2.3-1a7.5 7.5 0 0 0 1.6.9l.4 2.4h6.4l.4-2.4a7.5 7.5 0 0 0 1.6-.9l2.3 1 1.9-3.3z"/></svg>Settings</span>
-        </div>
+<!-- one brain -->
+<section class="sec">
+  <div class="wrap brain">
+    <div class="orbit" role="img" aria-label="WhatsApp, SMS, web chat, email and voice, all run by one assistant">
+      <div class="orbit-ring" aria-hidden="true"></div>
+      <div class="orbit-core" aria-hidden="true"><span>One<br>assistant</span></div>
+      <div class="chan" style="--x:0px;--y:-170px" aria-hidden="true"><i style="background:linear-gradient(135deg,#3ddc84,#128c7e)"></i>WhatsApp</div>
+      <div class="chan" style="--x:162px;--y:-53px" aria-hidden="true"><i style="background:linear-gradient(135deg,#7ba6ff,#2f6df6)"></i>SMS</div>
+      <div class="chan" style="--x:100px;--y:138px" aria-hidden="true"><i style="background:linear-gradient(135deg,#8ee7ff,#38d3ff)"></i>Web chat</div>
+      <div class="chan" style="--x:-100px;--y:138px" aria-hidden="true"><i style="background:linear-gradient(135deg,#ffd18a,#e0ae5a)"></i>Email</div>
+      <div class="chan" style="--x:-162px;--y:-53px" aria-hidden="true"><i style="background:linear-gradient(135deg,#c3aef6,#7b5bd6)"></i>Voice</div>
+    </div>
+    <div>
+      <h2 class="h-sec">Not five tools. One assistant.</h2>
+      <p class="lead" style="margin-top:18px">Most businesses juggle a chat widget, a texting app, an inbox, a booking tool and a voicemail box, and still drop messages. LeadQ is one assistant that knows your business and works every channel the same way.</p>
+      <div class="items">
+        <div class="item"><b>Change it once</b><span>Update your hours or add a service, and every channel knows. The phone too.</span></div>
+        <div class="item"><b>Sounds like you</b><span>Warm, brisk, formal, luxe. Pick a tone and it talks like your front desk.</span></div>
+        <div class="item"><b>Hands off on your rules</b><span>Decide when a person takes over, and what it should never say.</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- unity: channel badges -->
-<section class="section tint">
-  <div class="wrap center">
-    <p class="eyebrow" style="justify-content:center">One brain, every channel</p>
-    <h2>Not five tools. One assistant.</h2>
-    <p class="lead" style="margin:0 auto;max-width:48ch">Same persona, same knowledge, same calendar, everywhere your customers reach out.</p>
-    <div class="chan-badges">
-      <div class="chan-badge"><span class="chan-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.9-.9L3 21l1.9-5.6a8.5 8.5 0 0 1-.9-3.9A8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg></span><span>WhatsApp</span></div>
-      <div class="chan-badge"><span class="chan-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><span>SMS</span></div>
-      <div class="chan-badge"><span class="chan-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3M8 9h8M8 13h5"/></svg></span><span>Web chat</span></div>
-      <div class="chan-badge"><span class="chan-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></span><span>Email</span></div>
-      <div class="chan-badge"><span class="chan-ic pop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span><span>Voice</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- features bento -->
-<section class="section">
+<!-- what it does -->
+<section class="sec" style="padding-top:0">
   <div class="wrap">
-    <p class="eyebrow">What it does</p>
-    <h2>Runs the whole conversation. And the booking.</h2>
-    <div class="bento">
-      <div class="featile">
+    <div class="sec-head"><h2 class="h-sec">Runs the whole conversation. And the booking.</h2></div>
+    <div class="tiles">
+      <div class="tile">
         <h3>Books into your calendar</h3>
-        <p>Checks real availability, respects your rules, books, and reminds them.</p>
-        <div class="vis"><div class="shot"><div class="shot-scr">
+        <p>Checks real availability, respects your booking rules, books and reminds.</p>
+        <div class="vis"><div class="shot" aria-hidden="true">
           <div class="sc-calhd"><span class="sc-calm">September</span><span class="sc-calnav"><span>&lsaquo;</span><span>&rsaquo;</span></span></div>
           <div class="sc-dow"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
           <div class="sc-grid">
-            <span class="sc-day">1</span><span class="sc-day">2</span><span class="sc-day">3</span><span class="sc-day">4</span><span class="sc-day">5</span><span class="sc-day">6</span><span class="sc-day">7</span>
             <span class="sc-day">8</span><span class="sc-day">9</span><span class="sc-day">10</span><span class="sc-day">11</span><span class="sc-day">12</span><span class="sc-day">13</span><span class="sc-day">14</span>
             <span class="sc-day today">15</span><span class="sc-day">16</span><span class="sc-day sel">17</span><span class="sc-day">18</span><span class="sc-day">19</span><span class="sc-day">20</span><span class="sc-day">21</span>
             <span class="sc-day">22</span><span class="sc-day">23</span><span class="sc-day">24</span><span class="sc-day">25</span><span class="sc-day">26</span><span class="sc-day">27</span><span class="sc-day">28</span>
-            <span class="sc-day">29</span><span class="sc-day">30</span><span class="sc-day dim">1</span><span class="sc-day dim">2</span><span class="sc-day dim">3</span><span class="sc-day dim">4</span><span class="sc-day dim">5</span>
           </div>
           <div class="sc-slots"><span class="sc-slot">9:30 AM</span><span class="sc-slot sel">2:00 PM</span><span class="sc-slot">4:30 PM</span></div>
-        </div></div></div>
+        </div></div>
       </div>
-      <div class="featile">
-        <h3>Every channel, connected</h3>
-        <p>WhatsApp, SMS, web chat and email, all live in one app.</p>
-        <div class="vis"><div class="shot"><div class="shot-scr">
-          <span class="shot-lbl">Channels</span>
-          <div class="sc-ch"><span class="sc-chic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></span><span class="sc-chtx"><span class="sc-chname">WhatsApp</span><span class="sc-chsub"><span class="d"></span>Live · +1 (555) 123-4567</span></span></div>
-          <div class="sc-ch"><span class="sc-chic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><span class="sc-chtx"><span class="sc-chname">SMS</span><span class="sc-chsub"><span class="d"></span>Live · +1 (555) 771-0064</span></span></div>
-          <div class="sc-ch"><span class="sc-chic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3M8 9h8M8 13h5"/></svg></span><span class="sc-chtx"><span class="sc-chname">Website chat</span><span class="sc-chsub"><span class="d"></span>Live · On your website</span></span></div>
-          <div class="sc-ch"><span class="sc-chic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></span><span class="sc-chtx"><span class="sc-chname">Email</span><span class="sc-chsub"><span class="d"></span>Live · hi@riveradental.com</span></span></div>
-        </div></div></div>
+      <div class="tile">
+        <h3>Follows up for you</h3>
+        <p>A lead goes quiet, it nudges them on a schedule. Never during your quiet hours.</p>
+        <div class="vis"><div class="shot" aria-hidden="true">
+          <span class="shot-lbl">Follow-up, sent 10:00 AM</span>
+          <div class="ap-chat" style="padding:0;height:auto">
+            <div class="ap-bubble in">How much is a whitening?</div>
+            <div class="ap-bubble out">It's $249 and takes about an hour. Want me to find you a time?</div>
+            <div class="ap-bubble out">Hi Sam, just checking in. I still have Friday at 11:00 AM open if you'd like it.</div>
+            <div class="ap-bubble in">Friday works!</div>
+          </div>
+        </div></div>
       </div>
-      <div class="featile">
+      <div class="tile">
+        <h3>Texts back missed calls</h3>
+        <p>Can't pick up? They get a text right away, so the lead stays warm.</p>
+        <div class="vis"><div class="shot" aria-hidden="true">
+          <div class="sc-row"><span class="sc-ic" style="color:#e0826d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 2 6 6M22 2l-6 6"/><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span><span class="sc-tx"><span class="sc-name">Missed call</span><span class="sc-sub">+1 (555) 402-8811, 2:14 PM</span></span></div>
+          <div class="sc-row"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><span class="sc-tx"><span class="sc-name">Text sent</span><span class="sc-sub good"><span class="d"></span>2:14 PM, a few seconds later</span></span></div>
+          <div class="ap-bubble out" style="margin:10px 0 0 auto">Sorry we missed your call. This is Baxter from Rivera Dental. How can I help?</div>
+        </div></div>
+      </div>
+      <div class="tile">
         <h3>You're always in control</h3>
-        <p>Pause the assistant on any channel, for an hour or until you turn it back on.</p>
-        <div class="vis"><div class="shot"><div class="shot-scr">
+        <p>Pause it on one channel or all of them. For an hour, or until you say so.</p>
+        <div class="vis"><div class="shot" aria-hidden="true">
           <div class="sc-ph">Pause Baxter</div>
           <p class="sc-psub">Baxter stops replying on all channels.</p>
           <div class="sc-scope"><span>Just WhatsApp</span><span class="sel">All channels</span></div>
           <div class="sc-opt"><b>For one hour</b><small>Back at 3:30 PM</small></div>
           <div class="sc-opt"><b>Until tomorrow morning</b><small>Back at 8:00 AM, when you open</small></div>
           <div class="sc-opt"><b>Until I turn it back on</b><small>No automatic resume</small></div>
-        </div></div></div>
+        </div></div>
       </div>
-      <div class="featile">
+      <div class="tile">
         <h3>Contacts, ready at a glance</h3>
-        <p>All their details wait neatly, so you're prepared before every meeting.</p>
-        <div class="vis"><div class="shot"><div class="shot-scr">
-          <div class="ap-cphero" style="margin-top:0">
-            <div class="ap-cptop"><span class="ap-cpav">J</span><span style="flex:1"><span class="ap-cpnm">Jane Doe</span><span class="ap-chip"><span class="d"></span>Booked</span></span></div>
-            <div class="ap-cpbtns"><span>Message</span><span>Book</span></div>
-          </div>
-          <div class="ap-sum">
-            <div class="ap-sumhd">✨ Summary</div>
-            <div class="ap-sumbody">New patient, prefers afternoons. Booked a cleaning for Wed 2:30 PM with Dr. Rivera.</div>
-            <div class="ap-summeta">Updated 3h ago</div>
-          </div>
-        </div></div></div>
+        <p>Every detail and an AI summary of the chat, before you ever pick up the phone.</p>
+        <div class="vis"><div class="shot" aria-hidden="true">
+          <div class="sc-cp"><span class="sc-cpav">J</span><span><span class="sc-name" style="font-size:15px">Jane Doe</span><span class="sc-chip">Booked</span></span></div>
+          <div class="sc-sum"><div class="sc-sumhd">Summary</div><div class="sc-sumbody">New patient, prefers afternoons. Booked a cleaning for Wed 2:30 PM with Dr. Rivera.</div></div>
+        </div></div>
+      </div>
+      <div class="tile">
+        <h3>Learns from your website</h3>
+        <p>It reads your site and suggests answers. Nothing goes live until you approve it.</p>
+        <div class="vis"><div class="shot" aria-hidden="true">
+          <div class="sc-url"><span class="sc-ic" style="width:22px;height:22px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>riveradental.com</div>
+          <div class="sc-row"><span class="sc-tx"><span class="sc-name">Services</span></span><span class="sc-tag">6 found</span></div>
+          <div class="sc-row"><span class="sc-tx"><span class="sc-name">FAQ answers</span></span><span class="sc-tag">12 to review</span></div>
+          <div class="sc-row"><span class="sc-tx"><span class="sc-name">Business hours</span></span><span class="sc-tag">Mon to Fri</span></div>
+        </div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- app tour band -->
-<section class="section tint">
-  <div class="wrap">
-    <p class="eyebrow">Inside the app</p>
-    <h2>Every booking, in your pocket.</h2>
-    <p class="lead" style="max-width:56ch">It's a real app, not a chat widget. Your calendar fills itself, and every booking keeps the whole story behind it.</p>
-    <div class="apptour">
-
-      <!-- Schedule -->
-      <div class="apptour-item">
-        <div class="appphone" role="img" aria-label="The Schedule tab in the LeadQ app">
-          <div class="ap-notch"></div><div class="ap-top"></div>
-          <div class="ap-header"><span class="ap-hname">Schedule</span></div>
-          <div class="ap-body"><div class="ap-scr">
-            <div class="ap-seg"><span class="sel">Upcoming</span><span>Past</span></div>
-            <div class="ap-dayhd">Today · Wed, Aug 27<span class="ln"></span>3</div>
-            <div>
-              <div class="ap-appt"><span class="ap-appt-time"><span class="ap-appt-t">10:00</span><span class="ap-appt-ap">AM</span></span><span class="ap-appt-mid"><span class="ap-appt-nm">Marcus Bell</span><span class="ap-appt-sub">Consultation · Sarah</span><span class="ap-appt-stat"><span class="d"></span>Booked · reminder sent</span></span><span class="ap-appt-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></div>
-              <div class="ap-appt"><span class="ap-appt-time"><span class="ap-appt-t">2:30</span><span class="ap-appt-ap">PM</span></span><span class="ap-appt-mid"><span class="ap-appt-nm">Jane Doe</span><span class="ap-appt-sub">Cleaning · Dr. Rivera</span><span class="ap-appt-stat"><span class="d"></span>Booked</span></span><span class="ap-appt-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></div>
-              <div class="ap-appt"><span class="ap-appt-time"><span class="ap-appt-t">4:00</span><span class="ap-appt-ap">PM</span></span><span class="ap-appt-mid"><span class="ap-appt-nm">Priya Nair</span><span class="ap-appt-sub">New patient · Dr. Rivera</span><span class="ap-appt-stat"><span class="d"></span>Booked</span></span><span class="ap-appt-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></div>
-            </div>
-            <div class="ap-dayhd">Tomorrow · Thu, Aug 28<span class="ln"></span>1</div>
-            <div>
-              <div class="ap-appt"><span class="ap-appt-time"><span class="ap-appt-t">9:15</span><span class="ap-appt-ap">AM</span></span><span class="ap-appt-mid"><span class="ap-appt-nm">Tom Alvarez</span><span class="ap-appt-sub">Follow-up · Sarah</span><span class="ap-appt-stat"><span class="d"></span>Booked</span></span><span class="ap-appt-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></div>
-            </div>
-          </div></div>
-          <div class="ap-fab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
-          <div class="ap-nav">
-            <span class="ap-tab"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.4l1.65 4.45a3 3 0 0 0 1.78 1.78L19.6 10.3l-4.17 1.55a3 3 0 0 0-1.78 1.78L12 18.2l-1.65-4.45a3 3 0 0 0-1.78-1.78L4.4 10.3l4.17-1.67a3 3 0 0 0 1.78-1.78z"/></svg>Assistant</span>
-            <span class="ap-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>Inbox</span>
-            <span class="ap-tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Schedule</span>
-            <span class="ap-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="3.1"/><path d="M19.5 12.9a7.5 7.5 0 0 0 0-1.8l1.9-1.5-1.9-3.3-2.3 1a7.5 7.5 0 0 0-1.6-.9L15.2 4H8.8l-.4 2.4a7.5 7.5 0 0 0-1.6.9l-2.3-1-1.9 3.3 1.9 1.5a7.5 7.5 0 0 0 0 1.8l-1.9 1.5 1.9 3.3 2.3-1a7.5 7.5 0 0 0 1.6.9l.4 2.4h6.4l.4-2.4a7.5 7.5 0 0 0 1.6-.9l2.3 1 1.9-3.3z"/></svg>Settings</span>
+<!-- inside the app: light sheet over night -->
+<section class="sheet app-light">
+  <div class="wrap sheet-grid">
+    <div>
+      <h2 class="h-sec">Every booking, in your pocket.</h2>
+      <p class="lead" style="margin-top:18px">It's a real app, not a chat widget. Your calendar fills itself, and every booking keeps the whole story behind it: the reason, the details, and the conversation that led there.</p>
+      <div class="items">
+        <div class="item"><b>Your calendar fills itself</b><span>Bookings land grouped by day, reminders already sent.</span></div>
+        <div class="item"><b>Nothing gets forgotten</b><span>Open any appointment to see what they told your assistant.</span></div>
+        <div class="item"><b>On your home screen</b><span>Add LeadQ to your phone like any app. Your whole team can log in.</span></div>
+      </div>
+    </div>
+    <div class="sheet-phones">
+        <div class="phone" role="img" aria-label="The Schedule tab in the LeadQ app, filling with bookings">
+          <div class="ap-screen light">
+            <div class="ap-island"></div>
+            <div class="ap-status"><span>9:41</span><span>5G</span></div>
+            <div class="ap-header plain"><span class="ap-hname big">Schedule</span></div>
+            <div class="ap-body"><div class="ap-scr">
+              <div class="ap-seg"><span class="sel">Upcoming</span><span>Past</span></div>
+              <div class="ap-dayhd">Today, Wed Aug 27<span class="ln"></span>3</div>
+              <div class="ap-appt"><span class="ap-appt-time"><span class="ap-appt-t">10:00</span><span class="ap-appt-ap">AM</span></span><span class="ap-appt-mid"><span class="ap-appt-nm">Marcus Bell</span><span class="ap-appt-sub">Consultation, Sarah</span><span class="ap-appt-stat"><span class="d"></span>Booked, reminder sent</span></span></div>
+              <div class="ap-appt"><span class="ap-appt-time"><span class="ap-appt-t">2:30</span><span class="ap-appt-ap">PM</span></span><span class="ap-appt-mid"><span class="ap-appt-nm">Jane Doe</span><span class="ap-appt-sub">Cleaning, Dr. Rivera</span><span class="ap-appt-stat"><span class="d"></span>Booked</span></span></div>
+              <div class="ap-appt"><span class="ap-appt-time"><span class="ap-appt-t">4:00</span><span class="ap-appt-ap">PM</span></span><span class="ap-appt-mid"><span class="ap-appt-nm">Priya Nair</span><span class="ap-appt-sub">New patient, Dr. Rivera</span><span class="ap-appt-stat"><span class="d"></span>Booked</span></span></div>
+              <div class="ap-dayhd">Tomorrow, Thu Aug 28<span class="ln"></span>1</div>
+              <div class="ap-appt" data-fill aria-live="off"></div>
+            </div></div>
+            <div class="ap-fab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></div>
+            <div class="ap-nav"><span class="ap-tab"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.4l1.65 4.45a3 3 0 0 0 1.78 1.78L19.6 10.3l-4.17 1.55a3 3 0 0 0-1.78 1.78L12 18.2l-1.65-4.45a3 3 0 0 0-1.78-1.78L4.4 10.3l4.17-1.67a3 3 0 0 0 1.78-1.78z"/></svg>Assistant</span><span class="ap-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>Inbox</span><span class="ap-tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Schedule</span><span class="ap-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="3.1"/><path d="M19.5 12.9a7.5 7.5 0 0 0 0-1.8l1.9-1.5-1.9-3.3-2.3 1a7.5 7.5 0 0 0-1.6-.9L15.2 4H8.8l-.4 2.4a7.5 7.5 0 0 0-1.6.9l-2.3-1-1.9 3.3 1.9 1.5a7.5 7.5 0 0 0 0 1.8l-1.9 1.5 1.9 3.3 2.3-1a7.5 7.5 0 0 0 1.6.9l.4 2.4h6.4l.4-2.4a7.5 7.5 0 0 0 1.6-.9l2.3 1 1.9-3.3z"/></svg>Settings</span></div>
           </div>
         </div>
-        <p class="apptour-cap"><b>Your calendar fills itself</b>Booked jobs land on the schedule, grouped by day, reminders already sent.</p>
-      </div>
-
-      <!-- Appointment detail -->
-      <div class="apptour-item">
-        <div class="appphone" role="img" aria-label="An appointment detail in the LeadQ app">
-          <div class="ap-notch"></div><div class="ap-top"></div>
-          <div class="ap-header"><span class="ap-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></span><span class="ap-hname" style="font-size:15px">Appointment</span></div>
-          <div class="ap-body"><div class="ap-scr">
-            <div class="ap-apxhero">
-              <div class="ap-apxstat"><span class="d"></span>Booked · reminder sent</div>
+        <div class="phone" role="img" aria-label="An appointment in the LeadQ app, with what the customer told the assistant">
+          <div class="ap-screen light">
+            <div class="ap-island"></div>
+            <div class="ap-status"><span>9:41</span><span>5G</span></div>
+            <div class="ap-header plain"><span class="ap-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></span><span class="ap-hname">Appointment</span></div>
+            <div class="ap-body"><div class="ap-scr">
+              <div class="ap-apxstat"><span class="d"></span>Booked, reminder sent</div>
               <div class="ap-apxwhen">Wednesday, 27 Aug<br>2:30 PM</div>
-              <div class="ap-apxmeta">Cleaning · 30 minutes · with Dr. Rivera · booked by Baxter</div>
-            </div>
-            <div class="ap-apxbtns"><span class="pri">Message</span><span>Reschedule</span><span class="dng">Cancel</span></div>
-            <div class="ap-lbl">Customer</div>
-            <div class="ap-cprow"><span class="ap-cpav" style="width:40px;height:40px;font-size:15px">J</span><span class="ap-cprt"><b>Jane Doe</b><span>+1 (555) 123-4567</span></span><span class="ap-appt-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></div>
-            <div class="ap-lbl">What they told Baxter</div>
-            <div>
+              <div class="ap-apxmeta">Cleaning, 30 minutes, with Dr. Rivera. Booked by Baxter.</div>
+              <div class="ap-apxbtns"><span class="pri">Message</span><span>Reschedule</span><span class="dng">Cancel</span></div>
+              <div class="ap-lbl">Customer</div>
+              <div class="ap-cprow"><span class="ap-cpav">J</span><span class="ap-cprt"><b>Jane Doe</b><span>+1 (555) 123-4567</span></span></div>
+              <div class="ap-lbl">What they told Baxter</div>
               <div class="ap-frow"><span class="k">Reason</span><span class="v">Overdue cleaning</span></div>
-              <div class="ap-frow"><span class="k">Insurance</span><span class="v">Yes · Delta</span></div>
+              <div class="ap-frow"><span class="k">Insurance</span><span class="v">Yes, Delta</span></div>
               <div class="ap-frow"><span class="k">First visit</span><span class="v">No</span></div>
-            </div>
-          </div></div>
-          <div class="ap-nav">
-            <span class="ap-tab"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.4l1.65 4.45a3 3 0 0 0 1.78 1.78L19.6 10.3l-4.17 1.55a3 3 0 0 0-1.78 1.78L12 18.2l-1.65-4.45a3 3 0 0 0-1.78-1.78L4.4 10.3l4.17-1.67a3 3 0 0 0 1.78-1.78z"/></svg>Assistant</span>
-            <span class="ap-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>Inbox</span>
-            <span class="ap-tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Schedule</span>
-            <span class="ap-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="3.1"/><path d="M19.5 12.9a7.5 7.5 0 0 0 0-1.8l1.9-1.5-1.9-3.3-2.3 1a7.5 7.5 0 0 0-1.6-.9L15.2 4H8.8l-.4 2.4a7.5 7.5 0 0 0-1.6.9l-2.3-1-1.9 3.3 1.9 1.5a7.5 7.5 0 0 0 0 1.8l-1.9 1.5 1.9 3.3 2.3-1a7.5 7.5 0 0 0 1.6.9l.4 2.4h6.4l.4-2.4a7.5 7.5 0 0 0 1.6-.9l2.3 1 1.9-3.3z"/></svg>Settings</span>
+            </div></div>
+            
+            <div class="ap-nav"><span class="ap-tab"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.4l1.65 4.45a3 3 0 0 0 1.78 1.78L19.6 10.3l-4.17 1.55a3 3 0 0 0-1.78 1.78L12 18.2l-1.65-4.45a3 3 0 0 0-1.78-1.78L4.4 10.3l4.17-1.67a3 3 0 0 0 1.78-1.78z"/></svg>Assistant</span><span class="ap-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>Inbox</span><span class="ap-tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Schedule</span><span class="ap-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="3.1"/><path d="M19.5 12.9a7.5 7.5 0 0 0 0-1.8l1.9-1.5-1.9-3.3-2.3 1a7.5 7.5 0 0 0-1.6-.9L15.2 4H8.8l-.4 2.4a7.5 7.5 0 0 0-1.6.9l-2.3-1-1.9 3.3 1.9 1.5a7.5 7.5 0 0 0 0 1.8l-1.9 1.5 1.9 3.3 2.3-1a7.5 7.5 0 0 0 1.6.9l.4 2.4h6.4l.4-2.4a7.5 7.5 0 0 0 1.6-.9l2.3 1 1.9-3.3z"/></svg>Settings</span></div>
           </div>
         </div>
-        <p class="apptour-cap"><b>Nothing gets forgotten</b>Every appointment keeps the reason, the details, and the whole conversation behind it.</p>
-      </div>
-
-
     </div>
   </div>
 </section>
 
-<!-- voice band -->
-<section class="section">
+<!-- voice teaser -->
+<section class="sec">
   <div class="wrap">
-    <div class="voiceband">
+    <div class="voice-band" style="--c:#a98cf0" data-live>
       <div>
-        <p class="eyebrow" style="color:var(--pop-ink)">Go Pro · Voice</p>
-        <h2>Then it picks up the phone too.</h2>
-        <p class="lead" style="margin:0 0 16px">A receptionist that sounds human, takes the calls you can't, books the job, and warm-transfers to you when it matters. No more voicemail.</p>
-        <a href="voice.html" class="btn pop">Meet the AI Receptionist</a>
+        <h2 class="h-sec">Then it picks up the phone too.</h2>
+        <p class="lead" style="margin:18px 0 28px">A receptionist that sounds human, takes the calls you can't, books the job, and warm-transfers to you when it matters. No more voicemail.</p>
+        <a class="btn btn-voice btn-lg" href="voice.html">Meet the AI Receptionist</a>
+        <p class="fine">The AI Receptionist runs on a US or Canadian phone number today.</p>
       </div>
-      <div class="vcard">
-        <div class="vcard-h">Choose a voice</div>
-        <div class="vpick">
-          <span class="t sel">Ava <span class="pl"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></span>
-          <span class="t">Noah <span class="pl"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></span>
-          <span class="t">Mia <span class="pl"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></span>
-          <span class="t">Sarah <span class="pl"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></span>
+      <div>
+        <div class="ring-wrap" aria-hidden="true"><div class="ring-core"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></div></div>
+        <div class="vchips" role="group" aria-label="Voices" data-press-group>
+          <button type="button" aria-pressed="true">Ava</button><button type="button" aria-pressed="false">Noah</button><button type="button" aria-pressed="false">Mia</button><button type="button" aria-pressed="false">Sarah</button>
         </div>
       </div>
     </div>
@@ -272,31 +272,39 @@
 </section>
 
 <!-- how it works -->
-<section class="section tint" id="how">
-  <div class="wrap center">
-    <p class="eyebrow" style="justify-content:center">How it works</p>
-    <h2>Live in minutes, from your phone.</h2>
-    <div class="grid g3" style="margin-top:20px;text-align:left">
-      <div class="card step"><div class="cap">STEP 1</div><h3>Paste your website</h3><p>It drafts your FAQ, services and prices. You approve.</p>
-        <div class="step-vis">
-          <div class="sv-url"><span class="sv-dot"></span>riveradental.com</div>
-          <div class="sv-row"><span>Services</span><span class="sv-tag">6 found</span></div>
-          <div class="sv-row"><span>FAQ answers</span><span class="sv-tag">12 drafted</span></div>
-          <div class="sv-row"><span>Business hours</span><span class="sv-tag">Mon–Fri</span></div>
+<section class="sec" id="how">
+  <div class="wrap">
+    <div class="sec-head"><h2 class="h-sec">Live in minutes, from your phone.</h2></div>
+    <div class="steps">
+      <svg class="steps-line" viewBox="0 0 1000 82" preserveAspectRatio="none" aria-hidden="true"><path d="M70 41 C 200 41 230 14 360 26 S 520 70 640 50 S 820 18 960 41" fill="none" stroke="#4d86ff" stroke-opacity=".55" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>
+      <div class="step">
+        <span class="n">1</span>
+        <h3>Paste your website</h3>
+        <p>It drafts your FAQ, services and prices. You approve.</p>
+        <div class="shot" aria-hidden="true">
+          <div class="sc-url"><span class="sc-ok" style="margin:0"></span>riveradental.com</div>
+          <div class="sc-row"><span class="sc-tx"><span class="sc-name">Services</span></span><span class="sc-tag">6 found</span></div>
+          <div class="sc-row"><span class="sc-tx"><span class="sc-name">FAQ answers</span></span><span class="sc-tag">12 drafted</span></div>
         </div>
       </div>
-      <div class="card step"><div class="cap">STEP 2</div><h3>Connect your channels</h3><p>We handle the A2P registration for you.</p>
-        <div class="step-vis">
-          <div class="sv-ch"><span class="sv-ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></span>WhatsApp<span class="sv-ok">Connected</span></div>
-          <div class="sv-ch"><span class="sv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>SMS<span class="sv-ok">Connected</span></div>
-          <div class="sv-ch"><span class="sv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3M8 9h8M8 13h5"/></svg></span>Web chat<span class="sv-ok">Connected</span></div>
+      <div class="step">
+        <span class="n">2</span>
+        <h3>Connect your channels</h3>
+        <p>WhatsApp, text, web chat and email. We guide you through SMS registration.</p>
+        <div class="shot" aria-hidden="true">
+          <div class="sc-row"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><span class="sc-tx"><span class="sc-name">WhatsApp</span></span><span class="sc-ok">Connected</span></div>
+          <div class="sc-row"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><span class="sc-tx"><span class="sc-name">SMS</span></span><span class="sc-ok">Connected</span></div>
+          <div class="sc-row"><span class="sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span><span class="sc-tx"><span class="sc-name">Web chat</span></span><span class="sc-ok">Connected</span></div>
         </div>
       </div>
-      <div class="card step"><div class="cap">STEP 3</div><h3>It answers and books</h3><p>With reminders and follow-ups built in.</p>
-        <div class="step-vis">
-          <div class="sv-bubble in">Can I come in Thursday?</div>
-          <div class="sv-bubble out">Thursday at 3:00 PM works. You're booked!</div>
-          <div class="sv-booked"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Booked · reminder set</div>
+      <div class="step">
+        <span class="n">3</span>
+        <h3>It answers and books</h3>
+        <p>With reminders and follow-ups built in. You watch it work.</p>
+        <div class="shot" aria-hidden="true">
+          <div class="ap-bubble in">Can I come in Thursday?</div>
+          <div class="ap-bubble out" style="margin-left:auto">Thursday at 3:00 PM works. You're booked.</div>
+          <div class="ap-booked"><b>Booked, reminder set</b>Thu, 3:00 PM</div>
         </div>
       </div>
     </div>
@@ -304,61 +312,119 @@
 </section>
 
 <!-- outcomes -->
-<section class="section">
-  <div class="wrap center">
-    <h2>Time saved. Costs down. Sales never missed.</h2>
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head"><h2 class="h-sec">Time saved. Costs down. Sales never missed.</h2></div>
     <div class="outcomes">
-      <div class="outcome"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><b>Answers in seconds</b><span>24/7, so no lead waits.</span></div>
-      <div class="outcome"><span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></span><b>Live in minutes</b><span>Set up from your phone.</span></div>
-      <div class="outcome"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span><b>Books itself</b><span>Straight into your calendar.</span></div>
+      <div class="outcome"><b>Answers in seconds</b><span>24/7, so no lead waits for a callback.</span></div>
+      <div class="outcome"><b>Costs less than a shift</b><span data-price-sentence="starter">Plans start at $59 a month. No receptionist hours to cover.</span></div>
+      <div class="outcome"><b>Books itself</b><span>Straight into your calendar, while you do the actual work.</span></div>
     </div>
   </div>
 </section>
 
 <!-- pricing preview -->
-<section class="section tint">
-  <div class="wrap center">
-    <p class="eyebrow" style="justify-content:center">Pricing</p>
-    <h2>One recovered lead covers the month.</h2>
-    <div class="chips" style="justify-content:center;margin-top:12px" role="tablist" aria-label="Market">
-      <button class="chip on" data-pm="US">United States</button>
-      <button class="chip" data-pm="CA">Canada</button>
-      <button class="chip" data-pm="UAE">UAE</button>
+<section class="lit-hero" style="--c:#2fc6e8;--c2:#4d86ff;padding-top:clamp(72px,9vw,110px)">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="h-sec">One recovered lead covers the month.</h2>
+      <p class="lead">Every plan includes the full assistant and a monthly credit pool that covers every channel. Pick the one that fits today and move up when you're ready.</p>
+      <div style="margin-top:26px"><div class="seg" role="group" aria-label="Market">
+        <button type="button" data-market="US" aria-pressed="true">United States</button>
+        <button type="button" data-market="CA" aria-pressed="false">Canada</button>
+        <button type="button" data-market="UAE" aria-pressed="false">UAE</button>
+      </div></div>
     </div>
-    <div class="grid g3" style="max-width:840px;margin:20px auto 0;text-align:left">
-      <div class="plan"><div class="pname">Starter</div><div class="pfor">Capture leads on one channel</div><div class="price" id="pp-starter">$59<small>/mo</small></div></div>
-      <div class="plan feat"><span class="flag">Most popular</span><div class="pname">Growth</div><div class="pfor">The main plan for a growing business</div><div class="price" id="pp-growth">$149<small>/mo</small></div><div class="plan-cta"><a href="https://app.leadq.co" class="btn block">Start with Growth</a></div></div>
-      <div class="plan"><div class="pname">Pro</div><div class="pfor">Multi-channel, support and voice</div><div class="price" id="pp-pro">$399<small>/mo</small></div></div>
+    <div class="plans">
+      <div class="plan">
+        <h3>Starter</h3><p class="for">Solo, or just trying it out</p>
+        <div class="amt"><span data-price="starter">$59</span><small> /mo</small></div>
+        <ul><li>20,000 credits a month</li><li>1 seat, 1 channel</li><li>Assistant, FAQ and lead capture</li></ul>
+        <a class="btn btn-ghost btn-block" href="https://app.leadq.co">Choose Starter</a>
+      </div>
+      <div class="plan hot">
+        <span class="flag">Most popular</span>
+        <h3>Growth</h3><p class="for">The main plan for a growing business</p>
+        <div class="amt"><span data-price="growth">$149</span><small> /mo</small></div>
+        <ul><li>45,000 credits a month</li><li>3 seats</li><li data-na-only>1 phone number</li><li data-growth-channels>WhatsApp, SMS and web chat</li><li>Booking, calendar and reminders</li><li>Follow-ups, custom fields, profiles</li><li>Basic integrations and analytics</li></ul>
+        <a class="btn btn-primary btn-block" href="https://app.leadq.co">Start with Growth</a>
+      </div>
+      <div class="plan">
+        <h3>Pro</h3><p class="for">Established, multi-channel, high volume</p>
+        <div class="amt"><span data-price="pro">$399</span><small> /mo</small></div>
+        <ul><li>120,000 credits a month</li><li>10 seats</li><li data-na-only>2 phone numbers</li><li>All channels</li><li class="voice" data-na-only>AI voice receptionist</li><li>Support mode: troubleshooting, vision, tickets</li><li>Remove LeadQ branding</li></ul>
+        <a class="btn btn-ghost btn-block" href="https://app.leadq.co">Choose Pro</a>
+      </div>
     </div>
-    <div class="hero-cta" style="justify-content:center;margin-top:18px"><a href="pricing.html" class="btn ghost">See all plans</a></div>
+    <p class="plans-note">Create your account, then subscribe inside the app. No contracts, cancel anytime.</p>
+    <div class="ctas" style="justify-content:center;margin-top:18px"><a class="btn btn-ghost" href="pricing.html">See all plans</a></div>
   </div>
 </section>
 
-<!-- final CTA -->
-<section class="section">
-  <div class="wrap center">
+<!-- faq -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head"><h2 class="h-sec">Questions, answered.</h2></div>
+    <div class="faq">
+      <details open><summary>What's a credit?</summary><p>Credits are how LeadQ measures usage. AI conversations, texts, calls and email all draw from one monthly pool, so there's no per-channel math to do. Run low and you top up in one tap. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.</p></details>
+      <details><summary>What happens if I run out of credits?</summary><p>Your assistant stops replying until your pool resets or you top up. Topping up takes one tap in the app, and it picks straight back up.</p></details>
+      <details><summary>Is there a contract?</summary><p>No. Plans are month to month, and you can cancel whenever you want from inside the app. If you cancel, we release the phone numbers on the account.</p></details>
+      <details><summary>Do I need to register for texting?</summary><p>In the US, business texting needs A2P registration. We guide you through it inside the app. Canada doesn't need it, and the UAE runs on WhatsApp instead.</p></details>
+      <details><summary>Can I keep my WhatsApp number?</summary><p>Yes. Connect a new number or bring the one your customers already message.</p></details>
+      <details><summary>Can I take over a conversation?</summary><p>Any time. Pause the assistant for one contact or a whole channel, reply yourself, then hand it back.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- signup path -->
+<section class="sec" style="--c:#37c98b;padding-top:0">
+  <div class="wrap signup">
+    <div>
+      <span class="pill good">From click to live</span>
+      <h2 class="h-sec" style="margin-top:18px">Create your account. Your assistant is minutes away.</h2>
+      <p class="lead" style="margin-top:18px">Sign up, paste your website, and watch it draft your FAQ and services. Pick your plan inside the app when you're ready to go live.</p>
+      <div class="ctas"><a class="btn btn-primary btn-lg" href="https://app.leadq.co">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
+      <p class="fine">Set it up from your phone. No contracts, cancel anytime.</p>
+    </div>
+    <ol class="path" aria-label="How signup works" style="list-style:none;margin:0">
+      <li class="path-row"><span>1. Create your account</span><b>app.leadq.co</b></li>
+      <li class="path-row"><span>2. Paste your website</span><b>In the app</b></li>
+      <li class="path-row"><span>3. Approve your answers</span><b>In the app</b></li>
+      <li class="path-row"><span>4. Connect channels, go live</span><b>In the app</b></li>
+      <li class="path-row"><span>5. Choose a plan and subscribe</span><b>In the app</b></li>
+    </ol>
+  </div>
+</section>
+
+<!-- final call -->
+<section class="horizon">
+  <div class="wrap">
     <h2>Your next lead isn't going to wait.</h2>
-    <p class="lead" style="margin:0 auto 22px;max-width:46ch">Set up your assistant in minutes, from your phone.</p>
-    <a href="https://app.leadq.co" class="btn lg">Get started</a>
+    <p class="lead">Set up your assistant in minutes, from your phone.</p>
+    <div class="ctas"><a class="btn btn-primary btn-lg" href="https://app.leadq.co">Get started</a></div>
   </div>
 </section>
-
 </main>
 
 <footer class="footer">
-  <div class="wrap footer-grid">
-    <div>
-      <div class="brand" style="margin-bottom:10px">Lead<span class="q">Q</span></div>
-      <p class="tiny" style="max-width:34ch">One AI assistant for your whole business. It answers every channel and books the appointment while you work.</p>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <a class="brand" href="index.html">Lead<span class="q">Q</span></a>
+        <p class="footer-tag">Answered. Booked. While you work.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="voice.html">Voice AI</a><a href="pricing.html">Pricing</a><a href="about.html">About</a><a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a>
+      </nav>
     </div>
-    <div><h4>Product</h4><a href="#how">How it works</a><a href="use-cases.html">Use cases</a><a href="voice.html">Voice AI</a><a href="pricing.html">Pricing</a></div>
-    <div><h4>Company</h4><a href="about.html">About</a><a href="use-cases.html">Use cases</a></div>
-    <div><h4>Legal</h4><a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a></div>
+    <div class="footer-legal">&copy; 2026 LeadQ Inc.</div>
   </div>
-  <div class="wrap"><div class="legal">© 2026 LeadQ Inc. All rights reserved.</div></div>
 </footer>
 
-<script src="home.js"></script>
+<aside class="dock" hidden aria-label="Demo assistant">
+  <div class="dock-copy"><b>Talk to Baxter now</b><span class="faint">He's our demo assistant. Try to book.</span></div>
+  <button class="btn btn-white btn-sm dock-btn" type="button">Start chat</button>
+</aside>
 <script defer src="https://chat.leadqmail.co/w.js" data-leadq="8273801b-5b0c-48e0-8708-8fd1b3164c0e" data-autoopen="4" data-theme="dark"></script>
 </body>
 </html>
