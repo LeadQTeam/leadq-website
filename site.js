@@ -15,16 +15,25 @@ const PACK_CREDITS = { small: 10000, standard: 25000, large: 60000, bulk: 150000
 // number is hidden everywhere else rather than sold and then blocked in the app.
 const MARKETS = {
   US:  { label: "United States", cur: "$",   pos: "pre",  per: "/mo", hasSMS: true,  waFirst: false, naOnly: true,
+         plans: ["starter","growth","pro"],
+         shown: "Prices for the United States, in US dollars.",
+         creditsNote: "So Growth's 45,000 credits is around 550 AI conversations, or any mix of texts, calls and email. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
          tiers: { starter: 59,  growth: 149, pro: 399 },
          addons: { number: 8,    seat: 15, setup: 299,  a2p: 99 },
          packs: { small: 25, standard: 55, large: 120, bulk: 270 },
          note: "US texting needs a one-time A2P activation. It's in the add-ons." },
   CA:  { label: "Canada",        cur: "$",   pos: "pre",  per: "/mo", hasSMS: true,  waFirst: false, naOnly: true,
+         plans: ["starter","growth","pro"],
+         shown: "Prices for Canada, in Canadian dollars.",
+         creditsNote: "So Growth's 45,000 credits is around 550 AI conversations, or any mix of texts, calls and email. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
          tiers: { starter: 79,  growth: 199, pro: 499 },
          addons: { number: 10,   seat: 19, setup: 399,  a2p: null },
          packs: { small: 35, standard: 75, large: 165, bulk: 369 },
          note: "Canada needs no A2P registration." },
   UAE: { label: "UAE",           cur: "AED", pos: "post", per: "/mo", hasSMS: false, waFirst: true,  naOnly: false,
+         plans: ["starter","pro"],
+         shown: "Prices for the UAE, in dirhams.",
+         creditsNote: "So Starter's 20,000 credits is around 250 AI conversations, or any mix of WhatsApp, web chat and email. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
          tiers: { starter: 199, growth: 549, pro: 1299 },
          addons: { number: null, seat: 55, setup: 1099, a2p: null },
          packs: { small: 95, standard: 205, large: 445, bulk: 995 },
@@ -46,8 +55,8 @@ let MKT = "US";
 
 function detectMarket() {
   try {
-    const saved = localStorage.getItem("leadq-market");
-    if (saved && MARKETS[saved]) return saved;
+    const q = (new URLSearchParams(location.search).get("market") || "").toUpperCase();
+    if (MARKETS[q]) return q;
   } catch (e) {}
   try {
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
@@ -72,8 +81,6 @@ function swapText(el, v, animate) {
 
 function applyMarket(animate) {
   const m = MARKETS[MKT];
-  $$("[data-market]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.market === MKT)));
-
   $$("[data-price]").forEach((el) => swapText(el, money(m, m.tiers[el.dataset.price]), animate));
   $$("[data-price-sentence]").forEach((el) => {
     el.textContent = `Plans start at ${money(m, m.tiers[el.dataset.priceSentence])} a month. No receptionist hours to cover.`;
@@ -89,6 +96,12 @@ function applyMarket(animate) {
   });
   $$("[data-needs-sms]").forEach((el) => { el.hidden = !m.hasSMS; });
   $$("[data-na-only]").forEach((el) => { el.hidden = !m.naOnly; });
+  const sold = m.plans || ["starter", "growth", "pro"];
+  $$("[data-plan]").forEach((el) => { el.hidden = !sold.includes(el.dataset.plan); });
+  $$(".plans").forEach((el) => { el.dataset.count = String(sold.length); });
+  $$("[data-pro-channels]").forEach((el) => { el.textContent = m.hasSMS ? "All channels" : "WhatsApp, web chat and email"; });
+  $$("[data-market-label]").forEach((el) => { el.textContent = m.shown; });
+  $$("[data-credits-note]").forEach((el) => { el.textContent = m.creditsNote; });
   $$("[data-growth-channels]").forEach((el) => {
     el.textContent = m.hasSMS ? "WhatsApp, SMS and web chat" : "WhatsApp and web chat";
   });
@@ -99,13 +112,6 @@ function applyMarket(animate) {
 
 function initMarket() {
   MKT = detectMarket();
-  $$("[data-market]").forEach((b) =>
-    b.addEventListener("click", () => {
-      if (MKT === b.dataset.market) return;
-      MKT = b.dataset.market;
-      try { localStorage.setItem("leadq-market", MKT); } catch (e) {}
-      applyMarket(true);
-    }));
   applyMarket(false);
 }
 
