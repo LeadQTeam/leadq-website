@@ -190,7 +190,7 @@ const io = (cb, opts) => ("IntersectionObserver" in window ? new IntersectionObs
 
 /* adds .in once an element scrolls into view */
 function initReveal() {
-  const els = $$(".orbit, .steps");
+  const els = $$(".orbit");
   const obs = io((entries) => entries.forEach((e) => {
     if (e.isIntersecting) { e.target.classList.add("in"); obs.unobserve(e.target); }
   }), { threshold: 0.3 });
