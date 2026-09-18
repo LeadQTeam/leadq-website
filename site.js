@@ -14,7 +14,7 @@ const PACK_CREDITS = { small: 10000, standard: 25000, large: 60000, bulk: 150000
 // (leadq-app/index.html, naMarket/smsOffered/voiceOffered), so everything that needs a
 // number is hidden everywhere else rather than sold and then blocked in the app.
 const MARKETS = {
-  US:  { label: "United States", cur: "$",   pos: "pre",  per: "/mo", hasSMS: true,  waFirst: false, naOnly: true,
+  US:  { label: "United States", cur: "$",   code: "USD", pos: "pre",  per: "/mo", hasSMS: true,  waFirst: false, naOnly: true,
          plans: ["starter","growth","pro"],
          shown: "Prices for the United States, in US dollars.",
          creditsNote: "So Growth's 45,000 credits is around 550 AI conversations, or any mix of texts, calls and email. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
@@ -22,7 +22,7 @@ const MARKETS = {
          addons: { number: 8,    seat: 15, setup: 299,  a2p: 99 },
          packs: { small: 25, standard: 55, large: 120, bulk: 270 },
          note: "US texting needs a one-time A2P activation. It's in the add-ons." },
-  CA:  { label: "Canada",        cur: "$",   pos: "pre",  per: "/mo", hasSMS: true,  waFirst: false, naOnly: true,
+  CA:  { label: "Canada",        cur: "$",   code: "CAD", pos: "pre",  per: "/mo", hasSMS: true,  waFirst: false, naOnly: true,
          plans: ["starter","growth","pro"],
          shown: "Prices for Canada, in Canadian dollars.",
          creditsNote: "So Growth's 45,000 credits is around 550 AI conversations, or any mix of texts, calls and email. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
@@ -30,7 +30,7 @@ const MARKETS = {
          addons: { number: 10,   seat: 19, setup: 399,  a2p: null },
          packs: { small: 35, standard: 75, large: 165, bulk: 369 },
          note: "Canada needs no A2P registration." },
-  UAE: { label: "UAE",           cur: "AED", pos: "post", per: "/mo", hasSMS: false, waFirst: true,  naOnly: false,
+  UAE: { label: "UAE",           cur: "AED", code: "",    pos: "post", per: "/mo", hasSMS: false, waFirst: true,  naOnly: false,
          plans: ["starter","pro"],
          shown: "Prices for the UAE, in dirhams.",
          creditsNote: "So Starter's 20,000 credits is around 250 AI conversations, or any mix of WhatsApp, web chat and email. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
@@ -45,10 +45,17 @@ const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 const num = (n) => Number(n).toLocaleString("en-US");
 
-/* null means "not offered in this market": callers hide the row instead of printing a placeholder */
-const money = (m, n) => {
+/* null means "not offered in this market": callers hide the row instead of printing a placeholder.
+   US and Canadian dollars both print "$", so a dollar price carries its code ("$79 CAD");
+   AED names itself. amount() is the bare figure, for the big number on a plan card, whose
+   code sits beside it in [data-code]. The app uses the same convention. */
+const amount = (m, n) => {
   if (n == null) return null;
   return m.pos === "pre" ? `${m.cur}${num(n)}` : `${num(n)} ${m.cur}`;
+};
+const money = (m, n) => {
+  const a = amount(m, n);
+  return a == null ? null : a + (m.code ? " " + m.code : "");
 };
 
 let MKT = "US";
@@ -81,7 +88,8 @@ function swapText(el, v, animate) {
 
 function applyMarket(animate) {
   const m = MARKETS[MKT];
-  $$("[data-price]").forEach((el) => swapText(el, money(m, m.tiers[el.dataset.price]), animate));
+  $$("[data-price]").forEach((el) => swapText(el, amount(m, m.tiers[el.dataset.price]), animate));
+  $$("[data-code]").forEach((el) => { el.textContent = m.code; });
   $$("[data-price-sentence]").forEach((el) => {
     el.textContent = `Plans start at ${money(m, m.tiers[el.dataset.priceSentence])} a month. No receptionist hours to cover.`;
   });

@@ -206,20 +206,20 @@ const faqLd = (items) => JSON.stringify({
 const plans = `<div class="plans">
       <div class="plan" data-plan="starter">
         <h3>Starter</h3><p class="for">Solo, or just trying it out</p>
-        <div class="amt"><span data-price="starter">$59</span><small> /mo</small></div>
+        <div class="amt"><span data-price="starter">$59</span><small> <span data-code>USD</span> /mo</small></div>
         <ul><li>20,000 credits a month</li><li>1 seat, 1 channel</li><li>Assistant, FAQ and lead capture</li></ul>
         <a class="btn btn-ghost btn-block" href="${SIGNUP}&plan=starter">Choose Starter</a>
       </div>
       <div class="plan hot" data-plan="growth">
         <span class="flag">Most popular</span>
         <h3>Growth</h3><p class="for">The main plan for a growing business</p>
-        <div class="amt"><span data-price="growth">$149</span><small> /mo</small></div>
+        <div class="amt"><span data-price="growth">$149</span><small> <span data-code>USD</span> /mo</small></div>
         <ul><li>45,000 credits a month</li><li>3 seats</li><li data-na-only>1 phone number</li><li>3 channels</li><li>Booking, calendar and reminders</li><li>Follow-ups, custom fields, profiles</li><li>Basic integrations and analytics</li></ul>
         <a class="btn btn-primary btn-block" href="${SIGNUP}&plan=growth">Start with Growth</a>
       </div>
       <div class="plan" data-plan="pro">
         <h3>Pro</h3><p class="for">Established, multi-channel, high volume</p>
-        <div class="amt"><span data-price="pro">$399</span><small> /mo</small></div>
+        <div class="amt"><span data-price="pro">$399</span><small> <span data-code>USD</span> /mo</small></div>
         <ul><li>120,000 credits a month</li><li>10 seats</li><li data-na-only>2 phone numbers</li><li data-pro-channels>All channels</li><li class="voice" data-na-only>AI voice receptionist</li><li>Support mode: troubleshooting, vision, tickets</li><li>Remove LeadQ branding</li></ul>
         <a class="btn btn-ghost btn-block" href="${SIGNUP}&plan=pro">Choose Pro</a>
       </div>
@@ -508,7 +508,7 @@ page({
     <div class="sec-head"><h2 class="h-sec">Time saved. Costs down. Sales never missed.</h2></div>
     <div class="outcomes">
       <div class="outcome"><b>Answers in seconds</b><span>24/7, so no lead waits for a callback.</span></div>
-      <div class="outcome"><b>Costs less than a shift</b><span data-price-sentence="starter">Plans start at $59 a month. No receptionist hours to cover.</span></div>
+      <div class="outcome"><b>Costs less than a shift</b><span data-price-sentence="starter">Plans start at $59 USD a month. No receptionist hours to cover.</span></div>
       <div class="outcome"><b>Books itself</b><span>Straight into your calendar, while you do the actual work.</span></div>
     </div>
   </div>
@@ -630,19 +630,19 @@ page({
       <div class="tbox">
         <h2>Top up anytime. Top-ups never expire.</h2>
         <table>
-          <tr><td>Small<small>10,000 credits</small></td><td data-pack="small">$25</td></tr>
-          <tr><td>Standard<small>25,000 credits</small></td><td data-pack="standard">$55</td></tr>
-          <tr><td>Large<small>60,000 credits</small></td><td data-pack="large">$120</td></tr>
-          <tr><td>Bulk<small>150,000 credits</small></td><td data-pack="bulk">$270</td></tr>
+          <tr><td>Small<small>10,000 credits</small></td><td data-pack="small">$25 USD</td></tr>
+          <tr><td>Standard<small>25,000 credits</small></td><td data-pack="standard">$55 USD</td></tr>
+          <tr><td>Large<small>60,000 credits</small></td><td data-pack="large">$120 USD</td></tr>
+          <tr><td>Bulk<small>150,000 credits</small></td><td data-pack="bulk">$270 USD</td></tr>
         </table>
       </div>
       <div class="tbox full">
         <h2>Add-ons. Four extras, that's the whole menu.</h2>
         <table>
-          <tr><td>Extra phone number<small>Monthly</small></td><td data-addon="number">$8/mo</td></tr>
-          <tr><td>Extra seat<small>Monthly</small></td><td data-addon="seat">$15/mo</td></tr>
-          <tr><td>Done-for-you setup and knowledge base load<small>One-time, if you'd rather we set it up</small></td><td data-addon="setup">$299 once</td></tr>
-          <tr><td>SMS activation, A2P<small>One-time, US only</small></td><td data-addon="a2p">$99 once</td></tr>
+          <tr><td>Extra phone number<small>Monthly</small></td><td data-addon="number">$8 USD/mo</td></tr>
+          <tr><td>Extra seat<small>Monthly</small></td><td data-addon="seat">$15 USD/mo</td></tr>
+          <tr><td>Done-for-you setup and knowledge base load<small>One-time, if you'd rather we set it up</small></td><td data-addon="setup">$299 USD once</td></tr>
+          <tr><td>SMS activation, A2P<small>One-time, US only</small></td><td data-addon="a2p">$99 USD once</td></tr>
         </table>
       </div>
     </div>
@@ -792,7 +792,7 @@ page({
       </div>
       <div class="plan-pro">
         <h3>Pro</h3>
-        <div class="amt"><span data-price="pro">$399</span><small> /mo</small></div>
+        <div class="amt"><span data-price="pro">$399</span><small> <span data-code>USD</span> /mo</small></div>
         <p>AI Receptionist included. 120,000 credits a month, 10 seats and 2 phone numbers. No contracts, cancel anytime.</p>
       </div>
     </div>
