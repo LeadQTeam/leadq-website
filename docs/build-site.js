@@ -5,6 +5,9 @@ const { execSync } = require("child_process");
 // the repo root, so this runs from any checkout
 const R = path.resolve(__dirname, "..");
 const APP = "https://app.leadq.co";
+// Every call to action opens the signup form directly; a plan picked here rides along so the
+// app leads with it at go-live. Log in stays on the plain app URL.
+const SIGNUP = APP + "/?signup";
 const WIDGET = '<script defer src="https://chat.leadqmail.co/w.js" data-leadq="8273801b-5b0c-48e0-8708-8fd1b3164c0e" data-autoopen="4" data-theme="dark"></script>';
 const FONT = "https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=JetBrains+Mono:wght@400;600&display=swap";
 
@@ -108,8 +111,8 @@ const NAV_LINKS = [
 function nav(current, { voice = false } = {}) {
   const links = NAV_LINKS.map(([href, text, key]) => `<a href="${href}"${key === current ? ' aria-current="page"' : ""}>${text}</a>`).join("");
   const cta = voice
-    ? `<a class="btn btn-voice btn-sm" href="${APP}">Get Pro</a>`
-    : `<a class="btn btn-primary btn-sm" href="${APP}">Get started</a>`;
+    ? `<a class="btn btn-voice btn-sm" href="${SIGNUP}&plan=pro">Get Pro</a>`
+    : `<a class="btn btn-primary btn-sm" href="${SIGNUP}">Get started</a>`;
   return `<header class="nav">
   <div class="nav-pill">
     <a class="brand" href="index.html" aria-label="LeadQ home">${wordmark()}</a>
@@ -205,20 +208,20 @@ const plans = `<div class="plans">
         <h3>Starter</h3><p class="for">Solo, or just trying it out</p>
         <div class="amt"><span data-price="starter">$59</span><small> /mo</small></div>
         <ul><li>20,000 credits a month</li><li>1 seat, 1 channel</li><li>Assistant, FAQ and lead capture</li></ul>
-        <a class="btn btn-ghost btn-block" href="${APP}">Choose Starter</a>
+        <a class="btn btn-ghost btn-block" href="${SIGNUP}&plan=starter">Choose Starter</a>
       </div>
       <div class="plan hot" data-plan="growth">
         <span class="flag">Most popular</span>
         <h3>Growth</h3><p class="for">The main plan for a growing business</p>
         <div class="amt"><span data-price="growth">$149</span><small> /mo</small></div>
         <ul><li>45,000 credits a month</li><li>3 seats</li><li data-na-only>1 phone number</li><li>3 channels</li><li>Booking, calendar and reminders</li><li>Follow-ups, custom fields, profiles</li><li>Basic integrations and analytics</li></ul>
-        <a class="btn btn-primary btn-block" href="${APP}">Start with Growth</a>
+        <a class="btn btn-primary btn-block" href="${SIGNUP}&plan=growth">Start with Growth</a>
       </div>
       <div class="plan" data-plan="pro">
         <h3>Pro</h3><p class="for">Established, multi-channel, high volume</p>
         <div class="amt"><span data-price="pro">$399</span><small> /mo</small></div>
         <ul><li>120,000 credits a month</li><li>10 seats</li><li data-na-only>2 phone numbers</li><li data-pro-channels>All channels</li><li class="voice" data-na-only>AI voice receptionist</li><li>Support mode: troubleshooting, vision, tickets</li><li>Remove LeadQ branding</li></ul>
-        <a class="btn btn-ghost btn-block" href="${APP}">Choose Pro</a>
+        <a class="btn btn-ghost btn-block" href="${SIGNUP}&plan=pro">Choose Pro</a>
       </div>
     </div>`;
 
@@ -298,7 +301,7 @@ page({
       <h1 class="h-hero">Stop chasing. Start closing.</h1>
       <p class="lead">Every message you miss is a job someone else books. LeadQ answers WhatsApp, texts, web chat, email and your phone line in seconds, then books the appointment. At midnight, on a Sunday, or while you're with a customer.</p>
       <div class="ctas">
-        <a class="btn btn-primary btn-lg" href="${APP}">Get started</a>
+        <a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a>
         <a class="btn btn-ghost btn-lg" href="#how" data-open-chat>See it work</a>
       </div>
       <p class="fine">Set it up from your phone in minutes. No AI knowledge needed.</p>
@@ -540,15 +543,15 @@ page({
       <span class="pill good">From click to live</span>
       <h2 class="h-sec" style="margin-top:18px">Create your account. Your assistant is minutes away.</h2>
       <p class="lead" style="margin-top:18px">Sign up, paste your website, and watch it draft your FAQ and services. Pick your plan inside the app when you're ready to go live.</p>
-      <div class="ctas"><a class="btn btn-primary btn-lg" href="${APP}">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
+      <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
       <p class="fine">Set it up from your phone. No contracts, cancel anytime.</p>
     </div>
     <ol class="path" aria-label="How signup works" style="list-style:none;margin:0">
       <li class="path-row"><span>1. Create your account</span><b>app.leadq.co</b></li>
       <li class="path-row"><span>2. Paste your website</span><b>In the app</b></li>
       <li class="path-row"><span>3. Approve your answers</span><b>In the app</b></li>
-      <li class="path-row"><span>4. Connect channels, go live</span><b>In the app</b></li>
-      <li class="path-row"><span>5. Choose a plan and subscribe</span><b>In the app</b></li>
+      <li class="path-row"><span>4. Connect channels and test</span><b>In the app</b></li>
+      <li class="path-row"><span>5. Choose a plan and go live</span><b>In the app</b></li>
     </ol>
   </div>
 </section>
@@ -558,7 +561,7 @@ page({
   <div class="wrap">
     <h2>Your next lead isn't going to wait.</h2>
     <p class="lead">Set up your assistant in minutes, from your phone.</p>
-    <div class="ctas"><a class="btn btn-primary btn-lg" href="${APP}">Get started</a></div>
+    <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a></div>
   </div>
 </section>`,
 });
@@ -651,7 +654,7 @@ page({
   <div class="wrap">
     <h2>One recovered lead covers the month.</h2>
     <p class="lead">Create your account, set up your assistant, and pick a plan inside the app.</p>
-    <div class="ctas"><a class="btn btn-primary btn-lg" href="${APP}">Get started</a></div>
+    <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a></div>
   </div>
 </section>`,
 });
@@ -784,7 +787,7 @@ page({
       <div>
         <h2 class="h-sec">Stop sending callers to voicemail.</h2>
         <p class="lead" style="margin-top:18px">The AI Receptionist comes with Pro and runs from the same monthly credit pool as your texts. A call uses about 220 credits a minute, since it costs more than a message. Right now it answers your calls. Outbound calling is on the roadmap.</p>
-        <div class="ctas"><a class="btn btn-voice btn-lg" href="${APP}">Get Pro</a><a class="btn btn-ghost btn-lg" href="pricing.html">See all pricing</a></div>
+        <div class="ctas"><a class="btn btn-voice btn-lg" href="${SIGNUP}&plan=pro">Get Pro</a><a class="btn btn-ghost btn-lg" href="pricing.html">See all pricing</a></div>
         <p class="fine">The AI Receptionist runs on a US or Canadian phone number today. It isn't available in the UAE yet.</p>
       </div>
       <div class="plan-pro">
@@ -820,7 +823,7 @@ page({
         <button type="button" data-industry="home" aria-pressed="false">Home services</button>
         <button type="button" data-industry="realestate" aria-pressed="false">Real estate</button>
       </div>
-      <div class="ctas"><a class="btn btn-primary btn-lg" href="${APP}">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
+      <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
     </div>
     ${phone({
       label: "The Schedule tab in the LeadQ app, filled with this industry's bookings",
@@ -867,7 +870,7 @@ page({
   <div class="wrap">
     <h2>See it with your own bookings.</h2>
     <p class="lead">Set it up from your phone in minutes. It learns your business, then gets to work.</p>
-    <div class="ctas"><a class="btn btn-primary btn-lg" href="${APP}">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
+    <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
   </div>
 </section>`,
 });
@@ -993,7 +996,7 @@ VERTICALS.forEach((v) => {
       <span class="pill">${v.pill}</span>
       <h1 class="h-hero">${v.h1}</h1>
       <p class="lead">${v.body}</p>
-      <div class="ctas"><a class="btn btn-primary btn-lg" href="${APP}">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
+      <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
     </div>
     ${phone({ label: `The LeadQ app Schedule, filled with ${v.crumb.toLowerCase()} bookings`, tab: "schedule", header: scheduleHeader, body: scheduleBody(v.rows) })}
   </div>
@@ -1037,7 +1040,7 @@ VERTICALS.forEach((v) => {
   <div class="wrap">
     <h2>${v.close}</h2>
     <p class="lead">${v.closeBody}</p>
-    <div class="ctas"><a class="btn btn-primary btn-lg" href="${APP}">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
+    <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
     <nav class="vp-others" aria-label="Other industries">${others}</nav>
   </div>
 </section>`,
@@ -1093,7 +1096,7 @@ page({
       <div class="card"><h3>Books the work</h3><p>Checks real availability, books, reschedules and reminds.</p></div>
       <div class="card"><h3>Sounds like you</h3><p>Replies read like your business, not a bot.</p></div>
     </div>
-    <div class="ctas" style="justify-content:center;margin-top:36px"><a class="btn btn-primary btn-lg" href="${APP}">Get started</a><a class="btn btn-ghost btn-lg" href="use-cases.html">See it for your industry</a></div>
+    <div class="ctas" style="justify-content:center;margin-top:36px"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a><a class="btn btn-ghost btn-lg" href="use-cases.html">See it for your industry</a></div>
   </div>
 </section>`,
 });
