@@ -107,6 +107,7 @@ function applyMarket(animate) {
   const sold = m.plans || ["starter", "growth", "pro"];
   $$("[data-plan]").forEach((el) => { el.hidden = !sold.includes(el.dataset.plan); });
   $$(".plans").forEach((el) => { el.dataset.count = String(sold.length); });
+  $$("[data-plus]").forEach((el) => { el.textContent = `Everything in ${sold.includes("growth") ? "Growth" : "Starter"}, plus:`; });
   $$("[data-pro-channels]").forEach((el) => { el.textContent = m.hasSMS ? "All channels" : "WhatsApp, web chat and email"; });
   $$("[data-market-label]").forEach((el) => { el.textContent = m.shown; });
   $$("[data-credits-note]").forEach((el) => { el.textContent = m.creditsNote; });
