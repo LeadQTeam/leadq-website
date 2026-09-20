@@ -221,7 +221,7 @@ const plans = `<div class="plans">
         <h3>Pro</h3><p class="for">Established, multi-channel, high volume</p>
         <div class="amt"><span data-price="pro">$399</span><small> <span data-code>USD</span> /mo</small></div>
         <p class="plus" data-plus>Everything in Growth, plus:</p>
-        <ul><li>120,000 credits a month</li><li>10 seats</li><li data-na-only>2 phone numbers</li><li data-pro-channels>All channels</li><li class="voice" data-na-only>AI voice receptionist</li><li>Priority support</li></ul>
+        <ul><li>120,000 credits a month</li><li>10 seats</li><li data-na-only>2 phone numbers</li><li data-pro-channels>All channels</li><li class="voice" data-na-only>AI voice receptionist</li><li>Insights dashboard</li><li>Priority support</li></ul>
         <a class="btn btn-ghost btn-block" href="${SIGNUP}&plan=pro">Choose Pro</a>
       </div>
     </div>`;
@@ -601,6 +601,7 @@ page({
           <tr><th scope="row">Assistant, FAQ and lead capture</th><td>${yes}</td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
           <tr><th scope="row">Booking, calendar and reminders</th><td>${no}</td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
           <tr><th scope="row">Follow-ups, custom fields, profiles</th><td>${no}</td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
+          <tr><th scope="row">Insights dashboard</th><td>${no}</td><td data-plan="growth" class="hot">${no}</td><td>${yes}</td></tr>
           <tr><th scope="row">Priority support</th><td>${no}</td><td data-plan="growth" class="hot">${no}</td><td>${yes}</td></tr>
           <tr><th scope="row">Calendar sync with Google and Outlook</th><td>${no}</td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
           <tr data-na-only><th scope="row">AI voice receptionist</th><td>${no}</td><td data-plan="growth" class="hot">${no}</td><td><span class="yes voice" aria-label="Included">&#10003;</span></td></tr>
