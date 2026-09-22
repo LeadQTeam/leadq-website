@@ -147,7 +147,7 @@ const footer = `<footer class="footer">
   </div>
 </footer>`;
 
-function page({ file, title, desc, ogDesc, canonical, robots = "index,follow", ogImage = "https://www.leadq.co/og-image.png", jsonld = [], bodyAttr = "", navHtml, main, legal = false }) {
+function page({ file, title, desc, ogDesc, canonical, robots = "index,follow", ogImage = "https://www.leadq.co/og-image.png", jsonld = [], bodyAttr = "", navHtml, main, legal = false , mockup = false }) {
   const html = `<!doctype html>
 <html lang="en" data-theme="dark">
 <head>
@@ -174,7 +174,7 @@ function page({ file, title, desc, ogDesc, canonical, robots = "index,follow", o
 <link rel="preload" as="style" href="${FONT}">
 <link rel="stylesheet" href="${FONT}">
 <link rel="stylesheet" href="styles.css">
-<script src="site.js" defer></script>
+<script src="site.js" defer></script>${mockup ? '\n<script src="app-mockup.js" defer></script>' : ""}
 ${jsonld.map((j) => `<script type="application/ld+json">\n${j}\n</script>`).join("\n")}
 </head>
 <body${bodyAttr ? " " + bodyAttr : ""}>
@@ -281,6 +281,8 @@ const homeFaq = [
 
 page({
   file: "index.html",
+  // Only the home page carries the desktop app mockups, so only it loads their driver.
+  mockup: true,
   title: "LeadQ | One AI assistant for every channel",
   desc: "LeadQ answers WhatsApp, SMS, web chat, email and your phone line with one AI assistant, and books the appointment while you work. Live in minutes.",
   ogDesc: "One AI assistant answers WhatsApp, SMS, web chat, email and your phone line, and books the appointment while you work.",
@@ -294,30 +296,77 @@ page({
   ],
   navHtml: nav(null),
   main: `
-<!-- hero -->
+<div hidden aria-hidden="true"><svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<linearGradient id="lqg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4b9ae6"/><stop offset="1" stop-color="#23409a"/></linearGradient>
+<symbol id="lq-mark" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M76 65 A30 30 0 1 0 64.1 76.5 L83 86 Z" stroke-width="6"/><path d="M40.5 42v16M50 36.5v27.5M59.5 42v16" stroke-width="3.4"/></g></symbol>
+<symbol id="lq-app" viewBox="0 0 100 100"><rect width="100" height="100" rx="23" fill="url(#lqg)"/><use href="#lq-mark" color="#fff"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+<symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 13l2.5-7.5A2 2 0 0 1 7.4 4h9.2a2 2 0 0 1 1.9 1.5L21 13v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M3 13h5l1.5 2.5h5L16 13h5"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+<symbol id="i-bot" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 14h.01M15 14h.01M9.5 17h5"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8M10 20a2 2 0 0 0 4 0"/></symbol>
+<symbol id="i-sms" viewBox="0 0 24 24"><path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-5 4V6a1 1 0 0 1 1-1z"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></symbol>
+<symbol id="i-wa" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-1.8-1.8l.8-1-1-2z"/></symbol>
+<symbol id="i-web" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4M9 10.5h.01M12 10.5h.01M15 10.5h.01"/></symbol>
+<symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></symbol>
+<symbol id="i-plug" viewBox="0 0 24 24"><path d="M9 2v6M15 2v6M6 8h12v3a6 6 0 0 1-12 0zM12 17v5"/></symbol>
+<symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 4h18l-7 8.5V19l-4 2v-8.5z"/></symbol>
+<symbol id="i-hash" viewBox="0 0 24 24"><path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/></symbol>
+<symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></symbol>
+<symbol id="i-dollar" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0M16 4a4 4 0 0 1 0 8M22 21a7 7 0 0 0-5-6.7"/></symbol>
+<symbol id="i-build" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 7h.01M15 7h.01M9 11h.01M15 11h.01M9 15h.01M15 15h.01M10 21v-3h4v3"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="m8 9 4-4 4 4M8 15l4 4 4-4"/></symbol>
+<symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></symbol>
+<symbol id="i-hand" viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-4 0v5M14 10V4a2 2 0 0 0-4 0v6M10 10.5V6a2 2 0 0 0-4 0v8a8 8 0 0 0 16 0v-3a2 2 0 0 0-4 0"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+</defs></svg></div>
+<!-- hero: centred copy over a full-width product stage -->
 <section class="lit-hero">
-  <div class="wrap home-hero">
-    <div>
+  <div class="wrap">
+    <div class="sec-head hero-head">
       <span class="pill">One assistant. Every channel.</span>
       <h1 class="h-hero">Stop chasing. Start closing.</h1>
-      <p class="lead">Every message you miss is a job someone else books. LeadQ answers WhatsApp, texts, web chat, email and your phone line in seconds, then books the appointment. At midnight, on a Sunday, or while you're with a customer.</p>
+      <p class="lead">Every message you miss is a job someone else books. LeadQ answers WhatsApp, texts, web chat, email and your phone line in seconds, then books the appointment. At midnight, on a Sunday, or while you are with a customer.</p>
       <div class="ctas">
         <a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a>
         <a class="btn btn-ghost btn-lg" href="#how" data-open-chat>See it work</a>
       </div>
-      <p class="fine">Set it up from your phone in minutes. No AI knowledge needed.</p>
+      <p class="fine">Set it up in minutes. No AI knowledge needed.</p>
     </div>
-    <div class="stage">
-      <div class="stage-word" aria-hidden="true"></div>
-      <div class="orb" aria-hidden="true"></div>
-      <div class="stage-tilt">
-        <div class="stage-drift">
-        ${homeChat}
-        </div>
-      </div>
-      <div class="float-card fc-1" aria-hidden="true"><span class="faint">Replied</span><b>In seconds</b></div>
-      <div class="float-card fc-2 good" aria-hidden="true"><b>New booking</b><span class="faint">Added to Schedule</span></div>
+    <div class="pstage" role="img" aria-label="LeadQ inbox showing Baxter booking an appointment">
+  <div class="wm" aria-hidden="true">leadq</div><div class="glow" aria-hidden="true"></div>
+  <span class="plabel" style="--c:#4d86ff"><i></i>You see it handled in LeadQ</span>
+  <div class="appwin"><div class="abar"><i></i><i></i><i></i><span>app.leadq.co</span></div><div class="dkw"><div class="dk hero-dk" id="heroDk"><aside class="dk-side"><div class="dk-brand"><svg class="app" viewBox="0 0 100 100" aria-hidden="true"><use href="#lq-app"/></svg>LeadQ<svg class="ic" aria-hidden="true"><use href="#i-chev"/></svg></div><button type="button" tabindex="-1" class="dk-nav" data-go="home"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg>Home</button><button type="button" tabindex="-1" class="dk-nav on" data-go="inbox"><svg class="ic" aria-hidden="true"><use href="#i-inbox"/></svg>Inbox</button><button type="button" tabindex="-1" class="dk-nav"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Schedule</button><button type="button" tabindex="-1" class="dk-nav"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg>Assistant<span class="badge">2</span></button><button type="button" tabindex="-1" class="dk-nav" data-go="settings"><svg class="ic" aria-hidden="true"><use href="#i-gear"/></svg>Settings</button><div class="dk-bax"><span class="bot"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg></span><span><b>Baxter</b><small>On, 5 channels</small></span></div><div class="dk-user"><svg class="app" viewBox="0 0 100 100" aria-hidden="true"><use href="#lq-app"/></svg>info@riveradental.com</div></aside><div class="dk-main" style="display:flex;flex-direction:column"><div class="dk-top"><div><div class="dk-h6">Inbox</div><p>Baxter is handling 1 conversation.</p></div><button type="button" tabindex="-1" class="dk-bell" aria-label="Notifications"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg></button></div><div class="dk-scr"><div class="dk-inbox"><div class="dk-list"><div class="dk-search"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>Search people and messages</div>
+<div class="dk-filters"><span class="on">All<i>11</i></span><span>Needs you<i>1</i></span><span>Handed off<i>1</i></span><span>Booked<i>3</i></span><span>Went quiet<i>4</i></span><span>All channels<i>11</i></span></div><div class="dk-conv sel" data-hrow><span class="dk-av">JD</span><div><b>Jane Doe</b><span>Can I come in Thursday?</span><em class="blue">Baxter replying</em></div><time>now</time></div><div class="dk-conv"><span class="dk-av">MB</span><div><b>Marcus Bell</b><span>Can I talk to someone about my insurance...</span><em class="amber">Needs you</em></div><time>2h</time></div><div class="dk-conv"><span class="dk-av">PN</span><div><b>Priya Nair</b><span>Baxter: See you Thursday at 4:00 PM.</span><em class="green">Booked</em></div><time>1h</time></div><div class="dk-conv"><span class="dk-av">TA</span><div><b>Tom Alvarez</b><span>Tom called about a follow-up visit.</span><em class="blue">Baxter replying</em></div><time>2h</time></div><div class="dk-conv"><span class="dk-av">WV</span><div><b>Website visitor</b><span>Do you take Delta Dental?</span><em class="grey">Went quiet</em></div><time>5h</time></div></div><div class="dk-thread"><div class="dk-th-h"><span class="chn"><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></span><div><b>Jane Doe</b><small><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg>SMS</small></div>
+<div class="right"><span class="dk-chip blue">Baxter is handling</span><button type="button" tabindex="-1" class="dk-btn">Take over</button></div></div>
+<div class="dk-msgs" data-hmsgs><div class="dk-b cust" data-h="0">Can I come in Thursday?<small>3:02 PM</small></div>
+<div class="dk-typing" data-h="t"><i></i><i></i><i></i></div>
+<div class="dk-b bax" data-h="1">Thursday at 3:00 PM works. Want it?<small>Baxter, 3:02 PM</small></div>
+<div class="dk-b cust" data-h="2">Yes please<small>3:03 PM</small></div>
+<div class="dk-b bax" data-h="3">You're booked. Reminder coming Wednesday.<small>Baxter, 3:03 PM</small></div></div>
+<div class="dk-comp"><div class="via">Baxter is replying via <b>SMS</b></div><div class="row"><span class="inp">Type to take over</span><button type="button" tabindex="-1" class="dk-send" aria-label="Send"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg></button></div></div></div><div class="dk-contact"><div class="who"><span class="dk-av">JD</span><div><b>Jane Doe</b><span class="dk-chip grey">Patient</span></div></div>
+<div class="acts"><button type="button" tabindex="-1" class="dk-btn"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>Call</button><button type="button" tabindex="-1" class="dk-btn blue"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Book</button></div>
+<div class="dk-kv"><span class="dk-lbl">Summary</span><p>Returning patient, overdue for a cleaning. Prefers afternoons.</p></div>
+<div class="dk-kv"><span class="dk-lbl">Appointments</span><div data-happt><p style="color:var(--ink-3);font-size:1.25em">Nothing booked yet.</p></div></div></div></div></div></div></div></div></div>
+  <div class="cphone"><span class="plabel" style="--c:#2dd4bf"><i></i>Your customer texts</span><div class="phone"><div class="screen">
+    <div class="island"></div><div class="status"><span>3:02</span><span>5G</span></div>
+    <div class="ctop"><span class="cav">RD</span><b>Rivera Dental</b><small>Text message</small></div>
+    <div class="chat" data-hphone>
+      <div class="msg cust" data-h="0">Can I come in Thursday?</div>
+      <div class="typing" data-h="t"><i></i><i></i><i></i></div>
+      <div class="msg biz" data-h="1">Thursday at 3:00 PM works. Want it?</div>
+      <div class="msg cust" data-h="2">Yes please</div>
+      <div class="msg biz" data-h="3">You're booked. Reminder coming Wednesday.</div>
     </div>
+    <div class="ccomp">Text message</div>
+  </div></div></div>
+</div>
   </div>
 </section>
 
@@ -425,22 +474,56 @@ page({
   </div>
 </section>
 
-<!-- inside the app: light sheet over night -->
-<section class="sheet app-light">
-  <div class="wrap sheet-grid">
-    <div>
-      <h2 class="h-sec">Every booking, in your pocket.</h2>
-      <p class="lead" style="margin-top:18px">It's a real app, not a chat widget. Your calendar fills itself, and every booking keeps the whole story behind it: the reason, the details, and the conversation that led there.</p>
-      <div class="items">
-        <div class="item"><b>Your calendar fills itself</b><span>Bookings land grouped by day, reminders already sent.</span></div>
-        <div class="item"><b>Nothing gets forgotten</b><span>Open any appointment to see what they told your assistant.</span></div>
-        <div class="item with-icon"><img class="app-icon" src="icon-192.png" alt="" width="46" height="46"><span><b>On your home screen</b><span>Add LeadQ to your phone like any app. Your whole team can log in.</span></span></div>
-      </div>
+<!-- inside the app: centred header over a full-width working tour -->
+<section class="sec" id="app">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="pill">Inside the app</span>
+      <h2 class="h-sec">Your whole front desk, on one screen.</h2>
+      <p class="lead">Open LeadQ on any computer and see everything at once. Who needs you, what Baxter handled, and what is booked next.</p>
     </div>
-    <div class="sheet-phones">
-        ${sheetSchedule}
-        ${sheetDetail}
-    </div>
+    <div class="tour-tabs"><div class="seg" role="group" aria-label="App screen" id="tourSeg">
+            <button type="button" data-tab="home" aria-pressed="true">Home</button>
+            <button type="button" data-tab="inbox" aria-pressed="false">Inbox</button>
+            <button type="button" data-tab="settings" aria-pressed="false">Settings</button>
+          </div></div>
+          <div class="appwin"><div class="abar"><i></i><i></i><i></i><span>app.leadq.co</span></div><div class="dkw"><div class="dk" id="tourDk"><aside class="dk-side"><div class="dk-brand"><svg class="app" viewBox="0 0 100 100" aria-hidden="true"><use href="#lq-app"/></svg>LeadQ<svg class="ic" aria-hidden="true"><use href="#i-chev"/></svg></div><button type="button" class="dk-nav on" data-go="home"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg>Home</button><button type="button" class="dk-nav" data-go="inbox"><svg class="ic" aria-hidden="true"><use href="#i-inbox"/></svg>Inbox</button><button type="button" class="dk-nav"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Schedule</button><button type="button" class="dk-nav"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg>Assistant<span class="badge">2</span></button><button type="button" class="dk-nav" data-go="settings"><svg class="ic" aria-hidden="true"><use href="#i-gear"/></svg>Settings</button><div class="dk-bax"><span class="bot"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg></span><span><b>Baxter</b><small>On, 5 channels</small></span></div><div class="dk-user"><svg class="app" viewBox="0 0 100 100" aria-hidden="true"><use href="#lq-app"/></svg>info@riveradental.com</div></aside>
+<div class="dk-main">
+<div data-scr="home" class="dk-page"><div class="dk-top"><div><div class="dk-h6">Good afternoon</div><p><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Monday, September 21. Open until 6:00 PM, then Baxter answers overnight.</p></div><button type="button" class="dk-bell" aria-label="Notifications"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg></button></div><div class="dk-scr"><div class="dk-home"><div class="dk-stats">
+<div class="dk-card dk-stat need" style="--c:#e0ae5a"><div class="hd"><span class="dk-lbl" style="color:#f3cf8f">Needs you</span><span class="dk-link">Open queue</span></div><div class="n"><b>1</b><span>conversation waiting</span></div><p>Oldest has waited 2 h</p></div>
+<div class="dk-card dk-stat" style="--c:#4d86ff"><div class="hd"><span class="dk-lbl" style="color:#a9c5ff">Conversations today</span><span class="dk-link">Open inbox</span></div><div class="n"><b>7</b><span>+3 vs. yesterday</span></div><p><strong>6</strong> handled by Baxter end to end, <strong>1</strong> needed you</p></div>
+<div class="dk-card dk-stat" style="--c:#37c98b"><div class="hd"><span class="dk-lbl" style="color:#7fe3b6">Booked</span><span class="dk-link">Schedule</span></div><div class="n"><b>3</b><span>this week by Baxter</span></div><p>Next: today, 2:30 PM</p></div>
+</div><div class="dk-colL">
+<div class="dk-card"><div class="dk-sec-h"><b>Waiting on you</b><span class="cnt">1</span><span class="hint">Reply to take over.</span></div>
+<div class="dk-wait"><span class="dk-av">MB</span><div><div class="who"><b>Marcus Bell</b><span><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg>SMS</span><em>waiting 2 h</em></div><q>Can I talk to someone about my insurance first?</q><div class="dk-tags"><span>Asked for a human</span><span>Booked before</span></div></div><div class="acts"><button type="button" class="dk-btn">Let Baxter continue</button><button type="button" class="dk-btn white" data-go="inbox">Reply</button></div></div></div>
+<div class="dk-card"><div class="dk-sec-h"><b>Recent conversations</b><span class="dk-link" data-go="inbox" style="cursor:pointer">Open inbox</span></div><div class="dk-row"><span class="dk-av">JD</span><div class="t"><b>Jane Doe<svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></b><span>Booked a cleaning for Wed 2:30 PM with Dr. Rivera.</span></div><span class="dk-chip green">Booked</span><time>12m</time></div><div class="dk-row"><span class="dk-av">PN</span><div class="t"><b>Priya Nair<svg class="ic" aria-hidden="true"><use href="#i-wa"/></svg></b><span>New patient, booked Thu 4:00 PM.</span></div><span class="dk-chip green">Booked</span><time>1h</time></div><div class="dk-row"><span class="dk-av">TA</span><div class="t"><b>Tom Alvarez<svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg></b><span>Called about a follow-up, Baxter is confirming a time.</span></div><span class="dk-chip blue">Baxter replying</span><time>2h</time></div><div class="dk-row"><span class="dk-av">WV</span><div class="t"><b>Website visitor<svg class="ic" aria-hidden="true"><use href="#i-web"/></svg></b><span>Asked if you take Delta Dental insurance.</span></div><span class="dk-chip grey">Went quiet</span><time>5h</time></div></div>
+</div><div class="dk-colR">
+<div class="dk-card"><div class="dk-master"><span class="chn wa"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg></span><span><b data-master-label>Baxter is on</b><small data-master-sub>Answering on 5 connected channels</small></span><button type="button" class="tg" aria-pressed="true" aria-label="Baxter on or off" data-master></button></div>
+<div class="dk-chl"><div class="hd"><span class="dk-lbl">Channels</span><span class="dk-lbl">5 connected</span></div><div class="dk-ch"><span class="chn "><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></span><b>SMS</b><span>+1 (555) 123-4567</span><button type="button" class="tg" aria-pressed="true" aria-label="SMS replies"></button></div><div class="dk-ch"><span class="chn vo"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg></span><b>Voice</b><span>+1 (555) 123-4567</span><button type="button" class="tg" aria-pressed="true" aria-label="Voice replies"></button></div><div class="dk-ch"><span class="chn wa"><svg class="ic" aria-hidden="true"><use href="#i-wa"/></svg></span><b>WhatsApp</b><span>+1 (555) 771-0064</span><button type="button" class="tg" aria-pressed="true" aria-label="WhatsApp replies"></button></div><div class="dk-ch"><span class="chn web"><svg class="ic" aria-hidden="true"><use href="#i-web"/></svg></span><b>Website chat</b><span>riveradental.com</span><button type="button" class="tg" aria-pressed="true" aria-label="Website chat replies"></button></div><div class="dk-ch"><span class="chn em"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg></span><b>Email</b><span>hi@riveradental.com</span><button type="button" class="tg" aria-pressed="true" aria-label="Email replies"></button></div></div></div>
+<div class="dk-card"><div class="dk-sec-h" style="border:0"><b>Up next</b><span class="dk-link">Schedule</span></div><div class="dk-next"><span class="dk-lbl">Today</span><div class="dk-slot"><time>2:30 PM</time><div><b>Jane Doe</b><small>Cleaning, 30 min, booked via SMS</small></div><svg class="ic ok" aria-hidden="true"><use href="#i-check"/></svg></div></div></div>
+</div></div></div></div>
+<div data-scr="inbox" class="dk-page" hidden><div class="dk-top"><div><div class="dk-h6">Inbox</div><p>1 conversation needs you. Baxter is handling 1.</p></div><button type="button" class="dk-bell" aria-label="Notifications"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg></button></div><div class="dk-scr"><div class="dk-inbox"><div class="dk-list"><div class="dk-search"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>Search people and messages</div>
+<div class="dk-filters"><span class="on">All<i>11</i></span><span>Needs you<i>1</i></span><span>Handed off<i>1</i></span><span>Booked<i>3</i></span><span>Went quiet<i>4</i></span><span>All channels<i>11</i></span></div><div class="dk-conv sel"><span class="dk-av">MB</span><div><b>Marcus Bell</b><span>You: Hi Marcus, this is Sarah from Rivera...</span><em class="amber">Taken over</em></div><time>2h</time></div><div class="dk-conv"><span class="dk-av">JD</span><div><b>Jane Doe</b><span>Baxter: You're booked. Reminder coming...</span><em class="green">Booked</em></div><time>12m</time></div><div class="dk-conv"><span class="dk-av">PN</span><div><b>Priya Nair</b><span>Baxter: See you Thursday at 4:00 PM.</span><em class="green">Booked</em></div><time>1h</time></div><div class="dk-conv"><span class="dk-av">TA</span><div><b>Tom Alvarez</b><span>Tom called about a follow-up visit.</span><em class="blue">Baxter replying</em></div><time>2h</time></div><div class="dk-conv"><span class="dk-av">WV</span><div><b>Website visitor</b><span>Do you take Delta Dental?</span><em class="grey">Went quiet</em></div><time>5h</time></div><div class="dk-conv"><span class="dk-av">OJ</span><div><b>Olivia Johnson</b><span>Baxter: Thanks for reaching out, Olivia.</span><em class="grey">Went quiet</em></div><time>1d</time></div></div><div class="dk-thread"><div class="dk-th-h"><span class="chn"><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></span><div><b>Marcus Bell</b><small><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg>SMS</small></div>
+<div class="right"><span class="dk-chip amber" data-ho-chip>Taken over</span><button type="button" class="dk-btn" data-ho>Hand back</button></div></div>
+<div class="dk-msgs"><div class="dk-b cust">Hi, do you take Delta Dental?<small>2:41 PM</small></div>
+<div class="dk-b bax">We do. Would you like to book a cleaning? I have Thursday at 10:00 AM open.<small>2:41 PM</small></div>
+<div class="dk-b cust">Can I talk to someone about my insurance first?<small>2:43 PM</small></div>
+<div class="dk-b bax">Of course. I've let the team know, and someone will reply here shortly.<small>2:43 PM</small></div>
+<div class="dk-b you">Hi Marcus, this is Sarah from Rivera Dental. Happy to walk you through your coverage.<small>You, 4:51 PM</small></div></div>
+<div class="dk-comp"><div class="via" data-ho-via>Replying as you via <b>SMS</b></div><div class="row"><span class="inp">Type a message</span><button type="button" class="dk-btn"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Book</button><button type="button" class="dk-send" aria-label="Send"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg></button></div></div></div><div class="dk-contact"><div class="who"><span class="dk-av">MB</span><div><b>Marcus Bell</b><span class="dk-chip grey">Patient</span></div></div>
+<div class="acts"><button type="button" class="dk-btn"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>Call</button><button type="button" class="dk-btn blue"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Book</button></div>
+<div class="dk-kv"><span class="dk-lbl">Summary</span><p>Existing patient. Asked about Delta Dental coverage before booking a cleaning. Prefers mornings.</p></div>
+<div class="dk-kv"><span class="dk-lbl">Details</span><dl><div><dt>Phone</dt><dd>+1 (555) 018-0142</dd></div><div><dt>Email</dt><dd>marcus.bell@example.com</dd></div></dl></div>
+<div class="dk-kv"><span class="dk-lbl">Appointments</span><div class="dk-appt"><span class="cal"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><b>Mon, Aug 25, 10:00 AM</b><small>Consultation with Sarah</small></div></div></div>
+<div class="dk-kv"><span class="dk-lbl">Internal notes</span><p style="color:var(--ink-3)">No notes yet.</p></div></div></div></div></div>
+<div data-scr="settings" class="dk-page" hidden><div class="dk-top"><div><div class="dk-h6">Settings</div><p>Your workspace, what it connects to, and your plan.</p></div><button type="button" class="dk-bell" aria-label="Notifications"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg></button></div><div class="dk-scr"><div class="dk-set"><div class="dk-setnav"><span class="dk-lbl">Workspace</span><span class="dk-sn"><svg class="ic" aria-hidden="true"><use href="#i-build"/></svg>Business profile</span><span class="dk-sn"><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg>Users</span>
+<span class="dk-lbl">Connections</span><span class="dk-sn on"><svg class="ic" aria-hidden="true"><use href="#i-plug"/></svg>Channels</span><span class="dk-sn"><svg class="ic" aria-hidden="true"><use href="#i-filter"/></svg>Lead sources</span><span class="dk-sn"><svg class="ic" aria-hidden="true"><use href="#i-hash"/></svg>Phone numbers</span><span class="dk-sn"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Calendar</span><span class="dk-sn"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg>Notifications</span>
+<span class="dk-lbl">Account</span><span class="dk-sn"><svg class="ic" aria-hidden="true"><use href="#i-card"/></svg>Plan and billing</span><span class="dk-sn"><svg class="ic" aria-hidden="true"><use href="#i-dollar"/></svg>Usage and credits</span></div><div class="dk-setbody"><div class="dk-h6">Channels</div><div class="dk-card dk-chcard"><div class="hd"><b>Connected</b><span data-chcount>5 of 5, replying on all</span></div><div class="dk-chrow"><span class="chn "><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></span><div><div class="nm"><b>SMS</b><span class="dk-chip green">Connected</span></div><div class="sub">+1 (555) 123-4567</div></div><div class="rp">Baxter replies<button type="button" class="tg" aria-pressed="true" aria-label="Baxter replies on SMS" data-chtg></button><button type="button" class="dk-btn">Manage</button></div></div><div class="dk-chrow"><span class="chn vo"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg></span><div><div class="nm"><b>Voice</b><span class="dk-chip green">Connected</span></div><div class="sub">+1 (555) 123-4567</div></div><div class="rp">Baxter replies<button type="button" class="tg" aria-pressed="true" aria-label="Baxter replies on Voice" data-chtg></button><button type="button" class="dk-btn">Manage</button></div></div><div class="dk-chrow"><span class="chn wa"><svg class="ic" aria-hidden="true"><use href="#i-wa"/></svg></span><div><div class="nm"><b>WhatsApp</b><span class="dk-chip green">Connected</span></div><div class="sub">+1 (555) 771-0064</div></div><div class="rp">Baxter replies<button type="button" class="tg" aria-pressed="true" aria-label="Baxter replies on WhatsApp" data-chtg></button><button type="button" class="dk-btn">Manage</button></div></div><div class="dk-chrow"><span class="chn web"><svg class="ic" aria-hidden="true"><use href="#i-web"/></svg></span><div><div class="nm"><b>Website chat</b><span class="dk-chip green">Connected</span></div><div class="sub">riveradental.com</div></div><div class="rp">Baxter replies<button type="button" class="tg" aria-pressed="true" aria-label="Baxter replies on Website chat" data-chtg></button><button type="button" class="dk-btn">Manage</button></div></div><div class="dk-chrow"><span class="chn em"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg></span><div><div class="nm"><b>Email</b><span class="dk-chip green">Connected</span></div><div class="sub">hi@riveradental.com</div></div><div class="rp">Baxter replies<button type="button" class="tg" aria-pressed="true" aria-label="Baxter replies on Email" data-chtg></button><button type="button" class="dk-btn">Manage</button></div></div></div>
+<p class="dk-hint">Switch Baxter off on one channel and answer it yourself. Everything else keeps running.</p></div></div></div></div>
+</div></div></div></div>
+          <p class="scroll-hint">Swipe sideways to see the full screen</p>
+          <p class="tour-title" data-cap-title>Know what needs you in five seconds.</p><div class="tour-caps" data-caps><div class="it"><b>Needs you, first</b><span>The one conversation waiting on a person sits at the top, with one-tap Reply or Let Baxter continue.</span></div><div class="it"><b>What Baxter handled</b><span>Today's conversations, bookings and who needed you, at a glance.</span></div><div class="it"><b>Every channel, one switch</b><span>Pause Baxter everywhere, or channel by channel. Try the switches.</span></div></div>
+          <p class="tour-note">Runs in your browser. Log in from any computer, and invite your team. The mobile app is coming soon.</p>
   </div>
 </section>
 
@@ -467,7 +550,7 @@ page({
 <!-- how it works -->
 <section class="sec" id="how">
   <div class="wrap">
-    <div class="sec-head"><h2 class="h-sec">Live in minutes, from your phone.</h2></div>
+    <div class="sec-head"><h2 class="h-sec">Live in minutes, from any browser.</h2></div>
     <div class="steps">
       <div class="step">
         <span class="n">1</span>
@@ -545,7 +628,7 @@ page({
       <h2 class="h-sec" style="margin-top:18px">Create your account. Your assistant is minutes away.</h2>
       <p class="lead" style="margin-top:18px">Sign up, paste your website, and watch it draft your FAQ and services. Pick your plan inside the app when you're ready to go live.</p>
       <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
-      <p class="fine">Set it up from your phone. No contracts, cancel anytime.</p>
+      <p class="fine">Set it up from your computer or your phone. No contracts, cancel anytime.</p>
     </div>
     <ol class="path" aria-label="How signup works" style="list-style:none;margin:0">
       <li class="path-row"><span>1. Create your account</span><b>app.leadq.co</b></li>
@@ -561,7 +644,7 @@ page({
 <section class="horizon">
   <div class="wrap">
     <h2>Your next lead isn't going to wait.</h2>
-    <p class="lead">Set up your assistant in minutes, from your phone.</p>
+    <p class="lead">Set up your assistant in minutes, from any browser.</p>
     <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a></div>
   </div>
 </section>`,
@@ -870,7 +953,7 @@ page({
 <section class="horizon">
   <div class="wrap">
     <h2>See it with your own bookings.</h2>
-    <p class="lead">Set it up from your phone in minutes. It learns your business, then gets to work.</p>
+    <p class="lead">Set it up in your browser in minutes. It learns your business, then gets to work.</p>
     <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
   </div>
 </section>`,
@@ -900,7 +983,7 @@ const VERTICALS = [
       ["How long does setup take?", "Minutes. Point it at your website, it drafts your FAQ and services, you approve, then connect your number."],
     ],
     close: "Fill more chairs. Answer every patient.",
-    closeBody: "Set it up from your phone in minutes. It learns your practice, then gets to work.",
+    closeBody: "Set it up in your browser in minutes. It learns your practice, then gets to work.",
   },
   {
     file: "for-salons.html", c: "#f27eb4", img: "salon", alt: "A stylist working in a hair salon", crumb: "Salons",
@@ -920,10 +1003,10 @@ const VERTICALS = [
       ["Can it reply while I'm with a client?", "Yes. It handles the whole conversation on WhatsApp, text and web chat and books it, so you never stop mid-cut."],
       ["Can I still jump in myself?", "Any time. Pause it on a channel, reply yourself, and switch it back on."],
       ["Will it take bookings after hours?", "Yes, 24/7. It books, reschedules and confirms around the clock and sends reminders the day before."],
-      ["How long does setup take?", "Minutes from your phone. It learns your services and prices from your website, and you approve before it goes live."],
+      ["How long does setup take?", "Minutes, in your browser. It learns your services and prices from your website, and you approve before it goes live."],
     ],
     close: "Keep every chair full.",
-    closeBody: "Set it up from your phone in minutes. It learns your salon, then gets to work.",
+    closeBody: "Set it up in your browser in minutes. It learns your salon, then gets to work.",
   },
   {
     file: "for-home-services.html", c: "#f5a524", img: "home", alt: "A technician on a home services job", crumb: "Home services",
@@ -944,10 +1027,10 @@ const VERTICALS = [
       ["Can it capture what I need to quote?", "It asks the questions you set and logs the details on the job, so you arrive prepared."],
       ["What if I'm on a job and can't talk?", "It handles the whole conversation and books for you. You get the booking without stopping."],
       ["Which channels does it cover?", "WhatsApp, text and web chat, plus your phone line on the Pro plan. One assistant across all of them."],
-      ["How fast is setup?", "Minutes from your phone. It learns your services and service area from your website."],
+      ["How fast is setup?", "Minutes, in your browser. It learns your services and service area from your website."],
     ],
     close: "Book more jobs. Miss fewer calls.",
-    closeBody: "Set it up from your phone in minutes. It learns your business, then gets to work.",
+    closeBody: "Set it up in your browser in minutes. It learns your business, then gets to work.",
   },
   {
     file: "for-real-estate.html", c: "#7dd3fc", img: "realestate", alt: "A modern home exterior for sale", crumb: "Real estate",
@@ -971,7 +1054,7 @@ const VERTICALS = [
       ["Will it sound like me?", "It learns your voice and your listings, so replies feel personal, not automated."],
     ],
     close: "Never lose a lead to a slow reply.",
-    closeBody: "Set it up from your phone in minutes. It learns your market, then gets to work.",
+    closeBody: "Set it up in your browser in minutes. It learns your market, then gets to work.",
   },
 ];
 
@@ -1090,7 +1173,7 @@ page({
   <div class="wrap">
     <div class="story" style="text-align:center">
       <h2 class="h-sec" style="margin:0 auto">An app you run yourself.</h2>
-      <p class="lead" style="margin:18px auto 0">Not an agency. Not a service you wait on. You set it up from your phone in minutes, it learns your services and your tone, and it starts answering. You stay in control, and you can jump into any conversation whenever you want.</p>
+      <p class="lead" style="margin:18px auto 0">Not an agency. Not a service you wait on. You set it up in your browser in minutes, it learns your services and your tone, and it starts answering. You stay in control, and you can jump into any conversation whenever you want.</p>
     </div>
     <div class="grid g3" style="margin-top:44px">
       <div class="card"><h3>Every channel</h3><p>WhatsApp, SMS, web chat, email, and your phone line on Pro.</p></div>

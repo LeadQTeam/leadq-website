@@ -40,6 +40,22 @@
 </script>
 </head>
 <body style="--c:#4d86ff;--c2:#38d3ff">
+
+<header class="nav">
+  <div class="nav-pill">
+    <a class="brand" href="index.html" aria-label="LeadQ home"><picture><source srcset="img/brand/leadq-wordmark.webp" type="image/webp"><img class="brand-logo brand-night" src="img/brand/leadq-wordmark.png" alt="LeadQ" width="512" height="199"></picture><img class="brand-logo brand-ink" src="img/brand/leadq-wordmark-ink.png" alt="" aria-hidden="true" width="512" height="202"></a>
+    <nav class="nav-links" aria-label="Main"><a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="pricing.html">Pricing</a><a href="voice.html">Voice AI</a></nav>
+    <div class="nav-actions">
+      <a class="btn btn-ghost btn-sm login" href="https://app.leadq.co">Log in</a>
+      <a class="btn btn-primary btn-sm" href="https://app.leadq.co/?signup">Get started</a>
+      <button class="nav-menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav-sheet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+    <div class="nav-sheet" id="nav-sheet" hidden><a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="pricing.html">Pricing</a><a href="voice.html">Voice AI</a><a href="about.html">About</a><a href="https://app.leadq.co">Log in</a></div>
+  </div>
+</header>
+
+<main>
+
 <div hidden aria-hidden="true"><svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <linearGradient id="lqg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4b9ae6"/><stop offset="1" stop-color="#23409a"/></linearGradient>
 <symbol id="lq-mark" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M76 65 A30 30 0 1 0 64.1 76.5 L83 86 Z" stroke-width="6"/><path d="M40.5 42v16M50 36.5v27.5M59.5 42v16" stroke-width="3.4"/></g></symbol>
@@ -70,38 +86,18 @@
 <symbol id="i-hand" viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-4 0v5M14 10V4a2 2 0 0 0-4 0v6M10 10.5V6a2 2 0 0 0-4 0v8a8 8 0 0 0 16 0v-3a2 2 0 0 0-4 0"/></symbol>
 <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
 </defs></svg></div>
-
-<header class="nav">
-  <div class="nav-pill">
-    <a class="brand" href="index.html" aria-label="LeadQ home"><picture><source srcset="img/brand/leadq-wordmark.webp" type="image/webp"><img class="brand-logo brand-night" src="img/brand/leadq-wordmark.png" alt="LeadQ" width="512" height="199"></picture><img class="brand-logo brand-ink" src="img/brand/leadq-wordmark-ink.png" alt="" aria-hidden="true" width="512" height="202"></a>
-    <nav class="nav-links" aria-label="Main"><a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="pricing.html">Pricing</a><a href="voice.html">Voice AI</a></nav>
-    <div class="nav-actions">
-      <a class="btn btn-ghost btn-sm login" href="https://app.leadq.co">Log in</a>
-      <a class="btn btn-primary btn-sm" href="https://app.leadq.co/?signup">Get started</a>
-      <button class="nav-menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav-sheet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-    </div>
-    <div class="nav-sheet" id="nav-sheet" hidden><a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="pricing.html">Pricing</a><a href="voice.html">Voice AI</a><a href="about.html">About</a><a href="https://app.leadq.co">Log in</a></div>
-  </div>
-</header>
-
-<main>
-
-<!-- hero -->
+<!-- hero: centred copy over a full-width product stage -->
 <section class="lit-hero">
   <div class="wrap">
-    <div class="hero2">
-      <div>
-        <span class="pill">One assistant. Every channel.</span>
-        <h1 class="h-hero">Stop chasing. Start closing.</h1>
+    <div class="sec-head hero-head">
+      <span class="pill">One assistant. Every channel.</span>
+      <h1 class="h-hero">Stop chasing. Start closing.</h1>
+      <p class="lead">Every message you miss is a job someone else books. LeadQ answers WhatsApp, texts, web chat, email and your phone line in seconds, then books the appointment. At midnight, on a Sunday, or while you are with a customer.</p>
+      <div class="ctas">
+        <a class="btn btn-primary btn-lg" href="https://app.leadq.co/?signup">Get started</a>
+        <a class="btn btn-ghost btn-lg" href="#how" data-open-chat>See it work</a>
       </div>
-      <div class="side">
-        <p>Every message you miss is a job someone else books. LeadQ answers WhatsApp, texts, web chat, email and your phone line in seconds, then books the appointment. At midnight, on a Sunday, or while you are with a customer.</p>
-        <div class="ctas">
-          <a class="btn btn-primary btn-lg" href="https://app.leadq.co/?signup">Get started</a>
-          <a class="btn btn-ghost btn-lg" href="#how" data-open-chat>See it work</a>
-        </div>
-        <p class="fine">Set it up in minutes. No AI knowledge needed.</p>
-      </div>
+      <p class="fine">Set it up in minutes. No AI knowledge needed.</p>
     </div>
     <div class="pstage" role="img" aria-label="LeadQ inbox showing Baxter booking an appointment">
   <div class="wm" aria-hidden="true">leadq</div><div class="glow" aria-hidden="true"></div>
@@ -134,10 +130,7 @@
   </div>
 </section>
 
-
-
-
-
+<!-- one brain -->
 <section class="sec">
   <div class="wrap brain">
     <div class="orbit" role="img" aria-label="WhatsApp, SMS, web chat, email and voice, all run by one assistant">
@@ -241,14 +234,15 @@
   </div>
 </section>
 
-<!-- inside the app: the desktop tour -->
+<!-- inside the app: centred header over a full-width working tour -->
 <section class="sec" id="app">
   <div class="wrap">
-    <div class="tour-head">
-            <div><span class="pill" style="--c:#4d86ff">Inside the app</span><h2>Your whole front desk, on one screen.</h2></div>
-            <p>Open LeadQ on any computer and see everything at once. Who needs you, what Baxter handled, and what's booked next.</p>
-          </div>
-          <div class="tour-tabs"><div class="seg" role="group" aria-label="App screen" id="tourSeg">
+    <div class="sec-head">
+      <span class="pill">Inside the app</span>
+      <h2 class="h-sec">Your whole front desk, on one screen.</h2>
+      <p class="lead">Open LeadQ on any computer and see everything at once. Who needs you, what Baxter handled, and what is booked next.</p>
+    </div>
+    <div class="tour-tabs"><div class="seg" role="group" aria-label="App screen" id="tourSeg">
             <button type="button" data-tab="home" aria-pressed="true">Home</button>
             <button type="button" data-tab="inbox" aria-pressed="false">Inbox</button>
             <button type="button" data-tab="settings" aria-pressed="false">Settings</button>
@@ -292,6 +286,7 @@
           <p class="tour-note">Runs in your browser. Log in from any computer, and invite your team. The mobile app is coming soon.</p>
   </div>
 </section>
+
 <!-- voice teaser -->
 <section class="sec">
   <div class="wrap">

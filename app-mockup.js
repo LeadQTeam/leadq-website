@@ -55,7 +55,12 @@
   // hero: customer phone and desktop inbox, one conversation
   (function(){
     var ph=document.querySelector('[data-hphone]'), dk=document.getElementById('heroDk'); if(!ph||!dk) return;
-    var row=dk.querySelector('[data-hrow]'), rowS=row.querySelector('span'), rowE=row.querySelector('em'), appt=dk.querySelector('[data-happt]');
+    var row=dk.querySelector('[data-hrow]');
+    /* NOT row.querySelector('span'). The row's first span is the avatar:
+         <div class="dk-conv sel" data-hrow><span class="dk-av">JD</span><div><b>Jane Doe</b><span>preview</span>
+       so the reference's own selector wrote every message preview into the 27px avatar circle,
+       wiping "JD" and overflowing a whole sentence out of it. Target the preview explicitly. */
+    var rowS=row.querySelector('span:not(.dk-av)'), rowE=row.querySelector('em'), appt=dk.querySelector('[data-happt]');
     function els(k){ return [ph.querySelector('[data-h="'+k+'"]'), dk.querySelector('[data-h="'+k+'"]')]; }
     function on(k,v){ els(k).forEach(function(e){ if(e) e.classList.toggle('show', v); }); }
     function typing(after){

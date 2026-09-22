@@ -277,7 +277,8 @@ const frame = async () => evalJs(`
   return { phone: shown(ph), desk: shown(dk), phoneOrder: order(ph), deskOrder: order(dk),
            chip: chip.textContent.trim(), chipClass: chip.className,
            appt: dk.querySelector('[data-happt]').textContent.trim().slice(0, 40),
-           preview: dk.querySelector('[data-hrow] span').textContent.trim() };`)
+           preview: dk.querySelector('[data-hrow] span:not(.dk-av)').textContent.trim(),
+           avatar: dk.querySelector('[data-hrow] .dk-av').textContent.trim() };`)
 
 /* Sampled against a baseline taken the moment the document is complete, not after load()'s
  * settle — otherwise every sample is ~350ms late and the first one lands after the first
@@ -313,6 +314,7 @@ ok('dots return, now AFTER message 2',
    idx(at(5900).deskOrder, 't') === idx(at(5900).deskOrder, '2') + 1,
    `phone ${at(5900).phoneOrder.join('>')}  desk ${at(5900).deskOrder.join('>')}`)
 ok('the booking confirmation arrives', at(7200).phone.includes('3') && at(7200).desk.includes('3'))
+ok('the avatar is not used as a text field', at(7200).avatar === 'JD', at(7200).avatar)
 ok('the row chip turns green', /Booked/.test(at(7200).chip) && /green/.test(at(7200).chipClass), `${at(7200).chip} ${at(7200).chipClass}`)
 ok('and the appointment appears on the contact', /Thu, 3:00 PM/.test(at(7200).appt), at(7200).appt)
 ok('both screens stay in step throughout',
@@ -385,7 +387,7 @@ const CONTRAST = `
     return 'rgb(255, 255, 255)' };
   const probes = [['phone name', '.cphone .ctop b'], ['app heading', '#heroDk .dk-top .dk-h6'],
     ['sidebar nav', '#heroDk .dk-nav'], ['contact summary', '#heroDk .dk-contact p'],
-    ['hero headline', '.hero2 h1'], ['hero body', '.hero2 .side p']];
+    ['hero headline', '.hero-head h1'], ['hero body', '.hero-head .lead']];
   return probes.map(([label, sel]) => { const el = document.querySelector(sel);
     return { label, r: el ? ratio(getComputedStyle(el).color, bgOf(el)) : null } });
 })()`
