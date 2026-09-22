@@ -45,8 +45,11 @@ ok("and the customer's phone beside it", /class="cphone"/.test(home) && /data-hp
 ok("driven by one timeline, not two", /function els\(k\)\{ return \[ph\.querySelector.*dk\.querySelector/.test(read("app-mockup.js")))
 ok("the fine print stays short", /Set it up in minutes\. No AI knowledge needed\./.test(home))
 ok("the app section says where it runs", /Runs in your browser\. Log in from any computer/.test(home))
-// 01 rule 10: do NOT promise a mobile app. The note says where it runs instead.
-ok("it does not promise a mobile app", !/mobile app|download the app|app store/i.test(home))
+// 01 rule 10 says not to promise a mobile app. Rob overrode that on 2026-09-21: saying it is
+// coming shows progress, and the rule is really guarding against app-store badges and download
+// links for something that does not exist. So the promise is allowed, the hard claims are not.
+ok("it says the mobile app is coming", /The mobile app is coming soon\./.test(home))
+ok("but makes no hard claim it exists", !/download the app|app store|get it on|available on the/i.test(home))
 ok("setup no longer claims to be phone-first", /Live in minutes, from any browser/.test(home))
 
 // ── the desktop app is actually shown, not just described ────────────────────
