@@ -30,7 +30,7 @@ ok("the sidebar is 19em, not a rounder number I preferred", /grid-template-colum
 
 // The type scale is the part I kept getting wrong. These are the reference's values.
 for (const [what, sel, size] of [
-  ["page title", ".dk-top h6", "2.1em"],
+  ["page title", ".dk-top .dk-h6", "2.1em"],
   ["stat number", ".dk-stat .n b", "3.4em"],
   ["conversation name", ".dk-row .t b", "1.3em"],
   ["nav item", ".dk-nav", "1.4em"],
@@ -147,6 +147,26 @@ ok("nothing in the mockup is a fixed width wider than a phone",
 // Anchored, or ".pstage .appwin{display:none}" matches as a substring of itself.
 ok("only the hero window is hidden on small screens",
    !/(^|[{},;])\.appwin\{display:none\}/.test(mock) && /\.pstage \.appwin\{display:none\}/.test(mock))
+
+// ── the mockup is a picture, and must not pose as page structure ─────────────
+// The reference is a proposal document: its headings sit under that document's chapters, so the
+// hero is an h4, the tour an h4, and the app's screen titles h6. Copied straight across, the real
+// page's outline read h1 -> h4 -> h6. And the hero's ten buttons are unwired there (the driver
+// only binds the tour), so a keyboard user tabbed through ten no-ops before reaching anything.
+const levels = [...html.matchAll(/<h([1-6])[^>]*>/g)].map((m) => Number(m[1]))
+let skips = 0, prev = 0
+for (const l of levels) { if (prev && l > prev + 1) skips++; prev = l }
+ok("the heading outline never skips a level", skips === 0, `${skips} skip(s) across ${levels.length} headings`)
+ok("the app's screen titles are not headings", !/<h6/.test(html))
+ok("but they are still styled", /\.dk-top \.dk-h6\{/.test(css))
+// 10, Accessibility: "wrap the hero instance in an element with aria-label".
+ok("the hero picture is labelled", /class="pstage" role="img" aria-label="LeadQ inbox showing/.test(html))
+const heroPic = html.slice(html.indexOf('<div class="pstage"'), html.indexOf('</section>', html.indexOf('<div class="pstage"')))
+ok("nothing in the hero picture takes keyboard focus", !/<button(?![^>]*tabindex="-1")/.test(heroPic),
+   `${(heroPic.match(/<button(?![^>]*tabindex="-1")/g) || []).length} focusable`)
+// The tour is the opposite case: there the controls genuinely work, so they must stay reachable.
+const tourPart = html.slice(html.indexOf('id="tourDk"'))
+ok("but the tour's controls stay reachable", (tourPart.match(/<button(?![^>]*tabindex="-1")/g) || []).length > 20)
 
 // ── nothing of my hand-rolled version survives ───────────────────────────────
 for (const dead of ["class=\"lqa", "lqa-side", "hstage", "appwin-url", "data-app="])

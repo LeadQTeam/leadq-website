@@ -364,7 +364,59 @@ ok('the tab group is labelled', a11y.segLabelled)
 ok('decorative icons are hidden from screen readers', a11y.decorativeHidden)
 ok('exactly one h1', a11y.oneH1 === 1, String(a11y.oneH1))
 
-// ── G. the other pages still work ───────────────────────────────────────────
+// ── G. light mode ───────────────────────────────────────────────────────────
+// 01 rule 1: light mode must keep working. It is reached AUTOMATICALLY via
+// prefers-color-scheme, not just a toggle, so this is what a light-OS visitor sees.
+//
+// The mockup is a picture of a DARK product. The reference sets color:var(--ink) and
+// background:var(--app) throughout, and light mode redefines those, so the app rendered dark
+// text on its own dark chrome: sidebar labels, headings, every conversation name gone, and the
+// phone screen white. Nothing caught it, because every rule was individually valid.
+console.log('\n═══ G. light mode ═══')
+const CONTRAST = `
+(() => {
+  const lum = (c) => { const p = (c.match(/[\\d.]+/g) || []).slice(0, 3).map(Number).map((v) => {
+      v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4) });
+    return 0.2126 * p[0] + 0.7152 * p[1] + 0.0722 * p[2] };
+  const ratio = (a, b) => { const L1 = lum(a), L2 = lum(b);
+    return +(((Math.max(L1, L2) + 0.05) / (Math.min(L1, L2) + 0.05)).toFixed(2)) };
+  const bgOf = (el) => { let e = el; while (e) { const c = getComputedStyle(e).backgroundColor;
+      if (c && !/rgba\\(0, 0, 0, 0\\)|transparent/.test(c)) return c; e = e.parentElement }
+    return 'rgb(255, 255, 255)' };
+  const probes = [['phone name', '.cphone .ctop b'], ['app heading', '#heroDk .dk-top .dk-h6'],
+    ['sidebar nav', '#heroDk .dk-nav'], ['contact summary', '#heroDk .dk-contact p'],
+    ['hero headline', '.hero2 h1'], ['hero body', '.hero2 .side p']];
+  return probes.map(([label, sel]) => { const el = document.querySelector(sel);
+    return { label, r: el ? ratio(getComputedStyle(el).color, bgOf(el)) : null } });
+})()`
+const readContrast = async (theme) => {
+  await load()
+  await evalJs(`document.documentElement.setAttribute('data-theme', '${theme}'); return 1`)
+  await sleep(300)
+  return cdp.send('Runtime.evaluate', { expression: CONTRAST, returnByValue: true }).then((r) => r.result.value)
+}
+const dark = await readContrast('dark')
+const light = await readContrast('light')
+for (const row of light) {
+  const d = dark.find((x) => x.label === row.label)
+  ok(`light: ${row.label} is legible`, row.r !== null && row.r >= 3, `${row.r}:1`)
+  // The app pins its own palette, so its text must measure the SAME in both themes. If a value
+  // moves, a theme token has leaked back in.
+  if (['phone name', 'app heading', 'sidebar nav', 'contact summary'].includes(row.label))
+    ok(`light: ${row.label} is pinned, not theme-driven`, row.r === d.r, `dark ${d.r} vs light ${row.r}`)
+}
+// The page furniture SHOULD follow the theme, or light mode is not really light.
+const heroDark = dark.find((x) => x.label === 'hero body').r
+const heroLight = light.find((x) => x.label === 'hero body').r
+ok('the page itself does follow the theme', heroDark !== heroLight, `${heroDark} vs ${heroLight}`)
+ok('and the app still looks dark on a light page', await evalJs(`
+  document.documentElement.setAttribute('data-theme', 'light');
+  const bg = getComputedStyle(document.getElementById('heroDk')).backgroundColor;
+  const [r, g, b] = bg.match(/\\d+/g).map(Number);
+  return (r + g + b) / 3 < 60;`))
+await evalJs(`document.documentElement.removeAttribute('data-theme'); return 1`)
+
+// ── H. the other pages still work ───────────────────────────────────────────
 console.log('\n═══ G. the pages that share styles.css ═══')
 for (const p of ['voice.html', 'use-cases.html', 'for-dental.html', 'pricing.html', 'about.html']) {
   cdp.errors.length = 0; cdp.console.length = 0

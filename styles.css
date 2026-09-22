@@ -780,6 +780,14 @@ main{display:block}
    a LAYOUT unit rather than the body size. Every attempt to hand-pick a type scale
    against that got it wrong, so these are the brief's own numbers. Do not "tidy"
    the em values without redoing that arithmetic. */
+.pstage,.appwin,.cphone{
+  color:var(--ink);
+  --ink:#eef2f8;--ink-2:#aeb9c8;--ink-3:#7c8795;
+  --line:#20293a;--line-2:#1a2230;
+  --app:#0c1622;--good:#37c98b;--accent:#4d86ff;--accent-ink:#7ba6ff;
+  --e2:0 1px 0 rgba(255,255,255,.06) inset, 0 20px 40px -20px rgba(0,0,0,.8), 0 2px 6px rgba(0,0,0,.35);
+  --e3:0 1px 0 rgba(255,255,255,.08) inset, 0 60px 90px -40px rgba(0,0,0,.95), 0 24px 40px -24px rgba(0,0,0,.7);
+}
 .cphone .phone{position:absolute;width:268px;aspect-ratio:9/19.3;border-radius:44px;padding:9px;
   background:linear-gradient(145deg,#2a3344,#0b0f16 40%,#1b2230);box-shadow:var(--e3), 0 0 0 1px rgba(255,255,255,.07)}
 .cphone .phone .screen{position:relative;height:100%;border-radius:36px;overflow:hidden;background:var(--app);display:flex;flex-direction:column}
@@ -827,7 +835,7 @@ main{display:block}
 .dk-user svg.app{width:2em;height:2em;border-radius:.55em}
 .dk-main{display:flex;flex-direction:column;min-width:0;background:radial-gradient(60% 40% at 70% 0%, rgba(77,134,255,.07), transparent 70%)}
 .dk-top{display:flex;align-items:center;gap:1em;padding:1.6em 2.4em 1.3em;border-bottom:1px solid var(--dk-line)}
-.dk-top h6{margin:0;font-family:var(--display);font-size:2.1em;font-weight:650;letter-spacing:-.02em;line-height:1.1}
+.dk-top .dk-h6{margin:0;font-family:var(--display);font-size:2.1em;font-weight:650;letter-spacing:-.02em;line-height:1.1}
 .dk-top p{font-size:1.25em;color:var(--ink-3);margin-top:.25em;display:flex;align-items:center;gap:.5em}
 .dk-bell{margin-left:auto;width:3.6em;height:3.6em;border-radius:1em;border:1px solid var(--dk-line);display:grid;place-items:center;color:var(--ink-2);background:none}
 .dk-scr{flex:1;min-height:0;overflow:hidden}
@@ -1016,7 +1024,7 @@ main{display:block}
 .dk.hero-dk .dk-typing{display:none}
 .dk.hero-dk .dk-typing.show{display:flex}
 .tour-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:end;margin-bottom:26px}
-.tour-head h4{font-size:clamp(36px,4.8vw,62px);line-height:.94;font-stretch:80%;letter-spacing:-.04em;margin:14px 0 0}
+.tour-head h2{font-size:clamp(36px,4.8vw,62px);line-height:.94;font-stretch:80%;letter-spacing:-.04em;margin:14px 0 0}
 .tour-head p{color:var(--ink-2)}
 .tour-tabs{display:flex;justify-content:center;margin-bottom:22px}
 .tour-caps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px}
