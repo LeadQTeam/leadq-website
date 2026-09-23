@@ -1075,3 +1075,44 @@ main{display:block}
 #app{padding-top:16px;padding-bottom:72px}
 .tour-tabs{margin-bottom:48px}
 .tour-title{margin-top:72px}
+
+/* The Schedule screen in the app tour.
+ *
+ * Replaces the Settings screen: the tour should not be a tour of the settings page, and a
+ * calendar with real appointments in it says more about what the product does.
+ *
+ * Every length here is in em ON PURPOSE. Inside .dk, 1em is a LAYOUT unit -- the wrapper sets
+ * font-size:clamp(7px, calc(100cqw / 110), 11px) on a 110em-wide root, so 1em is 1/110th of the
+ * window's width, not a text size. A px value here would not scale with the mockup. */
+.dk-sched{display:grid;grid-template-columns:24em minmax(0,1fr);height:100%}
+.dk-schside{border-right:1px solid var(--dk-line);padding:1.6em 1.4em;display:flex;flex-direction:column;gap:1.4em;min-width:0}
+.dk-cal .hd{display:flex;align-items:center;justify-content:space-between;gap:.6em;margin-bottom:1em}
+.dk-cal .hd b{font-size:1.5em;font-family:var(--display);font-weight:650;letter-spacing:-.02em}
+.dk-cal .hd .dk-chip{font-size:1em}
+.dk-cal .dow,.dk-cal .days{display:grid;grid-template-columns:repeat(7,1fr);gap:.2em}
+.dk-cal .dow span{font-size:1.05em;font-weight:650;text-align:center;color:var(--ink-3);padding-bottom:.5em}
+.dk-cal .days span{position:relative;aspect-ratio:1;display:grid;place-items:center;font-size:1.2em;border-radius:.55em;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.dk-cal .days span.pad{visibility:hidden}
+/* A dot means the day has bookings on it, which is what makes the month read as a working one. */
+.dk-cal .days span.has{color:var(--ink)}
+.dk-cal .days span.has::after{content:"";position:absolute;bottom:.22em;width:.26em;height:.26em;border-radius:50%;background:var(--accent-ink)}
+.dk-cal .days span.on{background:var(--accent);color:#fff;font-weight:700}
+.dk-cal .days span.on::after{background:#fff}
+.dk-schsum{padding:1.2em 1.3em}
+.dk-schsum .dk-lbl{display:block;margin-bottom:.7em}
+.dk-schsum .r{display:flex;align-items:baseline;justify-content:space-between;gap:1em;font-size:1.2em;color:var(--ink-3);padding:.38em 0}
+.dk-schsum .r b{font-size:1.1em;color:var(--ink);font-weight:650;font-variant-numeric:tabular-nums}
+.dk-schbody{min-width:0;display:flex;flex-direction:column}
+.dk-schbody .dk-sec-h{padding:1.5em 2.2em}
+.dk-day{padding:1.4em 2.2em 2em;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:.7em}
+.dk-ev{display:grid;grid-template-columns:8em minmax(0,1fr);gap:1.2em;align-items:center}
+.dk-ev time{font-size:1.2em;color:var(--ink-3);font-variant-numeric:tabular-nums;text-align:right}
+.dk-ev .ev{display:flex;align-items:center;gap:1em;background:var(--dk-card);border:1px solid var(--dk-line);border-left:2px solid var(--accent-ink);border-radius:.9em;padding:.95em 1.2em;min-width:0}
+.dk-ev .ev b{display:block;font-size:1.35em;font-weight:600}
+.dk-ev .ev small{display:block;font-size:1.15em;color:var(--ink-3);margin-top:.15em}
+.dk-ev .ev .dk-chip{margin-left:auto;font-size:1.05em}
+/* An opening is drawn as an absence: no fill, dashed edge, no accent rail. */
+.dk-ev.open .ev{background:transparent;border-style:dashed;border-left-color:var(--dk-line);justify-content:center;color:var(--ink-3);font-size:1.2em;padding:.8em 1.2em}
+/* The Home screen's channel rows dim when Baxter is switched off there, the same way the
+   Settings card's rows used to. */
+.dk-ch.off b,.dk-ch.off span{opacity:.55}

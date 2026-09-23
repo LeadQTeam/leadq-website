@@ -16,7 +16,7 @@
   (function(){
     var dk=document.getElementById('tourDk'); if(!dk) return;
     var seg=document.querySelectorAll('#tourSeg button');
-    var CAPS={"home": ["Know what needs you in five seconds.", [["Needs you, first", "The one conversation waiting on a person sits at the top, with one-tap Reply or Let Baxter continue."], ["What Baxter handled", "Today's conversations, bookings and who needed you, at a glance."], ["Every channel, one switch", "Pause Baxter everywhere, or channel by channel. Try the switches."]]], "inbox": ["Step in, then hand it back.", [["Every channel in one list", "SMS, WhatsApp, web chat, email and calls, filtered by who needs you."], ["Take over any conversation", "Reply yourself, then Hand back when you're done. Try it."], ["The whole story beside it", "AI summary, contact details, appointments and internal notes."]]], "settings": ["Connect a channel in minutes.", [["Each channel, its own switch", "Choose where Baxter replies. The count updates as you switch."], ["Numbers, calendar, lead sources", "Everything it connects to lives in one place."], ["Plan, billing and credits", "See usage and top up without leaving the app."]]]};
+    var CAPS={"home": ["Know what needs you in five seconds.", [["Needs you, first", "The one conversation waiting on a person sits at the top, with one-tap Reply or Let Baxter continue."], ["What Baxter handled", "Today's conversations, bookings and who needed you, at a glance."], ["Every channel, one switch", "Pause Baxter everywhere, or channel by channel. Try the switches."]]], "inbox": ["Step in, then hand it back.", [["Every channel in one list", "SMS, WhatsApp, web chat, email and calls, filtered by who needs you."], ["Take over any conversation", "Reply yourself, then Hand back when you're done. Try it."], ["The whole story beside it", "AI summary, contact details, appointments and internal notes."]]], "schedule": ["Your calendar, already filled in.", [["Booked while you were busy", "Baxter checks real availability, respects your rules, and writes the appointment into your day."], ["The gaps stay visible", "Openings show as openings, so you can see what is still there to sell."], ["Reminders go out on their own", "Confirmations and reminders send on schedule, and no-shows drop."]]]};
     function show(key){
       dk.querySelectorAll('[data-scr]').forEach(function(s){ s.hidden = s.dataset.scr!==key; });
       dk.querySelectorAll('.dk-side .dk-nav').forEach(function(n){ n.classList.toggle('on', n.dataset.go===key); });
@@ -36,8 +36,8 @@
         }
         if(t.hasAttribute('data-chtg')){
           var all=dk.querySelectorAll('[data-chtg]'), n=0;
-          all.forEach(function(x){ var p=x.getAttribute('aria-pressed')==='true'; if(p) n++; x.closest('.dk-chrow').classList.toggle('off',!p); });
-          dk.querySelector('[data-chcount]').textContent = n===5 ? '5 of 5, replying on all' : n+' of 5, replying on '+n;
+          all.forEach(function(x){ var p=x.getAttribute('aria-pressed')==='true'; if(p) n++; var rowEl=x.closest('.dk-ch,.dk-chrow'); if(rowEl) rowEl.classList.toggle('off',!p); });
+          dk.querySelector('[data-chcount]').textContent = n===5 ? '5 connected' : n+' of 5 replying';
         }
         return;
       }

@@ -58,10 +58,12 @@ ok("the hero's reduced-motion flag is declared", /var reduce\s*=/.test(js))
 ok("and the hero actually reads it", /if\(reduce\)/.test(js))
 
 // ── the three screens and the interactions ───────────────────────────────────
-ok("all three screens are in the DOM", ["home", "inbox", "settings"].every((s) => html.includes(`data-scr="${s}"`)))
+ok("all three screens are in the DOM", ["home", "inbox", "schedule"].every((s) => html.includes(`data-scr="${s}"`)))
 ok("switching hides the others rather than re-rendering", /s\.hidden = s\.dataset\.scr!==key/.test(js))
-ok("the tour has three tabs", ["home", "inbox", "settings"].every((s) => html.includes(`data-tab="${s}"`)))
-ok("channel switches update the count", /data-chcount/.test(js) && /of 5, replying on/.test(js))
+ok("the tour has three tabs", ["home", "inbox", "schedule"].every((s) => html.includes(`data-tab="${s}"`)))
+ok("channel switches update the count", /data-chcount/.test(js) && /of 5 replying/.test(js))
+// the switches moved from the Settings screen to Home, so the handler has to reach both row shapes
+ok("and dim whichever row shape carries them", /.dk-ch,.dk-chrow/.test(js))
 ok("hand back flips the chip, the composer and the list row", /data-ho-chip/.test(js) && /data-ho-via/.test(js) && /dk-conv\.sel em/.test(js))
 
 // ── the hero timeline, at the brief's intervals ──────────────────────────────

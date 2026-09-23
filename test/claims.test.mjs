@@ -59,7 +59,7 @@ ok("the page carries the desktop app", /id="tourDk"/.test(home))
 ok("and loads the driver that animates it", /<script src="app-mockup\.js" defer><\/script>/.test(home))
 ok("the app sits in a browser window", /class="appwin"/.test(home))
 ok("with a real address bar", /<span>app\.leadq\.co<\/span>/.test(home))
-ok("and you can click through three screens", /data-tab="settings"/.test(home))
+ok("and you can click through three screens", /data-tab="schedule"/.test(home))
 
 // ── nothing still references the artwork the tour replaced ───────────────────
 const css = read("styles.css")

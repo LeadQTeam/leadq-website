@@ -179,7 +179,7 @@ let s = await screenState()
 ok('starts on Home, alone', s.visible.length === 1 && s.visible[0] === 'home', JSON.stringify(s.visible))
 ok('with its caption and three points', /five seconds/.test(s.title) && s.caps === 3, `${s.title} / ${s.caps}`)
 
-for (const [tab, phrase] of [['inbox', 'hand it back'], ['settings', 'Connect a channel'], ['home', 'five seconds']]) {
+for (const [tab, phrase] of [['inbox', 'hand it back'], ['schedule', 'already filled in'], ['home', 'five seconds']]) {
   await evalJs(`document.querySelector('#tourSeg [data-tab="${tab}"]').click(); return 1`)
   await sleep(120)
   s = await screenState()
@@ -190,36 +190,54 @@ for (const [tab, phrase] of [['inbox', 'hand it back'], ['settings', 'Connect a 
 }
 
 // the sidebar itself switches screens
-await evalJs(`document.querySelector('#tourDk .dk-side [data-go="settings"]').click(); return 1`)
+await evalJs(`document.querySelector('#tourDk .dk-side [data-go="schedule"]').click(); return 1`)
 await sleep(120)
 s = await screenState()
-ok('the app sidebar switches screens too', s.visible[0] === 'settings', JSON.stringify(s.visible))
-ok('and the tabs above stay in sync', s.tabs.find((t) => t.startsWith('settings')).endsWith(':true'))
+ok('the app sidebar switches screens too', s.visible[0] === 'schedule', JSON.stringify(s.visible))
+ok('and the tabs above stay in sync', s.tabs.find((t) => t.startsWith('schedule')).endsWith(':true'))
 
-// channel switches on the Settings screen
+ok('Settings is not reachable from the tour', await evalJs(`
+  const dk = document.getElementById('tourDk');
+  return !dk.querySelector('[data-scr="settings"]') && !dk.querySelector('[data-go="settings"]');`))
+
+// the Schedule screen shows a day that is actually booked
+const sched = await evalJs(`
+  const s = document.querySelector('#tourDk [data-scr="schedule"]');
+  return { appts: s.querySelectorAll('.dk-ev:not(.open)').length,
+           open: s.querySelectorAll('.dk-ev.open').length,
+           today: s.querySelectorAll('.dk-cal .days .on').length,
+           dotted: s.querySelectorAll('.dk-cal .days .has').length };`)
+ok('Schedule shows booked appointments', sched.appts >= 5, JSON.stringify(sched))
+ok('and leaves the openings visible', sched.open >= 1, String(sched.open))
+ok('the month marks one day as today', sched.today === 1, String(sched.today))
+ok('and dots the days that carry bookings', sched.dotted > 10, String(sched.dotted))
+
+// channel switches, which now live on the Home screen
+await evalJs(`document.querySelector('#tourSeg [data-tab="home"]').click(); return 1`)
+await sleep(120)
 const chState = async () => evalJs(`
   const dk = document.getElementById('tourDk');
   const vis = [...dk.querySelectorAll('[data-scr]')].find(x => !x.hidden);
   const tg = [...vis.querySelectorAll('[data-chtg]')];
   const count = vis.querySelector('[data-chcount]');
   return { n: tg.length, on: tg.filter(t => t.getAttribute('aria-pressed') === 'true').length,
-           dimmed: tg.filter(t => t.closest('.dk-chrow')?.classList.contains('off')).length,
+           dimmed: tg.filter(t => t.closest('.dk-ch,.dk-chrow')?.classList.contains('off')).length,
            count: count ? count.textContent.trim() : null };`)
 let c0 = await chState()
-ok('settings lists five channel switches', c0.n === 5, String(c0.n))
-ok('all on to begin with', c0.on === 5 && c0.count === '5 of 5, replying on all', `${c0.on} / ${c0.count}`)
+ok('Home lists five channel switches', c0.n === 5, String(c0.n))
+ok('all on to begin with', c0.on === 5 && c0.count === '5 connected', `${c0.on} / ${c0.count}`)
 await evalJs(`const v=[...document.getElementById('tourDk').querySelectorAll('[data-scr]')].find(x=>!x.hidden);
   v.querySelectorAll('[data-chtg]')[0].click(); return 1`)
 await sleep(120)
 let c1 = await chState()
 ok('switching one off updates aria-pressed', c1.on === 4, String(c1.on))
-ok('and the count text', c1.count === '4 of 5, replying on 4', c1.count)
+ok('and the count text', c1.count === '4 of 5 replying', c1.count)
 ok('and dims that row', c1.dimmed === 1, String(c1.dimmed))
 await evalJs(`const v=[...document.getElementById('tourDk').querySelectorAll('[data-scr]')].find(x=>!x.hidden);
   v.querySelectorAll('[data-chtg]')[0].click(); return 1`)
 await sleep(120)
 let c2 = await chState()
-ok('switching back restores it', c2.on === 5 && c2.count === '5 of 5, replying on all' && c2.dimmed === 0, `${c2.on}/${c2.count}/${c2.dimmed}`)
+ok('switching back restores it', c2.on === 5 && c2.count === '5 connected' && c2.dimmed === 0, `${c2.on}/${c2.count}/${c2.dimmed}`)
 
 // master switch on Home
 await evalJs(`document.querySelector('#tourSeg [data-tab="home"]').click(); return 1`)
