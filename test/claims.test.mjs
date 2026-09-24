@@ -72,12 +72,10 @@ ok("no rule targets the removed second phone", !/sheet-phones \.phone:nth-child\
 // may advertise one there. These pin the data, since the rendering is proven in browser.test.
 const js = read("site.js")
 const uae = js.slice(js.indexOf("UAE: {"), js.indexOf("};", js.indexOf("UAE: {")))
-ok("the UAE sells two plans, not three", /plans: \["growth","pro"\]/.test(uae))
-/* The entry tier is the GROWTH plan wearing Starter's name. Nothing new was created in Stripe,
-   so listing "starter" here sends plan=starter to checkout, which resolves to the RETIRED
-   AED 199 price. This assertion is what stops that coming back. */
-ok("its entry tier is the growth plan, which is the price that actually exists",
-  uae.includes('planNames: { growth: "Starter" }'))
+/* Starter means Starter everywhere: the Starter AED price was re-priced to 549 on 2026-09-23,
+   so the site, the app, Stripe checkout and the invoice all say the same word. It briefly ran
+   as the Growth price labelled Starter, which billed correctly but renamed every receipt. */
+ok("its entry tier is the starter plan, which is the price customers see named", !uae.includes("planNames"))
 ok("no SMS", /hasSMS: false/.test(uae))
 ok("no voice, flagged separately from SMS", /hasVoice: false/.test(uae))
 ok("Starter is AED 549 and Pro AED 999", /starter: 549/.test(uae) && /pro: 999/.test(uae))
@@ -87,8 +85,8 @@ ok("no phone number add-on", /number: null/.test(uae))
    authority (api/_lib/limits.ts, AE_POOLS); this is its mirror, and a mismatch here is a
    customer being sold something they will not get. */
 ok("Starter's pool matches the app's AE_POOLS", /credits: \{ starter: 15000/.test(uae))
-ok("the whole pool table matches the app", uae.includes("credits: { starter: 15000, growth: 15000, pro: 45000 }"))
-ok("the entry tier is one channel, like the app grants", uae.includes('channels:{ starter: "1", growth: "1"'))
+ok("the whole pool table matches the app", uae.includes("credits: { starter: 15000, growth: 45000, pro: 45000 }"))
+ok("the entry tier is one channel, like the app grants", uae.includes('channels:{ starter: "1", growth: "3"'))
 ok("Starter carries Growth's 3 seats, because it is Growth repriced", /seats:   \{ starter: 3/.test(uae))
 ok("the credits note is sized on the real pools", /15,000 credits is around 140/.test(uae))
 

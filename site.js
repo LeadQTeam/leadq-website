@@ -57,14 +57,13 @@ const MARKETS = {
      Pools are smaller because voice and SMS cannot be spent here; 15,000 is about 140
      conversations at an observed 106 credits each, and 45,000 about 425. */
   UAE: { label: "UAE",           cur: "AED", code: "",    pos: "post", per: "/mo", hasSMS: false, hasVoice: false, waFirst: true,  naOnly: false,
-         plans: ["growth","pro"],
-         planNames: { growth: "Starter" },
-         credits: { starter: 15000, growth: 15000, pro: 45000 },
+         plans: ["starter","pro"],
+         credits: { starter: 15000, growth: 45000, pro: 45000 },
          seats:   { starter: 3, growth: 3, pro: 10 },
-         channels:{ starter: "1", growth: "1", pro: "All" },
+         channels:{ starter: "1", growth: "3", pro: "All" },
          shown: "Prices for the UAE, in dirhams.",
          creditsNote: "So Starter's 15,000 credits is around 140 AI conversations a month, and Pro's 45,000 is around 425. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
-         tiers: { starter: 549, growth: 549, pro: 999 },   // starter = the retired AED 199 price
+         tiers: { starter: 549, growth: 549, pro: 999 },   // growth is not sold here
          addons: { number: null, seat: 55, setup: 1099, a2p: null },
          packs: { small: 95, standard: 205, large: 445, bulk: 995 },
          note: "WhatsApp-first, with web chat and email on Pro. No SMS line and no phone number to buy." },
