@@ -3,41 +3,70 @@
    Each feature below only runs when its markup is on the page. */
 
 /* ===== pricing config ===== */
-const CREDITS = { starter: 20000, growth: 45000, pro: 120000 }; // same in every market
+/* North America's pools. NOT the same in every market any more: the UAE has its own, below.
+   A UAE workspace cannot spend on voice or SMS, which are 71% of every credit LeadQ has ever
+   metered, so the same pool would last a UAE customer about three and a half times longer.
+   Mirrors AE_POOLS in leadq-app/api/_lib/limits.ts, which is what actually grants them. */
+const CREDITS = { starter: 20000, growth: 45000, pro: 120000 };
 // approximate, shown with ~. Mirrors the app's own rates (supabase/credits-aggregator.sql):
 // a thread is metered once per customer per UTC day, texts are billed both ways, voice is
 // a flat rate for every voice, and the WhatsApp reply is the conversation (Meta bills the WABA).
 const CREDIT_RATES = { conv: 80, smsOut: 17, smsIn: 8, wa: "included", voiceMin: 220, email: 1 };
 const PACK_CREDITS = { small: 10000, standard: 25000, large: 60000, bulk: 150000 };
 
-// naOnly: the app provisions phone numbers, SMS and voice in the US and Canada only
-// (leadq-app/index.html, naMarket/smsOffered/voiceOffered), so everything that needs a
-// number is hidden everywhere else rather than sold and then blocked in the app.
+/* naOnly: the app provisions phone numbers, SMS and voice in the US and Canada only
+   (leadq-app/index.html, naMarket/smsOffered/voiceOffered), so everything that needs a
+   number is hidden everywhere else rather than sold and then blocked in the app.
+
+   hasVoice is separate from hasSMS and from naOnly on purpose. The UAE does not permit AI voice
+   agents on its telecom network at all, so this is not "we have not built it there yet" -- it is
+   a product that must not be advertised to that visitor. Every voice element on every page is
+   tagged data-needs-voice and disappears, including the nav link, rather than being left as a
+   dead end someone clicks.
+
+   credits/seats: the plan CONTENTS, which now differ by market. They are mirrored from
+   leadq-app/api/_lib/limits.ts, which is what actually grants them, and test/claims.test.mjs
+   fails if the two drift. */
 const MARKETS = {
-  US:  { label: "United States", cur: "$",   code: "USD", pos: "pre",  per: "/mo", hasSMS: true,  waFirst: false, naOnly: true,
+  US:  { label: "United States", cur: "$",   code: "USD", pos: "pre",  per: "/mo", hasSMS: true,  hasVoice: true,  waFirst: false, naOnly: true,
          plans: ["starter","growth","pro"],
+         credits: { starter: 20000, growth: 45000, pro: 120000 },
+         seats:   { starter: 1, growth: 3, pro: 10 },
+         channels:{ starter: "1", growth: "3", pro: "All" },
          shown: "Prices for the United States, in US dollars.",
          creditsNote: "So Growth's 45,000 credits is around 550 AI conversations, or any mix of texts, calls and email. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
          tiers: { starter: 59,  growth: 149, pro: 399 },
          addons: { number: 8,    seat: 15, setup: 299,  a2p: 99 },
          packs: { small: 25, standard: 55, large: 120, bulk: 270 },
          note: "US texting needs a one-time A2P activation. It's in the add-ons." },
-  CA:  { label: "Canada",        cur: "$",   code: "CAD", pos: "pre",  per: "/mo", hasSMS: true,  waFirst: false, naOnly: true,
+  CA:  { label: "Canada",        cur: "$",   code: "CAD", pos: "pre",  per: "/mo", hasSMS: true,  hasVoice: true,  waFirst: false, naOnly: true,
          plans: ["starter","growth","pro"],
+         credits: { starter: 20000, growth: 45000, pro: 120000 },
+         seats:   { starter: 1, growth: 3, pro: 10 },
+         channels:{ starter: "1", growth: "3", pro: "All" },
          shown: "Prices for Canada, in Canadian dollars.",
          creditsNote: "So Growth's 45,000 credits is around 550 AI conversations, or any mix of texts, calls and email. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
          tiers: { starter: 79,  growth: 199, pro: 499 },
          addons: { number: 10,   seat: 19, setup: 399,  a2p: null },
          packs: { small: 35, standard: 75, large: 165, bulk: 369 },
          note: "Canada needs no A2P registration." },
-  UAE: { label: "UAE",           cur: "AED", code: "",    pos: "post", per: "/mo", hasSMS: false, waFirst: true,  naOnly: false,
+  /* UAE, revised 2026-09-23. Two tiers, not three: Growth exists to sell a phone number and
+     texting, so outside North America it has nothing left to sell and the app already hides it.
+     Starter is Growth repriced -- Growth features, Growth seat count, WhatsApp as the one
+     channel -- which is why its seat count is 3 and not North America's 1.
+     Pools are smaller because voice and SMS cannot be spent here; 15,000 is about 140
+     conversations at an observed 106 credits each, and 45,000 about 425. */
+  UAE: { label: "UAE",           cur: "AED", code: "",    pos: "post", per: "/mo", hasSMS: false, hasVoice: false, waFirst: true,  naOnly: false,
          plans: ["starter","pro"],
+         credits: { starter: 15000, growth: 45000, pro: 45000 },
+         seats:   { starter: 3, growth: 3, pro: 10 },
+         channels:{ starter: "1", growth: "3", pro: "All" },
          shown: "Prices for the UAE, in dirhams.",
-         creditsNote: "So Starter's 20,000 credits is around 250 AI conversations, or any mix of WhatsApp, web chat and email. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
-         tiers: { starter: 199, growth: 549, pro: 1299 },
+         creditsNote: "So Starter's 15,000 credits is around 140 AI conversations a month, and Pro's 45,000 is around 425. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
+         tiers: { starter: 549, growth: 549, pro: 999 },
          addons: { number: null, seat: 55, setup: 1099, a2p: null },
          packs: { small: 95, standard: 205, large: 445, bulk: 995 },
-         note: "UAE runs WhatsApp-first. No SMS line needed." },
+         note: "WhatsApp-first, with web chat and email on Pro. No SMS line and no phone number to buy." },
 };
 
 const REDUCED = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
@@ -103,7 +132,29 @@ function applyMarket(animate) {
     swapText(el, money(m, v) + suffix, animate);
   });
   $$("[data-needs-sms]").forEach((el) => { el.hidden = !m.hasSMS; });
+  /* Voice is hidden where it is not legal to offer, not merely where it is unavailable. That
+     includes the nav link, so there is no route to voice.html at all from a UAE visit. */
+  $$("[data-needs-voice]").forEach((el) => { el.hidden = !m.hasVoice; });
   $$("[data-na-only]").forEach((el) => { el.hidden = !m.naOnly; });
+  /* The inverse: lines that only make sense in a WhatsApp-first market, where Starter is
+     Growth repriced and carries the Growth features. Written into the page already hidden so
+     the no-JS and first-paint view is North America, which is the majority. */
+  $$("[data-wa-only]").forEach((el) => { el.hidden = !m.waFirst; });
+  /* How many channels the tour's screenshot shows as connected. The SMS and Voice rows are
+     hidden in a WhatsApp-first market, so a hard-coded "5 connected" would sit above three
+     rows and make the product shot contradict itself. */
+  const chanN = m.hasSMS ? 5 : 3;
+  $$("[data-chan-count]").forEach((el) => { el.textContent = chanN + " connected"; });
+  $$("[data-chan-n]").forEach((el) => { el.textContent = String(chanN); });
+  /* Plan contents, wherever they are shown: the cards and the comparison table both use
+     data-cell="<plan>.<field>", so one market entry drives every figure on the page. */
+  $$("[data-cell]").forEach((el) => {
+    const [plan, field] = String(el.dataset.cell).split(".");
+    const table = field === "credits" ? m.credits : field === "seats" ? m.seats : m.channels;
+    const v = table && table[plan];
+    if (v == null) return;
+    swapText(el, field === "credits" ? Number(v).toLocaleString("en-US") : String(v), animate);
+  });
   const sold = m.plans || ["starter", "growth", "pro"];
   $$("[data-plan]").forEach((el) => { el.hidden = !sold.includes(el.dataset.plan); });
   $$(".plans").forEach((el) => { el.dataset.count = String(sold.length); });

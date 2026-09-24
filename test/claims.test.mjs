@@ -67,5 +67,37 @@ for (const dead of ["sheet-phones", 'class="desk"'])
   ok(`no leftover markup: ${dead}`, !home.includes(dead))
 ok("no rule targets the removed second phone", !/sheet-phones \.phone:nth-child\(2\)/.test(css))
 
+// ── the UAE is a different product, not a discount ───────────────────────────
+// No SMS, and no voice at all: AI voice agents are not permitted on UAE networks, so nothing
+// may advertise one there. These pin the data, since the rendering is proven in browser.test.
+const js = read("site.js")
+const uae = js.slice(js.indexOf("UAE: {"), js.indexOf("};", js.indexOf("UAE: {")))
+ok("the UAE sells two plans, not three", /plans: \["starter","pro"\]/.test(uae))
+ok("no SMS", /hasSMS: false/.test(uae))
+ok("no voice, flagged separately from SMS", /hasVoice: false/.test(uae))
+ok("Starter is AED 549 and Pro AED 999", /starter: 549/.test(uae) && /pro: 999/.test(uae))
+ok("no phone number add-on", /number: null/.test(uae))
+
+/* The pools and seats the SITE promises have to be the ones the APP grants. The app is the
+   authority (api/_lib/limits.ts, AE_POOLS); this is its mirror, and a mismatch here is a
+   customer being sold something they will not get. */
+ok("Starter's pool matches the app's AE_POOLS", /credits: \{ starter: 15000/.test(uae))
+ok("Pro's pool matches the app's AE_POOLS", /credits: \{ starter: 15000, growth: 45000, pro: 45000 \}/.test(uae))
+ok("Starter carries Growth's 3 seats, because it is Growth repriced", /seats:   \{ starter: 3/.test(uae))
+ok("the credits note is sized on the real pools", /15,000 credits is around 140/.test(uae))
+
+// Both markets have to stay whole: US must keep everything the UAE drops.
+const us = js.slice(js.indexOf("US:  {"), js.indexOf("CA:  {"))
+ok("the US still has SMS and voice", /hasSMS: true/.test(us) && /hasVoice: true/.test(us))
+ok("the US still sells three plans", /plans: \["starter","growth","pro"\]/.test(us))
+ok("the US pools are untouched", /credits: \{ starter: 20000, growth: 45000, pro: 120000 \}/.test(us))
+
+// Voice is hidden by its own flag, never by the North America flag, or the UAE would show it
+// the moment anything else changed.
+const build = read("docs/build-site.js")
+ok("the Voice AI nav link is voice-gated", /\["voice\.html", "Voice AI", "voice", "voice"\]/.test(build))
+ok("the voice page tells a UAE visitor plainly", /isn't available in the UAE/.test(build))
+ok("no voice element is keyed to North America instead", !/voice-strip[^>]*data-na-only/.test(build))
+
 console.log(bad ? `\n${bad} FAILED` : "\nOK site claims match the product")
 process.exit(bad ? 1 : 0)

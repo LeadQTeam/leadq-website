@@ -35,9 +35,13 @@
           dk.querySelector('[data-master-sub]').textContent = on?'Answering on 5 connected channels':'You answer everything until you switch it back on';
         }
         if(t.hasAttribute('data-chtg')){
-          var all=dk.querySelectorAll('[data-chtg]'), n=0;
+          /* Only the rows this market actually shows. A WhatsApp-first market hides the SMS and
+             Voice rows, and counting them anyway would report "5 of 5" above three switches. */
+          var all=[].filter.call(dk.querySelectorAll('[data-chtg]'), function(t){
+            var row=t.closest('.dk-ch,.dk-chrow'); return !(row && row.hidden);
+          }), n=0;
           all.forEach(function(x){ var p=x.getAttribute('aria-pressed')==='true'; if(p) n++; var rowEl=x.closest('.dk-ch,.dk-chrow'); if(rowEl) rowEl.classList.toggle('off',!p); });
-          dk.querySelector('[data-chcount]').textContent = n===5 ? '5 connected' : n+' of 5 replying';
+          dk.querySelector('[data-chcount]').textContent = n===all.length ? all.length+' connected' : n+' of '+all.length+' replying';
         }
         return;
       }

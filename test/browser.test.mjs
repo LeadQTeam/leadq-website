@@ -456,6 +456,79 @@ for (const p of ['voice.html', 'use-cases.html', 'for-dental.html', 'pricing.htm
   if (r.phoneW !== null) ok(`${p}: its .phone is untouched (${r.phoneW}px, ${r.phonePos})`, r.phoneW > 200 && r.phonePos !== 'absolute')
 }
 
+/* ═══ H. the UAE view ═══
+   The UAE has no SMS and, more importantly, no AI voice at all: voice agents are not permitted
+   on its networks, so advertising one there is not a rough edge, it is a claim we must not make.
+   ?market=UAE is the same override a real visitor gets from their timezone, so this exercises
+   the real path. Rendered rather than grepped, because whether an element is VISIBLE is the
+   whole question and the source says nothing about it. */
+console.log('\n═══ H. the UAE view ═══')
+const uaePages = ['index.html', 'pricing.html', 'voice.html', 'for-dental.html', 'about.html']
+for (const p of uaePages) {
+  cdp.errors.length = 0
+  await view(1280, 900)
+  await cdp.send('Page.navigate', { url: pageUrl(p) + '?market=UAE' })
+  for (let i = 0; i < 80; i++) { if (await evalJs('return document.readyState === "complete"')) break; await sleep(100) }
+  await sleep(500)
+  const r = await evalJs(`
+    const vis = (el) => { let q = el; while (q) { if (q.hidden || getComputedStyle(q).display === 'none') return false; q = q.parentElement } return true };
+    const out = [];
+    const walk = (el) => { for (const c of el.childNodes) {
+      if (c.nodeType === 3) { const t = c.textContent.trim();
+        if (t && /\\bSMS\\b|AI Receptionist|voice receptionist|voicemail|inbound call/i.test(t) && vis(c.parentElement)) {
+          let q = c.parentElement, chain = [];
+          for (let i = 0; i < 4 && q; i++) { chain.push(q.tagName.toLowerCase() + (q.className ? '.' + String(q.className).split(' ')[0] : '')); q = q.parentElement }
+          out.push(t.slice(0, 45) + ' [' + chain.join(' < ') + ']'); } }
+      else if (c.nodeType === 1 && c.tagName !== 'SCRIPT' && c.tagName !== 'STYLE') walk(c); } };
+    walk(document.body);
+    return { bad: [...new Set(out)],
+             nav: [...document.querySelectorAll('.nav-links a')].filter(vis).map(a => a.textContent.trim()),
+             overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth };`)
+  /* Two places are allowed to name SMS and voice, because both say they are ABSENT: the market
+     note under the pricing headline ("No SMS line and no phone number to buy") and the panel on
+     voice.html explaining why there is nothing to sell. Saying a thing is not offered is the
+     opposite of advertising it. */
+  const allowed = r.bad.filter((t) => !/mkt-note|note-card/.test(t))
+  ok(`${p}: no SMS or voice claim is visible`, allowed.length === 0, allowed.join(' | '))
+  ok(`${p}: no Voice AI link in the nav`, !r.nav.includes('Voice AI'), r.nav.join(' | '))
+  ok(`${p}: no horizontal scroll`, r.overflow <= 0, `${r.overflow}px`)
+  ok(`${p}: no uncaught errors`, cdp.errors.length === 0, cdp.errors.join(' | '))
+}
+
+// The plans themselves, which is what a customer is actually buying.
+await cdp.send('Page.navigate', { url: pageUrl('pricing.html') + '?market=UAE' })
+for (let i = 0; i < 80; i++) { if (await evalJs('return document.readyState === "complete"')) break; await sleep(100) }
+await sleep(500)
+const uaePlans = await evalJs(`
+  const vis = (el) => { let q = el; while (q) { if (q.hidden || getComputedStyle(q).display === 'none') return false; q = q.parentElement } return true };
+  const cards = [...document.querySelectorAll('.plan')].filter(vis).map((c) => ({
+    name: c.querySelector('h3').textContent.trim(),
+    price: c.querySelector('.amt').innerText.replace(/\\s+/g, ' ').trim(),
+    feats: [...c.querySelectorAll('li')].filter(vis).map((l) => l.textContent.trim()).join(' | ') }));
+  const orbit = [...document.querySelectorAll('.orbit')].filter(vis);
+  return { cards, chips: orbit.length ? [...orbit[0].querySelectorAll('.chan')].map((c) => c.textContent.trim()) : [] };`)
+ok('UAE shows two plans', uaePlans.cards.length === 2, uaePlans.cards.map((c) => c.name).join(','))
+ok('Starter is AED 549', /549 AED/.test(uaePlans.cards[0]?.price || ''), uaePlans.cards[0]?.price)
+ok('Pro is AED 999', /999 AED/.test(uaePlans.cards[1]?.price || ''), uaePlans.cards[1]?.price)
+ok('Starter grants 15,000 credits, matching the app', /15,000 credits/.test(uaePlans.cards[0]?.feats || ''))
+ok('Starter carries 3 seats, matching the app', /3 seats/.test(uaePlans.cards[0]?.feats || ''))
+ok('Pro grants 45,000 credits, matching the app', /45,000 credits/.test(uaePlans.cards[1]?.feats || ''))
+ok('and Pro names only the channels that exist there',
+  /WhatsApp, web chat and email/.test(uaePlans.cards[1]?.feats || ''), uaePlans.cards[1]?.feats)
+
+// North America must be untouched by all of the above.
+await cdp.send('Page.navigate', { url: pageUrl('pricing.html') + '?market=US' })
+for (let i = 0; i < 80; i++) { if (await evalJs('return document.readyState === "complete"')) break; await sleep(100) }
+await sleep(500)
+const usPlans = await evalJs(`
+  const vis = (el) => { let q = el; while (q) { if (q.hidden || getComputedStyle(q).display === 'none') return false; q = q.parentElement } return true };
+  return { n: [...document.querySelectorAll('.plan')].filter(vis).length,
+           voice: [...document.querySelectorAll('li')].filter(vis).some((l) => /AI voice receptionist/.test(l.textContent)),
+           nav: [...document.querySelectorAll('.nav-links a')].filter(vis).map((a) => a.textContent.trim()) };`)
+ok('the US still shows three plans', usPlans.n === 3, String(usPlans.n))
+ok('the US still sells the AI voice receptionist', usPlans.voice)
+ok('and still has the Voice AI link', usPlans.nav.includes('Voice AI'), usPlans.nav.join(' | '))
+
 console.log(`\n${bad ? bad + ' FAILED' : 'ALL PASS'}  (${checks} checks)`)
 chrome.kill()
 try { fs.rmSync(profile, { recursive: true, force: true }) } catch {}

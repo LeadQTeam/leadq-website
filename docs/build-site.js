@@ -105,11 +105,15 @@ const NAV_LINKS = [
   ["index.html#how", "How it works", "how"],
   ["use-cases.html", "Use cases", "use-cases"],
   ["pricing.html", "Pricing", "pricing"],
-  ["voice.html", "Voice AI", "voice"],
+  // The fourth field marks a link that only exists where voice may be sold. The UAE does not
+  // permit AI voice agents on its networks, so this link is removed for that visitor rather
+  // than left as a route to a product they cannot legally buy.
+  ["voice.html", "Voice AI", "voice", "voice"],
 ];
 
 function nav(current, { voice = false } = {}) {
-  const links = NAV_LINKS.map(([href, text, key]) => `<a href="${href}"${key === current ? ' aria-current="page"' : ""}>${text}</a>`).join("");
+  const links = NAV_LINKS.map(([href, text, key, needs]) =>
+    `<a href="${href}"${key === current ? ' aria-current="page"' : ""}${needs === "voice" ? " data-needs-voice" : ""}>${text}</a>`).join("");
   const cta = voice
     ? `<a class="btn btn-voice btn-sm" href="${SIGNUP}&plan=pro">Get Pro</a>`
     : `<a class="btn btn-primary btn-sm" href="${SIGNUP}">Get started</a>`;
@@ -140,7 +144,7 @@ const footer = `<footer class="footer">
         <p class="footer-tag">Answered. Booked. While you work.</p>
       </div>
       <nav class="footer-links" aria-label="Footer">
-        <a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="voice.html">Voice AI</a><a href="pricing.html">Pricing</a><a href="about.html">About</a><a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a>
+        <a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="voice.html" data-needs-voice>Voice AI</a><a href="pricing.html">Pricing</a><a href="about.html">About</a><a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a>
       </nav>
     </div>
     <div class="footer-legal">&copy; 2026 LeadQ Inc.</div>
@@ -202,26 +206,37 @@ const faqLd = (items) => JSON.stringify({
   mainEntity: items.map(([q, a]) => ({ "@type": "Question", name: q.replace(/&amp;/g, "&"), acceptedAnswer: { "@type": "Answer", text: a.replace(/&amp;/g, "&") } })),
 });
 
+/* One string for North America, another where WhatsApp is the only channel. Returns the plain
+   string when there is no variant, so a line that reads the same everywhere stays one line of
+   markup and one thing to change.
+
+   The test is `wa == null`, NOT whether wa is truthy. An EMPTY variant is a real answer -- it
+   means "this clause does not exist in that market" -- and a truthiness test silently ignored it
+   and shipped the North American text to everyone. That happened twice while writing this. */
+const mkt = (na, wa) => (wa == null
+  ? na
+  : `<span data-na-only>${na}</span><span data-wa-only hidden>${wa}</span>`);
+
 /* plan cards, shared by home and pricing */
 const plans = `<div class="plans">
       <div class="plan" data-plan="starter">
-        <h3>Starter</h3><p class="for">Solo, or just trying it out</p>
+        <h3>Starter</h3><p class="for">${mkt("Solo, or just trying it out", "The main plan for a growing business")}</p>
         <div class="amt"><span data-price="starter">$59</span><small> <span data-code>USD</span> /mo</small></div>
-        <ul><li>20,000 credits a month</li><li>1 seat, 1 channel</li><li>Assistant, FAQ and lead capture</li></ul>
+        <ul><li><span data-cell="starter.credits">20,000</span> credits a month</li><li data-na-only>1 seat, 1 channel</li><li data-wa-only hidden>3 seats, 1 channel</li><li data-wa-only hidden>Booking, calendar and reminders</li><li data-wa-only hidden>Follow-ups, custom fields, profiles</li><li>Assistant, FAQ and lead capture</li></ul>
         <a class="btn btn-ghost btn-block" href="${SIGNUP}&plan=starter">Choose Starter</a>
       </div>
       <div class="plan hot" data-plan="growth">
         <span class="flag">Most popular</span>
         <h3>Growth</h3><p class="for">The main plan for a growing business</p>
         <div class="amt"><span data-price="growth">$149</span><small> <span data-code>USD</span> /mo</small></div>
-        <ul><li>45,000 credits a month</li><li>3 seats</li><li data-na-only>1 phone number</li><li>3 channels</li><li>Booking, calendar and reminders</li><li>Follow-ups, custom fields, profiles</li><li>Calendar sync with Google and Outlook</li></ul>
+        <ul><li><span data-cell="growth.credits">45,000</span> credits a month</li><li><span data-cell="growth.seats">3</span> seats</li><li data-na-only>1 phone number</li><li><span data-cell="growth.channels">3</span> channels</li><li>Booking, calendar and reminders</li><li>Follow-ups, custom fields, profiles</li><li>Calendar sync with Google and Outlook</li></ul>
         <a class="btn btn-primary btn-block" href="${SIGNUP}&plan=growth">Start with Growth</a>
       </div>
       <div class="plan" data-plan="pro">
         <h3>Pro</h3><p class="for">Established, multi-channel, high volume</p>
         <div class="amt"><span data-price="pro">$399</span><small> <span data-code>USD</span> /mo</small></div>
         <p class="plus" data-plus>Everything in Growth, plus:</p>
-        <ul><li>120,000 credits a month</li><li>10 seats</li><li data-na-only>2 phone numbers</li><li data-pro-channels>All channels</li><li class="voice" data-na-only>AI voice receptionist</li><li>Insights dashboard</li><li>Priority support</li></ul>
+        <ul><li><span data-cell="pro.credits">120,000</span> credits a month</li><li><span data-cell="pro.seats">10</span> seats</li><li data-na-only>2 phone numbers</li><li data-pro-channels>All channels</li><li class="voice" data-needs-voice>AI voice receptionist</li><li>Insights dashboard</li><li>Priority support</li></ul>
         <a class="btn btn-ghost btn-block" href="${SIGNUP}&plan=pro">Choose Pro</a>
       </div>
     </div>`;
@@ -271,9 +286,9 @@ const sheetDetail = phone({
 });
 
 const homeFaq = [
-  ["What's a credit?", "Credits are how LeadQ measures usage. AI conversations, texts, calls and email all draw from one monthly pool, so there's no per-channel math to do. Run low and you top up in one tap. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account."],
+  ["What's a credit?", "Credits are how LeadQ measures usage. Everything the assistant does on every channel draws from one monthly pool, so there's no per-channel math to do. Run low and you top up in one tap. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account."],
   ["What happens if I run out of credits?", "Your assistant stops replying until your pool resets or you top up. Topping up takes one tap in the app, and it picks straight back up."],
-  ["Is there a contract?", "No. Plans are month to month, and you can cancel whenever you want from inside the app. If you cancel, we release the phone numbers on the account."],
+  ["Is there a contract?", "No. Plans are month to month, and you can cancel whenever you want from inside the app. If you cancel, we release any phone numbers on the account."],
   ["Do I need to register for texting?", "In the US, business texting needs A2P registration. We guide you through it inside the app. Canada doesn't need it, and the UAE runs on WhatsApp instead."],
   ["Can I keep my WhatsApp number?", "Yes. Connect a new number or bring the one your customers already message."],
   ["Can I take over a conversation?", "Any time. Pause the assistant for one contact or a whole channel, reply yourself, then hand it back."],
@@ -332,7 +347,7 @@ page({
     <div class="sec-head hero-head">
       <span class="pill">One assistant. Every channel.</span>
       <h1 class="h-hero">Stop chasing. Start closing.</h1>
-      <p class="lead">Every message you miss is a job someone else books. LeadQ answers WhatsApp, texts, web chat, email and your phone line in seconds, then books the appointment. At midnight, on a Sunday, or while you are with a customer.</p>
+      <p class="lead">Every message you miss is a job someone else books. LeadQ answers ${mkt("WhatsApp, texts, web chat, email and your phone line", "WhatsApp, web chat and email")} in seconds, then books the appointment. At midnight, on a Sunday, or while you are with a customer.</p>
       <div class="ctas">
         <a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a>
         <a class="btn btn-ghost btn-lg" href="#how" data-open-chat>See it work</a>
@@ -343,20 +358,20 @@ page({
   <div class="wm" aria-hidden="true">leadq</div><div class="glow" aria-hidden="true"></div>
   <span class="plabel" style="--c:#4d86ff"><i></i>You see it handled in LeadQ</span>
   <div class="appwin"><div class="abar"><i></i><i></i><i></i><span>app.leadq.co</span></div><div class="dkw"><div class="dk hero-dk" id="heroDk"><aside class="dk-side"><div class="dk-brand"><svg class="app" viewBox="0 0 100 100" aria-hidden="true"><use href="#lq-app"/></svg>LeadQ<svg class="ic" aria-hidden="true"><use href="#i-chev"/></svg></div><button type="button" tabindex="-1" class="dk-nav" data-go="home"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg>Home</button><button type="button" tabindex="-1" class="dk-nav on" data-go="inbox"><svg class="ic" aria-hidden="true"><use href="#i-inbox"/></svg>Inbox</button><button type="button" tabindex="-1" class="dk-nav"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Schedule</button><button type="button" tabindex="-1" class="dk-nav"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg>Assistant<span class="badge">2</span></button><button type="button" tabindex="-1" class="dk-nav" data-go="settings"><svg class="ic" aria-hidden="true"><use href="#i-gear"/></svg>Settings</button><div class="dk-bax"><span class="bot"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg></span><span><b>Baxter</b><small>On, 5 channels</small></span></div><div class="dk-user"><svg class="app" viewBox="0 0 100 100" aria-hidden="true"><use href="#lq-app"/></svg>info@riveradental.com</div></aside><div class="dk-main" style="display:flex;flex-direction:column"><div class="dk-top"><div><div class="dk-h6">Inbox</div><p>Baxter is handling 1 conversation.</p></div><button type="button" tabindex="-1" class="dk-bell" aria-label="Notifications"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg></button></div><div class="dk-scr"><div class="dk-inbox"><div class="dk-list"><div class="dk-search"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>Search people and messages</div>
-<div class="dk-filters"><span class="on">All<i>11</i></span><span>Needs you<i>1</i></span><span>Handed off<i>1</i></span><span>Booked<i>3</i></span><span>Went quiet<i>4</i></span><span>All channels<i>11</i></span></div><div class="dk-conv sel" data-hrow><span class="dk-av">JD</span><div><b>Jane Doe</b><span>Can I come in Thursday?</span><em class="blue">Baxter replying</em></div><time>now</time></div><div class="dk-conv"><span class="dk-av">MB</span><div><b>Marcus Bell</b><span>Can I talk to someone about my insurance...</span><em class="amber">Needs you</em></div><time>2h</time></div><div class="dk-conv"><span class="dk-av">PN</span><div><b>Priya Nair</b><span>Baxter: See you Thursday at 4:00 PM.</span><em class="green">Booked</em></div><time>1h</time></div><div class="dk-conv"><span class="dk-av">TA</span><div><b>Tom Alvarez</b><span>Tom called about a follow-up visit.</span><em class="blue">Baxter replying</em></div><time>2h</time></div><div class="dk-conv"><span class="dk-av">WV</span><div><b>Website visitor</b><span>Do you take Delta Dental?</span><em class="grey">Went quiet</em></div><time>5h</time></div></div><div class="dk-thread"><div class="dk-th-h"><span class="chn"><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></span><div><b>Jane Doe</b><small><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg>SMS</small></div>
+<div class="dk-filters"><span class="on">All<i>11</i></span><span>Needs you<i>1</i></span><span>Handed off<i>1</i></span><span>Booked<i>3</i></span><span>Went quiet<i>4</i></span><span>All channels<i>11</i></span></div><div class="dk-conv sel" data-hrow><span class="dk-av">JD</span><div><b>Jane Doe</b><span>Can I come in Thursday?</span><em class="blue">Baxter replying</em></div><time>now</time></div><div class="dk-conv"><span class="dk-av">MB</span><div><b>Marcus Bell</b><span>Can I talk to someone about my insurance...</span><em class="amber">Needs you</em></div><time>2h</time></div><div class="dk-conv"><span class="dk-av">PN</span><div><b>Priya Nair</b><span>Baxter: See you Thursday at 4:00 PM.</span><em class="green">Booked</em></div><time>1h</time></div><div class="dk-conv"><span class="dk-av">TA</span><div><b>Tom Alvarez</b><span>${mkt("Tom called about a follow-up visit.", "Tom asked about a follow-up visit.")}</span><em class="blue">Baxter replying</em></div><time>2h</time></div><div class="dk-conv"><span class="dk-av">WV</span><div><b>Website visitor</b><span>Do you take Delta Dental?</span><em class="grey">Went quiet</em></div><time>5h</time></div></div><div class="dk-thread"><div class="dk-th-h"><span class="chn"><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></span><div><b>Jane Doe</b><small><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg>${mkt("SMS", "WhatsApp")}</small></div>
 <div class="right"><span class="dk-chip blue">Baxter is handling</span><button type="button" tabindex="-1" class="dk-btn">Take over</button></div></div>
 <div class="dk-msgs" data-hmsgs><div class="dk-b cust" data-h="0">Can I come in Thursday?<small>3:02 PM</small></div>
 <div class="dk-typing" data-h="t"><i></i><i></i><i></i></div>
 <div class="dk-b bax" data-h="1">Thursday at 3:00 PM works. Want it?<small>Baxter, 3:02 PM</small></div>
 <div class="dk-b cust" data-h="2">Yes please<small>3:03 PM</small></div>
 <div class="dk-b bax" data-h="3">You're booked. Reminder coming Wednesday.<small>Baxter, 3:03 PM</small></div></div>
-<div class="dk-comp"><div class="via">Baxter is replying via <b>SMS</b></div><div class="row"><span class="inp">Type to take over</span><button type="button" tabindex="-1" class="dk-send" aria-label="Send"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg></button></div></div></div><div class="dk-contact"><div class="who"><span class="dk-av">JD</span><div><b>Jane Doe</b><span class="dk-chip grey">Patient</span></div></div>
-<div class="acts"><button type="button" tabindex="-1" class="dk-btn"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>Call</button><button type="button" tabindex="-1" class="dk-btn blue"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Book</button></div>
+<div class="dk-comp"><div class="via">Baxter is replying via <b>${mkt("SMS", "WhatsApp")}</b></div><div class="row"><span class="inp">Type to take over</span><button type="button" tabindex="-1" class="dk-send" aria-label="Send"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg></button></div></div></div><div class="dk-contact"><div class="who"><span class="dk-av">JD</span><div><b>Jane Doe</b><span class="dk-chip grey">Patient</span></div></div>
+<div class="acts"><button type="button" tabindex="-1" class="dk-btn"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svgdata-needs-voice>Call</button><button type="button" tabindex="-1" class="dk-btn blue"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Book</button></div>
 <div class="dk-kv"><span class="dk-lbl">Summary</span><p>Returning patient, overdue for a cleaning. Prefers afternoons.</p></div>
 <div class="dk-kv"><span class="dk-lbl">Appointments</span><div data-happt><p style="color:var(--ink-3);font-size:1.25em">Nothing booked yet.</p></div></div></div></div></div></div></div></div></div>
-  <div class="cphone"><span class="plabel" style="--c:#2dd4bf"><i></i>Your customer texts</span><div class="phone"><div class="screen">
+  <div class="cphone"><span class="plabel" style="--c:#2dd4bf"><i></i>Your customer ${mkt("texts", "messages")}</span><div class="phone"><div class="screen">
     <div class="island"></div><div class="status"><span>3:02</span><span>5G</span></div>
-    <div class="ctop"><span class="cav">RD</span><b>Rivera Dental</b><small>Text message</small></div>
+    <div class="ctop"><span class="cav">RD</span><b>Rivera Dental</b><small>${mkt("Text message", "WhatsApp message")}</small></div>
     <div class="chat" data-hphone>
       <div class="msg cust" data-h="0">Can I come in Thursday?</div>
       <div class="typing" data-h="t"><i></i><i></i><i></i></div>
@@ -364,7 +379,7 @@ page({
       <div class="msg cust" data-h="2">Yes please</div>
       <div class="msg biz" data-h="3">You're booked. Reminder coming Wednesday.</div>
     </div>
-    <div class="ccomp">Text message</div>
+    <div class="ccomp">${mkt("Text message", "WhatsApp message")}</div>
   </div></div></div>
 </div>
   </div>
@@ -373,7 +388,7 @@ page({
 <!-- one brain -->
 <section class="sec">
   <div class="wrap brain">
-    <div class="orbit" role="img" aria-label="WhatsApp, SMS, web chat, email and voice, all run by one assistant">
+    <div class="orbit" role="img" data-na-only aria-label="WhatsApp, SMS, web chat, email and voice, all run by one assistant">
       <div class="orbit-ring" aria-hidden="true"></div>
       <div class="orbit-core" aria-hidden="true"><span>One<br>assistant</span></div>
       <div class="chan" style="--x:0px;--y:-170px" aria-hidden="true">${chIcon('whatsapp')}WhatsApp</div>
@@ -382,11 +397,18 @@ page({
       <div class="chan" style="--x:-100px;--y:138px" aria-hidden="true">${chIcon('email')}Email</div>
       <div class="chan" style="--x:-162px;--y:-53px" aria-hidden="true">${chIcon('voice')}Voice</div>
     </div>
+    <div class="orbit" role="img" data-wa-only hidden aria-label="WhatsApp, web chat and email, all run by one assistant">
+      <div class="orbit-ring" aria-hidden="true"></div>
+      <div class="orbit-core" aria-hidden="true"><span>One<br>assistant</span></div>
+      <div class="chan" style="--x:0px;--y:-170px" aria-hidden="true">${chIcon('whatsapp')}WhatsApp</div>
+      <div class="chan" style="--x:147px;--y:85px" aria-hidden="true">${chIcon('webchat')}Web chat</div>
+      <div class="chan" style="--x:-147px;--y:85px" aria-hidden="true">${chIcon('email')}Email</div>
+    </div>
     <div>
-      <h2 class="h-sec">Not five tools. One assistant.</h2>
-      <p class="lead" style="margin-top:18px">Most businesses juggle a chat widget, a texting app, an inbox, a booking tool and a voicemail box, and still drop messages. LeadQ is one assistant that knows your business and works every channel the same way.</p>
+      <h2 class="h-sec">${mkt("Not five tools. One assistant.", "Not three tools. One assistant.")}</h2>
+      <p class="lead" style="margin-top:18px"><span data-na-only>Most businesses juggle a chat widget, a texting app, an inbox, a booking tool and a voicemail box, and still drop messages.</span><span data-wa-only hidden>Most businesses run WhatsApp off one person's phone, with a chat widget, an inbox and a booking tool beside it, and still drop messages.</span> LeadQ is one assistant that knows your business and works every channel the same way.</p>
       <div class="items">
-        <div class="item"><b>Change it once</b><span>Update your hours or add a service, and every channel knows. The phone too.</span></div>
+        <div class="item"><b>Change it once</b><span>Update your hours or add a service, and every channel knows.${mkt(" The phone too.", "")}</span></div>
         <div class="item"><b>Sounds like you</b><span>Warm, brisk, formal, luxe. Pick a tone and it talks like your front desk.</span></div>
         <div class="item"><b>Hands off on your rules</b><span>Decide when a person takes over, and what it should never say.</span></div>
       </div>
@@ -453,11 +475,11 @@ page({
       </div>
       <div class="tile">
         <h3>Contacts, ready at a glance</h3>
-        <p>Every detail and an AI summary of the chat, before you ever pick up the phone.</p>
+        <p>Every detail and an AI summary of the chat, before you ever ${mkt("pick up the phone", "open the thread")}.</p>
         <div class="vis"><div class="shot" aria-hidden="true">
           <div class="sc-cp"><span class="sc-cpav">J</span><span><span class="sc-name" style="font-size:15px">Jane Doe</span><span class="sc-chip">Booked</span></span></div>
           <div class="sc-sum"><div class="sc-sumhd">Summary</div><div class="sc-sumbody">New patient, prefers afternoons. Booked a cleaning for Wed 2:30 PM with Dr. Rivera.</div></div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">+1 (555) 123-4567</span><span class="sc-sub">Mobile, WhatsApp and SMS</span></span></div>
+          <div class="sc-row"><span class="sc-tx"><span class="sc-name">+1 (555) 123-4567</span><span class="sc-sub"><span data-na-only>Mobile, WhatsApp and SMS</span><span data-wa-only hidden>Mobile and WhatsApp</span></span></span></div>
           <div class="sc-row"><span class="sc-tx"><span class="sc-name">jane.doe@email.com</span><span class="sc-sub">Reminders and confirmations</span></span></div>
           <div class="sc-row"><span class="sc-tx"><span class="sc-name">First seen 12 Aug</span><span class="sc-sub">4 conversations, 2 bookings</span></span></div>
         </div></div>
@@ -499,23 +521,23 @@ page({
 <div class="dk-card dk-stat" style="--c:#37c98b"><div class="hd"><span class="dk-lbl" style="color:#7fe3b6">Booked</span><span class="dk-link">Schedule</span></div><div class="n"><b>3</b><span>this week by Baxter</span></div><p>Next: today, 2:30 PM</p></div>
 </div><div class="dk-colL">
 <div class="dk-card"><div class="dk-sec-h"><b>Waiting on you</b><span class="cnt">1</span><span class="hint">Reply to take over.</span></div>
-<div class="dk-wait"><span class="dk-av">MB</span><div><div class="who"><b>Marcus Bell</b><span><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg>SMS</span><em>waiting 2 h</em></div><q>Can I talk to someone about my insurance first?</q><div class="dk-tags"><span>Asked for a human</span><span>Booked before</span></div></div><div class="acts"><button type="button" class="dk-btn">Let Baxter continue</button><button type="button" class="dk-btn white" data-go="inbox">Reply</button></div></div></div>
-<div class="dk-card"><div class="dk-sec-h"><b>Recent conversations</b><span class="dk-link" data-go="inbox" style="cursor:pointer">Open inbox</span></div><div class="dk-row"><span class="dk-av">JD</span><div class="t"><b>Jane Doe<svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></b><span>Booked a cleaning for Wed 2:30 PM with Dr. Rivera.</span></div><span class="dk-chip green">Booked</span><time>12m</time></div><div class="dk-row"><span class="dk-av">PN</span><div class="t"><b>Priya Nair<svg class="ic" aria-hidden="true"><use href="#i-wa"/></svg></b><span>New patient, booked Thu 4:00 PM.</span></div><span class="dk-chip green">Booked</span><time>1h</time></div><div class="dk-row"><span class="dk-av">TA</span><div class="t"><b>Tom Alvarez<svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg></b><span>Called about a follow-up, Baxter is confirming a time.</span></div><span class="dk-chip blue">Baxter replying</span><time>2h</time></div><div class="dk-row"><span class="dk-av">WV</span><div class="t"><b>Website visitor<svg class="ic" aria-hidden="true"><use href="#i-web"/></svg></b><span>Asked if you take Delta Dental insurance.</span></div><span class="dk-chip grey">Went quiet</span><time>5h</time></div></div>
+<div class="dk-wait"><span class="dk-av">MB</span><div><div class="who"><b>Marcus Bell</b><span><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg>${mkt("SMS", "WhatsApp")}</span><em>waiting 2 h</em></div><q>Can I talk to someone about my insurance first?</q><div class="dk-tags"><span>Asked for a human</span><span>Booked before</span></div></div><div class="acts"><button type="button" class="dk-btn">Let Baxter continue</button><button type="button" class="dk-btn white" data-go="inbox">Reply</button></div></div></div>
+<div class="dk-card"><div class="dk-sec-h"><b>Recent conversations</b><span class="dk-link" data-go="inbox" style="cursor:pointer">Open inbox</span></div><div class="dk-row"><span class="dk-av">JD</span><div class="t"><b>Jane Doe<svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></b><span>Booked a cleaning for Wed 2:30 PM with Dr. Rivera.</span></div><span class="dk-chip green">Booked</span><time>12m</time></div><div class="dk-row"><span class="dk-av">PN</span><div class="t"><b>Priya Nair<svg class="ic" aria-hidden="true"><use href="#i-wa"/></svg></b><span>New patient, booked Thu 4:00 PM.</span></div><span class="dk-chip green">Booked</span><time>1h</time></div><div class="dk-row"><span class="dk-av">TA</span><div class="t"><b>Tom Alvarez<svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg></b><span>${mkt("Called about a follow-up, Baxter is confirming a time.", "Asked about a follow-up, Baxter is confirming a time.")}</span></div><span class="dk-chip blue">Baxter replying</span><time>2h</time></div><div class="dk-row"><span class="dk-av">WV</span><div class="t"><b>Website visitor<svg class="ic" aria-hidden="true"><use href="#i-web"/></svg></b><span>Asked if you take Delta Dental insurance.</span></div><span class="dk-chip grey">Went quiet</span><time>5h</time></div></div>
 </div><div class="dk-colR">
-<div class="dk-card"><div class="dk-master"><span class="chn wa"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg></span><span><b data-master-label>Baxter is on</b><small data-master-sub>Answering on 5 connected channels</small></span><button type="button" class="tg" aria-pressed="true" aria-label="Baxter on or off" data-master></button></div>
-<div class="dk-chl"><div class="hd"><span class="dk-lbl">Channels</span><span class="dk-lbl" data-chcount>5 connected</span></div><div class="dk-ch"><span class="chn "><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></span><b>SMS</b><span>+1 (555) 123-4567</span><button type="button" class="tg" aria-pressed="true" aria-label="SMS replies" data-chtg></button></div><div class="dk-ch"><span class="chn vo"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg></span><b>Voice</b><span>+1 (555) 123-4567</span><button type="button" class="tg" aria-pressed="true" aria-label="Voice replies" data-chtg></button></div><div class="dk-ch"><span class="chn wa"><svg class="ic" aria-hidden="true"><use href="#i-wa"/></svg></span><b>WhatsApp</b><span>+1 (555) 771-0064</span><button type="button" class="tg" aria-pressed="true" aria-label="WhatsApp replies" data-chtg></button></div><div class="dk-ch"><span class="chn web"><svg class="ic" aria-hidden="true"><use href="#i-web"/></svg></span><b>Website chat</b><span>riveradental.com</span><button type="button" class="tg" aria-pressed="true" aria-label="Website chat replies" data-chtg></button></div><div class="dk-ch"><span class="chn em"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg></span><b>Email</b><span>hi@riveradental.com</span><button type="button" class="tg" aria-pressed="true" aria-label="Email replies" data-chtg></button></div></div></div>
-<div class="dk-card"><div class="dk-sec-h" style="border:0"><b>Up next</b><span class="dk-link" data-go="schedule" style="cursor:pointer">Schedule</span></div><div class="dk-next"><span class="dk-lbl">Today</span><div class="dk-slot"><time>2:30 PM</time><div><b>Jane Doe</b><small>Cleaning, 30 min, booked via SMS</small></div><svg class="ic ok" aria-hidden="true"><use href="#i-check"/></svg></div></div></div>
+<div class="dk-card"><div class="dk-master"><span class="chn wa"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg></span><span><b data-master-label>Baxter is on</b><small data-master-sub>Answering on <span data-chan-n>5</span> connected channels</small></span><button type="button" class="tg" aria-pressed="true" aria-label="Baxter on or off" data-master></button></div>
+<div class="dk-chl"><div class="hd"><span class="dk-lbl">Channels</span><span class="dk-lbl" data-chcount data-chan-count>5 connected</span></div><div class="dk-ch" data-na-only><span class="chn "><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></span><b>SMS</b><span>+1 (555) 123-4567</span><button type="button" class="tg" aria-pressed="true" aria-label="SMS replies" data-chtg></button></div><div class="dk-ch" data-needs-voice><span class="chn vo"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg></span><b>Voice</b><span>+1 (555) 123-4567</span><button type="button" class="tg" aria-pressed="true" aria-label="Voice replies" data-chtg></button></div><div class="dk-ch"><span class="chn wa"><svg class="ic" aria-hidden="true"><use href="#i-wa"/></svg></span><b>WhatsApp</b><span>+1 (555) 771-0064</span><button type="button" class="tg" aria-pressed="true" aria-label="WhatsApp replies" data-chtg></button></div><div class="dk-ch"><span class="chn web"><svg class="ic" aria-hidden="true"><use href="#i-web"/></svg></span><b>Website chat</b><span>riveradental.com</span><button type="button" class="tg" aria-pressed="true" aria-label="Website chat replies" data-chtg></button></div><div class="dk-ch"><span class="chn em"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg></span><b>Email</b><span>hi@riveradental.com</span><button type="button" class="tg" aria-pressed="true" aria-label="Email replies" data-chtg></button></div></div></div>
+<div class="dk-card"><div class="dk-sec-h" style="border:0"><b>Up next</b><span class="dk-link" data-go="schedule" style="cursor:pointer">Schedule</span></div><div class="dk-next"><span class="dk-lbl">Today</span><div class="dk-slot"><time>2:30 PM</time><div><b>Jane Doe</b><small>Cleaning, 30 min, booked via <span data-na-only>SMS</span><span data-wa-only hidden>WhatsApp</span></small></div><svg class="ic ok" aria-hidden="true"><use href="#i-check"/></svg></div></div></div>
 </div></div></div></div>
 <div data-scr="inbox" class="dk-page" hidden><div class="dk-top"><div><div class="dk-h6">Inbox</div><p>1 conversation needs you. Baxter is handling 1.</p></div><button type="button" class="dk-bell" aria-label="Notifications"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg></button></div><div class="dk-scr"><div class="dk-inbox"><div class="dk-list"><div class="dk-search"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>Search people and messages</div>
-<div class="dk-filters"><span class="on">All<i>11</i></span><span>Needs you<i>1</i></span><span>Handed off<i>1</i></span><span>Booked<i>3</i></span><span>Went quiet<i>4</i></span><span>All channels<i>11</i></span></div><div class="dk-conv sel"><span class="dk-av">MB</span><div><b>Marcus Bell</b><span>You: Hi Marcus, this is Sarah from Rivera...</span><em class="amber">Taken over</em></div><time>2h</time></div><div class="dk-conv"><span class="dk-av">JD</span><div><b>Jane Doe</b><span>Baxter: You're booked. Reminder coming...</span><em class="green">Booked</em></div><time>12m</time></div><div class="dk-conv"><span class="dk-av">PN</span><div><b>Priya Nair</b><span>Baxter: See you Thursday at 4:00 PM.</span><em class="green">Booked</em></div><time>1h</time></div><div class="dk-conv"><span class="dk-av">TA</span><div><b>Tom Alvarez</b><span>Tom called about a follow-up visit.</span><em class="blue">Baxter replying</em></div><time>2h</time></div><div class="dk-conv"><span class="dk-av">WV</span><div><b>Website visitor</b><span>Do you take Delta Dental?</span><em class="grey">Went quiet</em></div><time>5h</time></div><div class="dk-conv"><span class="dk-av">OJ</span><div><b>Olivia Johnson</b><span>Baxter: Thanks for reaching out, Olivia.</span><em class="grey">Went quiet</em></div><time>1d</time></div></div><div class="dk-thread"><div class="dk-th-h"><span class="chn"><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></span><div><b>Marcus Bell</b><small><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg>SMS</small></div>
+<div class="dk-filters"><span class="on">All<i>11</i></span><span>Needs you<i>1</i></span><span>Handed off<i>1</i></span><span>Booked<i>3</i></span><span>Went quiet<i>4</i></span><span>All channels<i>11</i></span></div><div class="dk-conv sel"><span class="dk-av">MB</span><div><b>Marcus Bell</b><span>You: Hi Marcus, this is Sarah from Rivera...</span><em class="amber">Taken over</em></div><time>2h</time></div><div class="dk-conv"><span class="dk-av">JD</span><div><b>Jane Doe</b><span>Baxter: You're booked. Reminder coming...</span><em class="green">Booked</em></div><time>12m</time></div><div class="dk-conv"><span class="dk-av">PN</span><div><b>Priya Nair</b><span>Baxter: See you Thursday at 4:00 PM.</span><em class="green">Booked</em></div><time>1h</time></div><div class="dk-conv"><span class="dk-av">TA</span><div><b>Tom Alvarez</b><span>${mkt("Tom called about a follow-up visit.", "Tom asked about a follow-up visit.")}</span><em class="blue">Baxter replying</em></div><time>2h</time></div><div class="dk-conv"><span class="dk-av">WV</span><div><b>Website visitor</b><span>Do you take Delta Dental?</span><em class="grey">Went quiet</em></div><time>5h</time></div><div class="dk-conv"><span class="dk-av">OJ</span><div><b>Olivia Johnson</b><span>Baxter: Thanks for reaching out, Olivia.</span><em class="grey">Went quiet</em></div><time>1d</time></div></div><div class="dk-thread"><div class="dk-th-h"><span class="chn"><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></span><div><b>Marcus Bell</b><small><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg>${mkt("SMS", "WhatsApp")}</small></div>
 <div class="right"><span class="dk-chip amber" data-ho-chip>Taken over</span><button type="button" class="dk-btn" data-ho>Hand back</button></div></div>
 <div class="dk-msgs"><div class="dk-b cust">Hi, do you take Delta Dental?<small>2:41 PM</small></div>
 <div class="dk-b bax">We do. Would you like to book a cleaning? I have Thursday at 10:00 AM open.<small>2:41 PM</small></div>
 <div class="dk-b cust">Can I talk to someone about my insurance first?<small>2:43 PM</small></div>
 <div class="dk-b bax">Of course. I've let the team know, and someone will reply here shortly.<small>2:43 PM</small></div>
 <div class="dk-b you">Hi Marcus, this is Sarah from Rivera Dental. Happy to walk you through your coverage.<small>You, 4:51 PM</small></div></div>
-<div class="dk-comp"><div class="via" data-ho-via>Replying as you via <b>SMS</b></div><div class="row"><span class="inp">Type a message</span><button type="button" class="dk-btn"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Book</button><button type="button" class="dk-send" aria-label="Send"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg></button></div></div></div><div class="dk-contact"><div class="who"><span class="dk-av">MB</span><div><b>Marcus Bell</b><span class="dk-chip grey">Patient</span></div></div>
-<div class="acts"><button type="button" class="dk-btn"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>Call</button><button type="button" class="dk-btn blue"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Book</button></div>
+<div class="dk-comp"><div class="via" data-ho-via>Replying as you via <b>${mkt("SMS", "WhatsApp")}</b></div><div class="row"><span class="inp">Type a message</span><button type="button" class="dk-btn"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Book</button><button type="button" class="dk-send" aria-label="Send"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg></button></div></div></div><div class="dk-contact"><div class="who"><span class="dk-av">MB</span><div><b>Marcus Bell</b><span class="dk-chip grey">Patient</span></div></div>
+<div class="acts"><button type="button" class="dk-btn"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svgdata-needs-voice>Call</button><button type="button" class="dk-btn blue"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Book</button></div>
 <div class="dk-kv"><span class="dk-lbl">Summary</span><p>Existing patient. Asked about Delta Dental coverage before booking a cleaning. Prefers mornings.</p></div>
 <div class="dk-kv"><span class="dk-lbl">Details</span><dl><div><dt>Phone</dt><dd>+1 (555) 018-0142</dd></div><div><dt>Email</dt><dd>marcus.bell@example.com</dd></div></dl></div>
 <div class="dk-kv"><span class="dk-lbl">Appointments</span><div class="dk-appt"><span class="cal"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><b>Mon, Aug 25, 10:00 AM</b><small>Consultation with Sarah</small></div></div></div>
@@ -533,7 +555,7 @@ page({
 <!-- voice teaser -->
 <section class="sec">
   <div class="wrap">
-    <div class="voice-band" style="--c:#a98cf0" data-live>
+    <div class="voice-band" style="--c:#a98cf0" data-live data-needs-voice>
       <div>
         <h2 class="h-sec">Then it picks up the phone too.</h2>
         <p class="lead" style="margin:18px 0 28px">A receptionist that sounds human, takes the calls you can't, books the job, and warm-transfers to you when it matters. No more voicemail.</p>
@@ -568,10 +590,10 @@ page({
       <div class="step">
         <span class="n">2</span>
         <h3>Connect your channels</h3>
-        <p>WhatsApp, text, web chat and email. We guide you through SMS registration.</p>
+        <p><span data-na-only>WhatsApp, text, web chat and email. We guide you through SMS registration.</span><span data-wa-only hidden>WhatsApp, web chat and email. We guide you through WhatsApp Business approval.</span></p>
         <div class="shot" aria-hidden="true">
           <div class="sc-row"><span class="sc-ic">${chIcon('whatsapp')}</span><span class="sc-tx"><span class="sc-name">WhatsApp</span></span><span class="sc-ok">Connected</span></div>
-          <div class="sc-row"><span class="sc-ic">${chIcon('sms')}</span><span class="sc-tx"><span class="sc-name">SMS</span></span><span class="sc-ok">Connected</span></div>
+          <div class="sc-row"><span class="sc-ic">${chIcon('sms')}</span><span class="sc-tx"><span class="sc-name">${mkt("SMS", "WhatsApp")}</span></span><span class="sc-ok">Connected</span></div>
           <div class="sc-row"><span class="sc-ic">${chIcon('webchat')}</span><span class="sc-tx"><span class="sc-name">Web chat</span></span><span class="sc-ok">Connected</span></div>
         </div>
       </div>
@@ -680,22 +702,22 @@ page({
         <caption>Compare plans</caption>
         <thead><tr><th scope="col"><span class="sr-only">Feature</span></th><th scope="col">Starter</th><th scope="col" data-plan="growth" class="hot">Growth</th><th scope="col">Pro</th></tr></thead>
         <tbody>
-          <tr><th scope="row">Credits a month</th><td class="mono">20,000</td><td data-plan="growth" class="hot mono">45,000</td><td class="mono">120,000</td></tr>
-          <tr><th scope="row">Seats</th><td>1</td><td data-plan="growth" class="hot">3</td><td>10</td></tr>
+          <tr><th scope="row">Credits a month</th><td class="mono" data-cell="starter.credits">20,000</td><td data-plan="growth" class="hot mono" data-cell="growth.credits">45,000</td><td class="mono" data-cell="pro.credits">120,000</td></tr>
+          <tr><th scope="row">Seats</th><td data-cell="starter.seats">1</td><td data-plan="growth" class="hot" data-cell="growth.seats">3</td><td data-cell="pro.seats">10</td></tr>
           <tr data-na-only><th scope="row">Phone numbers</th><td>${no}</td><td data-plan="growth" class="hot">1</td><td>2</td></tr>
-          <tr><th scope="row">Channels</th><td>1</td><td data-plan="growth" class="hot">3</td><td data-pro-channels>All</td></tr>
+          <tr><th scope="row">Channels</th><td data-cell="starter.channels">1</td><td data-plan="growth" class="hot" data-cell="growth.channels">3</td><td data-pro-channels>All</td></tr>
           <tr><th scope="row">Assistant, FAQ and lead capture</th><td>${yes}</td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
-          <tr><th scope="row">Booking, calendar and reminders</th><td>${no}</td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
-          <tr><th scope="row">Follow-ups, custom fields, profiles</th><td>${no}</td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
+          <tr><th scope="row">Booking, calendar and reminders</th><td><span data-na-only>${no}</span><span data-wa-only hidden>${yes}</span></td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
+          <tr><th scope="row">Follow-ups, custom fields, profiles</th><td><span data-na-only>${no}</span><span data-wa-only hidden>${yes}</span></td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
           <tr><th scope="row">Insights dashboard</th><td>${no}</td><td data-plan="growth" class="hot">${no}</td><td>${yes}</td></tr>
           <tr><th scope="row">Priority support</th><td>${no}</td><td data-plan="growth" class="hot">${no}</td><td>${yes}</td></tr>
-          <tr><th scope="row">Calendar sync with Google and Outlook</th><td>${no}</td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
-          <tr data-na-only><th scope="row">AI voice receptionist</th><td>${no}</td><td data-plan="growth" class="hot">${no}</td><td><span class="yes voice" aria-label="Included">&#10003;</span></td></tr>
+          <tr><th scope="row">Calendar sync with Google and Outlook</th><td><span data-na-only>${no}</span><span data-wa-only hidden>${yes}</span></td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
+          <tr data-needs-voice><th scope="row">AI voice receptionist</th><td>${no}</td><td data-plan="growth" class="hot">${no}</td><td><span class="yes voice" aria-label="Included">&#10003;</span></td></tr>
         </tbody>
       </table>
     </div>
 
-    <div class="voice-strip" style="--c:#a98cf0" data-na-only>
+    <div class="voice-strip" style="--c:#a98cf0" data-needs-voice>
       <div class="vr" aria-hidden="true"></div>
       <div><b><a href="voice.html">AI Receptionist, part of Pro</a></b><span>The same assistant answers the phone, books live and captures every missed call. Inbound first, outbound later.</span></div>
       <div class="amt">Included<small>About 220 credits a minute</small></div>
@@ -733,7 +755,7 @@ page({
         </table>
       </div>
     </div>
-    <p class="fine-print">Month to month. No contracts, cancel anytime. Your monthly credits cover every channel and reset each cycle. Credits you buy never expire. If your subscription ends, we release its phone numbers.</p>
+    <p class="fine-print">Month to month. No contracts, cancel anytime. Your monthly credits cover every channel and reset each cycle. Credits you buy never expire. If your subscription ends, we release any phone numbers on it.</p>
   </div>
 </section>
 
@@ -772,7 +794,16 @@ page({
   bodyAttr: 'class="page-voice" style="--c:#a98cf0;--c2:#7b5bd6"',
   navHtml: nav("voice", { voice: true }),
   main: `
-<section class="lit-hero" data-live>
+<section class="sec" data-wa-only hidden>
+  <div class="wrap">
+    <div class="note-card">
+      <h1 class="h-sec">The AI Receptionist isn't available in the UAE.</h1>
+      <p class="lead">AI voice agents aren't permitted on UAE networks, so we don't offer one there. Everything else LeadQ does works exactly as it should: WhatsApp, web chat and email, answered around the clock, booking straight into your calendar.</p>
+      <div class="ctas"><a class="btn btn-primary btn-lg" href="pricing.html">See UAE plans</a><a class="btn btn-ghost btn-lg" href="index.html">How LeadQ works</a></div>
+    </div>
+  </div>
+</section>
+<section class="lit-hero" data-live data-needs-voice>
   <div class="wrap">
     <div class="voice-hero">
       <div>
@@ -816,7 +847,7 @@ page({
   </div>
 </section>
 
-<section class="sec">
+<section data-needs-voice class="sec">
   <div class="wrap picker">
     <div>
       <h2 class="h-sec">Choose a voice your callers will trust.</h2>
@@ -826,7 +857,7 @@ page({
   </div>
 </section>
 
-<section class="sec" style="padding-top:0">
+<section data-needs-voice class="sec" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head"><h2 class="h-sec">A receptionist that never misses.</h2></div>
     <div class="oncall">
@@ -840,7 +871,7 @@ page({
   </div>
 </section>
 
-<section class="sec" style="padding-top:0">
+<section data-needs-voice class="sec" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head">
       <h2 class="h-sec">Not a second robot.</h2>
@@ -868,7 +899,7 @@ page({
   </div>
 </section>
 
-<section class="sec" style="padding-top:0">
+<section data-needs-voice class="sec" style="padding-top:0">
   <div class="wrap">
     <div class="priceblock">
       <div>
@@ -903,7 +934,7 @@ page({
     <div>
       <span class="pill" data-uc-pill>Dental and clinics</span>
       <h1 class="h-hero" data-uc-h>Built for how clinics actually work.</h1>
-      <p class="lead" data-uc-p>It answers every call, books the chair, and reminds them the day before. Even while you're with a patient.</p>
+      <p class="lead" data-uc-p>It answers every ${mkt("call", "message")}, books the chair, and reminds them the day before. Even while you're with a patient.</p>
       <div class="tabs" role="group" aria-label="Industry">
         <button type="button" data-industry="dental" aria-pressed="true">Dental and clinics</button>
         <button type="button" data-industry="salon" aria-pressed="false">Salons</button>
@@ -937,8 +968,8 @@ page({
   <div class="wrap">
     <div class="sec-head"><h2 class="h-sec">The same problems, in every trade.</h2></div>
     <div class="ww">
-      <div class="without"><h3>Without LeadQ</h3><ul><li>The phone rings while you're with a customer</li><li>Messages sit unread until tonight</li><li>New leads book with whoever answers first</li></ul></div>
-      <div class="with"><h3>With LeadQ</h3><ul><li>Every call and message answered in seconds</li><li>Booked straight into your calendar, reminders sent</li><li>Follow-ups go out while you work</li></ul></div>
+      <div class="without"><h3>Without LeadQ</h3><ul><li>${mkt("The phone rings while you're with a customer", "Messages arrive while you're with a customer")}</li><li>Messages sit unread until tonight</li><li>New leads book with whoever answers first</li></ul></div>
+      <div class="with"><h3>With LeadQ</h3><ul><li>${mkt("Every call and message answered in seconds", "Every message answered in seconds")}</li><li>Booked straight into your calendar, reminders sent</li><li>Follow-ups go out while you work</li></ul></div>
     </div>
   </div>
 </section>
@@ -971,10 +1002,15 @@ const VERTICALS = [
     service: "An AI assistant that answers calls, texts and web chat for dental practices, books appointments, sends reminders and captures new patients 24/7.",
     pill: "For dental and aesthetic clinics",
     h1: "The receptionist your practice never has to train.",
+    h1Wa: "The front desk your practice never has to train.",
     body: "It answers every call and message, books the chair, confirms the day before, and captures new patients while you're with a patient. On WhatsApp, text, web chat and the phone.",
+    bodyWa: "It answers every message, books the chair, confirms the day before, and captures new patients while you're with a patient. On WhatsApp, web chat and email.",
     rows: [["10:00", "AM", "Marcus Bell", "Consultation, Sarah", "Booked, reminder sent"], ["2:30", "PM", "Jane Doe", "Cleaning, Dr. Rivera"], ["4:00", "PM", "Priya Nair", "New patient, Dr. Rivera"]],
     h2: "A front desk that never goes to voicemail.",
+    h2Wa: "A front desk that never leaves a message unread.",
     without: ["The phone rings mid-procedure", "No-shows leave empty chairs", "New patients call after you've closed"],
+    withoutWa: ["Messages pile up mid-procedure", null, "New patients message after you've closed"],
+    withWa: ["Answered while you're with a patient", null, null],
     with: ["Answered while you're with a patient", "Confirmations and reminders cut no-shows", "New patients booked at 11pm"],
     noun: "patient",
     faqTitle: "Dental clinics ask us",
@@ -996,14 +1032,17 @@ const VERTICALS = [
     pill: "For salons and barbershops",
     h1: "Books while your hands are full.",
     body: "It answers every call and text, books the seat, reschedules in seconds, and confirms the day before. So you can keep cutting.",
+    bodyWa: "It answers every message, books the seat, reschedules in seconds, and confirms the day before. So you can keep cutting.",
     rows: [["11:00", "AM", "Chloe Tan", "Balayage, Mia", "Booked, reminder sent"], ["1:30", "PM", "Aria West", "Cut and color, Jordan"], ["3:00", "PM", "Sam Cole", "Men's cut, Riley"]],
     h2: "Never miss a booking mid-cut.",
     without: ["You can't text back mid-cut", "Last-minute changes blow up the day", "Missed calls become missed bookings"],
+    withoutWa: ["You can't reply mid-cut", null, "Unanswered messages become missed bookings"],
     with: ["Replies while your hands are full", "Reschedules in seconds", "Answers every call and text, and books it"],
+    withWa: [null, null, "Answers every message, and books it"],
     noun: "customer",
     faqTitle: "Salons and barbershops ask us",
     faq: [
-      ["Can it reply while I'm with a client?", "Yes. It handles the whole conversation on WhatsApp, text and web chat and books it, so you never stop mid-cut."],
+      ["Can it reply while I'm with a client?", "Yes. It handles the whole conversation on whichever channel they used and books it, so you never stop mid-cut."],
       ["Can I still jump in myself?", "Any time. Pause it on a channel, reply yourself, and switch it back on."],
       ["Will it take bookings after hours?", "Yes, 24/7. It books, reschedules and confirms around the clock and sends reminders the day before."],
       ["How long does setup take?", "Minutes, in your browser. It learns your services and prices from your website, and you approve before it goes live."],
@@ -1019,9 +1058,11 @@ const VERTICALS = [
     pill: "For home services",
     h1: "Answers while you're on the job.",
     body: "HVAC, plumbing, electrical, cleaning and more. It picks up every call, books the visit, answers after-hours emergencies, and captures what you need to quote.",
+    bodyWa: "HVAC, plumbing, electrical, cleaning and more. It answers every message, books the visit, handles after-hours emergencies, and captures what you need to quote.",
     rows: [["8:00", "AM", "Dana Ruiz", "AC tune-up, Dave", "Booked, reminder sent"], ["11:30", "AM", "Owen Park", "Furnace repair, Miguel"], ["2:00", "PM", "Nina Blake", "On-site estimate, Dave"]],
     h2: "Win the job without leaving the ladder.",
     without: ["You're on a roof, not on the phone", "After-hours calls go to voicemail", "Job details get lost in texts"],
+    withoutWa: ["You're on a roof, not on your phone", "After-hours messages sit unread", "Job details get lost in chats"],
     with: ["Books the job while you're on site", "Answers emergencies at 2am", "Captures the details for the quote"],
     noun: "job",
     faqTitle: "Home services teams ask us",
@@ -1032,7 +1073,7 @@ const VERTICALS = [
       ["Which channels does it cover?", "WhatsApp, text and web chat, plus your phone line on the Pro plan. One assistant across all of them."],
       ["How fast is setup?", "Minutes, in your browser. It learns your services and service area from your website."],
     ],
-    close: "Book more jobs. Miss fewer calls.",
+    close: `Book more jobs. ${mkt("Miss fewer calls.", "Miss fewer messages.")}`,
     closeBody: "Set it up in your browser in minutes. It learns your business, then gets to work.",
   },
   {
@@ -1043,10 +1084,12 @@ const VERTICALS = [
     pill: "For real estate",
     h1: "Answers leads before they go cold.",
     body: "It replies to new enquiries in seconds, books the showing around your day, qualifies the buyer, and follows up. No lead waits while you're at a closing.",
-    rows: [["9:30", "AM", "Liam Ford", "Showing, 14 Oak St", "Booked, reminder sent"], ["12:00", "PM", "Sofia Reyes", "Buyer call, Ana"], ["4:30", "PM", "Noah Kim", "Listing visit, 8 Elm Ave"]],
+    rows: [["9:30", "AM", "Liam Ford", "Showing, 14 Oak St", "Booked, reminder sent"], ["12:00", "PM", "Sofia Reyes", `${mkt("Buyer call, Ana", "Buyer chat, Ana")}`], ["4:30", "PM", "Noah Kim", "Listing visit, 8 Elm Ave"]],
     h2: "Be first to every lead, every time.",
     without: ["Leads go cold in minutes", "Showings clash across your day", "You're at a closing, phone ringing"],
+    withoutWa: [null, null, "You're at a closing, messages stacking up"],
     with: ["Replies to new leads in seconds", "Books showings around your calendar", "Qualifies the buyer before you call"],
+    withWa: [null, null, "Qualifies the buyer before you reply"],
     noun: "client",
     faqTitle: "Agents ask us",
     faq: [
@@ -1081,8 +1124,8 @@ VERTICALS.forEach((v) => {
   <div class="wrap">
     <div>
       <span class="pill">${v.pill}</span>
-      <h1 class="h-hero">${v.h1}</h1>
-      <p class="lead">${v.body}</p>
+      <h1 class="h-hero">${mkt(v.h1, v.h1Wa)}</h1>
+      <p class="lead">${mkt(v.body, v.bodyWa)}</p>
       <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
     </div>
     ${phone({ label: `The LeadQ app Schedule, filled with ${v.crumb.toLowerCase()} bookings`, tab: "schedule", header: scheduleHeader, body: scheduleBody(v.rows) })}
@@ -1091,10 +1134,10 @@ VERTICALS.forEach((v) => {
 
 <section class="sec">
   <div class="wrap">
-    <div class="sec-head"><h2 class="h-sec">${v.h2}</h2></div>
+    <div class="sec-head"><h2 class="h-sec">${mkt(v.h2, v.h2Wa)}</h2></div>
     <div class="ww">
-      <div class="without"><h3>Without LeadQ</h3><ul>${v.without.map((x) => `<li>${x}</li>`).join("")}</ul></div>
-      <div class="with"><h3>With LeadQ</h3><ul>${v.with.map((x) => `<li>${x}</li>`).join("")}</ul></div>
+      <div class="without"><h3>Without LeadQ</h3><ul>${v.without.map((x, i) => `<li>${mkt(x, v.withoutWa && v.withoutWa[i])}</li>`).join("")}</ul></div>
+      <div class="with"><h3>With LeadQ</h3><ul>${v.with.map((x, i) => `<li>${mkt(x, v.withWa && v.withWa[i])}</li>`).join("")}</ul></div>
     </div>
   </div>
 </section>
@@ -1103,10 +1146,10 @@ VERTICALS.forEach((v) => {
   <div class="wrap roi-sec">
     <div>
       <h2 class="h-sec">What slow replies cost you.</h2>
-      <p class="lead" style="margin-top:18px">Set how many calls and messages slip through in a week, and what a new ${v.noun} is worth to you. The rest is simple math.</p>
+      <p class="lead" style="margin-top:18px">Set how many ${mkt("calls and messages", "messages")} slip through in a week, and what a new ${v.noun} is worth to you. The rest is simple math.</p>
     </div>
     <div class="roi" data-roi>
-      <label for="roi-missed"><span>Missed calls and messages per week</span><b data-roi-missed-out>10</b></label>
+      <label for="roi-missed"><span><span data-na-only>Missed calls and messages per week</span><span data-wa-only hidden>Messages you miss or answer late, per week</span></span><b data-roi-missed-out>10</b></label>
       <input id="roi-missed" type="range" min="1" max="60" step="1" value="10" data-roi-missed>
       <label for="roi-value"><span>Average value of a new ${v.noun}</span><b data-roi-value-out>$250</b></label>
       <input id="roi-value" type="range" min="50" max="1500" step="50" value="250" data-roi-value>
@@ -1149,7 +1192,7 @@ page({
     <div class="about-hero">
       <span class="pill">About LeadQ</span>
       <h1 class="h-hero">One app, instead of five tools and a front desk.</h1>
-      <p class="lead">LeadQ is one AI assistant for your whole business. It answers WhatsApp, SMS, web chat, email and your phone line, and it books the appointment while you work.</p>
+      <p class="lead">LeadQ is one AI assistant for your whole business. It answers ${mkt("WhatsApp, SMS, web chat, email and your phone line", "WhatsApp, web chat and email")}, and it books the appointment while you work.</p>
     </div>
     <div class="founders">
       <figure class="founder"><div class="frame"><picture><source srcset="img/team/rob.webp" type="image/webp"><img src="img/team/rob.jpg" alt="Rob, co-founder of LeadQ" width="520" height="688" decoding="async"></picture></div><figcaption><b>Rob</b><span>Co-founder</span></figcaption></figure>
@@ -1161,14 +1204,14 @@ page({
 <section class="sec">
   <div class="wrap story">
     <h2 class="h-sec">Every missed message is a job someone else books.</h2>
-    <p class="lead">Local businesses lose real money in the gap between a customer reaching out and someone getting back to them. It happens at midnight, on a Sunday, and in the twenty minutes you were with another customer. Missed calls and unread texts don't add up to lost messages. They add up to lost bookings.</p>
+    <p class="lead">Local businesses lose real money in the gap between a customer reaching out and someone getting back to them. It happens at midnight, on a Sunday, and in the twenty minutes you were with another customer. ${mkt("Missed calls and unread texts", "Unread messages and slow replies")} don't add up to lost messages. They add up to lost bookings.</p>
   </div>
 </section>
 
 <section class="sec" style="padding-top:0">
   <div class="wrap story">
     <h2 class="h-sec">You shouldn't need five tools to answer a customer.</h2>
-    <p class="lead">Most small teams stitch together a chat widget, a texting app, an inbox, a booking tool and a receptionist, and still drop messages. It should be one assistant that knows your business, speaks in your voice, and works every channel the same way. So that's what we built.</p>
+    <p class="lead">Most small teams stitch together a chat widget, ${mkt("a texting app, an inbox, a booking tool and a receptionist", "an inbox, a booking tool and a WhatsApp number on someone's phone")}, and still drop messages. It should be one assistant that knows your business, speaks in your voice, and works every channel the same way. So that's what we built.</p>
   </div>
 </section>
 
@@ -1179,7 +1222,7 @@ page({
       <p class="lead" style="margin:18px auto 0">Not an agency. Not a service you wait on. You set it up in your browser in minutes, it learns your services and your tone, and it starts answering. You stay in control, and you can jump into any conversation whenever you want.</p>
     </div>
     <div class="grid g3" style="margin-top:44px">
-      <div class="card"><h3>Every channel</h3><p>WhatsApp, SMS, web chat, email, and your phone line on Pro.</p></div>
+      <div class="card"><h3>Every channel</h3><p>${mkt("WhatsApp, SMS, web chat, email, and your phone line on Pro.", "WhatsApp, plus web chat and email on Pro.")}</p></div>
       <div class="card"><h3>Books the work</h3><p>Checks real availability, books, reschedules and reminds.</p></div>
       <div class="card"><h3>Sounds like you</h3><p>Replies read like your business, not a bot.</p></div>
     </div>

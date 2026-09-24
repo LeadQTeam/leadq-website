@@ -32,13 +32,13 @@
 <header class="nav">
   <div class="nav-pill">
     <a class="brand" href="index.html" aria-label="LeadQ home"><picture><source srcset="img/brand/leadq-wordmark.webp" type="image/webp"><img class="brand-logo brand-night" src="img/brand/leadq-wordmark.png" alt="LeadQ" width="512" height="199"></picture><img class="brand-logo brand-ink" src="img/brand/leadq-wordmark-ink.png" alt="" aria-hidden="true" width="512" height="202"></a>
-    <nav class="nav-links" aria-label="Main"><a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="pricing.html">Pricing</a><a href="voice.html">Voice AI</a></nav>
+    <nav class="nav-links" aria-label="Main"><a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="pricing.html">Pricing</a><a href="voice.html" data-needs-voice>Voice AI</a></nav>
     <div class="nav-actions">
       <a class="btn btn-ghost btn-sm login" href="https://app.leadq.co">Log in</a>
       <a class="btn btn-primary btn-sm" href="https://app.leadq.co/?signup">Get started</a>
       <button class="nav-menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav-sheet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
-    <div class="nav-sheet" id="nav-sheet" hidden><a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="pricing.html">Pricing</a><a href="voice.html">Voice AI</a><a href="about.html">About</a><a href="https://app.leadq.co">Log in</a></div>
+    <div class="nav-sheet" id="nav-sheet" hidden><a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="pricing.html">Pricing</a><a href="voice.html" data-needs-voice>Voice AI</a><a href="about.html">About</a><a href="https://app.leadq.co">Log in</a></div>
   </div>
 </header>
 
@@ -49,7 +49,7 @@
     <div class="about-hero">
       <span class="pill">About LeadQ</span>
       <h1 class="h-hero">One app, instead of five tools and a front desk.</h1>
-      <p class="lead">LeadQ is one AI assistant for your whole business. It answers WhatsApp, SMS, web chat, email and your phone line, and it books the appointment while you work.</p>
+      <p class="lead">LeadQ is one AI assistant for your whole business. It answers <span data-na-only>WhatsApp, SMS, web chat, email and your phone line</span><span data-wa-only hidden>WhatsApp, web chat and email</span>, and it books the appointment while you work.</p>
     </div>
     <div class="founders">
       <figure class="founder"><div class="frame"><picture><source srcset="img/team/rob.webp" type="image/webp"><img src="img/team/rob.jpg" alt="Rob, co-founder of LeadQ" width="520" height="688" decoding="async"></picture></div><figcaption><b>Rob</b><span>Co-founder</span></figcaption></figure>
@@ -61,14 +61,14 @@
 <section class="sec">
   <div class="wrap story">
     <h2 class="h-sec">Every missed message is a job someone else books.</h2>
-    <p class="lead">Local businesses lose real money in the gap between a customer reaching out and someone getting back to them. It happens at midnight, on a Sunday, and in the twenty minutes you were with another customer. Missed calls and unread texts don't add up to lost messages. They add up to lost bookings.</p>
+    <p class="lead">Local businesses lose real money in the gap between a customer reaching out and someone getting back to them. It happens at midnight, on a Sunday, and in the twenty minutes you were with another customer. <span data-na-only>Missed calls and unread texts</span><span data-wa-only hidden>Unread messages and slow replies</span> don't add up to lost messages. They add up to lost bookings.</p>
   </div>
 </section>
 
 <section class="sec" style="padding-top:0">
   <div class="wrap story">
     <h2 class="h-sec">You shouldn't need five tools to answer a customer.</h2>
-    <p class="lead">Most small teams stitch together a chat widget, a texting app, an inbox, a booking tool and a receptionist, and still drop messages. It should be one assistant that knows your business, speaks in your voice, and works every channel the same way. So that's what we built.</p>
+    <p class="lead">Most small teams stitch together a chat widget, <span data-na-only>a texting app, an inbox, a booking tool and a receptionist</span><span data-wa-only hidden>an inbox, a booking tool and a WhatsApp number on someone's phone</span>, and still drop messages. It should be one assistant that knows your business, speaks in your voice, and works every channel the same way. So that's what we built.</p>
   </div>
 </section>
 
@@ -79,7 +79,7 @@
       <p class="lead" style="margin:18px auto 0">Not an agency. Not a service you wait on. You set it up in your browser in minutes, it learns your services and your tone, and it starts answering. You stay in control, and you can jump into any conversation whenever you want.</p>
     </div>
     <div class="grid g3" style="margin-top:44px">
-      <div class="card"><h3>Every channel</h3><p>WhatsApp, SMS, web chat, email, and your phone line on Pro.</p></div>
+      <div class="card"><h3>Every channel</h3><p><span data-na-only>WhatsApp, SMS, web chat, email, and your phone line on Pro.</span><span data-wa-only hidden>WhatsApp, plus web chat and email on Pro.</span></p></div>
       <div class="card"><h3>Books the work</h3><p>Checks real availability, books, reschedules and reminds.</p></div>
       <div class="card"><h3>Sounds like you</h3><p>Replies read like your business, not a bot.</p></div>
     </div>
@@ -96,7 +96,7 @@
         <p class="footer-tag">Answered. Booked. While you work.</p>
       </div>
       <nav class="footer-links" aria-label="Footer">
-        <a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="voice.html">Voice AI</a><a href="pricing.html">Pricing</a><a href="about.html">About</a><a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a>
+        <a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="voice.html" data-needs-voice>Voice AI</a><a href="pricing.html">Pricing</a><a href="about.html">About</a><a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a>
       </nav>
     </div>
     <div class="footer-legal">&copy; 2026 LeadQ Inc.</div>

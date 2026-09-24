@@ -32,13 +32,13 @@
 <header class="nav">
   <div class="nav-pill">
     <a class="brand" href="index.html" aria-label="LeadQ home"><picture><source srcset="img/brand/leadq-wordmark.webp" type="image/webp"><img class="brand-logo brand-night" src="img/brand/leadq-wordmark.png" alt="LeadQ" width="512" height="199"></picture><img class="brand-logo brand-ink" src="img/brand/leadq-wordmark-ink.png" alt="" aria-hidden="true" width="512" height="202"></a>
-    <nav class="nav-links" aria-label="Main"><a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="pricing.html" aria-current="page">Pricing</a><a href="voice.html">Voice AI</a></nav>
+    <nav class="nav-links" aria-label="Main"><a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="pricing.html" aria-current="page">Pricing</a><a href="voice.html" data-needs-voice>Voice AI</a></nav>
     <div class="nav-actions">
       <a class="btn btn-ghost btn-sm login" href="https://app.leadq.co">Log in</a>
       <a class="btn btn-primary btn-sm" href="https://app.leadq.co/?signup">Get started</a>
       <button class="nav-menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav-sheet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
-    <div class="nav-sheet" id="nav-sheet" hidden><a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="pricing.html" aria-current="page">Pricing</a><a href="voice.html">Voice AI</a><a href="about.html">About</a><a href="https://app.leadq.co">Log in</a></div>
+    <div class="nav-sheet" id="nav-sheet" hidden><a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="pricing.html" aria-current="page">Pricing</a><a href="voice.html" data-needs-voice>Voice AI</a><a href="about.html">About</a><a href="https://app.leadq.co">Log in</a></div>
   </div>
 </header>
 
@@ -53,23 +53,23 @@
     </div>
     <div class="plans">
       <div class="plan" data-plan="starter">
-        <h3>Starter</h3><p class="for">Solo, or just trying it out</p>
+        <h3>Starter</h3><p class="for"><span data-na-only>Solo, or just trying it out</span><span data-wa-only hidden>The main plan for a growing business</span></p>
         <div class="amt"><span data-price="starter">$59</span><small> <span data-code>USD</span> /mo</small></div>
-        <ul><li>20,000 credits a month</li><li>1 seat, 1 channel</li><li>Assistant, FAQ and lead capture</li></ul>
+        <ul><li><span data-cell="starter.credits">20,000</span> credits a month</li><li data-na-only>1 seat, 1 channel</li><li data-wa-only hidden>3 seats, 1 channel</li><li data-wa-only hidden>Booking, calendar and reminders</li><li data-wa-only hidden>Follow-ups, custom fields, profiles</li><li>Assistant, FAQ and lead capture</li></ul>
         <a class="btn btn-ghost btn-block" href="https://app.leadq.co/?signup&plan=starter">Choose Starter</a>
       </div>
       <div class="plan hot" data-plan="growth">
         <span class="flag">Most popular</span>
         <h3>Growth</h3><p class="for">The main plan for a growing business</p>
         <div class="amt"><span data-price="growth">$149</span><small> <span data-code>USD</span> /mo</small></div>
-        <ul><li>45,000 credits a month</li><li>3 seats</li><li data-na-only>1 phone number</li><li>3 channels</li><li>Booking, calendar and reminders</li><li>Follow-ups, custom fields, profiles</li><li>Calendar sync with Google and Outlook</li></ul>
+        <ul><li><span data-cell="growth.credits">45,000</span> credits a month</li><li><span data-cell="growth.seats">3</span> seats</li><li data-na-only>1 phone number</li><li><span data-cell="growth.channels">3</span> channels</li><li>Booking, calendar and reminders</li><li>Follow-ups, custom fields, profiles</li><li>Calendar sync with Google and Outlook</li></ul>
         <a class="btn btn-primary btn-block" href="https://app.leadq.co/?signup&plan=growth">Start with Growth</a>
       </div>
       <div class="plan" data-plan="pro">
         <h3>Pro</h3><p class="for">Established, multi-channel, high volume</p>
         <div class="amt"><span data-price="pro">$399</span><small> <span data-code>USD</span> /mo</small></div>
         <p class="plus" data-plus>Everything in Growth, plus:</p>
-        <ul><li>120,000 credits a month</li><li>10 seats</li><li data-na-only>2 phone numbers</li><li data-pro-channels>All channels</li><li class="voice" data-na-only>AI voice receptionist</li><li>Insights dashboard</li><li>Priority support</li></ul>
+        <ul><li><span data-cell="pro.credits">120,000</span> credits a month</li><li><span data-cell="pro.seats">10</span> seats</li><li data-na-only>2 phone numbers</li><li data-pro-channels>All channels</li><li class="voice" data-needs-voice>AI voice receptionist</li><li>Insights dashboard</li><li>Priority support</li></ul>
         <a class="btn btn-ghost btn-block" href="https://app.leadq.co/?signup&plan=pro">Choose Pro</a>
       </div>
     </div>
@@ -80,22 +80,22 @@
         <caption>Compare plans</caption>
         <thead><tr><th scope="col"><span class="sr-only">Feature</span></th><th scope="col">Starter</th><th scope="col" data-plan="growth" class="hot">Growth</th><th scope="col">Pro</th></tr></thead>
         <tbody>
-          <tr><th scope="row">Credits a month</th><td class="mono">20,000</td><td data-plan="growth" class="hot mono">45,000</td><td class="mono">120,000</td></tr>
-          <tr><th scope="row">Seats</th><td>1</td><td data-plan="growth" class="hot">3</td><td>10</td></tr>
+          <tr><th scope="row">Credits a month</th><td class="mono" data-cell="starter.credits">20,000</td><td data-plan="growth" class="hot mono" data-cell="growth.credits">45,000</td><td class="mono" data-cell="pro.credits">120,000</td></tr>
+          <tr><th scope="row">Seats</th><td data-cell="starter.seats">1</td><td data-plan="growth" class="hot" data-cell="growth.seats">3</td><td data-cell="pro.seats">10</td></tr>
           <tr data-na-only><th scope="row">Phone numbers</th><td><span class="no">No</span></td><td data-plan="growth" class="hot">1</td><td>2</td></tr>
-          <tr><th scope="row">Channels</th><td>1</td><td data-plan="growth" class="hot">3</td><td data-pro-channels>All</td></tr>
+          <tr><th scope="row">Channels</th><td data-cell="starter.channels">1</td><td data-plan="growth" class="hot" data-cell="growth.channels">3</td><td data-pro-channels>All</td></tr>
           <tr><th scope="row">Assistant, FAQ and lead capture</th><td><span class="yes" aria-label="Included">&#10003;</span></td><td data-plan="growth" class="hot"><span class="yes" aria-label="Included">&#10003;</span></td><td><span class="yes" aria-label="Included">&#10003;</span></td></tr>
-          <tr><th scope="row">Booking, calendar and reminders</th><td><span class="no">No</span></td><td data-plan="growth" class="hot"><span class="yes" aria-label="Included">&#10003;</span></td><td><span class="yes" aria-label="Included">&#10003;</span></td></tr>
-          <tr><th scope="row">Follow-ups, custom fields, profiles</th><td><span class="no">No</span></td><td data-plan="growth" class="hot"><span class="yes" aria-label="Included">&#10003;</span></td><td><span class="yes" aria-label="Included">&#10003;</span></td></tr>
+          <tr><th scope="row">Booking, calendar and reminders</th><td><span data-na-only><span class="no">No</span></span><span data-wa-only hidden><span class="yes" aria-label="Included">&#10003;</span></span></td><td data-plan="growth" class="hot"><span class="yes" aria-label="Included">&#10003;</span></td><td><span class="yes" aria-label="Included">&#10003;</span></td></tr>
+          <tr><th scope="row">Follow-ups, custom fields, profiles</th><td><span data-na-only><span class="no">No</span></span><span data-wa-only hidden><span class="yes" aria-label="Included">&#10003;</span></span></td><td data-plan="growth" class="hot"><span class="yes" aria-label="Included">&#10003;</span></td><td><span class="yes" aria-label="Included">&#10003;</span></td></tr>
           <tr><th scope="row">Insights dashboard</th><td><span class="no">No</span></td><td data-plan="growth" class="hot"><span class="no">No</span></td><td><span class="yes" aria-label="Included">&#10003;</span></td></tr>
           <tr><th scope="row">Priority support</th><td><span class="no">No</span></td><td data-plan="growth" class="hot"><span class="no">No</span></td><td><span class="yes" aria-label="Included">&#10003;</span></td></tr>
-          <tr><th scope="row">Calendar sync with Google and Outlook</th><td><span class="no">No</span></td><td data-plan="growth" class="hot"><span class="yes" aria-label="Included">&#10003;</span></td><td><span class="yes" aria-label="Included">&#10003;</span></td></tr>
-          <tr data-na-only><th scope="row">AI voice receptionist</th><td><span class="no">No</span></td><td data-plan="growth" class="hot"><span class="no">No</span></td><td><span class="yes voice" aria-label="Included">&#10003;</span></td></tr>
+          <tr><th scope="row">Calendar sync with Google and Outlook</th><td><span data-na-only><span class="no">No</span></span><span data-wa-only hidden><span class="yes" aria-label="Included">&#10003;</span></span></td><td data-plan="growth" class="hot"><span class="yes" aria-label="Included">&#10003;</span></td><td><span class="yes" aria-label="Included">&#10003;</span></td></tr>
+          <tr data-needs-voice><th scope="row">AI voice receptionist</th><td><span class="no">No</span></td><td data-plan="growth" class="hot"><span class="no">No</span></td><td><span class="yes voice" aria-label="Included">&#10003;</span></td></tr>
         </tbody>
       </table>
     </div>
 
-    <div class="voice-strip" style="--c:#a98cf0" data-na-only>
+    <div class="voice-strip" style="--c:#a98cf0" data-needs-voice>
       <div class="vr" aria-hidden="true"></div>
       <div><b><a href="voice.html">AI Receptionist, part of Pro</a></b><span>The same assistant answers the phone, books live and captures every missed call. Inbound first, outbound later.</span></div>
       <div class="amt">Included<small>About 220 credits a minute</small></div>
@@ -133,7 +133,7 @@
         </table>
       </div>
     </div>
-    <p class="fine-print">Month to month. No contracts, cancel anytime. Your monthly credits cover every channel and reset each cycle. Credits you buy never expire. If your subscription ends, we release its phone numbers.</p>
+    <p class="fine-print">Month to month. No contracts, cancel anytime. Your monthly credits cover every channel and reset each cycle. Credits you buy never expire. If your subscription ends, we release any phone numbers on it.</p>
   </div>
 </section>
 
@@ -154,7 +154,7 @@
         <p class="footer-tag">Answered. Booked. While you work.</p>
       </div>
       <nav class="footer-links" aria-label="Footer">
-        <a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="voice.html">Voice AI</a><a href="pricing.html">Pricing</a><a href="about.html">About</a><a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a>
+        <a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="voice.html" data-needs-voice>Voice AI</a><a href="pricing.html">Pricing</a><a href="about.html">About</a><a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a>
       </nav>
     </div>
     <div class="footer-legal">&copy; 2026 LeadQ Inc.</div>

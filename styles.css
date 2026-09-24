@@ -1116,3 +1116,24 @@ main{display:block}
 /* The Home screen's channel rows dim when Baxter is switched off there, the same way the
    Settings card's rows used to. */
 .dk-ch.off b,.dk-ch.off span{opacity:.55}
+
+/* The "not available here" panel on voice.html for WhatsApp-first markets.
+ *
+ * A UAE visitor has no nav link to that page, but a search result or a shared link still lands
+ * them on it. Redirecting loses someone who came deliberately, so the page tells them instead.
+ * Centred and roomy rather than styled as a warning: nothing has gone wrong, the product simply
+ * is not sold there, and the next thing they should read is the plan that is. */
+.note-card{
+  max-width:720px;margin:0 auto;padding:44px 40px;text-align:center;
+  background:var(--card);border:1px solid var(--line);border-radius:18px;
+}
+.note-card .h-sec{margin:0 0 14px}
+.note-card .lead{margin:0 auto 26px;max-width:58ch}
+.note-card .ctas{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+@media (max-width:640px){.note-card{padding:32px 20px}}
+
+/* Plan feature lines carry a [data-cell] span so the figure can change per market. .plan li is
+   a flex row with gap:10px (which spaces the bullet from the text), so that span became a second
+   flex item and took the gap with it -- "15,000  credits a month". display:contents drops the
+   span from the box tree, so its text rejoins the sentence and the bullet gap is the only gap. */
+.plan li [data-cell]{display:contents}

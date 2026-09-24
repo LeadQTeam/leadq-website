@@ -40,13 +40,13 @@
 <header class="nav">
   <div class="nav-pill">
     <a class="brand" href="index.html" aria-label="LeadQ home"><picture><source srcset="img/brand/leadq-wordmark.webp" type="image/webp"><img class="brand-logo brand-night" src="img/brand/leadq-wordmark.png" alt="LeadQ" width="512" height="199"></picture><img class="brand-logo brand-ink" src="img/brand/leadq-wordmark-ink.png" alt="" aria-hidden="true" width="512" height="202"></a>
-    <nav class="nav-links" aria-label="Main"><a href="index.html#how">How it works</a><a href="use-cases.html" aria-current="page">Use cases</a><a href="pricing.html">Pricing</a><a href="voice.html">Voice AI</a></nav>
+    <nav class="nav-links" aria-label="Main"><a href="index.html#how">How it works</a><a href="use-cases.html" aria-current="page">Use cases</a><a href="pricing.html">Pricing</a><a href="voice.html" data-needs-voice>Voice AI</a></nav>
     <div class="nav-actions">
       <a class="btn btn-ghost btn-sm login" href="https://app.leadq.co">Log in</a>
       <a class="btn btn-primary btn-sm" href="https://app.leadq.co/?signup">Get started</a>
       <button class="nav-menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav-sheet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
-    <div class="nav-sheet" id="nav-sheet" hidden><a href="index.html#how">How it works</a><a href="use-cases.html" aria-current="page">Use cases</a><a href="pricing.html">Pricing</a><a href="voice.html">Voice AI</a><a href="about.html">About</a><a href="https://app.leadq.co">Log in</a></div>
+    <div class="nav-sheet" id="nav-sheet" hidden><a href="index.html#how">How it works</a><a href="use-cases.html" aria-current="page">Use cases</a><a href="pricing.html">Pricing</a><a href="voice.html" data-needs-voice>Voice AI</a><a href="about.html">About</a><a href="https://app.leadq.co">Log in</a></div>
   </div>
 </header>
 
@@ -57,8 +57,8 @@
   <div class="wrap">
     <div>
       <span class="pill">For dental and aesthetic clinics</span>
-      <h1 class="h-hero">The receptionist your practice never has to train.</h1>
-      <p class="lead">It answers every call and message, books the chair, confirms the day before, and captures new patients while you're with a patient. On WhatsApp, text, web chat and the phone.</p>
+      <h1 class="h-hero"><span data-na-only>The receptionist your practice never has to train.</span><span data-wa-only hidden>The front desk your practice never has to train.</span></h1>
+      <p class="lead"><span data-na-only>It answers every call and message, books the chair, confirms the day before, and captures new patients while you're with a patient. On WhatsApp, text, web chat and the phone.</span><span data-wa-only hidden>It answers every message, books the chair, confirms the day before, and captures new patients while you're with a patient. On WhatsApp, web chat and email.</span></p>
       <div class="ctas"><a class="btn btn-primary btn-lg" href="https://app.leadq.co/?signup">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
     </div>
     <div class="phone" role="img" aria-label="The LeadQ app Schedule, filled with dental clinics bookings">
@@ -83,10 +83,10 @@
 
 <section class="sec">
   <div class="wrap">
-    <div class="sec-head"><h2 class="h-sec">A front desk that never goes to voicemail.</h2></div>
+    <div class="sec-head"><h2 class="h-sec"><span data-na-only>A front desk that never goes to voicemail.</span><span data-wa-only hidden>A front desk that never leaves a message unread.</span></h2></div>
     <div class="ww">
-      <div class="without"><h3>Without LeadQ</h3><ul><li>The phone rings mid-procedure</li><li>No-shows leave empty chairs</li><li>New patients call after you've closed</li></ul></div>
-      <div class="with"><h3>With LeadQ</h3><ul><li>Answered while you're with a patient</li><li>Confirmations and reminders cut no-shows</li><li>New patients booked at 11pm</li></ul></div>
+      <div class="without"><h3>Without LeadQ</h3><ul><li><span data-na-only>The phone rings mid-procedure</span><span data-wa-only hidden>Messages pile up mid-procedure</span></li><li>No-shows leave empty chairs</li><li><span data-na-only>New patients call after you've closed</span><span data-wa-only hidden>New patients message after you've closed</span></li></ul></div>
+      <div class="with"><h3>With LeadQ</h3><ul><li><span data-na-only>Answered while you're with a patient</span><span data-wa-only hidden>Answered while you're with a patient</span></li><li>Confirmations and reminders cut no-shows</li><li>New patients booked at 11pm</li></ul></div>
     </div>
   </div>
 </section>
@@ -95,10 +95,10 @@
   <div class="wrap roi-sec">
     <div>
       <h2 class="h-sec">What slow replies cost you.</h2>
-      <p class="lead" style="margin-top:18px">Set how many calls and messages slip through in a week, and what a new patient is worth to you. The rest is simple math.</p>
+      <p class="lead" style="margin-top:18px">Set how many <span data-na-only>calls and messages</span><span data-wa-only hidden>messages</span> slip through in a week, and what a new patient is worth to you. The rest is simple math.</p>
     </div>
     <div class="roi" data-roi>
-      <label for="roi-missed"><span>Missed calls and messages per week</span><b data-roi-missed-out>10</b></label>
+      <label for="roi-missed"><span><span data-na-only>Missed calls and messages per week</span><span data-wa-only hidden>Messages you miss or answer late, per week</span></span><b data-roi-missed-out>10</b></label>
       <input id="roi-missed" type="range" min="1" max="60" step="1" value="10" data-roi-missed>
       <label for="roi-value"><span>Average value of a new patient</span><b data-roi-value-out>$250</b></label>
       <input id="roi-value" type="range" min="50" max="1500" step="50" value="250" data-roi-value>
@@ -139,7 +139,7 @@
         <p class="footer-tag">Answered. Booked. While you work.</p>
       </div>
       <nav class="footer-links" aria-label="Footer">
-        <a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="voice.html">Voice AI</a><a href="pricing.html">Pricing</a><a href="about.html">About</a><a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a>
+        <a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="voice.html" data-needs-voice>Voice AI</a><a href="pricing.html">Pricing</a><a href="about.html">About</a><a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a>
       </nav>
     </div>
     <div class="footer-legal">&copy; 2026 LeadQ Inc.</div>
