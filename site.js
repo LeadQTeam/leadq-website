@@ -57,13 +57,14 @@ const MARKETS = {
      Pools are smaller because voice and SMS cannot be spent here; 15,000 is about 140
      conversations at an observed 106 credits each, and 45,000 about 425. */
   UAE: { label: "UAE",           cur: "AED", code: "",    pos: "post", per: "/mo", hasSMS: false, hasVoice: false, waFirst: true,  naOnly: false,
-         plans: ["starter","pro"],
-         credits: { starter: 15000, growth: 45000, pro: 45000 },
+         plans: ["growth","pro"],
+         planNames: { growth: "Starter" },
+         credits: { starter: 15000, growth: 15000, pro: 45000 },
          seats:   { starter: 3, growth: 3, pro: 10 },
-         channels:{ starter: "1", growth: "3", pro: "All" },
+         channels:{ starter: "1", growth: "1", pro: "All" },
          shown: "Prices for the UAE, in dirhams.",
          creditsNote: "So Starter's 15,000 credits is around 140 AI conversations a month, and Pro's 45,000 is around 425. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
-         tiers: { starter: 549, growth: 549, pro: 999 },
+         tiers: { starter: 549, growth: 549, pro: 999 },   // starter = the retired AED 199 price
          addons: { number: null, seat: 55, setup: 1099, a2p: null },
          packs: { small: 95, standard: 205, large: 445, bulk: 995 },
          note: "WhatsApp-first, with web chat and email on Pro. No SMS line and no phone number to buy." },
@@ -153,12 +154,28 @@ function applyMarket(animate) {
     const table = field === "credits" ? m.credits : field === "seats" ? m.seats : m.channels;
     const v = table && table[plan];
     if (v == null) return;
-    swapText(el, field === "credits" ? Number(v).toLocaleString("en-US") : String(v), animate);
+    /* data-unit means the element owns the whole phrase, so the market can change 3 to 1
+       without leaving "1 channels" behind. */
+    const unit = el.dataset.unit;
+    const text = field === "credits" ? Number(v).toLocaleString("en-US")
+      : unit ? `${v} ${unit}${String(v) === "1" ? "" : "s"}`
+      : String(v);
+    swapText(el, text, animate);
   });
   const sold = m.plans || ["starter", "growth", "pro"];
   $$("[data-plan]").forEach((el) => { el.hidden = !sold.includes(el.dataset.plan); });
   $$(".plans").forEach((el) => { el.dataset.count = String(sold.length); });
-  $$("[data-plus]").forEach((el) => { el.textContent = `Everything in ${sold.includes("growth") ? "Growth" : "Starter"}, plus:`; });
+  /* What the entry tier is CALLED here. The UAE's entry tier is the growth plan wearing
+     Starter's name, so neither the card heading nor "Everything in X" can assume the key. */
+  const names = m.planNames || {};
+  const label = (k) => names[k] || (k.charAt(0).toUpperCase() + k.slice(1));
+  $$("[data-plan-name]").forEach((el) => { el.textContent = label(el.dataset.planName); });
+  /* The tier directly BELOW Pro, not the cheapest one: in North America that is Growth, and in
+     a two-plan market it is the entry tier. sold[0] read "Starter" on the US page, which is a
+     tier Pro does not build on. */
+  $$("[data-plus]").forEach((el) => { el.textContent = `Everything in ${label(sold[sold.length - 2])}, plus:`; });
+  // A two-plan market has no "most popular" to point at: the entry tier is not an upsell.
+  $$(".plan .flag").forEach((el) => { el.hidden = sold.length < 3; });
   $$("[data-pro-channels]").forEach((el) => { el.textContent = m.hasSMS ? "All channels" : "WhatsApp, web chat and email"; });
   $$("[data-market-label]").forEach((el) => { el.textContent = m.shown; });
   $$("[data-credits-note]").forEach((el) => { el.textContent = m.creditsNote; });
