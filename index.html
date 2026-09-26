@@ -91,11 +91,11 @@
   <div class="wrap">
     <div class="sec-head hero-head">
       <span class="pill">One assistant. Every channel.</span>
-      <h1 class="h-hero">Stop chasing. Start closing.</h1>
+      <h1 class="h-hero">Stop chasing.<br>Start closing.</h1>
       <p class="lead">Every message you miss is a job someone else books. LeadQ answers <span data-na-only>WhatsApp, texts, web chat, email and your phone line</span><span data-wa-only hidden>WhatsApp, web chat and email</span> in seconds, then books the appointment. At midnight, on a Sunday, or while you are with a customer.</p>
       <div class="ctas">
         <a class="btn btn-primary btn-lg" href="https://app.leadq.co/?signup">Get started</a>
-        <a class="btn btn-ghost btn-lg" href="#how" data-open-chat>See it work</a>
+        <a class="btn btn-ghost btn-lg btn-play" href="#how" data-video><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>See it work</a>
       </div>
       <p class="fine">Set it up in minutes. No AI knowledge needed.</p>
     </div>
@@ -446,6 +446,17 @@
     <div class="ctas"><a class="btn btn-primary btn-lg" href="https://app.leadq.co/?signup">Get started</a></div>
   </div>
 </section>
+
+<!-- the film, opened by any [data-video] button. Without <dialog> or JS those buttons keep
+     their href and the page behaves as it did before. -->
+<dialog class="vmodal" aria-label="See LeadQ work">
+  <div class="vmodal-in">
+    <button class="vmodal-x" type="button" aria-label="Close video"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <video class="vmodal-v" controls playsinline preload="none" poster="img/video-poster.jpg" width="1920" height="1080">
+      <source src="leadq-video.mp4" type="video/mp4">
+    </video>
+  </div>
+</dialog>
 </main>
 
 <footer class="footer">

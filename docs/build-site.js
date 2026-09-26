@@ -19,6 +19,7 @@ const I = {
   back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>',
   plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
   play: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>',
+  x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
   phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>',
   calcheck: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4"/></svg>',
   book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
@@ -346,11 +347,11 @@ page({
   <div class="wrap">
     <div class="sec-head hero-head">
       <span class="pill">One assistant. Every channel.</span>
-      <h1 class="h-hero">Stop chasing. Start closing.</h1>
+      <h1 class="h-hero">Stop chasing.<br>Start closing.</h1>
       <p class="lead">Every message you miss is a job someone else books. LeadQ answers ${mkt("WhatsApp, texts, web chat, email and your phone line", "WhatsApp, web chat and email")} in seconds, then books the appointment. At midnight, on a Sunday, or while you are with a customer.</p>
       <div class="ctas">
         <a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a>
-        <a class="btn btn-ghost btn-lg" href="#how" data-open-chat>See it work</a>
+        <a class="btn btn-ghost btn-lg btn-play" href="#how" data-video>${I.play}See it work</a>
       </div>
       <p class="fine">Set it up in minutes. No AI knowledge needed.</p>
     </div>
@@ -672,7 +673,18 @@ page({
     <p class="lead">Set up your assistant in minutes, from any browser.</p>
     <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a></div>
   </div>
-</section>`,
+</section>
+
+<!-- the film, opened by any [data-video] button. Without <dialog> or JS those buttons keep
+     their href and the page behaves as it did before. -->
+<dialog class="vmodal" aria-label="See LeadQ work">
+  <div class="vmodal-in">
+    <button class="vmodal-x" type="button" aria-label="Close video">${I.x}</button>
+    <video class="vmodal-v" controls playsinline preload="none" poster="img/video-poster.jpg" width="1920" height="1080">
+      <source src="leadq-video.mp4" type="video/mp4">
+    </video>
+  </div>
+</dialog>`,
 });
 
 /* ======================================================= PRICING */

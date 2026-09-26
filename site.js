@@ -261,6 +261,32 @@ function initChat() {
   }, 250);
 }
 
+/* ===== home: the film =====
+   A native <dialog>, so Escape, the focus trap and the backdrop are the browser's own. Without
+   <dialog> (or with JS off) we never touch the buttons and they follow their href, which is why
+   every [data-video] button still carries one. */
+function initVideo() {
+  const dlg = $(".vmodal");
+  const openers = $$("[data-video]");
+  if (!dlg || !openers.length || typeof dlg.showModal !== "function") return;
+  const video = $(".vmodal-v", dlg);
+
+  openers.forEach((b) => b.addEventListener("click", (e) => {
+    e.preventDefault();
+    dlg.showModal();
+    // the click is the gesture, so this plays with sound; if a browser blocks it anyway the
+    // controls are right there
+    const p = video.play();
+    if (p && p.catch) p.catch(() => {});
+  }));
+
+  $(".vmodal-x", dlg).addEventListener("click", () => dlg.close());
+  // the dialog box is exactly the video, so a click reported on the dialog itself is the backdrop
+  dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
+  // closed by any route, including Escape: stop the sound and rewind for the next viewer
+  dlg.addEventListener("close", () => { video.pause(); video.currentTime = 0; });
+}
+
 /* ===== visibility helpers ===== */
 const io = (cb, opts) => ("IntersectionObserver" in window ? new IntersectionObserver(cb, opts) : null);
 
@@ -481,6 +507,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initNav();
   initMarket();
   initChat();
+  initVideo();
   initReveal();
   initLiveZones();
   initLiveChat();

@@ -1137,3 +1137,23 @@ main{display:block}
    flex item and took the gap with it -- "15,000  credits a month". display:contents drops the
    span from the box tree, so its text rejoins the sentence and the bullet gap is the only gap. */
 .plan li [data-cell]{display:contents}
+
+/* ===== the film ===== */
+/* "See it work" now says what it does: a play mark, then the button opens the player. */
+.btn-play svg{width:15px;height:15px;flex:none;margin-left:-2px}
+
+/* A native <dialog>, so Escape and the focus trap are the browser's own. The dialog box is only
+   the frame and carries no background, so a click anywhere around the video lands on the dialog
+   itself and closes it. The width is capped by the viewport HEIGHT as well (16/9 of it), or a
+   short landscape window would push the bottom of the film off screen. */
+.vmodal{width:min(1060px, 100% - 28px, (100vh - 96px) * 1.7778);max-width:none;padding:0;border:0;background:transparent}
+.vmodal::backdrop{background:rgba(4,7,12,.86);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.vmodal-in{position:relative;border-radius:20px;overflow:hidden;background:#05080e;border:1px solid var(--glass-line);box-shadow:var(--e3)}
+.vmodal-v{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#000}
+.vmodal-x{position:absolute;top:10px;right:10px;z-index:2;width:36px;height:36px;padding:0;display:grid;place-items:center;
+  border-radius:50%;border:1px solid rgba(255,255,255,.14);background:rgba(10,15,24,.7);color:#eef2f8;cursor:pointer;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.vmodal-x:hover{background:rgba(10,15,24,.92)}
+.vmodal-x svg{width:18px;height:18px}
+@media (prefers-reduced-motion:no-preference){.vmodal[open]{animation:vpop .22s cubic-bezier(.2,.7,.2,1)}}
+@keyframes vpop{from{opacity:0;transform:translateY(8px) scale(.985)}}
