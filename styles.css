@@ -1147,7 +1147,12 @@ main{display:block}
    itself and closes it. The width is capped by the viewport HEIGHT as well (16/9 of it), or a
    short landscape window would push the bottom of the film off screen. */
 .vmodal{width:min(1060px, 100% - 28px, (100vh - 96px) * 1.7778);max-width:none;padding:0;border:0;background:transparent}
-.vmodal::backdrop{background:rgba(4,7,12,.86);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+/* No backdrop-filter here, deliberately. Blurring the whole page behind a playing 1080p60 film
+   makes the compositor re-blur a full-screen layer on every video frame: measured in Chrome it
+   dropped 15-23% of frames and the film visibly stuttered. Without it, zero dropped frames. The
+   dim alone separates the film from the page. A small blur on .vmodal-x costs nothing (it is a
+   36px circle) and is measured clean, but do not put one back on this. */
+.vmodal::backdrop{background:rgba(4,7,12,.92)}
 .vmodal-in{position:relative;border-radius:20px;overflow:hidden;background:#05080e;border:1px solid var(--glass-line);box-shadow:var(--e3)}
 .vmodal-v{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#000}
 .vmodal-x{position:absolute;top:10px;right:10px;z-index:2;width:36px;height:36px;padding:0;display:grid;place-items:center;
