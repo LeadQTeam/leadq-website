@@ -451,7 +451,7 @@ function initIndustrySwitch() {
     if (REDUCED) swapPhoto();
     else { img.style.opacity = "0"; setTimeout(swapPhoto, 260); }
 
-    pill.textContent = d.pill;
+    if (pill) pill.textContent = d.pill;
     swapText(h, d.h, true);
     p.textContent = d.p;
     rows.forEach((row, i) => {

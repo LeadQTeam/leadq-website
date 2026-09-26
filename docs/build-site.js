@@ -66,6 +66,31 @@ const CH = {
 };
 const chIcon = (k) => `<i class="ch-ic" style="background:${CH[k].bg}"><svg viewBox="0 0 24 24" fill="${CH[k].fg}"${CH[k].evenodd ? ' fill-rule="evenodd"' : ""} aria-hidden="true">${CH[k].path}</svg></i>`;
 
+/* The channel orbit: the real app icon at the centre with its soundwave alive, a spoke out to
+   each channel, and a pulse running IN along one spoke at a time, a beat apart. The spoke length
+   and angle are worked out from the same x/y the channel tile is placed with, so the line always
+   ends under its tile however the ring is sized. */
+const orbit = (chans, attr = "") => {
+  const spoke = ([, , x, y], i) =>
+    `      <span class="spoke" style="--len:${Math.round(Math.hypot(x, y))}px;--ang:${(Math.atan2(y, x) * 180 / Math.PI).toFixed(1)}deg;--d:${(i * 0.42).toFixed(2)}s" aria-hidden="true"><i></i></span>`;
+  const tile = ([k, label, x, y], i) =>
+    `      <span class="chan" style="--x:${x}px;--y:${y}px;--i:${i}" aria-hidden="true">${chIcon(k)}<span>${label}</span></span>`;
+  const names = chans.map((c) => c[1]).join(", ").replace(/, ([^,]*)$/, " and $1");
+  return `<div class="orbit" data-live${attr} role="img" aria-label="${names}, all run by one assistant">
+      <span class="orbit-ring" aria-hidden="true"></span>
+      <span class="orbit-ring r2" aria-hidden="true"></span>
+${chans.map(spoke).join(`
+`)}
+      <span class="hub" aria-hidden="true">
+        <img src="img/brand/leadq-app.png" alt="" width="1052" height="1066" loading="lazy" decoding="async">
+        <span class="hub-wave"><b></b><b></b><b></b></span>
+      </span>
+      <span class="hub-tag" aria-hidden="true"><b>Baxter</b><small><i></i><span>On, <span data-chan-n>${chans.length}</span> channels</span></small></span>
+${chans.map(tile).join(`
+`)}
+    </div>`;
+};
+
 const TABS = {
   assistant: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.4l1.65 4.45a3 3 0 0 0 1.78 1.78L19.6 10.3l-4.17 1.55a3 3 0 0 0-1.78 1.78L12 18.2l-1.65-4.45a3 3 0 0 0-1.78-1.78L4.4 10.3l4.17-1.67a3 3 0 0 0 1.78-1.78z"/></svg>Assistant',
   inbox: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>Inbox',
@@ -313,9 +338,6 @@ page({
   navHtml: nav(null),
   main: `
 <div hidden aria-hidden="true"><svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-<linearGradient id="lqg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4b9ae6"/><stop offset="1" stop-color="#23409a"/></linearGradient>
-<symbol id="lq-mark" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M76 65 A30 30 0 1 0 64.1 76.5 L83 86 Z" stroke-width="6"/><path d="M40.5 42v16M50 36.5v27.5M59.5 42v16" stroke-width="3.4"/></g></symbol>
-<symbol id="lq-app" viewBox="0 0 100 100"><rect width="100" height="100" rx="23" fill="url(#lqg)"/><use href="#lq-mark" color="#fff"/></symbol>
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
 <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 13l2.5-7.5A2 2 0 0 1 7.4 4h9.2a2 2 0 0 1 1.9 1.5L21 13v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M3 13h5l1.5 2.5h5L16 13h5"/></symbol>
 <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
@@ -346,8 +368,7 @@ page({
 <section class="lit-hero">
   <div class="wrap">
     <div class="sec-head hero-head">
-      <span class="pill">One assistant. Every channel.</span>
-      <h1 class="h-hero">Stop chasing.<br>Start closing.</h1>
+      <h1 class="h-hero">Stop <span class="ko">chasing.</span><br>Start <span class="hi">closing.</span></h1>
       <p class="lead">Every message you miss is a job someone else books. LeadQ answers ${mkt("WhatsApp, texts, web chat, email and your phone line", "WhatsApp, web chat and email")} in seconds, then books the appointment. At midnight, on a Sunday, or while you are with a customer.</p>
       <div class="ctas">
         <a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a>
@@ -358,7 +379,7 @@ page({
     <div class="pstage" role="img" aria-label="LeadQ inbox showing Baxter booking an appointment">
   <div class="wm" aria-hidden="true">leadq</div><div class="glow" aria-hidden="true"></div>
   <span class="plabel" style="--c:#4d86ff"><i></i>You see it handled in LeadQ</span>
-  <div class="appwin"><div class="abar"><i></i><i></i><i></i><span>app.leadq.co</span></div><div class="dkw"><div class="dk hero-dk" id="heroDk"><aside class="dk-side"><div class="dk-brand"><svg class="app" viewBox="0 0 100 100" aria-hidden="true"><use href="#lq-app"/></svg>LeadQ<svg class="ic" aria-hidden="true"><use href="#i-chev"/></svg></div><button type="button" tabindex="-1" class="dk-nav" data-go="home"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg>Home</button><button type="button" tabindex="-1" class="dk-nav on" data-go="inbox"><svg class="ic" aria-hidden="true"><use href="#i-inbox"/></svg>Inbox</button><button type="button" tabindex="-1" class="dk-nav"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Schedule</button><button type="button" tabindex="-1" class="dk-nav"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg>Assistant<span class="badge">2</span></button><button type="button" tabindex="-1" class="dk-nav" data-go="settings"><svg class="ic" aria-hidden="true"><use href="#i-gear"/></svg>Settings</button><div class="dk-bax"><span class="bot"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg></span><span><b>Baxter</b><small>On, 5 channels</small></span></div><div class="dk-user"><svg class="app" viewBox="0 0 100 100" aria-hidden="true"><use href="#lq-app"/></svg>info@riveradental.com</div></aside><div class="dk-main" style="display:flex;flex-direction:column"><div class="dk-top"><div><div class="dk-h6">Inbox</div><p>Baxter is handling 1 conversation.</p></div><button type="button" tabindex="-1" class="dk-bell" aria-label="Notifications"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg></button></div><div class="dk-scr"><div class="dk-inbox"><div class="dk-list"><div class="dk-search"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>Search people and messages</div>
+  <div class="appwin"><div class="abar"><i></i><i></i><i></i><span>app.leadq.co</span></div><div class="dkw"><div class="dk hero-dk" id="heroDk"><aside class="dk-side"><div class="dk-brand"><img class="app" src="img/brand/leadq-app.png" alt="" width="1052" height="1066" loading="lazy" decoding="async">LeadQ<svg class="ic" aria-hidden="true"><use href="#i-chev"/></svg></div><button type="button" tabindex="-1" class="dk-nav" data-go="home"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg>Home</button><button type="button" tabindex="-1" class="dk-nav on" data-go="inbox"><svg class="ic" aria-hidden="true"><use href="#i-inbox"/></svg>Inbox</button><button type="button" tabindex="-1" class="dk-nav"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Schedule</button><button type="button" tabindex="-1" class="dk-nav"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg>Assistant<span class="badge">2</span></button><button type="button" tabindex="-1" class="dk-nav" data-go="settings"><svg class="ic" aria-hidden="true"><use href="#i-gear"/></svg>Settings</button><div class="dk-bax"><span class="bot"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg></span><span><b>Baxter</b><small>On, 5 channels</small></span></div><div class="dk-user"><img class="app" src="img/brand/leadq-app.png" alt="" width="1052" height="1066" loading="lazy" decoding="async">info@riveradental.com</div></aside><div class="dk-main" style="display:flex;flex-direction:column"><div class="dk-top"><div><div class="dk-h6">Inbox</div><p>Baxter is handling 1 conversation.</p></div><button type="button" tabindex="-1" class="dk-bell" aria-label="Notifications"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg></button></div><div class="dk-scr"><div class="dk-inbox"><div class="dk-list"><div class="dk-search"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>Search people and messages</div>
 <div class="dk-filters"><span class="on">All<i>11</i></span><span>Needs you<i>1</i></span><span>Handed off<i>1</i></span><span>Booked<i>3</i></span><span>Went quiet<i>4</i></span><span>All channels<i>11</i></span></div><div class="dk-conv sel" data-hrow><span class="dk-av">JD</span><div><b>Jane Doe</b><span>Can I come in Thursday?</span><em class="blue">Baxter replying</em></div><time>now</time></div><div class="dk-conv"><span class="dk-av">MB</span><div><b>Marcus Bell</b><span>Can I talk to someone about my insurance...</span><em class="amber">Needs you</em></div><time>2h</time></div><div class="dk-conv"><span class="dk-av">PN</span><div><b>Priya Nair</b><span>Baxter: See you Thursday at 4:00 PM.</span><em class="green">Booked</em></div><time>1h</time></div><div class="dk-conv"><span class="dk-av">TA</span><div><b>Tom Alvarez</b><span>${mkt("Tom called about a follow-up visit.", "Tom asked about a follow-up visit.")}</span><em class="blue">Baxter replying</em></div><time>2h</time></div><div class="dk-conv"><span class="dk-av">WV</span><div><b>Website visitor</b><span>Do you take Delta Dental?</span><em class="grey">Went quiet</em></div><time>5h</time></div></div><div class="dk-thread"><div class="dk-th-h"><span class="chn"><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></span><div><b>Jane Doe</b><small><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg>${mkt("SMS", "WhatsApp")}</small></div>
 <div class="right"><span class="dk-chip blue">Baxter is handling</span><button type="button" tabindex="-1" class="dk-btn">Take over</button></div></div>
 <div class="dk-msgs" data-hmsgs><div class="dk-b cust" data-h="0">Can I come in Thursday?<small>3:02 PM</small></div>
@@ -389,24 +410,11 @@ page({
 <!-- one brain -->
 <section class="sec">
   <div class="wrap brain">
-    <div class="orbit" role="img" data-na-only aria-label="WhatsApp, SMS, web chat, email and voice, all run by one assistant">
-      <div class="orbit-ring" aria-hidden="true"></div>
-      <div class="orbit-core" aria-hidden="true"><span>One<br>assistant</span></div>
-      <div class="chan" style="--x:0px;--y:-170px" aria-hidden="true">${chIcon('whatsapp')}WhatsApp</div>
-      <div class="chan" style="--x:162px;--y:-53px" aria-hidden="true">${chIcon('sms')}SMS</div>
-      <div class="chan" style="--x:100px;--y:138px" aria-hidden="true">${chIcon('webchat')}Web chat</div>
-      <div class="chan" style="--x:-100px;--y:138px" aria-hidden="true">${chIcon('email')}Email</div>
-      <div class="chan" style="--x:-162px;--y:-53px" aria-hidden="true">${chIcon('voice')}Voice</div>
-    </div>
-    <div class="orbit" role="img" data-wa-only hidden aria-label="WhatsApp, web chat and email, all run by one assistant">
-      <div class="orbit-ring" aria-hidden="true"></div>
-      <div class="orbit-core" aria-hidden="true"><span>One<br>assistant</span></div>
-      <div class="chan" style="--x:0px;--y:-170px" aria-hidden="true">${chIcon('whatsapp')}WhatsApp</div>
-      <div class="chan" style="--x:147px;--y:85px" aria-hidden="true">${chIcon('webchat')}Web chat</div>
-      <div class="chan" style="--x:-147px;--y:85px" aria-hidden="true">${chIcon('email')}Email</div>
-    </div>
+    ${orbit([["whatsapp", "WhatsApp", 0, -166], ["sms", "SMS", 174, -44], ["webchat", "Web chat", 112, 150],
+              ["email", "Email", -112, 150], ["voice", "Voice", -174, -44]], " data-na-only")}
+    ${orbit([["whatsapp", "WhatsApp", 0, -166], ["webchat", "Web chat", 150, 92], ["email", "Email", -150, 92]], " data-wa-only hidden")}
     <div>
-      <h2 class="h-sec">${mkt("Not five tools. One assistant.", "Not three tools. One assistant.")}</h2>
+      <h2 class="h-sec">One assistant, multiple channels.</h2>
       <p class="lead" style="margin-top:18px"><span data-na-only>Most businesses juggle a chat widget, a texting app, an inbox, a booking tool and a voicemail box, and still drop messages.</span><span data-wa-only hidden>Most businesses run WhatsApp off one person's phone, with a chat widget, an inbox and a booking tool beside it, and still drop messages.</span> LeadQ is one assistant that knows your business and works every channel the same way.</p>
       <div class="items">
         <div class="item"><b>Change it once</b><span>Update your hours or add a service, and every channel knows.${mkt(" The phone too.", "")}</span></div>
@@ -505,7 +513,6 @@ page({
 <section class="sec" id="app">
   <div class="wrap">
     <div class="sec-head">
-      <span class="pill">Inside the app</span>
       <h2 class="h-sec">Your whole front desk, on one screen.</h2>
       <p class="lead">Open LeadQ on any computer and see everything at once. Who needs you, what Baxter handled, and what is booked next.</p>
     </div>
@@ -514,7 +521,7 @@ page({
             <button type="button" data-tab="inbox" aria-pressed="false">Inbox</button>
             <button type="button" data-tab="schedule" aria-pressed="false">Schedule</button>
           </div></div>
-          <div class="appwin"><div class="abar"><i></i><i></i><i></i><span>app.leadq.co</span></div><div class="dkw"><div class="dk" id="tourDk"><aside class="dk-side"><div class="dk-brand"><svg class="app" viewBox="0 0 100 100" aria-hidden="true"><use href="#lq-app"/></svg>LeadQ<svg class="ic" aria-hidden="true"><use href="#i-chev"/></svg></div><button type="button" class="dk-nav on" data-go="home"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg>Home</button><button type="button" class="dk-nav" data-go="inbox"><svg class="ic" aria-hidden="true"><use href="#i-inbox"/></svg>Inbox</button><button type="button" class="dk-nav" data-go="schedule"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Schedule</button><button type="button" class="dk-nav"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg>Assistant<span class="badge">2</span></button><button type="button" class="dk-nav"><svg class="ic" aria-hidden="true"><use href="#i-gear"/></svg>Settings</button><div class="dk-bax"><span class="bot"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg></span><span><b>Baxter</b><small>On, 5 channels</small></span></div><div class="dk-user"><svg class="app" viewBox="0 0 100 100" aria-hidden="true"><use href="#lq-app"/></svg>info@riveradental.com</div></aside>
+          <div class="appwin"><div class="abar"><i></i><i></i><i></i><span>app.leadq.co</span></div><div class="dkw"><div class="dk" id="tourDk"><aside class="dk-side"><div class="dk-brand"><img class="app" src="img/brand/leadq-app.png" alt="" width="1052" height="1066" loading="lazy" decoding="async">LeadQ<svg class="ic" aria-hidden="true"><use href="#i-chev"/></svg></div><button type="button" class="dk-nav on" data-go="home"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg>Home</button><button type="button" class="dk-nav" data-go="inbox"><svg class="ic" aria-hidden="true"><use href="#i-inbox"/></svg>Inbox</button><button type="button" class="dk-nav" data-go="schedule"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Schedule</button><button type="button" class="dk-nav"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg>Assistant<span class="badge">2</span></button><button type="button" class="dk-nav"><svg class="ic" aria-hidden="true"><use href="#i-gear"/></svg>Settings</button><div class="dk-bax"><span class="bot"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg></span><span><b>Baxter</b><small>On, 5 channels</small></span></div><div class="dk-user"><img class="app" src="img/brand/leadq-app.png" alt="" width="1052" height="1066" loading="lazy" decoding="async">info@riveradental.com</div></aside>
 <div class="dk-main">
 <div data-scr="home" class="dk-page"><div class="dk-top"><div><div class="dk-h6">Good afternoon</div><p><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Monday, September 21. Open until 6:00 PM, then Baxter answers overnight.</p></div><button type="button" class="dk-bell" aria-label="Notifications"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg></button></div><div class="dk-scr"><div class="dk-home"><div class="dk-stats">
 <div class="dk-card dk-stat need" style="--c:#e0ae5a"><div class="hd"><span class="dk-lbl" style="color:#f3cf8f">Needs you</span><span class="dk-link">Open queue</span></div><div class="n"><b>1</b><span>conversation waiting</span></div><p>Oldest has waited 2 h</p></div>
@@ -650,7 +657,6 @@ page({
 <section class="sec" style="--c:#37c98b;padding-top:0">
   <div class="wrap signup">
     <div>
-      <span class="pill good">From click to live</span>
       <h2 class="h-sec" style="margin-top:18px">Create your account. Your assistant is minutes away.</h2>
       <p class="lead" style="margin-top:18px">Sign up, paste your website, and watch it draft your FAQ and services. Pick your plan inside the app when you're ready to go live.</p>
       <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
@@ -819,7 +825,6 @@ page({
   <div class="wrap">
     <div class="voice-hero">
       <div>
-        <span class="pill">AI Receptionist, part of Pro</span>
         <h1 class="h-hero">The same assistant. Now it picks up.</h1>
         <p class="lead">It answers every inbound call in your assistant's persona and voice, books live against your real calendar, and hands off to you on your rules. No more voicemail.</p>
         <div class="vchips" role="group" aria-label="Voices" data-press-group style="justify-content:flex-start">
@@ -891,7 +896,7 @@ page({
     </div>
     <div class="twin">
       <div class="card">
-        <div class="twin-h"><span class="pill" style="--c:#4d86ff">WhatsApp</span>Monday, 6:12 PM</div>
+        <div class="twin-h"><b>WhatsApp</b>Monday, 6:12 PM</div>
         <div class="thread">
           <div class="bub in">Do you do evening appointments?</div>
           <div class="bub out">We're open until 7:00 PM on Thursdays. Want me to look at this week?</div>
@@ -899,7 +904,7 @@ page({
         </div>
       </div>
       <div class="card">
-        <div class="twin-h"><span class="pill">Phone call</span>Tuesday, 9:04 AM</div>
+        <div class="twin-h"><b>Phone call</b>Tuesday, 9:04 AM</div>
         <div class="thread">
           <div class="bub in">"Hi, I messaged yesterday about an evening slot."</div>
           <div class="bub out">"I see that. Thursday at 6:00 PM is open. Shall I book it?"</div>
@@ -944,7 +949,6 @@ page({
   <div class="ph">${picture("dental", "A patient in a modern dental clinic", true)}</div>
   <div class="wrap">
     <div>
-      <span class="pill" data-uc-pill>Dental and clinics</span>
       <h1 class="h-hero" data-uc-h>Built for how clinics actually work.</h1>
       <p class="lead" data-uc-p>It answers every ${mkt("call", "message")}, books the chair, and reminds them the day before. Even while you're with a patient.</p>
       <div class="tabs" role="group" aria-label="Industry">
@@ -1135,7 +1139,6 @@ VERTICALS.forEach((v) => {
   <div class="ph">${picture(v.img, v.alt, true)}</div>
   <div class="wrap">
     <div>
-      <span class="pill">${v.pill}</span>
       <h1 class="h-hero">${mkt(v.h1, v.h1Wa)}</h1>
       <p class="lead">${mkt(v.body, v.bodyWa)}</p>
       <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
@@ -1202,7 +1205,6 @@ page({
 <section class="lit-hero">
   <div class="wrap">
     <div class="about-hero">
-      <span class="pill">About LeadQ</span>
       <h1 class="h-hero">One app, instead of five tools and a front desk.</h1>
       <p class="lead">LeadQ is one AI assistant for your whole business. It answers ${mkt("WhatsApp, SMS, web chat, email and your phone line", "WhatsApp, web chat and email")}, and it books the appointment while you work.</p>
     </div>
