@@ -481,9 +481,9 @@ main{display:block}
    floor is never below the height the artwork bar already has, or it would show through. */
 .hub-wave b{position:absolute;top:49.6%;width:3.3%;border-radius:999px;background:#fff;
   filter:drop-shadow(0 2px 3px rgba(12,30,66,.35));transform:translate(-50%,-50%) scaleY(var(--s0))}
-.hub-wave b:nth-child(1){left:40.97%;height:32%;--s0:.62}
-.hub-wave b:nth-child(2){left:49.62%;height:45%;--s0:.69}
-.hub-wave b:nth-child(3){left:58.27%;height:32%;--s0:.62}
+.hub-wave b:nth-child(1){left:40.97%;height:25%;--s0:.784}
+.hub-wave b:nth-child(2){left:49.62%;height:37%;--s0:.832}
+.hub-wave b:nth-child(3){left:58.27%;height:25%;--s0:.784}
 @media (prefers-reduced-motion:no-preference){
   .hub-wave b{animation:hubwave 1.15s ease-in-out infinite alternate}
   .hub-wave b:nth-child(2){animation-duration:.86s}
@@ -503,14 +503,18 @@ main{display:block}
 .spoke i{position:absolute;top:50%;left:0;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;border-radius:50%;opacity:0;
   background:#dcebff;box-shadow:0 0 12px 3px rgba(123,166,255,.9)}
 @media (prefers-reduced-motion:no-preference){
-  .spoke i{animation:pulsein 2.6s linear infinite;animation-delay:var(--d)}
+  .spoke i{animation:chanpulse 2.6s linear infinite;animation-delay:var(--d)}
 }
-/* one pulse runs in at a time, the next a beat behind it */
-@keyframes pulsein{
-  0%{transform:translateX(calc(var(--L) * .82));opacity:0}
-  4%{opacity:1}
-  25%{transform:translateX(calc(var(--L) * .2));opacity:1}
-  29%,100%{transform:translateX(calc(var(--L) * .2));opacity:0}
+/* A message in, an answer straight back out: the pulse runs to the middle, beats once, and
+   returns to the channel it came from. Then it waits out the rest of the cycle while the other
+   four take their turn, each one a beat behind the last. */
+@keyframes chanpulse{
+  0%{transform:translateX(calc(var(--L) * .82));opacity:0;animation-timing-function:cubic-bezier(.35,0,.25,1)}
+  3%{opacity:1}
+  17%{transform:translateX(calc(var(--L) * .2));opacity:1;animation-timing-function:linear}
+  21%{transform:translateX(calc(var(--L) * .2));opacity:1;animation-timing-function:cubic-bezier(.35,0,.25,1)}
+  38%{transform:translateX(calc(var(--L) * .82));opacity:1}
+  41%,100%{transform:translateX(calc(var(--L) * .82));opacity:0}
 }
 
 /* the channel itself: tile above, name under it, the way the film lays them out */
