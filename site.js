@@ -36,7 +36,7 @@ const MARKETS = {
          shown: "Prices for the United States, in US dollars.",
          creditsNote: "So Growth's 45,000 credits is around 550 AI conversations, or any mix of texts, calls and email. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
          tiers: { starter: 59,  growth: 149, pro: 399 },
-         addons: { number: 8,    seat: 15, setup: 299,  a2p: 99 },
+         addons: { number: 8,    seat: 15, a2p: 99 },
          packs: { small: 25, standard: 55, large: 120, bulk: 270 },
          note: "US texting needs a one-time A2P activation. It's in the add-ons." },
   CA:  { label: "Canada",        cur: "$",   code: "CAD", pos: "pre",  per: "/mo", hasSMS: true,  hasVoice: true,  waFirst: false, naOnly: true,
@@ -47,7 +47,7 @@ const MARKETS = {
          shown: "Prices for Canada, in Canadian dollars.",
          creditsNote: "So Growth's 45,000 credits is around 550 AI conversations, or any mix of texts, calls and email. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
          tiers: { starter: 79,  growth: 199, pro: 499 },
-         addons: { number: 10,   seat: 19, setup: 399,  a2p: null },
+         addons: { number: 10,   seat: 19, a2p: null },
          packs: { small: 35, standard: 75, large: 165, bulk: 369 },
          note: "Canada needs no A2P registration." },
   /* UAE, revised 2026-09-23. Two tiers, not three: Growth exists to sell a phone number and
@@ -64,7 +64,7 @@ const MARKETS = {
          shown: "Prices for the UAE, in dirhams.",
          creditsNote: "So Starter's 15,000 credits is around 140 AI conversations a month, and Pro's 45,000 is around 425. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
          tiers: { starter: 549, growth: 549, pro: 999 },   // growth is not sold here
-         addons: { number: null, seat: 55, setup: 1099, a2p: null },
+         addons: { number: null, seat: 55, a2p: null },
          packs: { small: 95, standard: 205, large: 445, bulk: 995 },
          note: "WhatsApp-first, with web chat and email on Pro. No SMS line and no phone number to buy." },
 };
