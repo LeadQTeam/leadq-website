@@ -1253,6 +1253,31 @@ main{display:block}
 /* "See it work" now says what it does: a play mark, then the button opens the player. */
 .btn-play svg{width:15px;height:15px;flex:none;margin-left:-2px}
 
+/* "See it work" sits next to a filled primary CTA, so a flat ghost button loses the glance.
+   It gets a moving edge instead: one conic gradient rotating through the blue ramp, painted
+   only into the 1.6px band between the border box and the padding box, over a soft steady
+   glow. The band is cut by masking the content box out of the whole box, which is why the
+   padding value and the ring width are the same number. Without @property the angle cannot
+   interpolate, so those browsers get the same ring, held still. */
+@property --bp-angle{syntax:"<angle>";inherits:false;initial-value:0deg}
+.btn-play{--bp-ramp:#2f6df6,#7ba6ff,#dce9ff,#4d86ff,#2f6df6;position:relative;border-color:transparent;
+  box-shadow:0 0 18px -7px rgba(77,134,255,.6), 0 2px 10px -6px rgba(47,109,246,.5);
+  transition:filter .15s ease, transform .15s ease, box-shadow .25s ease}
+.btn-play::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1.6px;pointer-events:none;
+  background:conic-gradient(from var(--bp-angle),var(--bp-ramp));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+          mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude}
+.btn-play:hover{box-shadow:0 0 26px -6px rgba(77,134,255,.85), 0 2px 12px -6px rgba(47,109,246,.6)}
+:root[data-theme="light"] .btn-play{--bp-ramp:#1b4fd0,#2f6df6,#6f9dff,#2f6df6,#1b4fd0;
+  box-shadow:0 0 16px -8px rgba(47,109,246,.55), 0 2px 10px -7px rgba(47,109,246,.45)}
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]) .btn-play{--bp-ramp:#1b4fd0,#2f6df6,#6f9dff,#2f6df6,#1b4fd0;
+    box-shadow:0 0 16px -8px rgba(47,109,246,.55), 0 2px 10px -7px rgba(47,109,246,.45)}
+}
+@media (prefers-reduced-motion:no-preference){.btn-play::before{animation:bpspin 4.5s linear infinite}}
+@keyframes bpspin{to{--bp-angle:360deg}}
+
 /* A native <dialog>, so Escape and the focus trap are the browser's own. The dialog box is only
    the frame and carries no background, so a click anywhere around the video lands on the dialog
    itself and closes it. The width is capped by the viewport HEIGHT as well (16/9 of it), or a
