@@ -197,7 +197,7 @@ function nav(current, { voice = false } = {}) {
     `<a href="${href}"${key === current ? ' aria-current="page"' : ""}${needs === "voice" ? " data-needs-voice" : ""}>${text}</a>`).join("");
   const cta = voice
     ? `<a class="btn btn-voice btn-sm" href="${SIGNUP}&plan=pro">Get Pro</a>`
-    : `<a class="btn btn-primary btn-sm" href="${SIGNUP}">Get started</a>`;
+    : `<a class="btn btn-primary btn-sm" href="${SIGNUP}">Try it Free</a>`;
   return `<header class="nav">
   <div class="nav-pill">
     <a class="brand" href="index.html" aria-label="LeadQ home">${wordmark()}</a>
@@ -431,10 +431,10 @@ page({
       <h1 class="h-hero">Stop <span class="ko">chasing.</span><br>Start <span class="hi">closing.</span></h1>
       <p class="lead">Every message you miss is a job someone else books. LeadQ answers ${mkt("WhatsApp, texts, web chat, email and your phone line", "WhatsApp, web chat and email")} in seconds, then books the appointment. At midnight, on a Sunday, or while you are with a customer.</p>
       <div class="ctas">
-        <a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a>
+        <a class="btn btn-primary btn-lg" href="${SIGNUP}">Try it Free</a>
         <a class="btn btn-ghost btn-lg btn-play" href="#how" data-video>${I.play}See it work</a>
       </div>
-      <p class="fine">Set it up in minutes. No AI knowledge needed.</p>
+      <p class="fine">Set it up in minutes. No AI knowledge needed. 7-day&nbsp;free&nbsp;trial.</p>
     </div>
     <div class="pstage" role="img" aria-label="LeadQ inbox showing Baxter booking an appointment">
   <div class="glow" aria-hidden="true"></div>
@@ -722,7 +722,7 @@ page({
     <div>
       <h2 class="h-sec" style="margin-top:18px">Create your account. Your assistant is minutes away.</h2>
       <p class="lead" style="margin-top:18px">Sign up, paste your website, and watch it draft your FAQ and services. Pick your plan inside the app when you're ready to go live.</p>
-      <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
+      <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Try it Free</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
       <p class="fine">Set it up from your computer or your phone. No contracts, cancel anytime.</p>
     </div>
     <ol class="path" aria-label="How signup works" style="list-style:none;margin:0">
@@ -740,7 +740,7 @@ page({
   <div class="wrap">
     <h2>Your next lead isn't going to wait.</h2>
     <p class="lead">Set up your assistant in minutes, from any browser.</p>
-    <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a></div>
+    <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Try it Free</a></div>
   </div>
 </section>
 
@@ -843,7 +843,7 @@ page({
   <div class="wrap">
     <h2>One recovered lead covers the month.</h2>
     <p class="lead">Create your account, set up your assistant, and pick a plan inside the app.</p>
-    <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a></div>
+    <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Try it Free</a></div>
   </div>
 </section>`,
 });
@@ -1019,7 +1019,7 @@ page({
         <button type="button" data-industry="home" aria-pressed="false">Home services</button>
         <button type="button" data-industry="realestate" aria-pressed="false">Real estate</button>
       </div>
-      <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
+      <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Try it Free</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
     </div>
     ${phone({
       label: "The Schedule tab in the LeadQ app, filled with this industry's bookings",
@@ -1066,7 +1066,7 @@ page({
   <div class="wrap">
     <h2>See it with your own bookings.</h2>
     <p class="lead">Set it up in your browser in minutes. It learns your business, then gets to work.</p>
-    <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
+    <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Try it Free</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
   </div>
 </section>`,
 });
@@ -1203,7 +1203,7 @@ VERTICALS.forEach((v) => {
     <div>
       <h1 class="h-hero">${mkt(v.h1, v.h1Wa)}</h1>
       <p class="lead">${mkt(v.body, v.bodyWa)}</p>
-      <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
+      <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Try it Free</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
     </div>
     ${phone({ label: `The LeadQ app Schedule, filled with ${v.crumb.toLowerCase()} bookings`, tab: "schedule", header: scheduleHeader, body: scheduleBody(v.rows) })}
   </div>
@@ -1247,7 +1247,7 @@ VERTICALS.forEach((v) => {
   <div class="wrap">
     <h2>${v.close}</h2>
     <p class="lead">${v.closeBody}</p>
-    <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
+    <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Try it Free</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
     <nav class="vp-others" aria-label="Other industries">${others}</nav>
   </div>
 </section>`,
@@ -1302,7 +1302,7 @@ page({
       <div class="card"><h3>Books the work</h3><p>Checks real availability, books, reschedules and reminds.</p></div>
       <div class="card"><h3>Sounds like you</h3><p>Replies read like your business, not a bot.</p></div>
     </div>
-    <div class="ctas" style="justify-content:center;margin-top:36px"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Get started</a><a class="btn btn-ghost btn-lg" href="use-cases.html">See it for your industry</a></div>
+    <div class="ctas" style="justify-content:center;margin-top:36px"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Try it Free</a><a class="btn btn-ghost btn-lg" href="use-cases.html">See it for your industry</a></div>
   </div>
 </section>`,
 });
