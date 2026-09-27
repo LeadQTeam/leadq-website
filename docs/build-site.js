@@ -92,12 +92,15 @@ ${chans.map(tile).join(`
 };
 
 const TABS = {
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home',
   assistant: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.4l1.65 4.45a3 3 0 0 0 1.78 1.78L19.6 10.3l-4.17 1.55a3 3 0 0 0-1.78 1.78L12 18.2l-1.65-4.45a3 3 0 0 0-1.78-1.78L4.4 10.3l4.17-1.67a3 3 0 0 0 1.78-1.78z"/></svg>Assistant',
   inbox: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>Inbox',
   schedule: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Schedule',
   settings: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="3.1"/><path d="M19.5 12.9a7.5 7.5 0 0 0 0-1.8l1.9-1.5-1.9-3.3-2.3 1a7.5 7.5 0 0 0-1.6-.9L15.2 4H8.8l-.4 2.4a7.5 7.5 0 0 0-1.6.9l-2.3-1-1.9 3.3 1.9 1.5a7.5 7.5 0 0 0 0 1.8l-1.9 1.5 1.9 3.3 2.3-1a7.5 7.5 0 0 0 1.6.9l.4 2.4h6.4l.4-2.4a7.5 7.5 0 0 0 1.6-.9l2.3 1 1.9-3.3z"/></svg>Settings',
 };
-const tabbar = (on) => `<div class="ap-nav">${Object.keys(TABS).map((k) => `<span class="ap-tab${k === on ? " on" : ""}">${TABS[k]}</span>`).join("")}</div>`;
+/* keys defaults to the four the rest of the site uses, so adding Home changes nothing else */
+const tabbar = (on, keys = ["assistant", "inbox", "schedule", "settings"]) =>
+  `<div class="ap-nav">${keys.map((k) => `<span class="ap-tab${k === on ? " on" : ""}" data-go="${k}">${TABS[k]}</span>`).join("")}</div>`;
 
 /* reusable phone: frame, screen, island, status bar, content, app tab bar */
 const phone = ({ label, body, tab, header = "", extra = "", light = false, cls = "" }) =>
@@ -123,6 +126,49 @@ const scheduleBody = (rows, { day = "Today, Wed Aug 27", rowCls = "", tail = "" 
               ${tail}
             </div>`;
 const scheduleHeader = '<div class="ap-header plain"><span class="ap-hname big">Schedule</span></div>';
+/* The same three screens on a phone, driven by the same tabs as the window beside it. Each view
+   carries its own header, body and tab bar, because on a phone those change with the screen. */
+const tourPhoneView = (key, header, body) =>
+  `<div class="ap-view" data-scr="${key}"${key === "home" ? "" : " hidden"}>
+              ${header}
+              <div class="ap-body">${body}</div>
+              ${tabbar(key, ["home", "inbox", "schedule", "settings"])}
+            </div>`;
+
+const tourPhone = `<div class="tour-phone" role="img" aria-label="The same screens in the LeadQ app on a phone">
+          <div class="phone">
+            <div class="ap-screen">
+              <div class="ap-island"></div>
+              <div class="ap-status"><span>9:41</span><span>5G</span></div>
+            ${tourPhoneView("home",
+              '<div class="ap-header plain"><span class="ap-hname big">Good afternoon</span></div>',
+              `<div class="ap-scr">
+                <div class="ap-dayhd">Waiting on you<span class="ln"></span>1</div>
+                ${appt("2h", "waited", "Marcus Bell", "Asked to talk about insurance", "Needs you")}
+                <div class="ap-dayhd">Today<span class="ln"></span>7</div>
+                <div class="ap-booked"><b>6 handled end to end</b>3 booked, 1 needed you</div>
+                <div class="ap-dayhd">Recent<span class="ln"></span>3</div>
+                ${appt("12m", "ago", "Jane Doe", "Booked a cleaning, Wed 2:30 PM")}
+                ${appt("1h", "ago", "Priya Nair", "New patient, booked Thu 4:00 PM")}
+              </div>`)}
+            ${tourPhoneView("inbox",
+              '<div class="ap-header"><span class="ap-av">M</span><span><span class="ap-hname">Marcus Bell</span><span class="ap-hsub"><span class="ch">SMS</span>, you took over</span></span></div>',
+              `<div class="ap-chat">
+                <div class="ap-bubble in">Hi, do you take Delta Dental?</div>
+                <div class="ap-bubble out">We do. Would you like to book a cleaning?</div>
+                <div class="ap-bubble in">Can I talk to someone about my insurance first?</div>
+                <div class="ap-bubble out">Of course. Someone will reply here shortly.</div>
+              </div>`)}
+            ${tourPhoneView("schedule", scheduleHeader,
+              scheduleBody([["8:30", "AM", "Olivia Johnson", "Check-up, 30 min"],
+                            ["10:45", "AM", "Priya Nair", "New patient exam, 45 min"],
+                            ["1:00", "PM", "Marcus Bell", "Consultation with Sarah", "Added by you"],
+                            ["2:30", "PM", "Jane Doe", "Cleaning, 30 min", "Reminder sent"]],
+                           { day: "Today, Mon Sep 21" }))}
+            </div>
+          </div>
+        </div>`;
+
 
 const picture = (name, alt, eager) =>
   `<picture><source srcset="img/verticals/${name}.webp" type="image/webp"><img src="img/verticals/${name}.jpg" alt="${alt}" width="1600" height="1067"${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async"></picture>`;
@@ -518,14 +564,15 @@ page({
 <section class="sec" id="app">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="h-sec">Your whole front desk, on one screen.</h2>
-      <p class="lead">Open LeadQ on any computer and see everything at once. Who needs you, what your assistant handled, and what is booked next.</p>
+      <h2 class="h-sec">Your whole front desk, on one screen. Big and small.</h2>
+      <p class="lead">Control LeadQ from your computer or mobile device and see everything at once. Who needs you, what your assistant handled, and what is booked next.</p>
     </div>
     <div class="tour-tabs"><div class="seg" role="group" aria-label="App screen" id="tourSeg">
             <button type="button" data-tab="home" aria-pressed="true">Home</button>
             <button type="button" data-tab="inbox" aria-pressed="false">Inbox</button>
             <button type="button" data-tab="schedule" aria-pressed="false">Schedule</button>
           </div></div>
+          <div class="tour-stage">
           <div class="appwin"><div class="abar"><i></i><i></i><i></i><span>app.leadq.co</span></div><div class="dkw"><div class="dk" id="tourDk"><aside class="dk-side"><div class="dk-brand"><svg class="app" viewBox="0 0 100 100" aria-hidden="true"><use href="#rd-app"/></svg><span class="nm">Rivera Dental</span><svg class="ic" aria-hidden="true"><use href="#i-chev"/></svg></div><button type="button" class="dk-nav on" data-go="home"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg>Home</button><button type="button" class="dk-nav" data-go="inbox"><svg class="ic" aria-hidden="true"><use href="#i-inbox"/></svg>Inbox</button><button type="button" class="dk-nav" data-go="schedule"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Schedule</button><button type="button" class="dk-nav"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg>Assistant<span class="badge">2</span></button><button type="button" class="dk-nav"><svg class="ic" aria-hidden="true"><use href="#i-gear"/></svg>Settings</button><div class="dk-bax"><span class="bot"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg></span><span><b>Baxter</b><small>On, 5 channels</small></span></div><div class="dk-user"><svg class="app" viewBox="0 0 100 100" aria-hidden="true"><use href="#rd-app"/></svg>info@riveradental.com</div></aside>
 <div class="dk-main">
 <div data-scr="home" class="dk-page"><div class="dk-top"><div><div class="dk-h6">Good afternoon</div><p><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Monday, September 21. Open until 6:00 PM, then Baxter answers overnight.</p></div><button type="button" class="dk-bell" aria-label="Notifications"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg></button></div><div class="dk-scr"><div class="dk-home"><div class="dk-stats">
@@ -559,9 +606,11 @@ page({
 <div class="dk-card dk-schsum"><span class="dk-lbl">This week</span><div class="r"><span>Booked by Baxter</span><b>14</b></div><div class="r"><span>Reminders sent</span><b>22</b></div><div class="r"><span>Rescheduled by Baxter</span><b>3</b></div><div class="r"><span>No-shows</span><b>0</b></div></div></div>
 <div class="dk-schbody"><div class="dk-sec-h"><b>Tuesday, September 22</b><span class="hint">6 booked, 2 openings left</span></div><div class="dk-day"><div class="dk-ev"><time>8:30 AM</time><div class="ev"><div><b>Olivia Johnson</b><small>Check-up, 30 min</small></div><span class="dk-chip blue">Booked by Baxter</span></div></div><div class="dk-ev"><time>9:15 AM</time><div class="ev"><div><b>Tom Alvarez</b><small>Follow-up, 20 min</small></div><span class="dk-chip blue">Booked by Baxter</span></div></div><div class="dk-ev open"><time>10:00 AM</time><div class="ev">Open, 45 min</div></div><div class="dk-ev"><time>10:45 AM</time><div class="ev"><div><b>Priya Nair</b><small>New patient exam, 45 min</small></div><span class="dk-chip blue">Booked by Baxter</span></div></div><div class="dk-ev"><time>1:00 PM</time><div class="ev"><div><b>Marcus Bell</b><small>Consultation with Sarah</small></div><span class="dk-chip grey">Added by you</span></div></div><div class="dk-ev"><time>2:30 PM</time><div class="ev"><div><b>Jane Doe</b><small>Cleaning, 30 min</small></div><span class="dk-chip green">Reminder sent</span></div></div><div class="dk-ev open"><time>4:00 PM</time><div class="ev">Open, 30 min</div></div></div></div></div></div></div>
 </div></div></div></div>
+          ${tourPhone}
+          </div>
           <p class="scroll-hint">Swipe sideways to see the full screen</p>
           <p class="tour-title" data-cap-title>Know what needs you in five seconds.</p><div class="tour-caps" data-caps><div class="it"><b>Needs you, first</b><span>The one conversation waiting on a person sits at the top, with one-tap Reply, or let your assistant carry on.</span></div><div class="it"><b>What your assistant handled</b><span>Today's conversations, bookings and who needed you, at a glance.</span></div><div class="it"><b>Every channel, one switch</b><span>Pause your assistant everywhere, or channel by channel. Try the switches.</span></div></div>
-          <p class="tour-note">Runs in your browser. Log in from any computer, and invite your team. The mobile app is coming soon.</p>
+          <p class="tour-note">Runs in your browser. Log in from any computer or phone, and invite your team. The mobile app is coming soon.</p>
   </div>
 </section>
 

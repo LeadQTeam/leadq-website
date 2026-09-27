@@ -17,8 +17,10 @@
     var dk=document.getElementById('tourDk'); if(!dk) return;
     var seg=document.querySelectorAll('#tourSeg button');
     var CAPS={"home": ["Know what needs you in five seconds.", [["Needs you, first", "The one conversation waiting on a person sits at the top, with one-tap Reply, or let your assistant carry on."], ["What your assistant handled", "Today's conversations, bookings and who needed you, at a glance."], ["Every channel, one switch", "Pause your assistant everywhere, or channel by channel. Try the switches."]]], "inbox": ["Step in, then hand it back.", [["Every channel in one list", "SMS, WhatsApp, web chat, email and calls, filtered by who needs you."], ["Take over any conversation", "Reply yourself, then Hand back when you're done. Try it."], ["The whole story beside it", "AI summary, contact details, appointments and internal notes."]]], "schedule": ["Your calendar, already filled in.", [["Booked while you were busy", "Your assistant checks real availability, respects your rules, and writes the appointment into your day."], ["The gaps stay visible", "Openings show as openings, so you can see what is still there to sell."], ["Reminders go out on their own", "Confirmations and reminders send on schedule, and no-shows drop."]]]};
+    var stage = dk.closest('.tour-stage') || dk;   // the window AND the phone beside it
     function show(key){
-      dk.querySelectorAll('[data-scr]').forEach(function(s){ s.hidden = s.dataset.scr!==key; });
+      stage.querySelectorAll('[data-scr]').forEach(function(s){ s.hidden = s.dataset.scr!==key; });
+      stage.querySelectorAll('.ap-nav .ap-tab').forEach(function(t){ t.classList.toggle('on', t.dataset.go===key); });
       dk.querySelectorAll('.dk-side .dk-nav').forEach(function(n){ n.classList.toggle('on', n.dataset.go===key); });
       seg.forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.tab===key?'true':'false'); });
       var c=CAPS[key]; document.querySelector('[data-cap-title]').textContent=c[0];

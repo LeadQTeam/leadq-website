@@ -1128,6 +1128,18 @@ main{display:block}
 .tour-head h2{font-size:clamp(36px,4.8vw,62px);line-height:.94;font-stretch:80%;letter-spacing:-.04em;margin:14px 0 0}
 .tour-head p{color:var(--ink-2)}
 .tour-tabs{display:flex;justify-content:center;margin-bottom:22px}
+/* The window and the phone side by side, the same screen on each. The phone keeps its own
+   column so the window never shrinks to make room, and it drops below rather than squeezing. */
+.tour-stage{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(20px,3vw,40px);align-items:end}
+.tour-phone{--pw:clamp(190px,17vw,236px);display:flex;justify-content:center}
+.tour-phone .phone{width:var(--pw)}
+/* each phone screen brings its own header, list and tab bar, so it fills the frame on its own */
+.ap-view{flex:1;min-height:0;display:flex;flex-direction:column}
+.ap-view[hidden]{display:none}
+@media (max-width:900px){
+  .tour-stage{grid-template-columns:minmax(0,1fr);justify-items:center}
+  .tour-phone{--pw:clamp(200px,58vw,260px)}
+}
 .tour-caps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px}
 .tour-caps .it{padding:16px 18px;border-radius:18px;background:rgba(255,255,255,.03);border:1px solid var(--line-2)}
 .tour-caps .it b{display:block;font-size:15px;margin-bottom:4px}
