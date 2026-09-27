@@ -661,7 +661,7 @@ page({
       <div class="step">
         <span class="n">2</span>
         <h3>Connect your channels</h3>
-        <p><span data-na-only>WhatsApp, text, web chat and email. We guide you through SMS registration.</span><span data-wa-only hidden>WhatsApp, web chat and email. We guide you through WhatsApp Business approval.</span></p>
+        <p><span data-na-only>WhatsApp, text, web chat, email and voice.</span><span data-wa-only hidden>WhatsApp, web chat and email. We guide you through WhatsApp Business approval.</span></p>
         <div class="shot" aria-hidden="true">
           <div class="sc-row"><span class="sc-ic">${chIcon('whatsapp')}</span><span class="sc-tx"><span class="sc-name">WhatsApp</span></span><span class="sc-ok">Connected</span></div>
           <div class="sc-row"><span class="sc-ic">${chIcon('sms')}</span><span class="sc-tx"><span class="sc-name">${mkt("SMS", "WhatsApp")}</span></span><span class="sc-ok">Connected</span></div>
