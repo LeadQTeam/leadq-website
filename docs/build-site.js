@@ -873,7 +873,7 @@ page({
   <div class="wrap picker">
     <div>
       <h2 class="h-sec">Choose a voice your callers will trust.</h2>
-      <p class="lead" style="margin-top:18px">Nearly 40 voices across American, British and French accents, standard and premium. Preview any of them in the app, set the speaking pace, and you're done. It's the one thing you can't judge from words on a page, so press play.</p>
+      <p class="lead" style="margin-top:18px">Nearly 40 voices across American, British and French accents, standard and premium. Preview any of them in the app, set the speaking pace, and you're done.</p>
     </div>
     ${voicePicker}
   </div>
