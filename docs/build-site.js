@@ -158,7 +158,7 @@ function nav(current, { voice = false } = {}) {
 }
 
 const dock = `<aside class="dock" hidden aria-label="Demo assistant">
-  <div class="dock-copy"><b>Talk to Baxter now</b><span class="faint">He's our demo assistant. Try to book.</span></div>
+  <div class="dock-copy"><b>Talk to our assistant now</b><span class="faint">This is the demo. Try to book.</span></div>
   <button class="btn btn-white btn-sm dock-btn" type="button">Start chat</button>
 </aside>`;
 
@@ -519,7 +519,7 @@ page({
   <div class="wrap">
     <div class="sec-head">
       <h2 class="h-sec">Your whole front desk, on one screen.</h2>
-      <p class="lead">Open LeadQ on any computer and see everything at once. Who needs you, what Baxter handled, and what is booked next.</p>
+      <p class="lead">Open LeadQ on any computer and see everything at once. Who needs you, what your assistant handled, and what is booked next.</p>
     </div>
     <div class="tour-tabs"><div class="seg" role="group" aria-label="App screen" id="tourSeg">
             <button type="button" data-tab="home" aria-pressed="true">Home</button>
@@ -560,7 +560,7 @@ page({
 <div class="dk-schbody"><div class="dk-sec-h"><b>Tuesday, September 22</b><span class="hint">6 booked, 2 openings left</span></div><div class="dk-day"><div class="dk-ev"><time>8:30 AM</time><div class="ev"><div><b>Olivia Johnson</b><small>Check-up, 30 min</small></div><span class="dk-chip blue">Booked by Baxter</span></div></div><div class="dk-ev"><time>9:15 AM</time><div class="ev"><div><b>Tom Alvarez</b><small>Follow-up, 20 min</small></div><span class="dk-chip blue">Booked by Baxter</span></div></div><div class="dk-ev open"><time>10:00 AM</time><div class="ev">Open, 45 min</div></div><div class="dk-ev"><time>10:45 AM</time><div class="ev"><div><b>Priya Nair</b><small>New patient exam, 45 min</small></div><span class="dk-chip blue">Booked by Baxter</span></div></div><div class="dk-ev"><time>1:00 PM</time><div class="ev"><div><b>Marcus Bell</b><small>Consultation with Sarah</small></div><span class="dk-chip grey">Added by you</span></div></div><div class="dk-ev"><time>2:30 PM</time><div class="ev"><div><b>Jane Doe</b><small>Cleaning, 30 min</small></div><span class="dk-chip green">Reminder sent</span></div></div><div class="dk-ev open"><time>4:00 PM</time><div class="ev">Open, 30 min</div></div></div></div></div></div></div>
 </div></div></div></div>
           <p class="scroll-hint">Swipe sideways to see the full screen</p>
-          <p class="tour-title" data-cap-title>Know what needs you in five seconds.</p><div class="tour-caps" data-caps><div class="it"><b>Needs you, first</b><span>The one conversation waiting on a person sits at the top, with one-tap Reply or Let Baxter continue.</span></div><div class="it"><b>What Baxter handled</b><span>Today's conversations, bookings and who needed you, at a glance.</span></div><div class="it"><b>Every channel, one switch</b><span>Pause Baxter everywhere, or channel by channel. Try the switches.</span></div></div>
+          <p class="tour-title" data-cap-title>Know what needs you in five seconds.</p><div class="tour-caps" data-caps><div class="it"><b>Needs you, first</b><span>The one conversation waiting on a person sits at the top, with one-tap Reply, or let your assistant carry on.</span></div><div class="it"><b>What your assistant handled</b><span>Today's conversations, bookings and who needed you, at a glance.</span></div><div class="it"><b>Every channel, one switch</b><span>Pause your assistant everywhere, or channel by channel. Try the switches.</span></div></div>
           <p class="tour-note">Runs in your browser. Log in from any computer, and invite your team. The mobile app is coming soon.</p>
   </div>
 </section>
@@ -1001,7 +1001,7 @@ page({
       <h2 class="h-sec">If you book appointments, LeadQ is for you.</h2>
       <p class="lead">It learns any business the same way. These are just the ones we hear from most.</p>
     </div>
-    <div class="chips"><span>Dental</span><span>Med spas</span><span>Chiro and physio</span><span>Salons</span><span>Barbershops</span><span>HVAC</span><span>Plumbing</span><span>Electrical</span><span>Cleaning</span><span>Real estate</span><span>Fitness studios</span><span>Auto shops</span></div>
+    <div class="chips" role="group" aria-label="Trades LeadQ works with"><div class="chips-run"><span>Dental</span><span>Med spas</span><span>Chiro and physio</span><span>Salons</span><span>Barbershops</span><span>HVAC</span><span>Plumbing</span><span>Electrical</span><span>Cleaning</span><span>Real estate</span><span>Fitness studios</span><span>Auto shops</span><span aria-hidden="true">Dental</span><span aria-hidden="true">Med spas</span><span aria-hidden="true">Chiro and physio</span><span aria-hidden="true">Salons</span><span aria-hidden="true">Barbershops</span><span aria-hidden="true">HVAC</span><span aria-hidden="true">Plumbing</span><span aria-hidden="true">Electrical</span><span aria-hidden="true">Cleaning</span><span aria-hidden="true">Real estate</span><span aria-hidden="true">Fitness studios</span><span aria-hidden="true">Auto shops</span></div></div>
   </div>
 </section>
 

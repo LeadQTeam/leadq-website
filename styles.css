@@ -749,13 +749,24 @@ main{display:block}
 @media (max-width:980px){.uc-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:620px){.uc-tiles{grid-template-columns:1fr}.uc-tile{min-height:280px}}
 
-/* All twelve on one line where there is room, and evened-out rows where there is not.
-   They are inline-block in a block rather than flex items so text-wrap:balance can see them
-   as one run: flex-wrap fills the first line greedily and left 'Auto shops' alone under ten
-   others. Tighter padding and gap are what buy the twelfth chip its place on the line. */
-.chips{display:block;text-align:center;text-wrap:balance;margin-top:26px;line-height:1}
-.chips span{display:inline-block;font-size:14px;padding:7px 12px;margin:3px;border-radius:999px;
+/* The trades ride past on a loop, four or five in view at a time. The run is written twice
+   and slides exactly half its own width, so the second copy is under the cursor at the moment
+   the first ends and the seam never shows. Sliding a transform, so it costs the compositor
+   nothing. The mask fades both ends rather than letting chips appear out of a hard edge. */
+.chips{--chips-w:560px;width:min(var(--chips-w),100%);margin:26px auto 0;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.chips-run{display:flex;width:max-content;gap:10px;animation:chipsroll 34s linear infinite}
+.chips-run span{flex:none;font-size:14px;padding:7px 14px;border-radius:999px;
   background:var(--tint);border:1px solid var(--line);color:var(--ink-2)}
+.chips:hover .chips-run{animation-play-state:paused}
+@keyframes chipsroll{to{transform:translateX(calc(-50% - 5px))}}
+/* Standing still, a clipped row would hide most of the list, so let it be scrolled by hand. */
+@media (prefers-reduced-motion:reduce){
+  .chips{overflow-x:auto;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chips-run{animation:none}
+}
 
 .ww{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;max-width:900px;margin:0 auto}
 .ww > div{border-radius:22px;padding:24px 26px;border:1px solid var(--line-2);background:var(--tint)}
