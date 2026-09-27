@@ -431,7 +431,7 @@ page({
 </section>
 
 <!-- what it does -->
-<section class="sec" style="padding-top:0">
+<section class="sec">
   <div class="wrap">
     <div class="sec-head"><h2 class="h-sec">Runs the whole conversation. And the booking.</h2></div>
     <div class="tiles">
@@ -625,7 +625,7 @@ page({
 </section>
 
 <!-- outcomes -->
-<section class="sec" style="padding-top:0">
+<section class="sec">
   <div class="wrap">
     <div class="sec-head"><h2 class="h-sec">Time saved. Costs down. Sales never missed.</h2></div>
     <div class="outcomes">
@@ -637,7 +637,7 @@ page({
 </section>
 
 <!-- pricing preview -->
-<section class="lit-hero" style="--c:#2fc6e8;--c2:#4d86ff;padding-top:clamp(72px,9vw,110px)">
+<section class="lit-hero midway" style="--c:#2fc6e8;--c2:#4d86ff">
   <div class="wrap">
     <div class="sec-head">
       <h2 class="h-sec">One recovered lead covers the month.</h2>
@@ -659,7 +659,7 @@ page({
 </section>
 
 <!-- signup path -->
-<section class="sec" style="--c:#37c98b;padding-top:0">
+<section class="sec" style="--c:#37c98b">
   <div class="wrap signup">
     <div>
       <h2 class="h-sec" style="margin-top:18px">Create your account. Your assistant is minutes away.</h2>
@@ -879,7 +879,7 @@ page({
   </div>
 </section>
 
-<section data-needs-voice class="sec" style="padding-top:0">
+<section data-needs-voice class="sec">
   <div class="wrap">
     <div class="sec-head"><h2 class="h-sec">A receptionist that never misses.</h2></div>
     <div class="oncall">
@@ -893,7 +893,7 @@ page({
   </div>
 </section>
 
-<section data-needs-voice class="sec" style="padding-top:0">
+<section data-needs-voice class="sec">
   <div class="wrap">
     <div class="sec-head">
       <h2 class="h-sec">Not a second robot.</h2>
@@ -921,7 +921,7 @@ page({
   </div>
 </section>
 
-<section data-needs-voice class="sec" style="padding-top:0">
+<section data-needs-voice class="sec">
   <div class="wrap">
     <div class="priceblock">
       <div>
@@ -985,7 +985,7 @@ page({
   </div>
 </section>
 
-<section class="sec" style="padding-top:0">
+<section class="sec">
   <div class="wrap">
     <div class="sec-head"><h2 class="h-sec">The same problems, in every trade.</h2></div>
     <div class="ww">
@@ -995,7 +995,7 @@ page({
   </div>
 </section>
 
-<section class="sec" style="padding-top:0">
+<section class="sec">
   <div class="wrap">
     <div class="sec-head">
       <h2 class="h-sec">If you book appointments, LeadQ is for you.</h2>
@@ -1162,7 +1162,7 @@ VERTICALS.forEach((v) => {
   </div>
 </section>
 
-<section class="sec" style="padding-top:0">
+<section class="sec">
   <div class="wrap roi-sec">
     <div>
       <h2 class="h-sec">What slow replies cost you.</h2>
@@ -1179,7 +1179,7 @@ VERTICALS.forEach((v) => {
   </div>
 </section>
 
-<section class="sec" style="padding-top:0">
+<section class="sec">
   <div class="wrap">
     <div class="sec-head"><h2 class="h-sec">${v.faqTitle}</h2></div>
     ${faqHtml(v.faq)}
@@ -1227,7 +1227,7 @@ page({
   </div>
 </section>
 
-<section class="sec" style="padding-top:0">
+<section class="sec">
   <div class="wrap story">
     <h2 class="h-sec">You shouldn't need five tools to answer a customer.</h2>
     <p class="lead">Most small teams stitch together a chat widget, ${mkt("a texting app, an inbox, a booking tool and a receptionist", "an inbox, a booking tool and a WhatsApp number on someone's phone")}, and still drop messages. It should be one assistant that knows your business, speaks in your voice, and works every channel the same way. So that's what we built.</p>
