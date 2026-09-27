@@ -12,7 +12,8 @@ const WIDGET = '<script defer src="https://chat.leadqmail.co/w.js" data-leadq="8
 const FONT = "https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=JetBrains+Mono:wght@400;600&display=swap";
 
 // The wordmark ships in two versions because the site ships dark but keeps a light mode.
-const wordmark = (cls = "") => `<picture><source srcset="img/brand/leadq-wordmark.webp" type="image/webp"><img class="brand-logo brand-night${cls ? " " + cls : ""}" src="img/brand/leadq-wordmark.png" alt="LeadQ" width="512" height="199"></picture><img class="brand-logo brand-ink" src="img/brand/leadq-wordmark-ink.png" alt="" aria-hidden="true" width="512" height="202">`;
+// Both are SVG now, so there is no raster fallback to choose between.
+const wordmark = (cls = "") => `<img class="brand-logo brand-night${cls ? " " + cls : ""}" src="img/brand/leadq-wordmark.svg" alt="LeadQ" width="902" height="324"><img class="brand-logo brand-ink" src="img/brand/leadq-wordmark-ink.svg" alt="" aria-hidden="true" width="902" height="324">`;
 
 const I = {
   menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
