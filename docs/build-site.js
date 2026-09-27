@@ -1,9 +1,17 @@
 // One-off generator for the LeadQ redesign. Writes plain static HTML into the repo.
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 const { execSync } = require("child_process");
 // the repo root, so this runs from any checkout
 const R = path.resolve(__dirname, "..");
+/* Our own CSS and JS are linked with a content hash on the end. GitHub Pages serves them with
+   Cache-Control: max-age=600 and no version in the path, so a freshly built page could load
+   beside a browser copy of the old stylesheet and come out looking half deployed. The query
+   changes only when the bytes change, so a cached copy is retired exactly when it is stale. */
+const rev = (f) => f + "?v=" + crypto.createHash("sha1").update(fs.readFileSync(path.join(R, f))).digest("hex").slice(0, 8);
+const CSS = rev("styles.css"), SITEJS = rev("site.js"), MOCKJS = rev("app-mockup.js");
+
 const APP = "https://app.leadq.co";
 // Every call to action opens the signup form directly; a plan picked here rides along so the
 // app leads with it at go-live. Log in stays on the plain app URL.
@@ -250,8 +258,8 @@ function page({ file, title, desc, ogDesc, canonical, robots = "index,follow", o
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="${FONT}">
 <link rel="stylesheet" href="${FONT}">
-<link rel="stylesheet" href="styles.css">
-<script src="site.js" defer></script>${mockup ? '\n<script src="app-mockup.js" defer></script>' : ""}
+<link rel="stylesheet" href="${CSS}">
+<script src="${SITEJS}" defer></script>${mockup ? `\n<script src="${MOCKJS}" defer></script>` : ""}
 ${jsonld.map((j) => `<script type="application/ld+json">\n${j}\n</script>`).join("\n")}
 </head>
 <body${bodyAttr ? " " + bodyAttr : ""}>

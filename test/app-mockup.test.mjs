@@ -179,7 +179,7 @@ for (const dead of ["class=\"lqa", "lqa-side", "hstage", "appwin-url", "data-app
   ok(`my rewrite is gone: ${dead}`, !html.includes(dead) && !css.includes(dead))
 
 // ── it still cannot take the pricing code down ───────────────────────────────
-ok("the mockup is its own file", /<script src="app-mockup\.js" defer><\/script>/.test(html))
+ok("the mockup is its own file", /<script src="app-mockup\.js(\?v=[a-f0-9]+)?" defer><\/script>/.test(html))
 ok("and loads after site.js", html.indexOf("site.js") < html.indexOf("app-mockup.js"))
 ok("it does not reach into site.js internals", !/\bMKT\b|applyMarket|detectMarket/.test(js))
 

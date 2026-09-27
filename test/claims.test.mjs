@@ -56,7 +56,7 @@ ok("setup no longer claims to be phone-first", /Live in minutes, from any browse
 // The markup is static in the page and the driver only animates it. Covered in depth by
 // app-mockup.test.mjs, which pins it to the brief's reference implementation.
 ok("the page carries the desktop app", /id="tourDk"/.test(home))
-ok("and loads the driver that animates it", /<script src="app-mockup\.js" defer><\/script>/.test(home))
+ok("and loads the driver that animates it", /<script src="app-mockup\.js(\?v=[a-f0-9]+)?" defer><\/script>/.test(home))
 ok("the app sits in a browser window", /class="appwin"/.test(home))
 ok("with a real address bar", /<span>app\.leadq\.co<\/span>/.test(home))
 ok("and you can click through three screens", /data-tab="schedule"/.test(home))
