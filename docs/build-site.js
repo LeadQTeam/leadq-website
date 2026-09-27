@@ -303,21 +303,21 @@ const plans = `<div class="plans">
       <div class="plan" data-plan="starter">
         <h3 data-plan-name="starter">Starter</h3><p class="for">Solo, or just trying it out</p>
         <div class="amt"><span data-price="starter">$59</span><small> <span data-code>USD</span> /mo</small></div>
-        <ul><li><span data-cell="starter.credits">20,000</span> credits a month</li><li data-na-only>1 seat, 1 channel</li><li data-wa-only hidden>3 seats, 1 channel</li><li data-wa-only hidden>Booking, calendar and reminders</li><li data-wa-only hidden>Follow-ups, custom fields, profiles</li><li>Assistant, FAQ and lead capture</li></ul>
+        <ul><li><span data-cell="starter.credits">20,000</span> credits a month</li><li data-na-only>1 seat</li><li data-na-only>1 text-based channel (no voice)</li><li data-wa-only hidden>3 seats</li><li data-wa-only hidden>1 channel</li><li data-wa-only hidden>Booking, calendar and reminders</li><li data-wa-only hidden>Follow-ups, custom fields, profiles</li><li>Assistant, FAQ and lead capture</li></ul>
         <a class="btn btn-ghost btn-block" href="${SIGNUP}&plan=starter">Choose Starter</a>
       </div>
       <div class="plan hot" data-plan="growth">
         <span class="flag">Most popular</span>
-        <h3 data-plan-name="growth">Growth</h3><p class="for">The main plan for a growing business</p>
+        <h3 data-plan-name="growth">Growth</h3><p class="for">Multi-channel assistant for a growing business</p>
         <div class="amt"><span data-price="growth">$149</span><small> <span data-code>USD</span> /mo</small></div>
-        <ul><li><span data-cell="growth.credits">45,000</span> credits a month</li><li><span data-cell="growth.seats">3</span> seats</li><li data-na-only>1 phone number</li><li><span data-cell="growth.channels" data-unit="channel">3 channels</span></li><li>Booking, calendar and reminders</li><li>Follow-ups, custom fields, profiles</li><li>Calendar sync with Google and Outlook</li></ul>
+        <ul><li><span data-cell="growth.credits">45,000</span> credits a month</li><li><span data-cell="growth.seats">3</span> seats</li><li data-na-only>1 phone number</li><li><span data-cell="growth.channels" data-unit="text-based channel">3 text-based channels</span> (no voice)</li><li>Booking, calendar and reminders</li><li>Follow-ups, custom fields, profiles</li><li>Calendar sync with Google and Outlook</li></ul>
         <a class="btn btn-primary btn-block" href="${SIGNUP}&plan=growth">Start with Growth</a>
       </div>
       <div class="plan" data-plan="pro">
-        <h3 data-plan-name="pro">Pro</h3><p class="for">Established, multi-channel, high volume</p>
+        <h3 data-plan-name="pro">Pro</h3><p class="for">${mkt("Live voice receptionist, high volume, insights &amp; reporting", "High volume, every channel, insights &amp; reporting")}</p>
         <div class="amt"><span data-price="pro">$399</span><small> <span data-code>USD</span> /mo</small></div>
         <p class="plus" data-plus>Everything in Growth, plus:</p>
-        <ul><li><span data-cell="pro.credits">120,000</span> credits a month</li><li><span data-cell="pro.seats">10</span> seats</li><li data-na-only>2 phone numbers</li><li data-pro-channels>All channels</li><li class="voice" data-needs-voice>AI voice receptionist</li><li>Insights dashboard</li><li>Priority support</li></ul>
+        <ul><li><span data-cell="pro.credits">120,000</span> credits a month</li><li><span data-cell="pro.seats">10</span> seats</li><li data-na-only>2 phone numbers</li><li class="voice" data-needs-voice>AI voice receptionist</li><li data-pro-channels>All channels</li><li>Insights dashboard</li><li>Priority support</li></ul>
         <a class="btn btn-ghost btn-block" href="${SIGNUP}&plan=pro">Choose Pro</a>
       </div>
     </div>`;

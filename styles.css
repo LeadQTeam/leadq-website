@@ -408,7 +408,10 @@ main{display:block}
 .plan{position:relative;border-radius:22px;padding:26px 22px;display:flex;flex-direction:column;gap:10px;
   background:linear-gradient(180deg,var(--tint),transparent),var(--surface);border:1px solid var(--line);box-shadow:var(--e1)}
 .plan h3{font-size:22px}
-.plan .for{font-size:13.5px;color:var(--ink-3);min-height:40px}
+/* Reserves two lines. The subtitles are not the same length, and the price under them
+   has to start at the same height on every card, so the short ones pad out to match
+   the tallest rather than each card setting its own. */
+.plan .for{font-size:13.5px;color:var(--ink-3);min-height:46px}
 .plan .amt{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:34px;font-weight:600;letter-spacing:-.03em;line-height:1;margin:4px 0}
 .plan .amt small{font-size:13px;color:var(--ink-3);font-weight:400;letter-spacing:0;font-family:var(--sans)}
 .plan .plus{font-size:13px;font-weight:600;color:var(--ink-2);margin:8px 0 -2px}
