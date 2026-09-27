@@ -998,7 +998,7 @@ page({
 <section class="sec" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="h-sec">If you book appointments, it fits.</h2>
+      <h2 class="h-sec">If you book appointments, LeadQ is for you.</h2>
       <p class="lead">It learns any business the same way. These are just the ones we hear from most.</p>
     </div>
     <div class="chips"><span>Dental</span><span>Med spas</span><span>Chiro and physio</span><span>Salons</span><span>Barbershops</span><span>HVAC</span><span>Plumbing</span><span>Electrical</span><span>Cleaning</span><span>Real estate</span><span>Fitness studios</span><span>Auto shops</span></div>
