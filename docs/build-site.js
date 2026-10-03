@@ -475,7 +475,7 @@ page({
     ${orbit([["whatsapp", "WhatsApp", 0, -166], ["webchat", "Web chat", 150, 92], ["email", "Email", -150, 92]], " data-wa-only hidden")}
     <div>
       <h2 class="h-sec">One assistant, multiple channels.</h2>
-      <p class="lead" style="margin-top:18px"><span data-na-only>Most businesses juggle a chat widget, a texting app, an inbox, a booking tool and a voicemail box, and still drop messages.</span><span data-wa-only hidden>Most businesses run WhatsApp off one person's phone, with a chat widget, an inbox and a booking tool beside it, and still drop messages.</span> LeadQ is one assistant that knows your business and works every channel the same way.</p>
+      <p class="lead" style="margin-top:18px"><span data-na-only>Most businesses juggle a chat widget, a texting app, an inbox, a booking tool and a voicemail box, and still drop messages.</span><span data-wa-only hidden>Most businesses run WhatsApp off one person's phone, with a chat widget, an inbox and a booking tool beside it, and still drop messages.</span> LeadQ is one assistant that knows your business and works every channel the same way. Leads from your Facebook lead forms come straight in too. Instagram and Messenger are coming soon.</p>
       <div class="items">
         <div class="item"><b>Change it once</b><span>Update your hours or add a service, and every channel knows.${mkt(" The phone too.", "")}</span></div>
         <div class="item"><b>Sounds like you</b><span>Warm, brisk, formal, luxe. Pick a tone and it talks like your front desk.</span></div>
@@ -661,7 +661,7 @@ page({
       <div class="step">
         <span class="n">2</span>
         <h3>Connect your channels</h3>
-        <p><span data-na-only>WhatsApp, text, web chat, email and voice.</span><span data-wa-only hidden>WhatsApp, web chat and email. We guide you through WhatsApp Business approval.</span></p>
+        <p><span data-na-only>WhatsApp, text, web chat, email and voice.</span><span data-wa-only hidden>WhatsApp, web chat and email. We guide you through WhatsApp Business approval.</span> Instagram and Messenger are coming soon.</p>
         <div class="shot" aria-hidden="true">
           <div class="sc-row"><span class="sc-ic">${chIcon('whatsapp')}</span><span class="sc-tx"><span class="sc-name">WhatsApp</span></span><span class="sc-ok">Connected</span></div>
           <div class="sc-row"><span class="sc-ic">${chIcon('sms')}</span><span class="sc-tx"><span class="sc-name">${mkt("SMS", "WhatsApp")}</span></span><span class="sc-ok">Connected</span></div>
@@ -1314,15 +1314,22 @@ const slug = (s) => s.toLowerCase().replace(/&amp;/g, "and").replace(/[^a-z0-9]+
 // would parse this generator's own output instead of the original text.
 const LEGAL_SRC = "7210f5b";
 
-function legal(file, title, updatedFallback, desc) {
+function legal(file, title, updatedFallback, desc, opts = {}) {
   const src = execSync(`git show ${LEGAL_SRC}:${file}`, { cwd: R, encoding: "utf8" });
   const intro = src.match(/<p class="policy-intro">([\s\S]*?)<\/p>/)[1];
-  const updated = (src.match(/<p class="page-hero-sub">([\s\S]*?)<\/p>/) || [, updatedFallback])[1];
+  const updated = opts.updated || (src.match(/<p class="page-hero-sub">([\s\S]*?)<\/p>/) || [, updatedFallback])[1];
   const sections = [...src.matchAll(/<div class="policy-section">([\s\S]*?)<\/div>/g)].map((m) => {
     const inner = m[1].trim().replace(/ class="terms-list"/g, "").replace(/var\(--font-mono\)/g, "var(--mono)");
     const h = inner.match(/<h2>([\s\S]*?)<\/h2>/)[1];
     return `<section id="${slug(h)}">\n        ${inner}\n      </section>`;
   });
+  // Sections written after the pinned commit. Each names the section it goes in front of, and a
+  // heading that has moved or been renamed in the source is an error, not a silent append.
+  for (const add of opts.add || []) {
+    const at = sections.findIndex((s) => s.includes(`<h2>${add.before}</h2>`));
+    if (at < 0) throw new Error(`${file}: no section "${add.before}" to insert "${add.h}" before`);
+    sections.splice(at, 0, `<section id="${slug(add.h)}">\n        <h2>${add.h}</h2>\n        ${add.body}\n      </section>`);
+  }
   page({
     file, title: `${title} | LeadQ`, desc, canonical: `https://www.leadq.co/${file}`, robots: "noindex, follow",
     ogImage: "https://www.leadq.co/LeadQOpenGraph.png",
@@ -1342,7 +1349,27 @@ function legal(file, title, updatedFallback, desc) {
 </div>`,
   });
 }
-legal("privacy-policy.html", "Privacy Policy", "Last updated: September 2026", "LeadQ's privacy policy outlining how we collect, use, and protect your personal information.");
+/* Facebook and Instagram, added 2026-10-02 for Meta's access verification and App Review, which
+   check that the policy covers the data the app receives. Every claim here was checked against
+   the system, not written from the plan: disconnect runs fb_delete, which deletes the stored page
+   and user tokens; account closure purges contacts and messages; the inbox can delete a thread.
+   The retention section's anchor is what Meta's "data deletion instructions URL" field points at. */
+legal("privacy-policy.html", "Privacy Policy", "Last updated: September 2026", "LeadQ's privacy policy outlining how we collect, use, and protect your personal information.", {
+  updated: "Last updated: October 2026",
+  add: [
+    {
+      before: "Data Security",
+      h: "Facebook and Instagram Data",
+      body: `<p>When you connect a Facebook Page or an Instagram professional account to LeadQ, you log in with Facebook and choose what to connect. Depending on what you turn on, we receive: submissions to your Page's Facebook lead forms (the details the person entered, such as name, email and phone number); messages that customers send to your Page on Messenger or to your Instagram account, with the sender's public name; and the Page or account name and the access token needed to keep it connected.</p>
+        <p style="margin-top:1rem;">We use this data only to provide LeadQ to the business that connected it: adding leads to your contacts, letting your assistant reply to your customers on your behalf, and showing you every conversation in your LeadQ dashboard. Messages are processed by our AI provider as described in the section on our use of AI above. We do not sell this data, use it for advertising, or use it to train AI models.</p>`,
+    },
+    {
+      before: "Data Security",
+      h: "Retention and Deletion of Facebook and Instagram Data",
+      body: `<p>We keep the access token only while your Page or account stays connected. You can disconnect at any time from your LeadQ dashboard, which stops our access and deletes the stored token. Leads and conversations stay in your LeadQ account until you delete them or close your account, at which point we delete them from our systems. You can also remove LeadQ from your Facebook settings under Business Integrations, or ask us to delete your data by emailing <a href="mailto:info@leadq.co">info@leadq.co</a>.</p>`,
+    },
+  ],
+});
 legal("terms-of-service.html", "Terms of Service", "Last updated: 2026", "LeadQ's terms of service governing the use of SMS and other services provided by LeadQ INC.");
 
 /* ======================================================= intake redirect + sitemap */

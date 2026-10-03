@@ -52,6 +52,23 @@ ok("it says the mobile app is coming", /The mobile app is coming soon\./.test(ho
 ok("but makes no hard claim it exists", !/download the app|app store|get it on|available on the/i.test(home))
 ok("setup no longer claims to be phone-first", /Live in minutes, from any browser/.test(home))
 
+// ── Instagram and Messenger are coming, not here ─────────────────────────────
+// Added 2026-10-02 for Meta's access verification, which checks the site shows the service. The
+// agents exist but no client can connect a Page yet, so every sentence that names either one has
+// to say it is coming. Facebook lead forms are live (Lead sources > Connect), so they may be sold.
+for (const f of pages.filter((f) => !/privacy|terms/.test(f))) {
+  const text = read(f).replace(/<script[\s\S]*?<\/script>/g, "").replace(/<[^>]+>/g, " ")
+  const named = text.split(/(?<=[.!?])\s+/).filter((s) => /Instagram|Messenger/.test(s))
+  ok(`${f}: Instagram and Messenger only appear as coming soon`, named.every((s) => /coming soon/i.test(s)),
+     named.filter((s) => !/coming soon/i.test(s)).join(" | ").slice(0, 160))
+}
+ok("the home page says they are coming", (home.match(/Instagram and Messenger are coming soon\./g) || []).length === 2)
+ok("and names the Facebook lead forms that already work", /Leads from your Facebook lead forms come straight in too\./.test(home))
+const privacy = read("privacy-policy.html")
+ok("the privacy policy covers Facebook and Instagram data", /<h2>Facebook and Instagram Data<\/h2>/.test(privacy))
+ok("and says how to delete it, at a stable anchor", /id="retention-and-deletion-of-facebook-and-instagram-data"/.test(privacy))
+ok("and keeps everything it carried before", /<h2>Google User Data<\/h2>/.test(privacy) && /<h2>Contact Information<\/h2>/.test(privacy))
+
 // ── the desktop app is actually shown, not just described ────────────────────
 // The markup is static in the page and the driver only animates it. Covered in depth by
 // app-mockup.test.mjs, which pins it to the brief's reference implementation.
