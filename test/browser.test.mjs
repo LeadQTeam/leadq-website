@@ -438,7 +438,7 @@ await evalJs(`document.documentElement.removeAttribute('data-theme'); return 1`)
 
 // ── H. the other pages still work ───────────────────────────────────────────
 console.log('\n═══ G. the pages that share styles.css ═══')
-for (const p of ['voice.html', 'use-cases.html', 'for-dental.html', 'pricing.html', 'about.html']) {
+for (const p of ['voice.html', 'use-cases.html', 'for-dental.html', 'pricing.html', 'about.html', 'ae.html']) {
   cdp.errors.length = 0; cdp.console.length = 0
   await view(1280, 900)
   await cdp.send('Page.navigate', { url: pageUrl(p) })
@@ -463,7 +463,10 @@ for (const p of ['voice.html', 'use-cases.html', 'for-dental.html', 'pricing.htm
    the real path. Rendered rather than grepped, because whether an element is VISIBLE is the
    whole question and the source says nothing about it. */
 console.log('\n═══ H. the UAE view ═══')
-const uaePages = ['index.html', 'pricing.html', 'voice.html', 'for-dental.html', 'about.html']
+/* ae.html is the distributor page. It is already a UAE page, so ?market=UAE changes nothing on
+   it, but it belongs here more than anywhere: it is the one page written entirely by hand for
+   that market, so it is the one most able to grow a claim the market cannot buy. */
+const uaePages = ['index.html', 'pricing.html', 'voice.html', 'for-dental.html', 'about.html', 'ae.html']
 for (const p of uaePages) {
   cdp.errors.length = 0
   await view(1280, 900)
@@ -484,11 +487,11 @@ for (const p of uaePages) {
     return { bad: [...new Set(out)],
              nav: [...document.querySelectorAll('.nav-links a')].filter(vis).map(a => a.textContent.trim()),
              overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth };`)
-  /* Two places are allowed to name SMS and voice, because both say they are ABSENT: the market
-     note under the pricing headline ("No SMS line and no phone number to buy") and the panel on
+  /* One place is allowed to name SMS and voice, because it says they are ABSENT: the panel on
      voice.html explaining why there is nothing to sell. Saying a thing is not offered is the
-     opposite of advertising it. */
-  const allowed = r.bad.filter((t) => !/mkt-note|note-card/.test(t))
+     opposite of advertising it. (The market note under the pricing headline used to be the
+     other one; it was removed on 2026-10-03, so no pricing text may name SMS any more.) */
+  const allowed = r.bad.filter((t) => !/note-card/.test(t))
   ok(`${p}: no SMS or voice claim is visible`, allowed.length === 0, allowed.join(' | '))
   ok(`${p}: no Voice AI link in the nav`, !r.nav.includes('Voice AI'), r.nav.join(' | '))
   ok(`${p}: no horizontal scroll`, r.overflow <= 0, `${r.overflow}px`)

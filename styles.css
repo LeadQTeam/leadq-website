@@ -388,7 +388,6 @@ main{display:block}
 .seg button{font:inherit;font-size:13.5px;border:0;background:transparent;color:var(--ink-2);padding:8px 16px;border-radius:999px;cursor:pointer}
 .seg button:hover{color:var(--ink)}
 .seg button[aria-pressed="true"]{background:linear-gradient(180deg,var(--raise),var(--surface));color:var(--ink);box-shadow:0 6px 14px -6px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.12)}
-.mkt-note{font-size:13px;color:var(--ink-3);margin-top:14px}
 .swap{display:inline-block;transition:opacity .18s ease, transform .18s ease}
 .swap.out{opacity:0;transform:translateY(-6px)}
 .swap.in{opacity:0;transform:translateY(6px);transition:none}

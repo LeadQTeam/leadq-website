@@ -33,23 +33,19 @@ const MARKETS = {
          credits: { starter: 20000, growth: 45000, pro: 120000 },
          seats:   { starter: 1, growth: 3, pro: 10 },
          channels:{ starter: "1", growth: "3", pro: "All" },
-         shown: "Prices for the United States, in US dollars.",
          creditsNote: "So Growth's 45,000 credits is around 550 AI conversations, or any mix of texts, calls and email. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
          tiers: { starter: 59,  growth: 149, pro: 399 },
          addons: { number: 8,    seat: 15, a2p: 99 },
-         packs: { small: 25, standard: 55, large: 120, bulk: 270 },
-         note: "US texting needs a one-time A2P activation. It's in the add-ons." },
+         packs: { small: 25, standard: 55, large: 120, bulk: 270 } },
   CA:  { label: "Canada",        cur: "$",   code: "CAD", pos: "pre",  per: "/mo", hasSMS: true,  hasVoice: true,  waFirst: false, naOnly: true,
          plans: ["starter","growth","pro"],
          credits: { starter: 20000, growth: 45000, pro: 120000 },
          seats:   { starter: 1, growth: 3, pro: 10 },
          channels:{ starter: "1", growth: "3", pro: "All" },
-         shown: "Prices for Canada, in Canadian dollars.",
          creditsNote: "So Growth's 45,000 credits is around 550 AI conversations, or any mix of texts, calls and email. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
          tiers: { starter: 79,  growth: 199, pro: 499 },
          addons: { number: 10,   seat: 19, a2p: null },
-         packs: { small: 35, standard: 75, large: 165, bulk: 369 },
-         note: "Canada needs no A2P registration." },
+         packs: { small: 35, standard: 75, large: 165, bulk: 369 } },
   /* UAE, revised 2026-09-23. Two tiers, not three: Growth exists to sell a phone number and
      texting, so outside North America it has nothing left to sell and the app already hides it.
      Starter is Growth repriced -- Growth features, Growth seat count, WhatsApp as the one
@@ -61,12 +57,10 @@ const MARKETS = {
          credits: { starter: 15000, growth: 45000, pro: 45000 },
          seats:   { starter: 3, growth: 3, pro: 10 },
          channels:{ starter: "1", growth: "3", pro: "All" },
-         shown: "Prices for the UAE, in dirhams.",
          creditsNote: "So Starter's 15,000 credits is around 140 AI conversations a month, and Pro's 45,000 is around 425. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
          tiers: { starter: 549, growth: 549, pro: 999 },   // growth is not sold here
          addons: { number: null, seat: 55, a2p: null },
-         packs: { small: 95, standard: 205, large: 445, bulk: 995 },
-         note: "WhatsApp-first, with web chat and email on Pro. No SMS line and no phone number to buy." },
+         packs: { small: 95, standard: 205, large: 445, bulk: 995 } },
 };
 
 const REDUCED = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
@@ -93,6 +87,15 @@ function detectMarket() {
   try {
     const q = (new URLSearchParams(location.search).get("market") || "").toUpperCase();
     if (MARKETS[q]) return q;
+  } catch (e) {}
+  /* A page may declare the market it was WRITTEN for, which then outranks the visitor's own
+     timezone. The distributor page is written for the UAE and has to read the same whether it
+     is opened in Dubai or shown to the distributor from Toronto; detecting Canada there would
+     put Canadian dollars on a page that has no prices and a voice link on a page for a country
+     that does not allow voice. ?market= still wins, so any page can be checked in any market. */
+  try {
+    const declared = (document.documentElement.dataset.market || "").toUpperCase();
+    if (MARKETS[declared]) return declared;
   } catch (e) {}
   try {
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
@@ -176,12 +179,10 @@ function applyMarket(animate) {
   // A two-plan market has no "most popular" to point at: the entry tier is not an upsell.
   $$(".plan .flag").forEach((el) => { el.hidden = sold.length < 3; });
   $$("[data-pro-channels]").forEach((el) => { el.textContent = m.hasSMS ? "All channels" : "WhatsApp, web chat and email"; });
-  $$("[data-market-label]").forEach((el) => { el.textContent = m.shown; });
   $$("[data-credits-note]").forEach((el) => { el.textContent = m.creditsNote; });
   $$("[data-growth-channels]").forEach((el) => {
     el.textContent = m.hasSMS ? "WhatsApp, SMS and web chat" : "WhatsApp and web chat";
   });
-  $$("[data-mkt-note]").forEach((el) => { el.textContent = m.note; });
   $$("[data-cur]").forEach((el) => { el.textContent = m.cur; });
   document.dispatchEvent(new CustomEvent("leadq:market", { detail: MKT }));
 }

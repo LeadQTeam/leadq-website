@@ -16,7 +16,22 @@ const APP = "https://app.leadq.co";
 // Every call to action opens the signup form directly; a plan picked here rides along so the
 // app leads with it at go-live. Log in stays on the plain app URL.
 const SIGNUP = APP + "/?signup";
-const WIDGET = '<script defer src="https://chat.leadqmail.co/w.js" data-leadq="8273801b-5b0c-48e0-8708-8fd1b3164c0e" data-autoopen="4" data-theme="dark"></script>';
+/* The web chat is an ordinary LeadQ workspace addressed by its business id, so a page can point
+   at a different one. The distributor page points at LeadQ UAE, whose calendar is the
+   distributor's own: the page never has to know what that calendar is, and changing who the
+   demo books with is a calendar connection in the app rather than an edit here. */
+const widgetTag = (biz) => `<script defer src="https://chat.leadqmail.co/w.js" data-leadq="${biz}" data-autoopen="4" data-theme="dark"></script>`;
+const WIDGET = widgetTag("8273801b-5b0c-48e0-8708-8fd1b3164c0e");
+
+/* The LeadQ UAE workspace, whose web chat IS the demo booking on ae.html. A placeholder here is
+   not a cosmetic defect, it is a page whose only call to action does nothing, so the build
+   refuses rather than shipping it. A PASTE_ value that ran anyway is how the calendar
+   encryption key broke every tenant once already. */
+const AE_BIZ = "8273801b-5b0c-48e0-8708-8fd1b3164c0e"; // PREVIEW ONLY, swap for LeadQ UAE
+if (/^PASTE_/.test(AE_BIZ)) {
+  throw new Error("ae.html: set AE_BIZ in docs/build-site.js to the LeadQ UAE workspace business id (the app shows it under Channels > Website chat) before building.");
+}
+const AE_WIDGET = widgetTag(AE_BIZ);
 const FONT = "https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=JetBrains+Mono:wght@400;600&display=swap";
 
 // The wordmark ships in two versions because the site ships dark but keeps a light mode.
@@ -232,9 +247,12 @@ const footer = `<footer class="footer">
   </div>
 </footer>`;
 
-function page({ file, title, desc, ogDesc, canonical, robots = "index,follow", ogImage = "https://www.leadq.co/og-image.png", jsonld = [], bodyAttr = "", navHtml, main, legal = false , mockup = false }) {
+/* htmlAttr, widget and footerHtml exist for the distributor page, which is the one page that is
+   not the main site in miniature: it declares its own market rather than detecting one, points
+   the chat at a different workspace, and must not link to pricing or signup anywhere. */
+function page({ file, title, desc, ogDesc, canonical, robots = "index,follow", ogImage = "https://www.leadq.co/og-image.png", jsonld = [], bodyAttr = "", htmlAttr = "", navHtml, main, legal = false , mockup = false, widget = WIDGET, footerHtml = footer }) {
   const html = `<!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="dark"${htmlAttr ? " " + htmlAttr : ""}>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -270,8 +288,8 @@ ${navHtml}
 ${main}
 </main>
 
-${footer}
-${legal ? "" : "\n" + dock + "\n" + WIDGET}
+${footerHtml}
+${legal ? "" : "\n" + dock + "\n" + widget}
 </body>
 </html>
 `;
@@ -700,7 +718,6 @@ page({
     <div class="sec-head">
       <h2 class="h-sec">One recovered lead covers the month.</h2>
       <p class="lead">Every plan includes the full assistant and a monthly credit pool that covers every channel. Pick the one that fits today and move up when you're ready.</p>
-      <p class="mkt-note" data-market-label>Prices for the United States, in US dollars.</p>
     </div>
     ${plans}
     <p class="plans-note">Create your account, then subscribe inside the app. No contracts, cancel anytime.</p>
@@ -773,7 +790,6 @@ page({
     <div class="price-top">
       <h1 class="h-hero">Plans, priced for your market.</h1>
       <p class="lead">Every plan includes the full assistant and one credit pool for all your usage. Shown in your local currency, never a conversion.</p>
-      <p class="mkt-note"><span data-market-label>Prices for the United States, in US dollars.</span> <span data-mkt-note>US texting needs a one-time A2P activation. It's in the add-ons.</span></p>
     </div>
     ${plans}
     <p class="plans-note">Create your account, then subscribe inside the app. No contracts, cancel anytime.</p>
@@ -1371,6 +1387,203 @@ legal("privacy-policy.html", "Privacy Policy", "Last updated: September 2026", "
   ],
 });
 legal("terms-of-service.html", "Terms of Service", "Last updated: 2026", "LeadQ's terms of service governing the use of SMS and other services provided by LeadQ INC.");
+
+/* ======================================================= UAE DISTRIBUTOR (ae.html)
+   The UAE landing page, marketed by our distributor there. It is deliberately NOT the home
+   page with the prices taken out:
+
+   - No prices anywhere. The distributor sets its own retail, so a tier card here would
+     contradict whatever they quote. "Book a demo" replaces every "Try it Free".
+   - No links to pricing.html or to signup. A landing page that leaks into the self-serve funnel
+     sells LeadQ's price to the distributor's lead, so every link on this page is an anchor
+     inside it or a legal page.
+   - It DECLARES its market rather than detecting one, so it reads the same wherever it is
+     opened. It names only the three channels a UAE workspace actually has, so nothing here
+     has to be hidden by the market switcher and nothing promises what cannot be sold.
+   - The chat is the LeadQ UAE workspace, so booking a demo puts it on the distributor's own
+     calendar. Nothing here knows or cares which calendar that is.
+
+   Not in sitemap.xml and noindex on purpose: it would otherwise compete with the real home page
+   for UAE search traffic while showing no prices, and the arrangement is not exclusive, so
+   LeadQ's own direct UAE visitors should still land on the normal site. */
+const AE_NAV_LINKS = '<a href="#how">How it works</a><a href="#included">What you get</a><a href="#faq">Questions</a>';
+const aeNav = `<header class="nav">
+  <div class="nav-pill">
+    <a class="brand" href="ae.html" aria-label="LeadQ">${wordmark()}</a>
+    <nav class="nav-links" aria-label="Main">${AE_NAV_LINKS}</nav>
+    <div class="nav-actions">
+      <a class="btn btn-ghost btn-sm login" href="${APP}">Log in</a>
+      <a class="btn btn-primary btn-sm" href="#demo" data-open-chat>Book a demo</a>
+      <button class="nav-menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav-sheet">${I.menu}</button>
+    </div>
+    <div class="nav-sheet" id="nav-sheet" hidden>${AE_NAV_LINKS}<a href="${APP}">Log in</a></div>
+  </div>
+</header>`;
+
+const aeFooter = `<footer class="footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <a class="brand" href="ae.html" aria-label="LeadQ">${wordmark()}</a>
+        <p class="footer-tag">Answered. Booked. While you work.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="#how">How it works</a><a href="#included">What you get</a><a href="#faq">Questions</a><a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a>
+      </nav>
+    </div>
+    <div class="footer-legal">&copy; 2026 LeadQ Inc.</div>
+  </div>
+</footer>`;
+
+const aeFaq = [
+  ["Which channels does it answer?",
+   "WhatsApp, web chat on your website, and email. One assistant across all three, so it knows the whole conversation wherever it started."],
+  ["Can I keep my current WhatsApp number?",
+   "Usually yes. It moves onto the WhatsApp Business Platform, which means it stops working in the WhatsApp app on a phone and starts working through LeadQ instead. We take you through Meta's business verification, which is the part most people get stuck on."],
+  ["Does it book into my calendar?",
+   "Yes. Google Calendar or Outlook, or the booking system you already use. It offers times you are genuinely free, writes the appointment, and sends the reminder the day before."],
+  ["What happens when it cannot answer something?",
+   "It hands the conversation over to you or your team. You decide what it should never answer on its own, and those conversations arrive in your inbox marked as needing you, with everything the customer already said."],
+  /* Backed by the product, not aspirational: DEFAULT_LANG_NOTE in leadq-app/index.html is
+     seeded into every workspace's knowledge base, so this is the shipped default behaviour
+     rather than something the client has to teach it. */
+  ["Does it answer in my customers' language?",
+   "Yes. It replies in whatever language the customer writes in and stays in it, and if they switch language mid-conversation it switches with them."],
+  ["What does it cost?",
+   "Cost will depend on your exact needs. Book a demo to learn more."],
+];
+
+page({
+  file: "ae.html",
+  title: "LeadQ for the UAE | WhatsApp answered and booked, automatically",
+  desc: "An AI assistant that answers WhatsApp, web chat and email for UAE businesses and books the appointment, day and night.",
+  ogDesc: "One AI assistant answers WhatsApp, web chat and email, and books the appointment while you work.",
+  canonical: "https://www.leadq.co/ae.html",
+  robots: "noindex,follow",
+  bodyAttr: 'style="--c:#4d86ff;--c2:#38d3ff"',
+  htmlAttr: 'data-market="UAE"',
+  widget: AE_WIDGET,
+  navHtml: aeNav,
+  footerHtml: aeFooter,
+  jsonld: [faqLd(aeFaq)],
+  main: `
+<section class="lit-hero">
+  <div class="wrap">
+    <div class="sec-head hero-head">
+      <h1 class="h-hero">Stop <span class="ko">missing.</span><br>Start <span class="hi">booking.</span></h1>
+      <p class="lead">Here, business happens on WhatsApp. LeadQ answers WhatsApp, web chat and email in seconds, then books the appointment. At midnight, on a weekend, or while you are with a customer.</p>
+      <div class="ctas">
+        <a class="btn btn-primary btn-lg" href="#demo" data-open-chat>Book a demo</a>
+        <a class="btn btn-ghost btn-lg btn-play" href="#how" data-video>${I.play}See it work</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap brain">
+    ${orbit([["whatsapp", "WhatsApp", 0, -166], ["webchat", "Web chat", 150, 92], ["email", "Email", -150, 92]])}
+    <div>
+      <h2 class="h-sec">One assistant, every message.</h2>
+      <p class="lead" style="margin-top:18px">Most businesses run WhatsApp off one person's phone, with a chat widget and an inbox beside it, and still drop messages. LeadQ is one assistant that knows your business and works every channel the same way.</p>
+      <div class="items">
+        <div class="item"><b>Change it once</b><span>Update your hours or add a service, and every channel knows.</span></div>
+        <div class="item"><b>Sounds like you</b><span>Warm, brisk, formal, luxe. Pick a tone and it talks like your front desk.</span></div>
+        <div class="item"><b>Hands off on your rules</b><span>Decide when a person takes over, and what it should never say.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="how">
+  <div class="wrap">
+    <div class="sec-head"><h2 class="h-sec">Live in minutes, not weeks.</h2></div>
+    <div class="steps">
+      <div class="step">
+        <span class="n">1</span>
+        <h3>Paste your website</h3>
+        <p>It drafts your FAQ, services and prices. You approve.</p>
+        <div class="shot" aria-hidden="true">
+          <div class="sc-url"><span class="sc-ok" style="margin:0"></span>yourbusiness.ae</div>
+          <div class="sc-row"><span class="sc-tx"><span class="sc-name">Services</span></span><span class="sc-tag">6 found</span></div>
+          <div class="sc-row"><span class="sc-tx"><span class="sc-name">FAQ answers</span></span><span class="sc-tag">12 drafted</span></div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="n">2</span>
+        <h3>Connect WhatsApp</h3>
+        <p>We take you through WhatsApp Business approval, then connect web chat and email.</p>
+        <div class="shot" aria-hidden="true">
+          <div class="sc-row"><span class="sc-ic">${chIcon('whatsapp')}</span><span class="sc-tx"><span class="sc-name">WhatsApp</span></span><span class="sc-ok">Connected</span></div>
+          <div class="sc-row"><span class="sc-ic">${chIcon('webchat')}</span><span class="sc-tx"><span class="sc-name">Web chat</span></span><span class="sc-ok">Connected</span></div>
+          <div class="sc-row"><span class="sc-ic">${chIcon('email')}</span><span class="sc-tx"><span class="sc-name">Email</span></span><span class="sc-ok">Connected</span></div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="n">3</span>
+        <h3>It answers and books</h3>
+        <p>With reminders and follow-ups built in. You watch it work.</p>
+        <div class="shot" aria-hidden="true">
+          <div class="ap-bubble in">Can I come in Thursday?</div>
+          <div class="ap-bubble out" style="margin-left:auto">Thursday at 3:00 PM works. You're booked.</div>
+          <div class="ap-booked"><b>Booked, reminder set</b>Thu, 3:00 PM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="included">
+  <div class="wrap">
+    <div class="sec-head"><h2 class="h-sec">What you get.</h2></div>
+    <div class="outcomes">
+      <div class="outcome"><b>Answers in seconds</b><span>Day and night, so no enquiry waits until someone is free.</span></div>
+      <div class="outcome"><b>Books itself</b><span>Real free times from your calendar, written straight back into it.</span></div>
+      <div class="outcome"><b>Never forgets a lead</b><span>Reminders the day before, and follow-ups for the ones who went quiet.</span></div>
+      <div class="outcome"><b>One inbox</b><span>Every conversation in one place, with the ones needing a person marked.</span></div>
+      <div class="outcome"><b>Takes over cleanly</b><span>Step in mid-conversation whenever you want. It steps back out.</span></div>
+      <div class="outcome"><b>Priority support</b><span>Set it up with help, and have someone on hand after you go live.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="lit-hero midway" style="--c:#2fc6e8;--c2:#4d86ff">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="h-sec">Set up with you. Supported after.</h2>
+      <p class="lead" style="margin-top:18px">You are not handed a login and left to work it out. Your assistant is built around how your business actually runs, your team is shown how to use it, and priority support stays with you once you are live.</p>
+      <div class="ctas"><a class="btn btn-primary btn-lg" href="#demo" data-open-chat>Book a demo</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="faq">
+  <div class="wrap">
+    <div class="sec-head"><h2 class="h-sec">Questions, answered.</h2></div>
+    ${faqHtml(aeFaq)}
+  </div>
+</section>
+
+<section class="horizon" id="demo">
+  <div class="wrap">
+    <h2>See it answer your own questions.</h2>
+    <p class="lead">Ask our assistant anything, the way your customers would. It books the demo itself, straight onto the calendar.</p>
+    <div class="ctas"><a class="btn btn-primary btn-lg" href="#demo" data-open-chat>Book a demo</a></div>
+  </div>
+</section>
+
+<!-- This market gets its own cut of the film: the home page's names SMS and the phone line.
+     initVideo() binds whatever [data-video] and .vmodal it finds, so this needs no JS change,
+     and with JS off the button keeps its href and the page behaves as it did before. -->
+<dialog class="vmodal" aria-label="See LeadQ work">
+  <div class="vmodal-in">
+    <button class="vmodal-x" type="button" aria-label="Close video">${I.x}</button>
+    <video class="vmodal-v" controls playsinline preload="none" poster="img/video-poster-ae.jpg" width="1920" height="1080">
+      <source src="leadq-video-ae.mp4" type="video/mp4">
+    </video>
+  </div>
+</dialog>`,
+});
 
 /* ======================================================= intake redirect + sitemap */
 fs.writeFileSync(path.join(R, "intake.html"), `<!doctype html>
