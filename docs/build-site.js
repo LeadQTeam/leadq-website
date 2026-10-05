@@ -20,7 +20,10 @@ const SIGNUP = APP + "/?signup";
    at a different one. The distributor page points at LeadQ UAE, whose calendar is the
    distributor's own: the page never has to know what that calendar is, and changing who the
    demo books with is a calendar connection in the app rather than an edit here. */
-const widgetTag = (biz) => `<script defer src="https://chat.leadqmail.co/w.js" data-leadq="${biz}" data-autoopen="4" data-theme="dark"></script>`;
+/* data-chips is ours to say. The widget used to fall back to LeadQ's own demo chips for EVERY
+   client, so a plumber's visitors were offered "Book a demo" (channel audit, 2026-10-05). It now
+   shows none unless told, so LeadQ's pages name theirs here. */
+const widgetTag = (biz) => `<script defer src="https://chat.leadqmail.co/w.js" data-leadq="${biz}" data-autoopen="4" data-theme="dark" data-chips="Book a demo|What does it cost?|How does it work?"></script>`;
 const WIDGET = widgetTag("8273801b-5b0c-48e0-8708-8fd1b3164c0e");
 
 /* The LeadQ UAE workspace, whose web chat IS the demo booking on ae.html. A placeholder here is
