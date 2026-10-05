@@ -335,7 +335,7 @@ const plans = `<div class="plans">
         <h3 data-plan-name="pro">Pro</h3><p class="for">${mkt("Live voice receptionist, high volume, insights &amp; reporting", "High volume, every channel, insights &amp; reporting")}</p>
         <div class="amt"><span data-price="pro">$399</span><small> <span data-code>USD</span> /mo</small></div>
         <p class="plus" data-plus>Everything in Growth, plus:</p>
-        <ul><li><span data-cell="pro.credits">120,000</span> credits a month</li><li><span data-cell="pro.seats">10</span> seats</li><li data-na-only>2 phone numbers</li><li class="voice" data-needs-voice>AI voice receptionist</li><li data-pro-channels>All channels</li><li>Insights dashboard</li><li>Priority support</li></ul>
+        <ul><li><span data-cell="pro.credits">120,000</span> credits a month</li><li><span data-cell="pro.seats">10</span> seats</li><li data-na-only>2 phone numbers</li><li class="voice" data-needs-voice>AI voice receptionist</li><li data-pro-channels>All channels</li><li>Contact Summary</li><li>Insights dashboard</li><li>Priority support</li></ul>
         <a class="btn btn-ghost btn-block" href="${SIGNUP}&plan=pro">Choose Pro</a>
       </div>
     </div>`;
@@ -806,6 +806,7 @@ page({
           <tr><th scope="row">Assistant, FAQ and lead capture</th><td>${yes}</td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
           <tr><th scope="row">Booking, calendar and reminders</th><td><span data-na-only>${no}</span><span data-wa-only hidden>${yes}</span></td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
           <tr><th scope="row">Follow-ups, custom fields, profiles</th><td><span data-na-only>${no}</span><span data-wa-only hidden>${yes}</span></td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
+          <tr><th scope="row">Contact Summary</th><td>${no}</td><td data-plan="growth" class="hot">${no}</td><td>${yes}</td></tr>
           <tr><th scope="row">Insights dashboard</th><td>${no}</td><td data-plan="growth" class="hot">${no}</td><td>${yes}</td></tr>
           <tr><th scope="row">Priority support</th><td>${no}</td><td data-plan="growth" class="hot">${no}</td><td>${yes}</td></tr>
           <tr><th scope="row">Calendar sync with Google and Outlook</th><td><span data-na-only>${no}</span><span data-wa-only hidden>${yes}</span></td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
