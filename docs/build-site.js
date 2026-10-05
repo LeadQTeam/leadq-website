@@ -467,7 +467,7 @@ page({
 <div class="dk-b bax" data-h="3">You're booked. Reminder coming Wednesday.<small>Baxter, 3:03 PM</small></div></div>
 <div class="dk-comp"><div class="via">Baxter is replying via <b>${mkt("SMS", "WhatsApp")}</b></div><div class="row"><span class="inp">Type to take over</span><button type="button" tabindex="-1" class="dk-send" aria-label="Send"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg></button></div></div></div><div class="dk-contact"><div class="who"><span class="dk-av">JD</span><div><b>Jane Doe</b><span class="dk-chip grey">Patient</span></div></div>
 <div class="acts"><button type="button" tabindex="-1" class="dk-btn"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svgdata-needs-voice>Call</button><button type="button" tabindex="-1" class="dk-btn blue"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Book</button></div>
-<div class="dk-kv"><span class="dk-lbl">Summary</span><p>Returning patient, overdue for a cleaning. Prefers afternoons.</p></div>
+<div class="dk-kv"><span class="dk-lbl">Summary*</span><p>Returning patient, overdue for a cleaning. Prefers afternoons.</p></div>
 <div class="dk-kv"><span class="dk-lbl">Appointments</span><div data-happt><p style="color:var(--ink-3);font-size:1.25em">Nothing booked yet.</p></div></div></div></div></div></div></div></div></div>
   <div class="cphone"><div class="phone"><div class="screen">
     <div class="island"></div><div class="status"><span>3:02</span><span>5G</span></div>
@@ -562,10 +562,10 @@ page({
       </div>
       <div class="tile">
         <h3>Contacts, ready at a glance</h3>
-        <p>Every detail and an AI summary of the chat, before you ever ${mkt("pick up the phone", "open the thread")}.</p>
+        <p>Every detail and an AI summary* of the chat, before you ever ${mkt("pick up the phone", "open the thread")}.</p>
         <div class="vis"><div class="shot" aria-hidden="true">
           <div class="sc-cp"><span class="sc-cpav">J</span><span><span class="sc-name" style="font-size:15px">Jane Doe</span><span class="sc-chip">Booked</span></span></div>
-          <div class="sc-sum"><div class="sc-sumhd">Summary</div><div class="sc-sumbody">New patient, prefers afternoons. Booked a cleaning for Wed 2:30 PM with Dr. Rivera.</div></div>
+          <div class="sc-sum"><div class="sc-sumhd">Summary*</div><div class="sc-sumbody">New patient, prefers afternoons. Booked a cleaning for Wed 2:30 PM with Dr. Rivera.</div></div>
           <div class="sc-row"><span class="sc-tx"><span class="sc-name">+1 (555) 123-4567</span><span class="sc-sub"><span data-na-only>Mobile, WhatsApp and SMS</span><span data-wa-only hidden>Mobile and WhatsApp</span></span></span></div>
           <div class="sc-row"><span class="sc-tx"><span class="sc-name">jane.doe@email.com</span><span class="sc-sub">Reminders and confirmations</span></span></div>
           <div class="sc-row"><span class="sc-tx"><span class="sc-name">First seen 12 Aug</span><span class="sc-sub">4 conversations, 2 bookings</span></span></div>
@@ -584,6 +584,7 @@ page({
         </div></div>
       </div>
     </div>
+    <p class="fine">*Pro Plan</p>
   </div>
 </section>
 
@@ -625,7 +626,7 @@ page({
 <div class="dk-b you">Hi Marcus, this is Sarah from Rivera Dental. Happy to walk you through your coverage.<small>You, 4:51 PM</small></div></div>
 <div class="dk-comp"><div class="via" data-ho-via>Replying as you via <b>${mkt("SMS", "WhatsApp")}</b></div><div class="row"><span class="inp">Type a message</span><button type="button" class="dk-btn"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Book</button><button type="button" class="dk-send" aria-label="Send"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg></button></div></div></div><div class="dk-contact"><div class="who"><span class="dk-av">MB</span><div><b>Marcus Bell</b><span class="dk-chip grey">Patient</span></div></div>
 <div class="acts"><button type="button" class="dk-btn"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svgdata-needs-voice>Call</button><button type="button" class="dk-btn blue"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Book</button></div>
-<div class="dk-kv"><span class="dk-lbl">Summary</span><p>Existing patient. Asked about Delta Dental coverage before booking a cleaning. Prefers mornings.</p></div>
+<div class="dk-kv"><span class="dk-lbl">Summary*</span><p>Existing patient. Asked about Delta Dental coverage before booking a cleaning. Prefers mornings.</p></div>
 <div class="dk-kv"><span class="dk-lbl">Details</span><dl><div><dt>Phone</dt><dd>+1 (555) 018-0142</dd></div><div><dt>Email</dt><dd>marcus.bell@example.com</dd></div></dl></div>
 <div class="dk-kv"><span class="dk-lbl">Appointments</span><div class="dk-appt"><span class="cal"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><b>Mon, Aug 25, 10:00 AM</b><small>Consultation with Sarah</small></div></div></div>
 <div class="dk-kv"><span class="dk-lbl">Internal notes</span><p style="color:var(--ink-3)">No notes yet.</p></div></div></div></div></div>
@@ -638,6 +639,7 @@ page({
           <p class="scroll-hint">Swipe sideways to see the full screen</p>
           <p class="tour-title" data-cap-title>Know what needs you in five seconds.</p><div class="tour-caps" data-caps><div class="it"><b>Needs you, first</b><span>The one conversation waiting on a person sits at the top, with one-tap Reply, or let your assistant carry on.</span></div><div class="it"><b>What your assistant handled</b><span>Today's conversations, bookings and who needed you, at a glance.</span></div><div class="it"><b>Every channel, one switch</b><span>Pause your assistant everywhere, or channel by channel. Try the switches.</span></div></div>
           <p class="tour-note">Runs in your browser. Log in from any computer or phone, and invite your team. The mobile app is coming soon.</p>
+          <p class="tour-note" style="margin-top:4px">*Pro Plan</p>
   </div>
 </section>
 
