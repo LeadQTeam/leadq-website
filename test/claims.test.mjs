@@ -52,17 +52,17 @@ ok("it says the mobile app is coming", /The mobile app is coming soon\./.test(ho
 ok("but makes no hard claim it exists", !/download the app|app store|get it on|available on the/i.test(home))
 ok("setup no longer claims to be phone-first", /Live in minutes, from any browser/.test(home))
 
-// ── Instagram and Messenger are live ─────────────────────────────────────────
-// From 2026-10-02 they were "coming soon" (Meta's access verification checks the site shows the
-// service). Meta approved App Review in October 2026 and every workspace can connect them, so no
-// sentence may still call them coming.
+// ── Instagram and Messenger are coming, not here ─────────────────────────────
+// Added 2026-10-02 for Meta's access verification, which checks the site shows the service. The
+// agents exist but no client can connect a Page yet, so every sentence that names either one has
+// to say it is coming. Facebook lead forms are live (Lead sources > Connect), so they may be sold.
 for (const f of pages.filter((f) => !/privacy|terms/.test(f))) {
   const text = read(f).replace(/<script[\s\S]*?<\/script>/g, "").replace(/<[^>]+>/g, " ")
   const named = text.split(/(?<=[.!?])\s+/).filter((s) => /Instagram|Messenger/.test(s))
-  ok(`${f}: Instagram and Messenger are never "coming soon"`, !named.some((s) => /coming soon/i.test(s)),
-     named.filter((s) => /coming soon/i.test(s)).join(" | ").slice(0, 160))
+  ok(`${f}: Instagram and Messenger only appear as coming soon`, named.every((s) => /coming soon/i.test(s)),
+     named.filter((s) => !/coming soon/i.test(s)).join(" | ").slice(0, 160))
 }
-ok("the home page sells them", /Instagram and Messenger DMs are answered the same way\./.test(home) && /Plus Instagram and Messenger\./.test(home))
+ok("the home page says they are coming", (home.match(/Instagram and Messenger are coming soon\./g) || []).length === 2)
 ok("and names the Facebook lead forms that already work", /Leads from your Facebook lead forms come straight in too\./.test(home))
 const privacy = read("privacy-policy.html")
 ok("the privacy policy covers Facebook and Instagram data", /<h2>Facebook and Instagram Data<\/h2>/.test(privacy))
