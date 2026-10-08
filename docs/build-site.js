@@ -338,7 +338,7 @@ const plans = `<div class="plans">
         <h3 data-plan-name="pro">Pro</h3><p class="for">${mkt("Live voice receptionist, high volume, insights &amp; reporting", "High volume, every channel, insights &amp; reporting")}</p>
         <div class="amt"><span data-price="pro">$399</span><small> <span data-code>USD</span> /mo</small></div>
         <p class="plus" data-plus>Everything in Growth, plus:</p>
-        <ul><li><span data-cell="pro.credits">120,000</span> credits a month</li><li><span data-cell="pro.seats">10</span> seats</li><li data-na-only>2 phone numbers</li><li data-needs-a2p>A2P texting registration included</li><li class="voice" data-needs-voice>AI voice receptionist</li><li data-pro-channels>All channels</li><li>Contact Summary</li><li>Insights dashboard</li><li>Priority support</li></ul>
+        <ul><li><span data-cell="pro.credits">120,000</span> credits a month</li><li><span data-cell="pro.seats">10</span> seats</li><li data-na-only>2 phone numbers</li><li data-needs-a2p>A2P registration fee waived</li><li class="voice" data-needs-voice>AI voice receptionist</li><li data-pro-channels>All channels</li><li>Contact Summary</li><li>Insights dashboard</li><li>Priority support</li></ul>
         <a class="btn btn-ghost btn-block" href="${SIGNUP}&plan=pro">Choose Pro</a>
       </div>
     </div>`;
@@ -853,7 +853,7 @@ page({
         <table>
           <tr><td>Extra phone number<small>Monthly</small></td><td data-addon="number">$8 USD/mo</td></tr>
           <tr><td>Extra seat<small>Monthly</small></td><td data-addon="seat">$15 USD/mo</td></tr>
-          <tr><td>SMS activation, A2P<small>One-time, US only. Included with Pro</small></td><td data-addon="a2p">$99 USD once</td></tr>
+          <tr><td>SMS activation, A2P<small>One-time, US only. Waived with Pro</small></td><td data-addon="a2p">$99 USD once</td></tr>
         </table>
       </div>
     </div>
