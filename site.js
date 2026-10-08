@@ -135,6 +135,8 @@ function applyMarket(animate) {
     swapText(el, money(m, v) + suffix, animate);
   });
   $$("[data-needs-sms]").forEach((el) => { el.hidden = !m.hasSMS; });
+  /* Pro includes the A2P fee, so its card says so wherever there is a fee to include. */
+  $$("[data-needs-a2p]").forEach((el) => { el.hidden = m.addons.a2p == null; });
   /* Voice is hidden where it is not legal to offer, not merely where it is unavailable. That
      includes the nav link, so there is no route to voice.html at all from a UAE visit. */
   $$("[data-needs-voice]").forEach((el) => { el.hidden = !m.hasVoice; });
