@@ -271,9 +271,9 @@ function page({ file, title, desc, ogDesc, canonical, robots = "index,follow", o
 <meta property="og:url" content="${canonical}">
 <meta property="og:image" content="${ogImage}">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="${rev("favicon-32.png")}">
+<link rel="icon" type="image/png" sizes="16x16" href="${rev("favicon-16.png")}">
+<link rel="apple-touch-icon" href="${rev("apple-touch-icon.png")}">
 <script>document.documentElement.classList.add("js")</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
