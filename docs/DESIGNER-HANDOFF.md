@@ -77,9 +77,12 @@ once, working across every channel. Screen-level inventory (pulled from the app 
 - **Billing** — subscription + credits, managed in-app (web) via Stripe; cancel or close workspace.
 - Everything is **edited then Published**; some screens autosave; per-section validation.
 
-**Do NOT depict as available (stubs / coming):** Instagram & Messenger channels (disabled
-placeholders), outbound voice campaigns, self-serve "add a new business/workspace" (currently
+**Do NOT depict as available (stubs / coming):** outbound voice campaigns, self-serve "add a new business/workspace" (currently
 "Contact us"), and a standalone calendar-integrations panel (calendar connect is per-person today).
+
+*Updated 2026-10-21:* Instagram and Messenger were on this list as disabled placeholders. Meta
+approved the messaging permissions and every workspace can connect them (app 3.185.0), so they
+may be shown as live channels now.
 
 **The headline capability to show:** it's genuinely **multi-channel from one config** — the same
 assistant answers a text and a phone call with the same knowledge and the same calendar. Truest

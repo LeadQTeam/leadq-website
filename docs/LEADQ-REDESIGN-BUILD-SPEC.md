@@ -26,7 +26,7 @@ These override `REDESIGN-BRIEF.md` and `DESIGNER-HANDOFF.md` wherever they confl
 - Second person, short two-beat lines, sentence case.
 - Never say "SaaS", "unlimited", "done-for-you systems", "we join your team", "90-day partnership", "strategy session", "book a call", "book a demo".
 - Words to reuse: every channel, one assistant, books itself, never miss a lead, live in minutes, from your phone, answers the phone too, you stay in control, sounds like you, no contracts.
-- Only describe features that exist. Do **not** mention Instagram, Messenger, outbound calling (except "on the roadmap"), app store availability, a waitlist, or self-serve multi-workspace creation.
+- Only describe features that exist. Do **not** mention outbound calling (except "on the roadmap"), app store availability, a waitlist, or self-serve multi-workspace creation. (Instagram and Messenger were on this list until 2026-10-21, when Meta approved them and every workspace could connect them.)
 - No invented stats. The ROI slider uses the visitor's own inputs.
 - No arrow characters (`→`) appended to links or buttons.
 

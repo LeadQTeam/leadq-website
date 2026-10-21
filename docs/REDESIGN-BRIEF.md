@@ -301,7 +301,7 @@ Hero (multi-channel assistant, live demo/phone mock, "Start free") → How it wo
 
 ### R. Not yet live — do **not** depict as available
 - **Calendar-integrations settings panel** shows "Soon" (calendar connect actually happens per-person today).
-- **Instagram & Messenger** channels are visible but disabled placeholders.
+- ~~**Instagram & Messenger** channels are visible but disabled placeholders.~~ Live for every workspace since 2026-10-21 (app 3.185.0), once Meta approved the messaging permissions.
 - **Self-serve "add a business" / new-workspace creation** is "Contact us," not self-serve yet.
 - **Outbound voice** campaigns — inbound only for now.
 
