@@ -496,7 +496,7 @@ page({
     ${orbit([["whatsapp", "WhatsApp", 0, -166], ["webchat", "Web chat", 150, 92], ["email", "Email", -150, 92]], " data-wa-only hidden")}
     <div>
       <h2 class="h-sec">One assistant, multiple channels.</h2>
-      <p class="lead" style="margin-top:18px"><span data-na-only>Most businesses juggle a chat widget, a texting app, an inbox, a booking tool and a voicemail box, and still drop messages.</span><span data-wa-only hidden>Most businesses run WhatsApp off one person's phone, with a chat widget, an inbox and a booking tool beside it, and still drop messages.</span> LeadQ is one assistant that knows your business and works every channel the same way. Leads from your Facebook lead forms come straight in too. Instagram and Messenger are coming soon.</p>
+      <p class="lead" style="margin-top:18px"><span data-na-only>Most businesses juggle a chat widget, a texting app, an inbox, a booking tool and a voicemail box, and still drop messages.</span><span data-wa-only hidden>Most businesses run WhatsApp off one person's phone, with a chat widget, an inbox and a booking tool beside it, and still drop messages.</span> LeadQ is one assistant that knows your business and works every channel the same way. Leads from your Facebook lead forms come straight in too. Instagram and Messenger DMs are answered the same way.</p>
       <div class="items">
         <div class="item"><b>Change it once</b><span>Update your hours or add a service, and every channel knows.${mkt(" The phone too.", "")}</span></div>
         <div class="item"><b>Sounds like you</b><span>Warm, brisk, formal, luxe. Pick a tone and it talks like your front desk.</span></div>
@@ -684,7 +684,7 @@ page({
       <div class="step">
         <span class="n">2</span>
         <h3>Connect your channels</h3>
-        <p><span data-na-only>WhatsApp, text, web chat, email and voice.</span><span data-wa-only hidden>WhatsApp, web chat and email. We guide you through WhatsApp Business approval.</span> Instagram and Messenger are coming soon.</p>
+        <p><span data-na-only>WhatsApp, text, web chat, email and voice.</span><span data-wa-only hidden>WhatsApp, web chat and email. We guide you through WhatsApp Business approval.</span> Plus Instagram and Messenger.</p>
         <div class="shot" aria-hidden="true">
           <div class="sc-row"><span class="sc-ic">${chIcon('whatsapp')}</span><span class="sc-tx"><span class="sc-name">WhatsApp</span></span><span class="sc-ok">Connected</span></div>
           <div class="sc-row"><span class="sc-ic">${chIcon('sms')}</span><span class="sc-tx"><span class="sc-name">${mkt("SMS", "WhatsApp")}</span></span><span class="sc-ok">Connected</span></div>
