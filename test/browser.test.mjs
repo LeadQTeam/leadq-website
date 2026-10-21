@@ -517,7 +517,7 @@ ok('Starter grants 15,000 credits, matching the app', /15,000 credits/.test(uaeP
 ok('Starter carries 3 seats, matching the app', /3 seats/.test(uaePlans.cards[0]?.feats || ''))
 ok('Pro grants 45,000 credits, matching the app', /45,000 credits/.test(uaePlans.cards[1]?.feats || ''))
 ok('and Pro names only the channels that exist there',
-  /WhatsApp, web chat and email/.test(uaePlans.cards[1]?.feats || ''), uaePlans.cards[1]?.feats)
+  /WhatsApp, web chat, email, Instagram and Messenger/.test(uaePlans.cards[1]?.feats || ''), uaePlans.cards[1]?.feats)
 
 // North America must be untouched by all of the above.
 await cdp.send('Page.navigate', { url: pageUrl('pricing.html') + '?market=US' })

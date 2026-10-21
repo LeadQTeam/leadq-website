@@ -84,6 +84,18 @@ const CH = {
   "path": "<path d=\"M4 3h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm8 2.7a2.1 2.1 0 1 0 0 4.2 2.1 2.1 0 1 0 0-4.2Zm0 5.1c-2.6 0-4.7 1.5-4.7 3.4h9.4c0-1.9-2.1-3.4-4.7-3.4ZM10.8 16h2.4v2.6h-2.4ZM7 18.6h10a1.1 1.1 0 0 1 0 2.2H7a1.1 1.1 0 0 1 0-2.2Z\"/>",
   "evenodd": true
  },
+ "instagram": {
+  "bg": "rgba(240,86,140,.15)",
+  "fg": "#F0568C",
+  "path": "<rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"5.2\" fill=\"none\" stroke=\"#F0568C\" stroke-width=\"2\"/><circle cx=\"12\" cy=\"12\" r=\"4.1\" fill=\"none\" stroke=\"#F0568C\" stroke-width=\"2\"/><circle cx=\"17.2\" cy=\"6.8\" r=\"1.3\"/>",
+  "evenodd": false
+ },
+ "messenger": {
+  "bg": "rgba(91,140,255,.16)",
+  "fg": "#5B8CFF",
+  "path": "<path d=\"M12 2C6.36 2 2 6.13 2 11.7c0 2.91 1.19 5.43 3.14 7.17.16.14.26.35.27.57l.05 1.78c.02.57.6.94 1.12.71l1.98-.87c.17-.08.36-.09.54-.04.91.25 1.88.38 2.9.38 5.64 0 10-4.13 10-9.7S17.64 2 12 2Zm6 7.46-2.94 4.66c-.47.74-1.47.93-2.17.4l-2.34-1.75a.6.6 0 0 0-.72 0l-3.16 2.4c-.42.32-.97-.18-.69-.63l2.94-4.66c.47-.74 1.47-.93 2.17-.4l2.34 1.75a.6.6 0 0 0 .72 0l3.16-2.4c.42-.32.97.18.69.63Z\"/>",
+  "evenodd": false
+ },
  "voice": {
   "bg": "rgba(139,110,240,.16)",
   "fg": "#9B8CF0",
@@ -112,7 +124,7 @@ ${chans.map(spoke).join(`
         <img src="img/brand/leadq-app.png" alt="" width="1052" height="1066" loading="lazy" decoding="async">
         <span class="hub-wave"><b></b><b></b><b></b></span>
       </span>
-      <span class="hub-tag" aria-hidden="true"><b>Baxter</b><small><i></i><span>On, <span data-chan-n>${chans.length}</span> channels</span></small></span>
+      <span class="hub-tag" aria-hidden="true"><b>Baxter</b><small><i></i><span>On, ${chans.length} channels</span></small></span>
 ${chans.map(tile).join(`
 `)}
     </div>`;
@@ -491,9 +503,11 @@ page({
 <!-- one brain -->
 <section class="sec">
   <div class="wrap brain">
-    ${orbit([["whatsapp", "WhatsApp", 0, -166], ["sms", "SMS", 174, -44], ["webchat", "Web chat", 112, 150],
-              ["email", "Email", -112, 150], ["voice", "Voice", -174, -44]], " data-na-only")}
-    ${orbit([["whatsapp", "WhatsApp", 0, -166], ["webchat", "Web chat", 150, 92], ["email", "Email", -150, 92]], " data-wa-only hidden")}
+    ${orbit([["whatsapp", "WhatsApp", 0, -170], ["sms", "SMS", 142, -106], ["messenger", "Messenger", 182, 26],
+              ["webchat", "Web chat", 104, 160], ["email", "Email", -104, 160], ["instagram", "Instagram", -182, 26],
+              ["voice", "Voice", -142, -106]], " data-na-only")}
+    ${orbit([["whatsapp", "WhatsApp", 0, -166], ["messenger", "Messenger", 174, -44], ["webchat", "Web chat", 112, 150],
+              ["email", "Email", -112, 150], ["instagram", "Instagram", -174, -44]], " data-wa-only hidden")}
     <div>
       <h2 class="h-sec">One assistant, multiple channels.</h2>
       <p class="lead" style="margin-top:18px"><span data-na-only>Most businesses juggle a chat widget, a texting app, an inbox, a booking tool and a voicemail box, and still drop messages.</span><span data-wa-only hidden>Most businesses run WhatsApp off one person's phone, with a chat widget, an inbox and a booking tool beside it, and still drop messages.</span> LeadQ is one assistant that knows your business and works every channel the same way. Leads from your Facebook lead forms come straight in too. Instagram and Messenger DMs are answered the same way.</p>
@@ -1489,7 +1503,8 @@ page({
 
 <section class="sec">
   <div class="wrap brain">
-    ${orbit([["whatsapp", "WhatsApp", 0, -166], ["webchat", "Web chat", 150, 92], ["email", "Email", -150, 92]])}
+    ${orbit([["whatsapp", "WhatsApp", 0, -166], ["messenger", "Messenger", 174, -44], ["webchat", "Web chat", 112, 150],
+              ["email", "Email", -112, 150], ["instagram", "Instagram", -174, -44]])}
     <div>
       <h2 class="h-sec">One assistant, every message.</h2>
       <p class="lead" style="margin-top:18px">Most businesses run WhatsApp off one person's phone, with a chat widget and an inbox beside it, and still drop messages. LeadQ is one assistant that knows your business and works every channel the same way.</p>

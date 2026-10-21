@@ -150,7 +150,6 @@ function applyMarket(animate) {
      rows and make the product shot contradict itself. */
   const chanN = m.hasSMS ? 5 : 3;
   $$("[data-chan-count]").forEach((el) => { el.textContent = chanN + " connected"; });
-  $$("[data-chan-n]").forEach((el) => { el.textContent = String(chanN); });
   /* Plan contents, wherever they are shown: the cards and the comparison table both use
      data-cell="<plan>.<field>", so one market entry drives every figure on the page. */
   $$("[data-cell]").forEach((el) => {
@@ -180,7 +179,7 @@ function applyMarket(animate) {
   $$("[data-plus]").forEach((el) => { el.textContent = `Everything in ${label(sold[sold.length - 2])}, plus:`; });
   // A two-plan market has no "most popular" to point at: the entry tier is not an upsell.
   $$(".plan .flag").forEach((el) => { el.hidden = sold.length < 3; });
-  $$("[data-pro-channels]").forEach((el) => { el.textContent = m.hasSMS ? "All channels" : "WhatsApp, web chat and email"; });
+  $$("[data-pro-channels]").forEach((el) => { el.textContent = m.hasSMS ? "All channels" : "WhatsApp, web chat, email, Instagram and Messenger"; });
   $$("[data-credits-note]").forEach((el) => { el.textContent = m.creditsNote; });
   $$("[data-growth-channels]").forEach((el) => {
     el.textContent = m.hasSMS ? "WhatsApp, SMS and web chat" : "WhatsApp and web chat";
