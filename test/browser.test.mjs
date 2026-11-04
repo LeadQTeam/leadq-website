@@ -438,7 +438,7 @@ await evalJs(`document.documentElement.removeAttribute('data-theme'); return 1`)
 
 // ── H. the other pages still work ───────────────────────────────────────────
 console.log('\n═══ G. the pages that share styles.css ═══')
-for (const p of ['voice.html', 'use-cases.html', 'for-dental.html', 'pricing.html', 'about.html', 'ae.html']) {
+for (const p of ['voice.html', 'use-cases.html', 'for-dental.html', 'pricing.html', 'about.html', 'ae.html', 'enterprise.html']) {
   cdp.errors.length = 0; cdp.console.length = 0
   await view(1280, 900)
   await cdp.send('Page.navigate', { url: pageUrl(p) })
@@ -531,6 +531,90 @@ const usPlans = await evalJs(`
 ok('the US still shows three plans', usPlans.n === 3, String(usPlans.n))
 ok('the US still sells the AI voice receptionist', usPlans.voice)
 ok('and still has the Voice AI link', usPlans.nav.includes('Voice AI'), usPlans.nav.join(' | '))
+
+/* ═══ I. Enterprise ═══
+   A row under the plan cards on home and pricing, and enterprise.html with the form. The form
+   posts to the app (leadq-app api/enquiry.ts), which is stubbed here: what matters on this side
+   is that it is thanked ONLY when the app says it was sent, and says so when it was not. */
+console.log('\n═══ I. Enterprise ═══')
+const entRow = async (url, w) => {
+  await view(w, 900)
+  await cdp.send('Page.navigate', { url })
+  for (let i = 0; i < 80; i++) { if (await evalJs('return document.readyState === "complete"')) break; await sleep(100) }
+  await sleep(400)
+  return evalJs(`
+    const row = document.querySelector('.ent-row'), plans = document.querySelector('.plans');
+    const a = row && row.querySelector('a');
+    return { row: !!row, rowW: row ? Math.round(row.getBoundingClientRect().width) : 0,
+             plansW: plans ? Math.round(plans.getBoundingClientRect().width) : 0,
+             href: a ? a.getAttribute('href') : '', text: a ? a.textContent.trim() : '',
+             overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth };`)
+}
+for (const [p, w] of [['pricing.html', 1280], ['pricing.html?market=UAE', 1280], ['pricing.html', 390], ['index.html', 1280]]) {
+  const r = await entRow(pageUrl(p.split('?')[0]) + (p.includes('?') ? '?' + p.split('?')[1] : ''), w)
+  ok(`${p} at ${w}: an Enterprise row, as wide as the plans (${r.rowW} vs ${r.plansW})`, r.row && Math.abs(r.rowW - r.plansW) <= 1)
+  ok(`${p} at ${w}: its Contact us goes to the form`, r.text === 'Contact us' && r.href === 'enterprise.html', `${r.text} -> ${r.href}`)
+  ok(`${p} at ${w}: no horizontal scroll`, r.overflow <= 0, `${r.overflow}px`)
+}
+
+const entLoad = async (w, reply) => {
+  cdp.errors.length = 0; cdp.console.length = 0
+  await view(w, 900)
+  await cdp.send('Page.navigate', { url: pageUrl('enterprise.html') })
+  for (let i = 0; i < 80; i++) { if (await evalJs('return document.readyState === "complete"')) break; await sleep(100) }
+  await sleep(400)
+  await evalJs(`window.__sent = []; window.fetch = async (u, o) => { window.__sent.push({ u, body: JSON.parse(o.body) });
+    return ${reply}; }; return 1`)
+}
+const entFill = (name) => evalJs(`
+  const f = document.querySelector('[data-enquiry]'), set = (n, v) => { f.elements[n].value = v };
+  set('name', ${JSON.stringify(name)}); set('business', 'Reyes Dental Group'); set('email', 'dana@reyesdental.com');
+  set('about', 'Six clinics.'); f.requestSubmit(); return 1`)
+const entState = () => evalJs(`
+  const f = document.querySelector('[data-enquiry]'), d = document.querySelector('[data-enquiry-done]');
+  const b = f.querySelector('button[type=submit]');
+  return { form: !f.hidden, done: !d.hidden, title: d.querySelector('h2').textContent, line: d.querySelector('p').textContent,
+           err: !f.querySelector('[data-enquiry-err]').hidden, btn: b.textContent, disabled: b.disabled,
+           sent: window.__sent, focus: document.activeElement === d,
+           fields: [...f.querySelectorAll('label')].filter((l) => !l.closest('.ent-hp')).map((l) => l.firstChild.textContent.trim()),
+           hpW: Math.round(f.querySelector('.ent-hp').getBoundingClientRect().width),
+           overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+           autoopen: !!document.querySelector('script[data-leadq][data-autoopen]') };`)
+
+await entLoad(390, `{ ok: true, status: 200, json: async () => ({ ok: true }) }`)
+let e0 = await entState()
+ok('enterprise.html: the four fields, in order', e0.fields.join(' | ') === 'Name | Business name | Email | Tell us a little about your business and needs', e0.fields.join(' | '))
+ok('enterprise.html: the bot field takes no space', e0.hpW <= 1, `${e0.hpW}px`)
+ok('enterprise.html: no horizontal scroll on a phone', e0.overflow <= 0, `${e0.overflow}px`)
+ok('enterprise.html: the demo chat does not open over the form', !e0.autoopen)
+await evalJs(`document.querySelector('[data-enquiry]').requestSubmit(); return 1`)
+await sleep(200)
+ok('an empty form is not sent', (await entState()).sent.length === 0)
+await entFill('Dana Reyes')
+await sleep(300)
+let e1 = await entState()
+ok('a complete form is sent to the app', e1.sent.length === 1 && e1.sent[0].u === 'https://app.leadq.co/api/enquiry', JSON.stringify(e1.sent.map((s) => s.u)))
+ok('with every field, the market, and an empty bot field', (() => { const b = e1.sent[0]?.body || {};
+  return b.name === 'Dana Reyes' && b.business === 'Reyes Dental Group' && b.email === 'dana@reyesdental.com' && b.about === 'Six clinics.' && b.market === 'US' && b.website === '' })(),
+  JSON.stringify(e1.sent[0]?.body))
+ok('then thanks them by first name', e1.done && !e1.form && e1.title === 'Thanks, Dana.', e1.title)
+ok('and says someone will get back to them', e1.line === 'Someone will get back to you shortly.', e1.line)
+ok('and moves focus to the thank-you', e1.focus)
+ok('enterprise.html: no uncaught errors', cdp.errors.length === 0, cdp.errors.join(' | '))
+
+await entLoad(1280, `{ ok: false, status: 502, json: async () => ({ ok: false, error: 'send' }) }`)
+await entFill('Dana Reyes')
+await sleep(300)
+let e2 = await entState()
+ok('a failed send is never thanked', !e2.done && e2.form, `done=${e2.done}`)
+ok('it says it did not send', e2.err)
+ok('and the button is back to try again', !e2.disabled && e2.btn === 'Send', `${e2.btn} ${e2.disabled}`)
+
+await entLoad(1280, `Promise.reject(new TypeError('Failed to fetch'))`)
+await entFill('Dana Reyes')
+await sleep(300)
+let e3 = await entState()
+ok('no connection at all is a failure too', !e3.done && e3.err && !e3.disabled)
 
 console.log(`\n${bad ? bad + ' FAILED' : 'ALL PASS'}  (${checks} checks)`)
 chrome.kill()

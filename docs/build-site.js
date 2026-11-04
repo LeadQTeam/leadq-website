@@ -353,6 +353,10 @@ const plans = `<div class="plans">
         <ul><li><span data-cell="pro.credits">120,000</span> credits a month</li><li><span data-cell="pro.seats">10</span> seats</li><li data-na-only>2 phone numbers</li><li data-needs-a2p>A2P registration fee waived</li><li class="voice" data-needs-voice>AI voice receptionist</li><li data-pro-channels>All channels</li><li>Contact Summary</li><li>Insights and reporting</li><li>Claude connector</li><li>Priority support</li></ul>
         <a class="btn btn-ghost btn-block" href="${SIGNUP}&plan=pro">Choose Pro</a>
       </div>
+    </div>
+    <div class="ent-row">
+      <div><h3>Enterprise</h3><p>More locations, bigger teams, higher volume. A plan built around your business.</p></div>
+      <a class="btn btn-ghost" href="enterprise.html">Contact us</a>
     </div>`;
 
 /* ======================================================= HOME */
@@ -881,6 +885,46 @@ page({
     <h2>One recovered lead covers the month.</h2>
     <p class="lead">Create your account, set up your assistant, and pick a plan inside the app.</p>
     <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Try it Free</a></div>
+  </div>
+</section>`,
+});
+
+/* ======================================================= ENTERPRISE */
+/* The form posts to the app (leadq-app api/enquiry.ts), which emails the team inbox with the
+   visitor as the reply-to. site.js shows the thank-you only once the app says it was sent. The
+   hidden "website" field is for bots: people never see it, so anything in it is not a person. */
+page({
+  file: "enterprise.html",
+  title: "Enterprise | LeadQ",
+  desc: "LeadQ for more locations, bigger teams and higher volume. Tell us about your business and we'll build a plan around it.",
+  canonical: "https://www.leadq.co/enterprise.html",
+  // They came here to fill in the form, so the demo chat waits to be opened rather than opening beside it.
+  widget: WIDGET.replace(' data-autoopen="4"', ""),
+  bodyAttr: 'style="--c:#4d86ff;--c2:#2fc6e8"',
+  navHtml: nav(null),
+  main: `
+<section class="lit-hero">
+  <div class="wrap">
+    <div class="ent-top">
+      <h1 class="h-hero">LeadQ for Enterprise.</h1>
+      <p class="lead">More locations, bigger teams, higher volume. Tell us a little about your business and we'll build a plan around it.</p>
+    </div>
+    <div class="ent-card">
+      <form class="ent-form" data-enquiry>
+        <label>Name<input name="name" autocomplete="name" maxlength="120" required></label>
+        <label>Business name<input name="business" autocomplete="organization" maxlength="160" required></label>
+        <label>Email<input name="email" type="email" autocomplete="email" maxlength="200" required></label>
+        <label>Tell us a little about your business and needs<textarea name="about" rows="5" maxlength="4000" required></textarea></label>
+        <div class="ent-hp" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
+        <p class="ent-err" data-enquiry-err role="alert" hidden>That didn't send. Try again in a moment.</p>
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Send</button>
+      </form>
+      <div class="ent-done" data-enquiry-done role="status" tabindex="-1" hidden>
+        <span class="ent-tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></span>
+        <h2>Thanks<span data-enquiry-first></span>.</h2>
+        <p>Someone will get back to you shortly.</p>
+      </div>
+    </div>
   </div>
 </section>`,
 });
@@ -1624,7 +1668,7 @@ fs.writeFileSync(path.join(R, "intake.html"), `<!doctype html>
 console.log("wrote intake.html");
 
 const today = "2026-09-15";
-const urls = [["", "1.0"], ["use-cases.html", "0.9"], ["pricing.html", "0.9"], ["voice.html", "0.8"], ["about.html", "0.5"], ["for-dental.html", "0.8"], ["for-salons.html", "0.8"], ["for-home-services.html", "0.8"], ["for-real-estate.html", "0.8"]];
+const urls = [["", "1.0"], ["use-cases.html", "0.9"], ["pricing.html", "0.9"], ["enterprise.html", "0.6"], ["voice.html", "0.8"], ["about.html", "0.5"], ["for-dental.html", "0.8"], ["for-salons.html", "0.8"], ["for-home-services.html", "0.8"], ["for-real-estate.html", "0.8"]];
 fs.writeFileSync(path.join(R, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map(([u, p]) => `  <url><loc>https://www.leadq.co/${u}</loc><lastmod>${today}</lastmod><priority>${p}</priority></url>`).join("\n")}

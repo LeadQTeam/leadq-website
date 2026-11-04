@@ -16,7 +16,7 @@
   --line:#20293a; --line-2:#1a2230;
   --accent:#4d86ff; --accent-ink:#7ba6ff;
   --pop:#a98cf0; --pop-deep:#7b5bd6; --pop-ink:#cfc3f2;
-  --good:#37c98b; --good-ink:#7fe3b6; --warn:#e0ae5a;
+  --good:#37c98b; --good-ink:#7fe3b6; --warn:#e0ae5a; --bad:#ff7b7b;
 
   --glass:rgba(17,25,39,.6);
   --glass-strong:rgba(17,25,39,.82);
@@ -49,7 +49,7 @@
   --line:#dfe5ee; --line-2:#e8edf4;
   --accent:#2f6df6; --accent-ink:#215ad6;
   --pop:#7b5bd6; --pop-deep:#5f45a8; --pop-ink:#5f45a8;
-  --good:#158a58; --good-ink:#158a58; --warn:#a86a12;
+  --good:#158a58; --good-ink:#158a58; --warn:#a86a12; --bad:#c23b3b;
   --glass:rgba(255,255,255,.72); --glass-strong:rgba(255,255,255,.9); --glass-line:rgba(15,21,32,.08);
   --tint:rgba(15,21,32,.04); --tint-2:rgba(15,21,32,.07);
   --sheet:#ffffff; --voice-bg:#f4f0ff;
@@ -65,7 +65,7 @@
     --line:#dfe5ee; --line-2:#e8edf4;
     --accent:#2f6df6; --accent-ink:#215ad6;
     --pop:#7b5bd6; --pop-deep:#5f45a8; --pop-ink:#5f45a8;
-    --good:#158a58; --good-ink:#158a58; --warn:#a86a12;
+    --good:#158a58; --good-ink:#158a58; --warn:#a86a12; --bad:#c23b3b;
     --glass:rgba(255,255,255,.72); --glass-strong:rgba(255,255,255,.9); --glass-line:rgba(15,21,32,.08);
     --tint:rgba(15,21,32,.04); --tint-2:rgba(15,21,32,.07);
     --sheet:#ffffff; --voice-bg:#f4f0ff;
@@ -426,6 +426,40 @@ main{display:block}
   background:linear-gradient(180deg,#6b9bff,#2f6df6);color:#fff;box-shadow:0 6px 14px -4px rgba(47,109,246,.8)}
 .plans-note{font-size:13.5px;color:var(--ink-3);text-align:center;margin-top:34px}
 @media (max-width:980px){.plans{grid-template-columns:1fr;max-width:460px}.plan.hot{transform:none}.plan .for{min-height:0}}
+
+/* ===== enterprise ===== */
+/* The row under the plan cards matches their width in every market: three cards, two, or one
+   column on a narrow screen. */
+.ent-row{max-width:940px;margin:22px auto 0;border-radius:22px;padding:22px 26px;display:flex;align-items:center;justify-content:space-between;gap:22px;
+  background:linear-gradient(180deg,var(--tint),transparent),var(--surface);border:1px solid var(--line);box-shadow:var(--e1)}
+.ent-row h3{font-size:22px}
+.ent-row p{font-size:14.5px;color:var(--ink-3);margin-top:4px}
+.ent-row .btn{flex:none}
+.plans[data-count="2"] + .ent-row{max-width:660px}
+@media (max-width:980px){.ent-row{max-width:460px;flex-direction:column;align-items:stretch;padding:26px 22px}}
+.ent-top{text-align:center;max-width:780px;margin:0 auto 40px}
+.ent-top .h-hero{font-size:clamp(44px,6vw,80px)}
+.ent-top .lead{margin:0 auto}
+.ent-card{max-width:620px;margin:0 auto;border-radius:22px;padding:28px;
+  background:linear-gradient(180deg,var(--tint),transparent),var(--surface);border:1px solid var(--line);box-shadow:var(--e2)}
+.ent-form{display:grid;gap:16px}
+.ent-form label{display:grid;gap:7px;font-size:14px;font-weight:600;color:var(--ink-2)}
+.ent-form input,.ent-form textarea{width:100%;font:400 15.5px/1.5 var(--sans);color:var(--ink);background:var(--surface-2);
+  border:1px solid var(--line);border-radius:12px;padding:12px 14px;transition:border-color .15s,box-shadow .15s}
+.ent-form textarea{resize:vertical;min-height:132px}
+.ent-form input:focus,.ent-form textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(77,134,255,.22)}
+.ent-form .btn{margin-top:6px}
+.ent-form .btn:disabled{opacity:.7;cursor:default;filter:none}
+.ent-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.ent-err{font-size:14px;color:var(--bad)}
+.ent-done{text-align:center;padding:18px 8px}
+.ent-done:focus{outline:none}
+.ent-done h2{font-size:30px;margin-top:16px}
+.ent-done p{color:var(--ink-2);margin-top:8px}
+.ent-tick{display:inline-grid;place-items:center;width:56px;height:56px;border-radius:50%;color:var(--good-ink);
+  background:rgba(55,201,139,.14);box-shadow:0 0 0 8px rgba(55,201,139,.06)}
+.ent-tick svg{width:26px;height:26px}
+@media (max-width:560px){.ent-card{padding:22px 18px}}
 
 /* ===== footer ===== */
 .footer{border-top:1px solid var(--line-2);background:var(--bg);padding:56px 0 34px}

@@ -505,6 +505,41 @@ function initTOC() {
   if (secs[0]) mark(secs[0].id);
 }
 
+/* ===== enterprise enquiry ===== */
+/* The site is static, so the form posts to the app, which emails it to the team inbox with the
+   visitor as the reply-to (leadq-app api/enquiry.ts). The thank-you shows only once the app says
+   it was sent: an enquiry that went nowhere must never be thanked. */
+const ENQUIRY_URL = "https://app.leadq.co/api/enquiry";
+function initEnquiry() {
+  const form = $("[data-enquiry]"), done = $("[data-enquiry-done]");
+  if (!form || !done) return;
+  const btn = $("button[type=submit]", form), err = $("[data-enquiry-err]", form);
+  const label = btn.textContent;
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (btn.disabled) return;
+    const data = Object.fromEntries(new FormData(form).entries());
+    data.market = MKT;
+    err.hidden = true;
+    btn.disabled = true;
+    btn.textContent = "Sending...";
+    try {
+      const r = await fetch(ENQUIRY_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || !j.ok) throw new Error(String(j.error || r.status));
+      const first = String(data.name || "").trim().split(/\s+/)[0];
+      $("[data-enquiry-first]", done).textContent = first ? ", " + first : "";
+      form.hidden = true;
+      done.hidden = false;
+      done.focus();
+    } catch (x) {
+      err.hidden = false;
+      btn.disabled = false;
+      btn.textContent = label;
+    }
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initNav();
   initMarket();
@@ -520,4 +555,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initIndustrySwitch();
   initROI();
   initTOC();
+  initEnquiry();
 });
