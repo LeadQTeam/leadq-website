@@ -616,6 +616,17 @@ await sleep(300)
 let e3 = await entState()
 ok('no connection at all is a failure too', !e3.done && e3.err && !e3.disabled)
 
+/* Another business on its own Pro plan, in the add-ons menu at each market's own price. The app
+   charges EXTRA_WS_PRICES (leadq-app api/_lib/prices.ts); its test checks site.js against that. */
+for (const [mk, want] of [['US', '$299 USD/mo'], ['CA', '$379 CAD/mo'], ['UAE', '749 AED/mo']]) {
+  await cdp.send('Page.navigate', { url: pageUrl('pricing.html') + '?market=' + mk })
+  for (let i = 0; i < 80; i++) { if (await evalJs('return document.readyState === "complete"')) break; await sleep(100) }
+  await sleep(400)
+  const x = await evalJs(`const c = document.querySelector('[data-addon="workspace"]'), tr = c && c.closest('tr');
+    return { price: c ? c.textContent.trim() : '', shown: !!tr && !tr.hidden, name: tr ? tr.firstElementChild.firstChild.textContent.trim() : '' };`)
+  ok(`${mk}: an extra business or location is ${want}`, x.shown && x.price === want && x.name === 'Extra business or location', JSON.stringify(x))
+}
+
 console.log(`\n${bad ? bad + ' FAILED' : 'ALL PASS'}  (${checks} checks)`)
 chrome.kill()
 try { fs.rmSync(profile, { recursive: true, force: true }) } catch {}

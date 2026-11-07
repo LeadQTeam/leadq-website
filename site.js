@@ -26,7 +26,11 @@ const PACK_CREDITS = { small: 10000, standard: 25000, large: 60000, bulk: 150000
 
    credits/seats: the plan CONTENTS, which now differ by market. They are mirrored from
    leadq-app/api/_lib/limits.ts, which is what actually grants them, and test/claims.test.mjs
-   fails if the two drift. */
+   fails if the two drift.
+
+   addons.workspace: another business on its own Pro plan, for Pro owners (founder, 2026-11-07).
+   What leadq-app charges is EXTRA_WS_PRICES in api/_lib/prices.ts, and the app's
+   test/extra-workspace.test.mjs fails if this disagrees. */
 const MARKETS = {
   US:  { label: "United States", cur: "$",   code: "USD", pos: "pre",  per: "/mo", hasSMS: true,  hasVoice: true,  waFirst: false, naOnly: true,
          plans: ["starter","growth","pro"],
@@ -35,7 +39,7 @@ const MARKETS = {
          channels:{ starter: "1", growth: "3", pro: "All" },
          creditsNote: "So Growth's 45,000 credits is around 550 AI conversations, or any mix of texts, calls and email. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
          tiers: { starter: 59,  growth: 149, pro: 399 },
-         addons: { number: 8,    seat: 15, a2p: 99 },
+         addons: { number: 8,    seat: 15, a2p: 99, workspace: 299 },
          packs: { small: 25, standard: 55, large: 120, bulk: 270 } },
   CA:  { label: "Canada",        cur: "$",   code: "CAD", pos: "pre",  per: "/mo", hasSMS: true,  hasVoice: true,  waFirst: false, naOnly: true,
          plans: ["starter","growth","pro"],
@@ -44,7 +48,7 @@ const MARKETS = {
          channels:{ starter: "1", growth: "3", pro: "All" },
          creditsNote: "So Growth's 45,000 credits is around 550 AI conversations, or any mix of texts, calls and email. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
          tiers: { starter: 79,  growth: 199, pro: 499 },
-         addons: { number: 10,   seat: 19, a2p: null },
+         addons: { number: 10,   seat: 19, a2p: null, workspace: 379 },
          packs: { small: 35, standard: 75, large: 165, bulk: 369 } },
   /* UAE, revised 2026-09-23. Two tiers, not three: Growth exists to sell a phone number and
      texting, so outside North America it has nothing left to sell and the app already hides it.
@@ -59,7 +63,7 @@ const MARKETS = {
          channels:{ starter: "1", growth: "3", pro: "All" },
          creditsNote: "So Starter's 15,000 credits is around 140 AI conversations a month, and Pro's 45,000 is around 425. WhatsApp's own conversation fees are billed by Meta, on your WhatsApp Business account.",
          tiers: { starter: 549, growth: 549, pro: 999 },   // growth is not sold here
-         addons: { number: null, seat: 55, a2p: null },
+         addons: { number: null, seat: 55, a2p: null, workspace: 749 },
          packs: { small: 95, standard: 205, large: 445, bulk: 995 } },
 };
 
@@ -131,7 +135,7 @@ function applyMarket(animate) {
     const row = el.closest("tr");
     if (row) row.hidden = v == null;
     if (v == null) return;
-    const suffix = el.dataset.addon === "number" || el.dataset.addon === "seat" ? m.per : " once";
+    const suffix = el.dataset.addon === "a2p" ? " once" : m.per;
     swapText(el, money(m, v) + suffix, animate);
   });
   $$("[data-needs-sms]").forEach((el) => { el.hidden = !m.hasSMS; });

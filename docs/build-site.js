@@ -872,6 +872,7 @@ page({
         <table>
           <tr><td>Extra phone number<small>Monthly</small></td><td data-addon="number">$8 USD/mo</td></tr>
           <tr><td>Extra seat<small>Monthly</small></td><td data-addon="seat">$15 USD/mo</td></tr>
+          <tr><td>Extra business or location<small>Its own Pro plan, monthly. With Pro</small></td><td data-addon="workspace">$299 USD/mo</td></tr>
           <tr><td>SMS activation, A2P<small>One-time, US only. Waived with Pro</small></td><td data-addon="a2p">$99 USD once</td></tr>
         </table>
       </div>
