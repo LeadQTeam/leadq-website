@@ -625,6 +625,17 @@ for (const [mk, want] of [['US', '$299 USD/mo'], ['CA', '$379 CAD/mo'], ['UAE', 
   const x = await evalJs(`const c = document.querySelector('[data-addon="workspace"]'), tr = c && c.closest('tr');
     return { price: c ? c.textContent.trim() : '', shown: !!tr && !tr.hidden, name: tr ? tr.firstElementChild.firstChild.textContent.trim() : '' };`)
   ok(`${mk}: an extra business or location is ${want}`, x.shown && x.price === want && x.name === 'Extra business or location', JSON.stringify(x))
+  /* Booking is on every plan again (founder, 2026-11-07): Starter says so once, on its card and in
+     the comparison, and follow-ups stay off Starter in North America. */
+  const st = await evalJs(`const vis = (el) => { let q = el; while (q) { if (q.hidden || getComputedStyle(q).display === 'none') return false; q = q.parentElement } return true };
+    const card = document.querySelector('.plan[data-plan="starter"]');
+    const lines = [...card.querySelectorAll('li')].filter(vis).map((l) => l.textContent.trim());
+    const cell = (name) => { const tr = [...document.querySelectorAll('.cmp tr')].find((r) => r.querySelector('th') && r.querySelector('th').textContent.trim() === name);
+      return tr ? [...tr.querySelectorAll('td')[0].querySelectorAll('span')].filter(vis).map((s) => s.className).join(',') || tr.querySelectorAll('td')[0].textContent.trim() : '' };
+    return { book: lines.filter((l) => l === 'Booking, calendar and reminders').length, sync: lines.includes('Calendar sync with Google and Outlook'),
+      fu: lines.includes('Follow-ups, custom fields, profiles'), tBook: cell('Booking, calendar and reminders'), tSync: cell('Calendar sync with Google and Outlook') };`)
+  ok(`${mk}: Starter books, with calendar sync, said once`, st.book === 1 && st.sync && /yes/.test(st.tBook) && /yes/.test(st.tSync), JSON.stringify(st))
+  ok(`${mk}: Starter follow-ups as before (UAE only)`, st.fu === (mk === 'UAE'), JSON.stringify(st))
 }
 
 console.log(`\n${bad ? bad + ' FAILED' : 'ALL PASS'}  (${checks} checks)`)

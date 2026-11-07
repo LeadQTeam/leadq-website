@@ -336,7 +336,7 @@ const plans = `<div class="plans">
       <div class="plan" data-plan="starter">
         <h3 data-plan-name="starter">Starter</h3><p class="for">Solo, or just trying it out</p>
         <div class="amt"><span data-price="starter">$59</span><small> <span data-code>USD</span> /mo</small></div>
-        <ul><li><span data-cell="starter.credits">20,000</span> credits a month</li><li data-na-only>1 seat</li><li data-na-only>1 text-based channel (no voice)</li><li data-wa-only hidden>3 seats</li><li data-wa-only hidden>1 channel</li><li data-wa-only hidden>Booking, calendar and reminders</li><li data-wa-only hidden>Follow-ups, custom fields, profiles</li><li>Assistant, FAQ and lead capture</li></ul>
+        <ul><li><span data-cell="starter.credits">20,000</span> credits a month</li><li data-na-only>1 seat</li><li data-na-only>1 text-based channel (no voice)</li><li data-wa-only hidden>3 seats</li><li data-wa-only hidden>1 channel</li><li>Booking, calendar and reminders</li><li>Calendar sync with Google and Outlook</li><li data-wa-only hidden>Follow-ups, custom fields, profiles</li><li>Assistant, FAQ and lead capture</li></ul>
         <a class="btn btn-ghost btn-block" href="${SIGNUP}&plan=starter">Choose Starter</a>
       </div>
       <div class="plan hot" data-plan="growth">
@@ -827,13 +827,13 @@ page({
           <tr data-na-only><th scope="row">Phone numbers</th><td>${no}</td><td data-plan="growth" class="hot">1</td><td>2</td></tr>
           <tr><th scope="row">Channels</th><td data-cell="starter.channels">1</td><td data-plan="growth" class="hot" data-cell="growth.channels">3</td><td data-pro-channels>All</td></tr>
           <tr><th scope="row">Assistant, FAQ and lead capture</th><td>${yes}</td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
-          <tr><th scope="row">Booking, calendar and reminders</th><td><span data-na-only>${no}</span><span data-wa-only hidden>${yes}</span></td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
+          <tr><th scope="row">Booking, calendar and reminders</th><td>${yes}</td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
           <tr><th scope="row">Follow-ups, custom fields, profiles</th><td><span data-na-only>${no}</span><span data-wa-only hidden>${yes}</span></td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
           <tr><th scope="row">Contact Summary</th><td>${no}</td><td data-plan="growth" class="hot">${no}</td><td>${yes}</td></tr>
           <tr><th scope="row">Insights and reporting</th><td>${no}</td><td data-plan="growth" class="hot">${no}</td><td>${yes}</td></tr>
           <tr><th scope="row">Claude connector</th><td>${no}</td><td data-plan="growth" class="hot">${no}</td><td>${yes}</td></tr>
           <tr><th scope="row">Priority support</th><td>${no}</td><td data-plan="growth" class="hot">${no}</td><td>${yes}</td></tr>
-          <tr><th scope="row">Calendar sync with Google and Outlook</th><td><span data-na-only>${no}</span><span data-wa-only hidden>${yes}</span></td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
+          <tr><th scope="row">Calendar sync with Google and Outlook</th><td>${yes}</td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
           <tr data-needs-voice><th scope="row">AI voice receptionist</th><td>${no}</td><td data-plan="growth" class="hot">${no}</td><td><span class="yes voice" aria-label="Included">&#10003;</span></td></tr>
         </tbody>
       </table>
@@ -872,7 +872,7 @@ page({
         <table>
           <tr><td>Extra phone number<small>Monthly</small></td><td data-addon="number">$8 USD/mo</td></tr>
           <tr><td>Extra seat<small>Monthly</small></td><td data-addon="seat">$15 USD/mo</td></tr>
-          <tr><td>Extra business or location<small>Its own Pro plan, monthly. With Pro</small></td><td data-addon="workspace">$299 USD/mo</td></tr>
+          <tr><td>Extra business or location<small>Separate Pro plan, monthly. With Pro</small></td><td data-addon="workspace">$299 USD/mo</td></tr>
           <tr><td>SMS activation, A2P<small>One-time, US only. Waived with Pro</small></td><td data-addon="a2p">$99 USD once</td></tr>
         </table>
       </div>
