@@ -1334,3 +1334,60 @@ main{display:block}
 .vmodal-x svg{width:18px;height:18px}
 @media (prefers-reduced-motion:no-preference){.vmodal[open]{animation:vpop .22s cubic-bezier(.2,.7,.2,1)}}
 @keyframes vpop{from{opacity:0;transform:translateY(8px) scale(.985)}}
+
+/* ===== demo library (ae.html) ===== */
+.demo-feature{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:clamp(22px,3.4vw,48px);align-items:center;
+  margin:0 0 clamp(40px,5vw,64px);color:inherit}
+.demo-feature:hover,.demo-grid a:hover{text-decoration:none}
+.demo-thumb{position:relative;display:block;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#05080e;
+  border:1px solid var(--glass-line);box-shadow:var(--e2);isolation:isolate}
+.demo-feature .demo-thumb{border-radius:22px;box-shadow:var(--e3), 0 0 0 1px color-mix(in srgb,var(--c) 18%, transparent)}
+.demo-thumb img{display:block;width:100%;height:100%;object-fit:cover}
+.demo-thumb::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 50%,rgba(4,7,12,.6))}
+.demo-play{position:absolute;left:50%;top:50%;z-index:1;width:44px;height:44px;transform:translate(-50%,-50%);border-radius:50%;
+  display:grid;place-items:center;background:var(--accent);color:#fff;
+  box-shadow:0 0 0 7px color-mix(in srgb,var(--accent) 24%, transparent), 0 16px 28px -10px rgba(0,0,0,.75)}
+.demo-play svg{width:18px;height:18px;margin-left:3px}
+/* the overview's poster has the clock on the left and the phone in the middle, so its button sits in the empty corner */
+.demo-feature .demo-play{left:auto;top:auto;right:clamp(18px,3vw,36px);bottom:clamp(18px,3vw,36px);transform:none;width:76px;height:76px;box-shadow:0 0 0 10px color-mix(in srgb,var(--accent) 22%, transparent), 0 24px 40px -14px rgba(0,0,0,.8)}
+.demo-feature .demo-play svg{width:30px;height:30px;margin-left:4px}
+.demo-dur{position:absolute;right:10px;bottom:10px;z-index:1;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:11.5px;font-weight:600;
+  color:#eef2f8;background:rgba(5,8,14,.78);border:1px solid rgba(255,255,255,.12);padding:3px 8px;border-radius:999px;line-height:1.3}
+.demo-feature .demo-dur{display:none}
+@media (prefers-reduced-motion:no-preference){
+  .demo-thumb img{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+  .demo-play{transition:transform .25s cubic-bezier(.2,.7,.2,1)}
+  a:hover>.demo-thumb img,a:focus-visible>.demo-thumb img{transform:scale(1.04)}
+  a:hover>.demo-thumb .demo-play,a:focus-visible>.demo-thumb .demo-play{transform:translate(-50%,-50%) scale(1.1)}
+  .demo-feature:hover .demo-play,.demo-feature:focus-visible .demo-play{transform:scale(1.08)}
+}
+.demo-k{display:block;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink);margin:14px 0 6px}
+.demo-feature .demo-k{margin-top:0;font-size:12.5px}
+.demo-feature b{display:block;font-family:var(--display);font-size:clamp(34px,4vw,52px);font-stretch:82%;font-weight:600;letter-spacing:-.04em;line-height:.98;color:var(--ink)}
+.demo-p{display:block;color:var(--ink-2);font-size:17px;margin-top:16px;max-width:36ch}
+.demo-biz{display:block;font-size:13.5px;color:var(--ink-3);margin-top:6px}
+.demo-feature .demo-biz{margin-top:18px}
+.demo-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:30px 16px}
+.demo-grid a{display:block;color:inherit;border-radius:16px}
+.demo-grid b{display:block;font-family:var(--display);font-size:17px;font-weight:600;letter-spacing:-.02em;line-height:1.2;color:var(--ink)}
+.demo-grid .demo-biz{font-size:13px}
+.demo-note{text-align:center;margin-top:40px}
+@media (max-width:1100px){.demo-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 18px}.demo-grid b{font-size:19px}}
+@media (max-width:860px){.demo-feature{grid-template-columns:1fr}.demo-p{max-width:none}}
+@media (max-width:560px){.demo-grid{grid-template-columns:1fr}.demo-play{width:52px;height:52px}.demo-feature .demo-play{width:56px;height:56px}}
+
+/* The demo player. Its own dialog rather than .vmodal, because it carries a caption bar under
+   the film, so its width budget leaves room for that bar. Same rule as .vmodal: no
+   backdrop-filter behind a playing film. */
+.dmodal{width:min(1100px, 100% - 28px, (100vh - 180px) * 1.7778);max-width:none;padding:0;border:0;background:transparent;color:var(--ink)}
+.dmodal::backdrop{background:rgba(4,7,12,.92)}
+.dmodal-in{position:relative;border-radius:20px;overflow:hidden;background:#05080e;border:1px solid var(--glass-line);box-shadow:var(--e3)}
+.dmodal-v{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#000}
+.dmodal-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 18px;background:#0a0f18;border-top:1px solid rgba(255,255,255,.07)}
+.dmodal-cap{min-width:0}
+.dmodal-k{display:block;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#7ba6ff}
+.dmodal-t{display:block;font-family:var(--display);font-size:18px;font-weight:600;letter-spacing:-.02em;color:#eef2f8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dmodal-next{flex:none;color:#eef2f8;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)}
+.dmodal-next[hidden]{display:none}
+@media (max-width:560px){.dmodal-bar{flex-direction:column;align-items:stretch}.dmodal-next{justify-content:center}}
+@media (prefers-reduced-motion:no-preference){.dmodal[open]{animation:vpop .22s cubic-bezier(.2,.7,.2,1)}}

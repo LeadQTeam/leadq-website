@@ -1472,7 +1472,7 @@ legal("terms-of-service.html", "Terms of Service", "Last updated: 2026", "LeadQ'
    Not in sitemap.xml and noindex on purpose: it would otherwise compete with the real home page
    for UAE search traffic while showing no prices, and the arrangement is not exclusive, so
    LeadQ's own direct UAE visitors should still land on the normal site. */
-const AE_NAV_LINKS = '<a href="#how">How it works</a><a href="#included">What you get</a><a href="#faq">Questions</a>';
+const AE_NAV_LINKS = '<a href="#how">How it works</a><a href="#demos">Demos</a><a href="#included">What you get</a><a href="#faq">Questions</a>';
 const aeNav = `<header class="nav">
   <div class="nav-pill">
     <a class="brand" href="ae.html" aria-label="LeadQ">${wordmark()}</a>
@@ -1494,7 +1494,7 @@ const aeFooter = `<footer class="footer">
         <p class="footer-tag">Answered. Booked. While you work.</p>
       </div>
       <nav class="footer-links" aria-label="Footer">
-        <a href="#how">How it works</a><a href="#included">What you get</a><a href="#faq">Questions</a><a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a>
+        <a href="#how">How it works</a><a href="#demos">Demos</a><a href="#included">What you get</a><a href="#faq">Questions</a><a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a>
       </nav>
     </div>
     <div class="footer-legal">&copy; 2026 LeadQ Inc.</div>
@@ -1519,6 +1519,63 @@ const aeFaq = [
    "Cost will depend on your exact needs. Book a demo to learn more."],
 ];
 
+
+/* The demo library: one overview and a short film per feature, made for the UAE from the real app
+   with invented businesses. Every business named here is fictional; none is a customer. Each film
+   ends on the distributor's own contact card, which is why they live on this page and not on the
+   home page. The files sit in demos/ae/ beside a poster frame chosen from inside each film. */
+const AE_DEMOS = [
+  ["00-overview", "Overview", "LeadQ in one minute", "Frostline AC Services · Dubai", "1:02"],
+  ["01-set-up-in-minutes", "Set up in minutes", "Go live in an afternoon", "Noor Beauty Lounge · Jumeirah", "0:53"],
+  ["02-persona", "Persona", "Sounds like you", "Saffron & Sea · Dubai Marina", "1:01"],
+  ["03-knowledge-base", "Knowledge base", "Answers it can stand behind", "Palm Key Properties · Business Bay", "1:05"],
+  ["04-services-hours", "Services & hours", "Bookable, around the clock", "Bright Smile Dental · JLT", "0:50"],
+  ["05-inbox-contacts", "Inbox & contacts", "Every lead, qualified", "Desert Drive Car Rental · Al Quoz", "0:50"],
+  ["06-schedule", "Schedule", "Every booking, in one place", "Pulse Fitness · Business Bay", "0:42"],
+  ["07-team-hand-overs", "Team & hand-overs", "The right person, every time", "Majlis Interiors · Al Barsha", "0:46"],
+  ["08-channels", "Channels", "Wherever customers message", "Oud & Amber · Dubai Mall", "0:52"],
+  ["09-insights", "Insights", "Proof it’s working", "BrightPath Learning Centre · Al Barsha", "0:46"],
+  ["10-account-claude", "Account & Claude", "Change it by just asking", "Frostline AC Services · Dubai", "0:45"],
+];
+const esc = (t) => t.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+/* With JS off every card is a plain link to its film, so nothing here depends on the player. */
+const demoAttrs = ([slug, kicker, title], i) => `href="demos/ae/${slug}.mp4" data-demo="demos/ae/${slug}.mp4" data-poster="demos/ae/${slug}.jpg" data-kicker="${esc(i ? String(i).padStart(2, "0") + " · " + kicker : kicker)}" data-title="${esc(title)}"`;
+const demoThumb = ([slug, , title, , dur], lazy = true) => `<span class="demo-thumb"><img src="demos/ae/${slug}.jpg" alt="" width="1280" height="720"${lazy ? ' loading="lazy"' : ""} decoding="async"><span class="demo-play">${I.play}</span><span class="demo-dur">${dur}</span></span>`;
+const aeDemos = (() => {
+  const [ov, ...rest] = AE_DEMOS;
+  return `<section class="sec" id="demos">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="h-sec">Watch it work.</h2>
+      <p class="lead">Start with the one-minute overview, then pick any feature. Each film follows a different kind of UAE business, from a beauty lounge in Jumeirah to a car rental in Al Quoz.</p>
+    </div>
+    <a class="demo-feature" ${demoAttrs(ov, 0)} aria-label="Play the overview, ${ov[4]}">
+      ${demoThumb(ov, false)}
+      <span class="demo-copy">
+        <span class="demo-k">Overview · ${ov[4]}</span>
+        <b>${ov[2]}</b>
+        <span class="demo-p">Ten at night in Dubai, the office closed hours ago, and the customer still gets an answer and a booking.</span>
+        <span class="demo-biz">Featuring ${ov[3]}</span>
+      </span>
+    </a>
+    <ol class="demo-grid">
+${rest.map((d, i) => `      <li><a ${demoAttrs(d, i + 1)}>${demoThumb(d)}<span class="demo-k">${String(i + 1).padStart(2, "0")} · ${d[1]}</span><b>${d[2]}</b><span class="demo-biz">${d[3]}</span></a></li>`).join("\n")}
+    </ol>
+    <p class="fine demo-note">All businesses shown are fictional. The app is real.</p>
+  </div>
+</section>`;
+})();
+const aeDemoPlayer = `<dialog class="dmodal" aria-label="LeadQ demo">
+  <div class="dmodal-in">
+    <button class="vmodal-x dmodal-x" type="button" aria-label="Close video">${I.x}</button>
+    <video class="dmodal-v" controls playsinline preload="none" width="1920" height="1080"></video>
+    <div class="dmodal-bar">
+      <div class="dmodal-cap"><span class="dmodal-k"></span><b class="dmodal-t"></b></div>
+      <button class="btn btn-ghost btn-sm dmodal-next" type="button" hidden>Next: <span class="dmodal-nt"></span></button>
+    </div>
+  </div>
+</dialog>`;
+
 page({
   file: "ae.html",
   title: "LeadQ for the UAE | WhatsApp answered and booked, automatically",
@@ -1540,7 +1597,7 @@ page({
       <p class="lead">Here, business happens on WhatsApp. LeadQ answers WhatsApp, web chat and email in seconds, then books the appointment. At midnight, on a weekend, or while you are with a customer.</p>
       <div class="ctas">
         <a class="btn btn-primary btn-lg" href="#demo" data-open-chat>Book a demo</a>
-        <a class="btn btn-ghost btn-lg btn-play" href="#how" data-video>${I.play}See it work</a>
+        <a class="btn btn-ghost btn-lg btn-play" ${demoAttrs(AE_DEMOS[0], 0).replace(/^href="[^"]*"/, 'href="#demos"')}>${I.play}See it work</a>
       </div>
     </div>
   </div>
@@ -1600,6 +1657,8 @@ page({
   </div>
 </section>
 
+${aeDemos}
+
 <section class="sec" id="included">
   <div class="wrap">
     <div class="sec-head"><h2 class="h-sec">What you get.</h2></div>
@@ -1639,17 +1698,9 @@ page({
   </div>
 </section>
 
-<!-- This market gets its own cut of the film: the home page's names SMS and the phone line.
-     initVideo() binds whatever [data-video] and .vmodal it finds, so this needs no JS change,
-     and with JS off the button keeps its href and the page behaves as it did before. -->
-<dialog class="vmodal" aria-label="See LeadQ work">
-  <div class="vmodal-in">
-    <button class="vmodal-x" type="button" aria-label="Close video">${I.x}</button>
-    <video class="vmodal-v" controls playsinline preload="none" poster="img/video-poster-ae.jpg" width="1920" height="1080">
-      <source src="leadq-video-ae.mp4" type="video/mp4">
-    </video>
-  </div>
-</dialog>`,
+<!-- The hero's "See it work" and every card in #demos open this one player. It replaced the
+     single film modal (leadq-video-ae.mp4), which the overview supersedes. -->
+${aeDemoPlayer}`,
 });
 
 /* ======================================================= intake redirect + sitemap */

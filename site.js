@@ -293,6 +293,53 @@ function initVideo() {
   dlg.addEventListener("close", () => { video.pause(); video.currentTime = 0; });
 }
 
+/* ===== demo library (ae.html) =====
+   One player for every [data-demo] on the page: the hero's "See it work" and each card in #demos.
+   The playlist is the page order, so "Next" walks the films the way the grid lists them. With JS
+   off (or no <dialog>), each card keeps its href and simply opens the film itself. */
+function initDemos() {
+  const dlg = $(".dmodal");
+  const openers = $$("[data-demo]");
+  if (!dlg || !openers.length || typeof dlg.showModal !== "function") return;
+  const video = $(".dmodal-v", dlg);
+  const kick = $(".dmodal-k", dlg), title = $(".dmodal-t", dlg);
+  const next = $(".dmodal-next", dlg), nextT = $(".dmodal-nt", dlg);
+
+  const list = [];
+  openers.forEach((o) => {
+    const d = o.dataset;
+    if (!list.some((x) => x.src === d.demo)) list.push({ src: d.demo, poster: d.poster, kicker: d.kicker, title: d.title });
+  });
+  let at = 0;
+  const play = () => { const p = video.play(); if (p && p.catch) p.catch(() => {}); };
+  const load = (i) => {
+    at = i;
+    const d = list[i], n = list[i + 1];
+    video.poster = d.poster || "";
+    video.src = d.src;
+    kick.textContent = d.kicker || "";
+    title.textContent = d.title || "";
+    next.hidden = !n;
+    if (n) nextT.textContent = n.title;
+  };
+
+  openers.forEach((o) => o.addEventListener("click", (e) => {
+    e.preventDefault();
+    load(Math.max(0, list.findIndex((x) => x.src === o.dataset.demo)));
+    dlg.showModal();
+    // the click is the gesture, so this plays with sound; if it is blocked the controls are there
+    play();
+  }));
+  next.addEventListener("click", () => { load(at + 1); play(); });
+  // at the end of a film, put the next one under the viewer's hand rather than auto-playing it
+  video.addEventListener("ended", () => { if (!next.hidden) next.focus(); });
+
+  $(".dmodal-x", dlg).addEventListener("click", () => dlg.close());
+  dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
+  // closed by any route, including Escape: stop the sound and drop the download
+  dlg.addEventListener("close", () => { video.pause(); video.removeAttribute("src"); video.load(); });
+}
+
 /* ===== visibility helpers ===== */
 const io = (cb, opts) => ("IntersectionObserver" in window ? new IntersectionObserver(cb, opts) : null);
 
@@ -549,6 +596,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initMarket();
   initChat();
   initVideo();
+  initDemos();
   initReveal();
   initLiveZones();
   initLiveChat();
