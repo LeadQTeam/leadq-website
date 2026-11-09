@@ -245,10 +245,14 @@ function nav(current, { voice = false } = {}) {
 </header>`;
 }
 
-const dock = `<aside class="dock" hidden aria-label="Demo assistant">
-  <div class="dock-copy"><b>Talk to our assistant now</b><span class="faint">This is the demo. Try to book.</span></div>
+/* North America does not book calls or demos: the dock invites questions only. The UAE pages,
+   where the distributor does book demos, get their own line. */
+const dockFor = (line) => `<aside class="dock" hidden aria-label="LeadQ assistant">
+  <div class="dock-copy"><b>Talk to our assistant now</b><span class="faint">${line}</span></div>
   <button class="btn btn-white btn-sm dock-btn" type="button">Start chat</button>
 </aside>`;
+const dock = dockFor("Ask it anything about LeadQ.");
+const aeDock = dockFor("Ask it anything, or book a demo.");
 
 const footer = `<footer class="footer">
   <div class="wrap">
@@ -307,7 +311,7 @@ ${main}
 </main>
 
 ${footerHtml}
-${legal ? "" : "\n" + dock + "\n" + widget}
+${legal ? "" : "\n" + (widget === AE_WIDGET ? aeDock : dock) + "\n" + widget}
 </body>
 </html>
 `;
