@@ -1181,6 +1181,28 @@ page({
 });
 
 /* ======================================================= USE CASES */
+/* Use cases (North America): each tile plays that industry's film, like ae-use-cases.html, and the
+   other businesses follow on film. Visitors the site treats as a WhatsApp market keep the original
+   tiles that open the industry pages (those films show SMS and the phone line), and the industry
+   pages stay linked from this page either way. */
+const naFilm = (n) => NA_DEMOS.find((d) => d[0].startsWith(n + "-"));
+const NA_TILES = [
+  ["04", "#2dd4bf", "dental", "A patient in a modern dental clinic", "Dental and clinics", "Fill chairs, cut no-shows"],
+  ["01", "#f27eb4", "salon", "A stylist working in a hair salon", "Salons", "Reply while your hands are full"],
+  ["00", "#f5a524", "home", "A technician on a home services job", "Home services", "Book jobs from the field"],
+  ["03", "#7dd3fc", "realestate", "A modern home exterior for sale", "Real estate", "Answer leads in seconds"],
+];
+const NA_MORE = [
+  ["02", "Restaurants", "Reservations in your own voice"],
+  ["05", "Car rental", "Every inquiry, qualified"],
+  ["06", "Fitness", "Classes and PT sessions, filled"],
+  ["07", "Interiors and design", "The right designer, every time"],
+  ["08", "Retail", "Instagram and WhatsApp sales, answered"],
+  ["09", "Education", "From inquiry to enrollment"],
+  ["11", "Tech support", "Troubleshooting, step by step"],
+  ["12", "Customer support", "Support that never sleeps"],
+  ["13", "Car dealers", "“Is it still available?”"],
+];
 page({
   file: "use-cases.html",
   title: "Use cases | LeadQ for clinics, salons, trades and agents",
@@ -1216,11 +1238,21 @@ page({
 <section class="sec">
   <div class="wrap">
     <div class="sec-head"><h2 class="h-sec">See it set up for your world.</h2></div>
-    <div class="uc-tiles">
+    <div class="uc-tiles" data-na-only>
+${NA_TILES.map(([n, c, img, alt, h, sub]) => `      <a class="uc-tile" ${demoAttrs("na", naFilm(n), h)} style="--c:${c}"><div class="ph fade-up">${picture(img, alt)}</div><h3>${h}</h3><p class="sub">${sub}</p><span class="go">Watch the film <em aria-hidden="true">+</em></span></a>`).join("\n")}
+    </div>
+    <div class="uc-tiles" data-wa-only hidden>
       <a class="uc-tile" href="for-dental.html" style="--c:#2dd4bf"><div class="ph fade-up">${picture("dental", "A patient in a modern dental clinic")}</div><h3>Dental and clinics</h3><p class="sub">Fill chairs, cut no-shows</p><span class="go">Explore <em aria-hidden="true">+</em></span></a>
       <a class="uc-tile" href="for-salons.html" style="--c:#f27eb4"><div class="ph fade-up">${picture("salon", "A stylist working in a hair salon")}</div><h3>Salons</h3><p class="sub">Reply while your hands are full</p><span class="go">Explore <em aria-hidden="true">+</em></span></a>
       <a class="uc-tile" href="for-home-services.html" style="--c:#f5a524"><div class="ph fade-up">${picture("home", "A technician on a home services job")}</div><h3>Home services</h3><p class="sub">Book jobs from the field</p><span class="go">Explore <em aria-hidden="true">+</em></span></a>
       <a class="uc-tile" href="for-real-estate.html" style="--c:#7dd3fc"><div class="ph fade-up">${picture("realestate", "A modern home exterior for sale")}</div><h3>Real estate</h3><p class="sub">Answer leads in seconds</p><span class="go">Explore <em aria-hidden="true">+</em></span></a>
+    </div>
+    <div data-na-only>
+    <h3 class="demo-sub">More businesses, on film</h3>
+    <ol class="demo-grid">
+${NA_MORE.map(([n, k, t]) => demoCard("na", naFilm(n), k, t)).join("\n")}
+    </ol>
+    <p class="fine demo-note">All businesses shown are fictional. The app is real.</p>
     </div>
   </div>
 </section>
@@ -1251,7 +1283,9 @@ page({
     <p class="lead">Set it up in your browser in minutes. It learns your business, then gets to work.</p>
     <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Try it Free</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
   </div>
-</section>`,
+</section>
+
+${demoPlayer}`,
 });
 
 /* ======================================================= INDUSTRY PAGES */
