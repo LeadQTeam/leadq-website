@@ -23,8 +23,9 @@ const SIGNUP = APP + "/?signup";
 /* data-chips is ours to say. The widget used to fall back to LeadQ's own demo chips for EVERY
    client, so a plumber's visitors were offered "Book a demo" (channel audit, 2026-10-05). It now
    shows none unless told, so LeadQ's pages name theirs here. */
-const widgetTag = (biz) => `<script defer src="https://chat.leadqmail.co/w.js" data-leadq="${biz}" data-autoopen="4" data-theme="dark" data-chips="Book a demo|What does it cost?|How does it work?"></script>`;
-const WIDGET = widgetTag("8273801b-5b0c-48e0-8708-8fd1b3164c0e");
+/* North America sells sign-up and the free trial, never a demo call; only the UAE distributor books demos. */
+const widgetTag = (biz, chips) => `<script defer src="https://chat.leadqmail.co/w.js" data-leadq="${biz}" data-autoopen="4" data-theme="dark" data-chips="${chips}"></script>`;
+const WIDGET = widgetTag("8273801b-5b0c-48e0-8708-8fd1b3164c0e", "Start my free trial|What does it cost?|How does it work?");
 
 /* The LeadQ UAE workspace, whose web chat IS the demo booking on ae.html. A placeholder here is
    not a cosmetic defect, it is a page whose only call to action does nothing, so the build
@@ -34,7 +35,7 @@ const AE_BIZ = "8273801b-5b0c-48e0-8708-8fd1b3164c0e"; // PREVIEW ONLY, swap for
 if (/^PASTE_/.test(AE_BIZ)) {
   throw new Error("ae.html: set AE_BIZ in docs/build-site.js to the LeadQ UAE workspace business id (the app shows it under Channels > Website chat) before building.");
 }
-const AE_WIDGET = widgetTag(AE_BIZ);
+const AE_WIDGET = widgetTag(AE_BIZ, "Book a demo|What does it cost?|How does it work?");
 const FONT = "https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=JetBrains+Mono:wght@400;600&display=swap";
 
 // The wordmark ships in two versions because the site ships dark but keeps a light mode.
@@ -255,7 +256,7 @@ const footer = `<footer class="footer">
         <p class="footer-tag">Answered. Booked. While you work.</p>
       </div>
       <nav class="footer-links" aria-label="Footer">
-        <a href="index.html#how">How it works</a><a href="use-cases.html">Use cases</a><a href="voice.html" data-needs-voice>Voice AI</a><a href="pricing.html">Pricing</a><a href="about.html">About</a><a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a>
+        <a href="index.html#how">How it works</a><a href="index.html#demos">Watch it work</a><a href="use-cases.html">Use cases</a><a href="voice.html" data-needs-voice>Voice AI</a><a href="pricing.html">Pricing</a><a href="about.html">About</a><a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a>
       </nav>
     </div>
     <div class="footer-legal">&copy; 2026 LeadQ Inc.</div>
@@ -423,6 +424,78 @@ const homeFaq = [
   ["Can I keep my WhatsApp number?", "Yes. Connect a new number or bring the one your customers already message."],
   ["Can I take over a conversation?", "Any time. Pause the assistant for one contact or a whole channel, reply yourself, then hand it back."],
 ];
+
+/* The demo library: an overview, a short film per feature and a few use cases, each made from the
+   real app with invented businesses (none is a customer). The home page carries the North American
+   cut (demos/na/, ending on a "sign up at leadq.co" card); ae.html carries the UAE cut (demos/ae/,
+   ending on the distributor's contact card). Each folder holds the films and a poster frame per film. */
+const esc = (t) => t.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+/* With JS off every card is a plain link to its film, so nothing here depends on the player. */
+const demoAttrs = (dir, [slug, kicker, title], i) => `href="demos/${dir}/${slug}.mp4" data-demo="demos/${dir}/${slug}.mp4" data-poster="demos/${dir}/${slug}.jpg" data-kicker="${esc(i ? String(i).padStart(2, "0") + " · " + kicker : kicker)}" data-title="${esc(title)}"`;
+const demoThumb = (dir, [slug, , title, , dur], lazy = true) => `<span class="demo-thumb"><img src="demos/${dir}/${slug}.jpg" alt="" width="1280" height="720"${lazy ? ' loading="lazy"' : ""} decoding="async"><span class="demo-play">${I.play}</span><span class="demo-dur">${dur}</span></span>`;
+function demoSection(dir, films, nFeatures, { lead, ov: ovCopy, attrs = "" }) {
+  const [ov, ...rest] = films;
+  const feats = rest.slice(0, nFeatures), cases = rest.slice(nFeatures);
+  const card = (d, n) => `      <li><a ${demoAttrs(dir, d, n)}>${demoThumb(dir, d)}<span class="demo-k">${String(n).padStart(2, "0")} · ${d[1]}</span><b>${d[2]}</b><span class="demo-biz">${d[3]}</span></a></li>`;
+  return `<section class="sec" id="demos"${attrs}>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="h-sec">Watch it work.</h2>
+      <p class="lead">${lead}</p>
+    </div>
+    <a class="demo-feature" ${demoAttrs(dir, ov, 0)} aria-label="Play the overview, ${ov[4]}">
+      ${demoThumb(dir, ov, false)}
+      <span class="demo-copy">
+        <span class="demo-k">Overview · ${ov[4]}</span>
+        <b>${ov[2]}</b>
+        <span class="demo-p">${ovCopy}</span>
+        <span class="demo-biz">Featuring ${ov[3]}</span>
+      </span>
+    </a>
+    <ol class="demo-grid">
+${feats.map((d, i) => card(d, i + 1)).join("\n")}
+    </ol>
+    <h3 class="demo-sub">Use cases</h3>
+    <ol class="demo-grid demo-grid4">
+${cases.map((d, i) => card(d, nFeatures + i + 1)).join("\n")}
+    </ol>
+    <p class="fine demo-note">All businesses shown are fictional. The app is real.</p>
+  </div>
+</section>`;
+}
+const demoPlayer = `<dialog class="dmodal" aria-label="LeadQ demo">
+  <div class="dmodal-in">
+    <button class="vmodal-x dmodal-x" type="button" aria-label="Close video">${I.x}</button>
+    <video class="dmodal-v" controls playsinline preload="none" width="1920" height="1080"></video>
+    <div class="dmodal-bar">
+      <div class="dmodal-cap"><span class="dmodal-k"></span><b class="dmodal-t"></b></div>
+      <button class="btn btn-ghost btn-sm dmodal-next" type="button" hidden>Next: <span class="dmodal-nt"></span></button>
+    </div>
+  </div>
+</dialog>`;
+const NA_DEMOS = [
+  ["00-overview", "Overview", "LeadQ in one minute", "Coolwave Heating & Air · Phoenix", "1:01"],
+  ["01-set-up-in-minutes", "Set up in minutes", "Go live in an afternoon", "Willow Beauty Bar · Austin", "0:51"],
+  ["02-persona", "Persona", "Sounds like you", "Harbor & Vine · Boston", "0:58"],
+  ["03-knowledge-base", "Knowledge base", "Answers it can stand behind", "Keystone Realty · Toronto", "1:03"],
+  ["04-services-hours", "Services & hours", "Bookable, around the clock", "Maple Grove Dental · Vancouver", "0:47"],
+  ["05-inbox-contacts", "Inbox & contacts", "Every lead, qualified", "Coastline Car Rental · Miami", "0:47"],
+  ["06-schedule", "Schedule", "Every booking, in one place", "Ironside Fitness · Chicago", "0:41"],
+  ["07-team-hand-overs", "Team & hand-overs", "The right person, every time", "Hudson Interiors · Brooklyn", "0:45"],
+  ["08-channels", "Channels", "Wherever customers message", "Ember & Oak Candle Co. · Montreal", "0:48"],
+  ["09-insights", "Insights", "Proof it’s working", "Summit Learning Center · Seattle", "0:44"],
+  ["10-account-claude", "Account & Claude", "Change it by just asking", "Coolwave Heating & Air · Phoenix", "0:42"],
+  ["11-tech-support", "Tech support", "Help, the moment they need it", "FixPoint Electronics · Houston", "0:50"],
+  ["12-customer-support", "Customer support", "Support that never sleeps", "Northwood Home · online, US and Canada", "0:58"],
+  ["13-inventory", "Inventory", "“Is it still available?”", "Lakeside Motors · Dallas", "0:53"],
+  ["14-what-leadq-does", "Why LeadQ", "What it does for your business", "Time back, lower costs, more revenue", "1:01"],
+];
+/* North American films only: visitors the site treats as a WhatsApp market get the section hidden, like the rest of the NA-only copy. */
+const naDemos = demoSection("na", NA_DEMOS, 10, {
+  lead: "Start with the one-minute overview, then pick any feature, or see it at work in tech support, customer support and a car dealership. Each film follows a different kind of business, from a beauty bar in Austin to a car rental in Miami.",
+  ov: "Ten at night in Phoenix, the office closed hours ago, and the customer still gets an answer and a booking.",
+  attrs: " data-na-only",
+});
 
 page({
   file: "index.html",
@@ -735,6 +808,8 @@ page({
   </div>
 </section>
 
+${naDemos}
+
 <!-- outcomes -->
 <section class="sec">
   <div class="wrap">
@@ -796,6 +871,7 @@ page({
   </div>
 </section>
 
+${demoPlayer}
 <!-- the film, opened by any [data-video] button. Without <dialog> or JS those buttons keep
      their href and the page behaves as it did before. -->
 <dialog class="vmodal" aria-label="See LeadQ work">
@@ -1554,50 +1630,11 @@ const AE_DEMOS = [
   ["14-what-leadq-does", "Why LeadQ", "What it does for your business", "Time back, lower costs, more revenue", "1:03"],
 ];
 const AE_FEATURES = 10;   /* 01–10 are features; the rest are use cases, in their own row */
-const esc = (t) => t.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
-/* With JS off every card is a plain link to its film, so nothing here depends on the player. */
-const demoAttrs = ([slug, kicker, title], i) => `href="demos/ae/${slug}.mp4" data-demo="demos/ae/${slug}.mp4" data-poster="demos/ae/${slug}.jpg" data-kicker="${esc(i ? String(i).padStart(2, "0") + " · " + kicker : kicker)}" data-title="${esc(title)}"`;
-const demoThumb = ([slug, , title, , dur], lazy = true) => `<span class="demo-thumb"><img src="demos/ae/${slug}.jpg" alt="" width="1280" height="720"${lazy ? ' loading="lazy"' : ""} decoding="async"><span class="demo-play">${I.play}</span><span class="demo-dur">${dur}</span></span>`;
-const aeDemos = (() => {
-  const [ov, ...rest] = AE_DEMOS;
-  const feats = rest.slice(0, AE_FEATURES), cases = rest.slice(AE_FEATURES);
-  const card = (d, n) => `      <li><a ${demoAttrs(d, n)}>${demoThumb(d)}<span class="demo-k">${String(n).padStart(2, "0")} · ${d[1]}</span><b>${d[2]}</b><span class="demo-biz">${d[3]}</span></a></li>`;
-  return `<section class="sec" id="demos">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2 class="h-sec">Watch it work.</h2>
-      <p class="lead">Start with the one-minute overview, then pick any feature, or see it at work in tech support, customer support and a car showroom. Each film follows a different kind of UAE business, from a beauty lounge in Jumeirah to a car rental in Al Quoz.</p>
-    </div>
-    <a class="demo-feature" ${demoAttrs(ov, 0)} aria-label="Play the overview, ${ov[4]}">
-      ${demoThumb(ov, false)}
-      <span class="demo-copy">
-        <span class="demo-k">Overview · ${ov[4]}</span>
-        <b>${ov[2]}</b>
-        <span class="demo-p">Ten at night in Dubai, the office closed hours ago, and the customer still gets an answer and a booking.</span>
-        <span class="demo-biz">Featuring ${ov[3]}</span>
-      </span>
-    </a>
-    <ol class="demo-grid">
-${feats.map((d, i) => card(d, i + 1)).join("\n")}
-    </ol>
-    <h3 class="demo-sub">Use cases</h3>
-    <ol class="demo-grid demo-grid4">
-${cases.map((d, i) => card(d, AE_FEATURES + i + 1)).join("\n")}
-    </ol>
-    <p class="fine demo-note">All businesses shown are fictional. The app is real.</p>
-  </div>
-</section>`;
-})();
-const aeDemoPlayer = `<dialog class="dmodal" aria-label="LeadQ demo">
-  <div class="dmodal-in">
-    <button class="vmodal-x dmodal-x" type="button" aria-label="Close video">${I.x}</button>
-    <video class="dmodal-v" controls playsinline preload="none" width="1920" height="1080"></video>
-    <div class="dmodal-bar">
-      <div class="dmodal-cap"><span class="dmodal-k"></span><b class="dmodal-t"></b></div>
-      <button class="btn btn-ghost btn-sm dmodal-next" type="button" hidden>Next: <span class="dmodal-nt"></span></button>
-    </div>
-  </div>
-</dialog>`;
+const aeDemos = demoSection("ae", AE_DEMOS, AE_FEATURES, {
+  lead: "Start with the one-minute overview, then pick any feature, or see it at work in tech support, customer support and a car showroom. Each film follows a different kind of UAE business, from a beauty lounge in Jumeirah to a car rental in Al Quoz.",
+  ov: "Ten at night in Dubai, the office closed hours ago, and the customer still gets an answer and a booking.",
+});
+const aeDemoPlayer = demoPlayer;
 
 page({
   file: "ae.html",
@@ -1620,7 +1657,7 @@ page({
       <p class="lead">Here, business happens on WhatsApp. LeadQ answers WhatsApp, web chat and email in seconds, then books the appointment. At midnight, on a weekend, or while you are with a customer.</p>
       <div class="ctas">
         <a class="btn btn-primary btn-lg" href="#demo" data-open-chat>Book a demo</a>
-        <a class="btn btn-ghost btn-lg btn-play" ${demoAttrs(AE_DEMOS[0], 0).replace(/^href="[^"]*"/, 'href="#demos"')}>${I.play}See it work</a>
+        <a class="btn btn-ghost btn-lg btn-play" ${demoAttrs("ae", AE_DEMOS[0], 0).replace(/^href="[^"]*"/, 'href="#demos"')}>${I.play}See it work</a>
       </div>
     </div>
   </div>
