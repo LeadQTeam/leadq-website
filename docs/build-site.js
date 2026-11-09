@@ -602,6 +602,20 @@ page({
   </div>
 </section>
 
+<!-- outcomes -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head"><h2 class="h-sec">Time saved. Costs down. Sales never missed.</h2></div>
+    <div class="outcomes">
+      <div class="outcome"><b>Answers in seconds</b><span>24/7, so no lead waits for a callback.</span></div>
+      <div class="outcome"><b>Costs less than a shift</b><span data-price-sentence="starter">Plans start at $59 USD a month. No receptionist hours to cover.</span></div>
+      <div class="outcome"><b>Books itself</b><span>Straight into your calendar, while you do the actual work.</span></div>
+    </div>
+  </div>
+</section>
+
+${naDemos}
+
 <!-- one brain -->
 <section class="sec">
   <div class="wrap brain">
@@ -817,20 +831,6 @@ page({
           <div class="ap-booked"><b>Booked, reminder set</b>Thu, 3:00 PM</div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-${naDemos}
-
-<!-- outcomes -->
-<section class="sec">
-  <div class="wrap">
-    <div class="sec-head"><h2 class="h-sec">Time saved. Costs down. Sales never missed.</h2></div>
-    <div class="outcomes">
-      <div class="outcome"><b>Answers in seconds</b><span>24/7, so no lead waits for a callback.</span></div>
-      <div class="outcome"><b>Costs less than a shift</b><span data-price-sentence="starter">Plans start at $59 USD a month. No receptionist hours to cover.</span></div>
-      <div class="outcome"><b>Books itself</b><span>Straight into your calendar, while you do the actual work.</span></div>
     </div>
   </div>
 </section>
@@ -1689,6 +1689,8 @@ page({
   </div>
 </section>
 
+${aeDemos}
+
 <section class="sec">
   <div class="wrap brain">
     ${orbit([["whatsapp", "WhatsApp", 0, -166], ["messenger", "Messenger", 174, -44], ["webchat", "Web chat", 112, 150],
@@ -1742,8 +1744,6 @@ page({
     </div>
   </div>
 </section>
-
-${aeDemos}
 
 <section class="sec" id="included">
   <div class="wrap">

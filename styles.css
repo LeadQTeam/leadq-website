@@ -1398,7 +1398,19 @@ main{display:block}
 .demo-note{text-align:center;margin-top:40px}
 @media (max-width:1100px){.demo-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 18px}.demo-grid b{font-size:19px}}
 @media (max-width:860px){.demo-feature{grid-template-columns:1fr}.demo-p{max-width:none}}
-@media (max-width:560px){.demo-grid{grid-template-columns:1fr}.demo-play{width:52px;height:52px}.demo-feature .demo-play{width:56px;height:56px}}
+@media (max-width:560px){.demo-play{width:52px;height:52px}.demo-feature .demo-play{width:56px;height:56px}}
+/* Phones: each film row is a sideways catalogue. One film sits in the middle at full size; the
+   ones before and after shrink and tuck in beside it (site.js initDemoRails sets the transforms
+   from each card's distance to the centre). Swipe or scroll; every card stays a plain link. */
+@media (max-width:560px){
+  .demo-grid{display:flex;gap:0;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+    margin-inline:-16px;padding:6px 13vw 14px;scrollbar-width:none;perspective:1000px}
+  .demo-grid::-webkit-scrollbar{display:none}
+  .demo-grid>li{flex:0 0 74vw;scroll-snap-align:center;scroll-snap-stop:always;transform-origin:50% 35%;will-change:transform}
+  .demo-grid>li>a{padding-inline:4px}
+  /* only the film in the middle shows its caption, so the collapsed neighbours never overlap it */
+  .demo-grid>li .demo-k,.demo-grid>li b,.demo-grid>li .demo-biz{opacity:calc(1 - var(--d, 0) * 2.2)}
+}
 
 /* The demo player. Its own dialog rather than .vmodal, because it carries a caption bar under
    the film, so its width budget leaves room for that bar. Same rule as .vmodal: no

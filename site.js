@@ -297,6 +297,39 @@ function initVideo() {
    One player for every [data-demo] on the page: the hero's "See it work" and each card in #demos.
    The playlist is the page order, so "Next" walks the films the way the grid lists them. With JS
    off (or no <dialog>), each card keeps its href and simply opens the film itself. */
+/* ===== demo films on phones: a sideways catalogue =====
+   Below 560px each .demo-grid scrolls sideways (styles.css). The card nearest the middle stays at
+   full size; its neighbours scale down, turn slightly and slide in toward it, so one film is in
+   view and the previous and next sit collapsed beside it. Wider screens get the plain grid. */
+function initDemoRails() {
+  const rails = $$(".demo-grid");
+  if (!rails.length || !window.matchMedia) return;
+  const mq = matchMedia("(max-width: 560px)");
+  rails.forEach((rail) => {
+    const items = [...rail.children];
+    let raf = 0;
+    const paint = () => {
+      raf = 0;
+      if (!mq.matches) { items.forEach((it) => { it.style.transform = ""; it.style.opacity = ""; it.style.zIndex = ""; it.style.removeProperty("--d"); }); return; }
+      const r = rail.getBoundingClientRect(), cx = r.left + r.width / 2;
+      items.forEach((it) => {
+        const b = it.getBoundingClientRect();
+        const d = (b.left + b.width / 2 - cx) / b.width, a = Math.min(Math.abs(d), 1), sg = Math.sign(d);
+        const s = 1 - 0.2 * a, tx = -sg * a * b.width * 0.3, ry = REDUCED ? 0 : -sg * a * 24;
+        it.style.transform = `translateX(${tx.toFixed(1)}px) rotateY(${ry.toFixed(1)}deg) scale(${s.toFixed(3)})`;
+        it.style.opacity = (1 - 0.45 * a).toFixed(3);
+        it.style.zIndex = String(10 - Math.round(a * 5));
+        it.style.setProperty("--d", a.toFixed(3));
+      });
+    };
+    const req = () => { if (!raf) raf = requestAnimationFrame(paint); };
+    rail.addEventListener("scroll", req, { passive: true });
+    addEventListener("resize", req);
+    if (mq.addEventListener) mq.addEventListener("change", req);
+    paint();
+  });
+}
+
 function initDemos() {
   const dlg = $(".dmodal");
   const openers = $$("[data-demo]");
@@ -610,6 +643,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initChat();
   initVideo();
   initDemos();
+  initDemoRails();
   initReveal();
   initLiveZones();
   initLiveChat();
