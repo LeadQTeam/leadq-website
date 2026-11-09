@@ -1802,66 +1802,75 @@ ${aeDemoPlayer}`,
 
 
 /* ======================================================= UAE USE CASES (ae-use-cases.html)
-   The UAE twin of use-cases.html, under the same rules as ae.html: no prices, no signup or
-   pricing links, only the three UAE channels, "Book a demo" as the one call to action, and
-   noindex/out of the sitemap. Each card plays a UAE film; the industry is the way in. */
+   The same page as use-cases.html (industry switcher, phone, tiles, the before/after, the trades),
+   under ae.html's rules: no prices, no signup or pricing links, WhatsApp-market wording only,
+   "Book a demo" as the call to action, noindex and out of the sitemap. The hero's switcher reads
+   INDUSTRIES_AE in site.js (data-set="ae"), and each tile plays that industry's UAE film instead
+   of opening a North American industry page. */
 const aeFilm = (n) => AE_DEMOS.find((d) => d[0].startsWith(n + "-"));
-const AE_INDUSTRIES = [
-  ["00", "Home services", "The 10 PM AC emergency, answered"],
-  ["01", "Beauty and spa", "A salon live in one afternoon"],
+const AE_TILES = [
+  ["04", "#2dd4bf", "dental", "A patient in a modern dental clinic", "Dental and clinics", "Fill chairs, cut no-shows"],
+  ["01", "#f27eb4", "salon", "A stylist working in a hair salon", "Salons", "Reply while your hands are full"],
+  ["00", "#f5a524", "home", "A technician on a home services job", "Home services", "Book jobs from the field"],
+  ["03", "#7dd3fc", "realestate", "A modern home exterior for sale", "Real estate", "Answer leads in seconds"],
+];
+const AE_MORE = [
   ["02", "Restaurants", "Reservations in your own voice"],
-  ["03", "Real estate", "Buyers' questions, answered right"],
-  ["04", "Dental and clinics", "Patients booked around the clock"],
   ["05", "Car rental", "Every enquiry, qualified"],
   ["06", "Fitness", "Classes and PT sessions, filled"],
   ["07", "Interiors and design", "The right designer, every time"],
   ["08", "Retail", "Instagram and WhatsApp sales, answered"],
   ["09", "Education", "From enquiry to enrolment"],
-];
-const AE_JOBS = [
   ["11", "Tech support", "Troubleshooting, step by step"],
   ["12", "Customer support", "Support that never sleeps"],
-  ["13", "Inventory enquiries", "“Is it still available?”"],
+  ["13", "Car dealers", "“Is it still available?”"],
 ];
-const AE_TRADES = ["Clinics", "Dental", "Salons and spas", "Barbers", "AC and maintenance", "Cleaning", "Real estate", "Car rental", "Car dealers", "Restaurants", "Fitness studios", "Tutoring centres", "Interiors", "Retail", "Electronics repair"];
+const AE_TRADES = ["Dental", "Clinics", "Salons and spas", "Barbers", "AC and maintenance", "Cleaning", "Real estate", "Car rental", "Car dealers", "Restaurants", "Fitness studios", "Tutoring centres", "Interiors", "Retail"];
 page({
   file: "ae-use-cases.html",
-  title: "Use cases | LeadQ for UAE businesses",
-  desc: "See LeadQ answer WhatsApp, web chat and email for UAE businesses, from clinics and salons to car rental and real estate, and book the appointment.",
-  ogDesc: "Pick your kind of business and watch LeadQ answer and book, on WhatsApp, web chat and email.",
+  title: "Use cases | LeadQ for UAE clinics, salons, trades and agents",
+  desc: "See how the LeadQ assistant works for your business in the UAE. Pick your industry and watch it answer WhatsApp, web chat and email, and book the appointment.",
+  ogDesc: "Pick your industry and watch LeadQ answer and book, on WhatsApp, web chat and email.",
   canonical: "https://www.leadq.co/ae-use-cases.html",
   robots: "noindex,follow",
-  bodyAttr: 'style="--c:#2dd4bf;--c2:#4d86ff"',
+  bodyAttr: 'style="--c:#2dd4bf"',
   htmlAttr: 'data-market="UAE"',
   widget: AE_WIDGET,
   navHtml: aeNavFor("use-cases"),
   footerHtml: aeFooter,
   main: `
-<section class="lit-hero">
+<section class="lit-hero uc-hero photo-host" data-industry-hero data-set="ae">
+  <div class="ph">${picture("dental", "A patient in a modern dental clinic", true)}</div>
   <div class="wrap">
-    <div class="sec-head hero-head">
-      <h1 class="h-hero">Built for how <span class="hi">your business</span> works.</h1>
-      <p class="lead">Clinics, salons, agents, showrooms, trades. LeadQ answers every WhatsApp, web chat and email in seconds, asks the right questions for your kind of business, and books the appointment. Pick yours and watch it work.</p>
-      <div class="ctas">
-        <a class="btn btn-primary btn-lg" href="#demo" data-open-chat>Book a demo</a>
-        <a class="btn btn-ghost btn-lg" href="#industries">Find your business</a>
+    <div>
+      <h1 class="h-hero" data-uc-h>Built for how clinics actually work.</h1>
+      <p class="lead" data-uc-p>It answers every WhatsApp, books the chair, and reminds them the day before. Even while you're with a patient.</p>
+      <div class="tabs" role="group" aria-label="Industry">
+        <button type="button" data-industry="dental" aria-pressed="true">Dental and clinics</button>
+        <button type="button" data-industry="salon" aria-pressed="false">Salons</button>
+        <button type="button" data-industry="home" aria-pressed="false">Home services</button>
+        <button type="button" data-industry="realestate" aria-pressed="false">Real estate</button>
       </div>
+      <div class="ctas"><a class="btn btn-primary btn-lg" href="#demo" data-open-chat>Book a demo</a><a class="btn btn-ghost btn-lg" href="ae.html#demos">Watch it work</a></div>
     </div>
+    ${phone({
+      label: "The Schedule tab in the LeadQ app, filled with this industry's bookings",
+      tab: "schedule",
+      header: scheduleHeader,
+      body: scheduleBody([["10:00", "AM", "Mariam Al Hashimi", "Consultation, Dr. Rania", "Booked, reminder sent"], ["2:30", "PM", "James Carter", "Cleaning, Dr. Omar"], ["4:00", "PM", "Priya Nair", "New patient, Dr. Rania"]], { rowCls: "uc-appt" }),
+    })}
   </div>
 </section>
 
-<section class="sec" id="industries">
+<section class="sec">
   <div class="wrap">
-    <div class="sec-head">
-      <h2 class="h-sec">Pick your kind of business.</h2>
-      <p class="lead">Each film follows a different UAE business through the real LeadQ app, about a minute each.</p>
+    <div class="sec-head"><h2 class="h-sec">See it set up for your world.</h2></div>
+    <div class="uc-tiles">
+${AE_TILES.map(([n, c, img, alt, h, sub]) => `      <a class="uc-tile" ${demoAttrs("ae", aeFilm(n), h)} style="--c:${c}"><div class="ph fade-up">${picture(img, alt)}</div><h3>${h}</h3><p class="sub">${sub}</p><span class="go">Watch the film <em aria-hidden="true">+</em></span></a>`).join("\n")}
     </div>
+    <h3 class="demo-sub">More businesses, on film</h3>
     <ol class="demo-grid">
-${AE_INDUSTRIES.map(([n, k, t]) => demoCard("ae", aeFilm(n), k, t)).join("\n")}
-    </ol>
-    <h3 class="demo-sub">By the job it does</h3>
-    <ol class="demo-grid demo-grid3">
-${AE_JOBS.map(([n, k, t]) => demoCard("ae", aeFilm(n), k, t)).join("\n")}
+${AE_MORE.map(([n, k, t]) => demoCard("ae", aeFilm(n), k, t)).join("\n")}
     </ol>
     <p class="fine demo-note">All businesses shown are fictional. The app is real.</p>
   </div>
@@ -1871,8 +1880,8 @@ ${AE_JOBS.map(([n, k, t]) => demoCard("ae", aeFilm(n), k, t)).join("\n")}
   <div class="wrap">
     <div class="sec-head"><h2 class="h-sec">The same problems, in every trade.</h2></div>
     <div class="ww">
-      <div class="without"><h3>Without LeadQ</h3><ul><li>Messages arrive while you're with a customer</li><li>WhatsApps sit unread until tonight</li><li>New leads book with whoever answers first</li></ul></div>
-      <div class="with"><h3>With LeadQ</h3><ul><li>Every message answered in seconds, day or night</li><li>Booked straight into your calendar, reminders sent</li><li>Follow-ups go out while you work</li></ul></div>
+      <div class="without"><h3>Without LeadQ</h3><ul><li>Messages arrive while you're with a customer</li><li>Messages sit unread until tonight</li><li>New leads book with whoever answers first</li></ul></div>
+      <div class="with"><h3>With LeadQ</h3><ul><li>Every message answered in seconds</li><li>Booked straight into your calendar, reminders sent</li><li>Follow-ups go out while you work</li></ul></div>
     </div>
   </div>
 </section>
@@ -1880,22 +1889,22 @@ ${AE_JOBS.map(([n, k, t]) => demoCard("ae", aeFilm(n), k, t)).join("\n")}
 <section class="sec">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="h-sec">If your customers message you, LeadQ is for you.</h2>
+      <h2 class="h-sec">If you book appointments, LeadQ is for you.</h2>
       <p class="lead">It learns any business the same way. These are just the ones we hear from most.</p>
     </div>
-    <div class="chips" role="group" aria-label="Businesses LeadQ works with"><div class="chips-run">${AE_TRADES.map((t) => `<span>${t}</span>`).join("")}${AE_TRADES.map((t) => `<span aria-hidden="true">${t}</span>`).join("")}</div></div>
+    <div class="chips" role="group" aria-label="Trades LeadQ works with"><div class="chips-run">${AE_TRADES.map((t) => `<span>${t}</span>`).join("")}${AE_TRADES.map((t) => `<span aria-hidden="true">${t}</span>`).join("")}</div></div>
   </div>
 </section>
 
 <section class="horizon">
   <div class="wrap">
-    <h2>See it with your own customers.</h2>
+    <h2>See it with your own bookings.</h2>
     <p class="lead">Book a short demo and we'll show you LeadQ answering and booking for a business like yours.</p>
     <div class="ctas"><a class="btn btn-primary btn-lg" href="#demo" data-open-chat>Book a demo</a><a class="btn btn-ghost btn-lg" href="ae.html#demos">Watch it work</a></div>
   </div>
 </section>
 
-<!-- Every card on this page opens this player. -->
+<!-- The tiles and cards on this page open this player. -->
 ${demoPlayer}`,
 });
 

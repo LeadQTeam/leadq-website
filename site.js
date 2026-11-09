@@ -481,6 +481,19 @@ const INDUSTRIES = {
     s: [["9:30", "AM", "Liam Ford", "Showing, 14 Oak St", "Booked, reminder sent"], ["12:00", "PM", "Sofia Reyes", "Buyer call, Ana", "Booked"], ["4:30", "PM", "Noah Kim", "Listing visit, 8 Elm Ave", "Booked"]] },
 };
 
+/* The UAE use-cases page (data-set="ae" on its hero): same industries, WhatsApp-market wording,
+   no calls or texts, and UAE names on the schedule. */
+const INDUSTRIES_AE = {
+  dental: { ...INDUSTRIES.dental, p: "It answers every WhatsApp, books the chair, and reminds them the day before. Even while you're with a patient.",
+    s: [["10:00", "AM", "Mariam Al Hashimi", "Consultation, Dr. Rania", "Booked, reminder sent"], ["2:30", "PM", "James Carter", "Cleaning, Dr. Omar", "Booked"], ["4:00", "PM", "Priya Nair", "New patient, Dr. Rania", "Booked"]] },
+  salon: { ...INDUSTRIES.salon, p: "It replies to every WhatsApp and DM, books the seat, and confirms the day before. Even mid-cut.",
+    s: [["11:00", "AM", "Layla Hassan", "Blow-dry, Leila", "Booked, reminder sent"], ["1:30", "PM", "Sophie Martin", "Cut and colour, Grace", "Booked"], ["3:00", "PM", "Aisha Khan", "Gel nails, Grace", "Booked"]] },
+  home: { ...INDUSTRIES.home, p: "It answers every message, books the visit, and captures the job details. Even while you're up on a roof.",
+    s: [["8:00", "AM", "Ahmed Al Mansoori", "AC service, Khalid", "Booked, reminder sent"], ["11:30", "AM", "Rajesh Menon", "AC repair, Sara", "Booked"], ["2:00", "PM", "Fatima Hassan", "Duct cleaning, Khalid", "Booked"]] },
+  realestate: { ...INDUSTRIES.realestate, p: "It answers new leads in seconds, books the viewing, and qualifies the buyer. Even while you're at a handover.",
+    s: [["9:30", "AM", "Daniel Weber", "Viewing, Dubai Hills", "Booked, reminder sent"], ["12:00", "PM", "Mei Lin", "Buyer chat, Sophie", "Booked"], ["4:30", "PM", "Omar Khalid", "Viewing, Business Bay", "Booked"]] },
+};
+
 function initIndustrySwitch() {
   const hero = $("[data-industry-hero]");
   if (!hero) return;
@@ -490,7 +503,7 @@ function initIndustrySwitch() {
   const rows = $$(".uc-appt", hero);
 
   btns.forEach((b) => b.addEventListener("click", () => {
-    const k = b.dataset.industry, d = INDUSTRIES[k];
+    const k = b.dataset.industry, d = (hero.dataset.set === "ae" ? INDUSTRIES_AE : INDUSTRIES)[k];
     if (!d || b.getAttribute("aria-pressed") === "true") return;
     btns.forEach((o) => o.setAttribute("aria-pressed", String(o === b)));
     document.body.style.setProperty("--c", d.c);
