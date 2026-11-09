@@ -361,7 +361,6 @@ const plans = `<div class="plans">
         <p class="ent-for">For multi-location businesses, larger teams and high volume. Everything in Pro, sized to how you actually run.</p>
         <div class="ent-cta">
           <a class="btn btn-white btn-lg" href="enterprise.html">Contact us<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-          <div class="ent-price"><b>Custom pricing</b><span>Quoted to your volume</span></div>
         </div>
       </div>
       <ul class="ent-pts">
