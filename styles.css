@@ -429,14 +429,20 @@ main{display:block}
 
 /* ===== enterprise ===== */
 /* The row under the plan cards matches their width in every market: three cards, two, or one
-   column on a narrow screen. */
-.ent-row{max-width:940px;margin:22px auto 0;border-radius:22px;padding:22px 26px;display:flex;align-items:center;justify-content:space-between;gap:22px;
-  background:linear-gradient(180deg,var(--tint),transparent),var(--surface);border:1px solid var(--line);box-shadow:var(--e1)}
-.ent-row h3{font-size:22px}
-.ent-row p{font-size:14.5px;color:var(--ink-3);margin-top:4px}
-.ent-row .btn{flex:none}
+   column on a narrow screen. It is the same lit blue band in both themes, so its ink is white
+   whichever theme is on. */
+.ent-row{max-width:940px;margin:26px auto 0;border-radius:24px;padding:32px 34px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:26px 32px;color:#fff;
+  background:radial-gradient(60% 150% at 100% 0%,rgba(150,225,255,.28),transparent 58%),linear-gradient(115deg,#12307f 0%,#2259dc 60%,#2570d0 100%);
+  border:1px solid rgba(255,255,255,.2);box-shadow:0 1px 0 rgba(255,255,255,.28) inset,0 34px 70px -30px rgba(47,109,246,.9)}
+.ent-row h3{font-size:clamp(32px,3.6vw,42px);line-height:1.05;letter-spacing:-.025em;color:#fff}
+.ent-row p{font-size:16px;color:rgba(255,255,255,.88);margin-top:8px}
+.ent-row .btn{box-shadow:0 14px 30px -12px rgba(5,15,60,.7)}
+.ent-pts{grid-column:1/-1;list-style:none;margin:0;padding:22px 0 0;border-top:1px solid rgba(255,255,255,.2);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 20px}
+.ent-pts li{display:flex;align-items:center;gap:12px;min-width:0;font-size:15.5px;font-weight:600;color:#fff}
+.ent-pts span{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.2)}
+.ent-pts svg{width:18px;height:18px}
 .plans[data-count="2"] + .ent-row{max-width:660px}
-@media (max-width:980px){.ent-row{max-width:460px;flex-direction:column;align-items:stretch;padding:26px 22px}}
+@media (max-width:980px){.ent-row{max-width:460px;grid-template-columns:minmax(0,1fr);padding:28px 24px}.ent-pts{grid-template-columns:minmax(0,1fr)}}
 .ent-top{text-align:center;max-width:780px;margin:0 auto 40px}
 .ent-top .h-hero{font-size:clamp(44px,6vw,80px)}
 .ent-top .lead{margin:0 auto}

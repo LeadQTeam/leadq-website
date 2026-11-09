@@ -355,8 +355,13 @@ const plans = `<div class="plans">
       </div>
     </div>
     <div class="ent-row">
-      <div><h3>Enterprise</h3><p>More locations, bigger teams, higher volume. A plan built around your business.</p></div>
-      <a class="btn btn-ghost" href="enterprise.html">Contact us</a>
+      <div><h3>Enterprise</h3><p>A plan built around your business.</p></div>
+      <a class="btn btn-white btn-lg" href="enterprise.html">Contact us</a>
+      <ul class="ent-pts">
+        <li><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></span>More locations</li>
+        <li><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Bigger teams</li>
+        <li><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></svg></span>Higher volume</li>
+      </ul>
     </div>`;
 
 /* ======================================================= HOME */
