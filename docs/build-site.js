@@ -1548,18 +1548,25 @@ const AE_DEMOS = [
   ["08-channels", "Channels", "Wherever customers message", "Oud & Amber · Dubai Mall", "0:52"],
   ["09-insights", "Insights", "Proof it’s working", "BrightPath Learning Centre · Al Barsha", "0:46"],
   ["10-account-claude", "Account & Claude", "Change it by just asking", "Frostline AC Services · Dubai", "0:45"],
+  ["11-tech-support", "Tech support", "Help, the moment they need it", "SwiftFix Electronics · Deira", "0:53"],
+  ["12-customer-support", "Customer support", "Support that never sleeps", "Dunes Home · online across the UAE", "1:01"],
+  ["13-inventory", "Inventory", "“Is it still available?”", "Marina Motors · Al Quoz", "0:56"],
+  ["14-what-leadq-does", "Why LeadQ", "What it does for your business", "Time back, lower costs, more revenue", "1:03"],
 ];
+const AE_FEATURES = 10;   /* 01–10 are features; the rest are use cases, in their own row */
 const esc = (t) => t.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
 /* With JS off every card is a plain link to its film, so nothing here depends on the player. */
 const demoAttrs = ([slug, kicker, title], i) => `href="demos/ae/${slug}.mp4" data-demo="demos/ae/${slug}.mp4" data-poster="demos/ae/${slug}.jpg" data-kicker="${esc(i ? String(i).padStart(2, "0") + " · " + kicker : kicker)}" data-title="${esc(title)}"`;
 const demoThumb = ([slug, , title, , dur], lazy = true) => `<span class="demo-thumb"><img src="demos/ae/${slug}.jpg" alt="" width="1280" height="720"${lazy ? ' loading="lazy"' : ""} decoding="async"><span class="demo-play">${I.play}</span><span class="demo-dur">${dur}</span></span>`;
 const aeDemos = (() => {
   const [ov, ...rest] = AE_DEMOS;
+  const feats = rest.slice(0, AE_FEATURES), cases = rest.slice(AE_FEATURES);
+  const card = (d, n) => `      <li><a ${demoAttrs(d, n)}>${demoThumb(d)}<span class="demo-k">${String(n).padStart(2, "0")} · ${d[1]}</span><b>${d[2]}</b><span class="demo-biz">${d[3]}</span></a></li>`;
   return `<section class="sec" id="demos">
   <div class="wrap">
     <div class="sec-head">
       <h2 class="h-sec">Watch it work.</h2>
-      <p class="lead">Start with the one-minute overview, then pick any feature. Each film follows a different kind of UAE business, from a beauty lounge in Jumeirah to a car rental in Al Quoz.</p>
+      <p class="lead">Start with the one-minute overview, then pick any feature, or see it at work in tech support, customer support and a car showroom. Each film follows a different kind of UAE business, from a beauty lounge in Jumeirah to a car rental in Al Quoz.</p>
     </div>
     <a class="demo-feature" ${demoAttrs(ov, 0)} aria-label="Play the overview, ${ov[4]}">
       ${demoThumb(ov, false)}
@@ -1571,7 +1578,11 @@ const aeDemos = (() => {
       </span>
     </a>
     <ol class="demo-grid">
-${rest.map((d, i) => `      <li><a ${demoAttrs(d, i + 1)}>${demoThumb(d)}<span class="demo-k">${String(i + 1).padStart(2, "0")} · ${d[1]}</span><b>${d[2]}</b><span class="demo-biz">${d[3]}</span></a></li>`).join("\n")}
+${feats.map((d, i) => card(d, i + 1)).join("\n")}
+    </ol>
+    <h3 class="demo-sub">Use cases</h3>
+    <ol class="demo-grid demo-grid4">
+${cases.map((d, i) => card(d, AE_FEATURES + i + 1)).join("\n")}
     </ol>
     <p class="fine demo-note">All businesses shown are fictional. The app is real.</p>
   </div>
