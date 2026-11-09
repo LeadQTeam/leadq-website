@@ -1371,7 +1371,7 @@ main{display:block}
   box-shadow:0 0 0 7px color-mix(in srgb,var(--accent) 24%, transparent), 0 16px 28px -10px rgba(0,0,0,.75)}
 .demo-play svg{width:18px;height:18px;margin-left:3px}
 /* the overview's poster has the clock on the left and the phone in the middle, so its button sits in the empty corner */
-.demo-feature .demo-play{left:auto;top:auto;right:clamp(18px,3vw,36px);bottom:clamp(18px,3vw,36px);transform:none;width:76px;height:76px;box-shadow:0 0 0 10px color-mix(in srgb,var(--accent) 22%, transparent), 0 24px 40px -14px rgba(0,0,0,.8)}
+.demo-feature .demo-play{width:76px;height:76px;box-shadow:0 0 0 10px color-mix(in srgb,var(--accent) 22%, transparent), 0 24px 40px -14px rgba(0,0,0,.8)}
 .demo-feature .demo-play svg{width:30px;height:30px;margin-left:4px}
 .demo-dur{position:absolute;right:10px;bottom:10px;z-index:1;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:11.5px;font-weight:600;
   color:#eef2f8;background:rgba(5,8,14,.78);border:1px solid rgba(255,255,255,.12);padding:3px 8px;border-radius:999px;line-height:1.3}
@@ -1381,7 +1381,6 @@ main{display:block}
   .demo-play{transition:transform .25s cubic-bezier(.2,.7,.2,1)}
   a:hover>.demo-thumb img,a:focus-visible>.demo-thumb img{transform:scale(1.04)}
   a:hover>.demo-thumb .demo-play,a:focus-visible>.demo-thumb .demo-play{transform:translate(-50%,-50%) scale(1.1)}
-  .demo-feature:hover .demo-play,.demo-feature:focus-visible .demo-play{transform:scale(1.08)}
 }
 .demo-k{display:block;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink);margin:14px 0 6px}
 .demo-feature .demo-k{margin-top:0;font-size:12.5px}
