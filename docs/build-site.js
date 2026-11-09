@@ -560,7 +560,7 @@ page({
       <p class="lead">Every message you miss is a job someone else books. LeadQ answers ${mkt("WhatsApp, texts, web chat, email and your phone line", "WhatsApp, web chat and email")} in seconds, then books the appointment. At midnight, on a Sunday, or while you are with a customer.</p>
       <div class="ctas">
         <a class="btn btn-primary btn-lg" href="${SIGNUP}">Try it Free</a>
-        <a class="btn btn-ghost btn-lg btn-play" href="#how" data-video>${I.play}See it work</a>
+        <a class="btn btn-ghost btn-lg btn-play" href="#how" data-video>${I.play}What is LeadQ?</a>
       </div>
       <p class="fine">Set it up in minutes. No AI knowledge needed. 7-day&nbsp;free&nbsp;trial.</p>
     </div>
@@ -1662,7 +1662,7 @@ page({
       <p class="lead">Here, business happens on WhatsApp. LeadQ answers WhatsApp, web chat and email in seconds, then books the appointment. At midnight, on a weekend, or while you are with a customer.</p>
       <div class="ctas">
         <a class="btn btn-primary btn-lg" href="#demo" data-open-chat>Book a demo</a>
-        <a class="btn btn-ghost btn-lg btn-play" ${demoAttrs("ae", AE_DEMOS.find((d) => d[0].startsWith("14-")), "Start here").replace(/^href="[^"]*"/, 'href="#demos"')}>${I.play}See it work</a>
+        <a class="btn btn-ghost btn-lg btn-play" href="#how" data-video>${I.play}What is LeadQ?</a>
       </div>
     </div>
   </div>
@@ -1763,8 +1763,19 @@ ${aeDemos}
   </div>
 </section>
 
-<!-- The hero's "See it work" and every card in #demos open this one player. It replaced the
-     single film modal (leadq-video-ae.mp4), which the overview supersedes. -->
+<!-- The hero's "What is LeadQ?" button plays the UAE cut of the LeadQ film (leadq-video-ae.mp4); the home page's
+     names SMS and the phone line. initVideo() binds whatever [data-video] and .vmodal it finds, and with
+     JS off the button keeps its href. Keep this film: the demo library below does not replace it. -->
+<dialog class="vmodal" aria-label="See LeadQ work">
+  <div class="vmodal-in">
+    <button class="vmodal-x" type="button" aria-label="Close video">${I.x}</button>
+    <video class="vmodal-v" controls playsinline preload="none" poster="img/video-poster-ae.jpg" width="1920" height="1080">
+      <source src="leadq-video-ae.mp4" type="video/mp4">
+    </video>
+  </div>
+</dialog>
+
+<!-- Every card in #demos opens this player. -->
 ${aeDemoPlayer}`,
 });
 

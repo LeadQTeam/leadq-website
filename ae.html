@@ -53,7 +53,7 @@
       <p class="lead">Here, business happens on WhatsApp. LeadQ answers WhatsApp, web chat and email in seconds, then books the appointment. At midnight, on a weekend, or while you are with a customer.</p>
       <div class="ctas">
         <a class="btn btn-primary btn-lg" href="#demo" data-open-chat>Book a demo</a>
-        <a class="btn btn-ghost btn-lg btn-play" href="#demos" data-demo="demos/ae/14-what-leadq-does.mp4" data-poster="demos/ae/14-what-leadq-does.jpg" data-kicker="Start here" data-title="What it does for your business"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>See it work</a>
+        <a class="btn btn-ghost btn-lg btn-play" href="#how" data-video><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>What is LeadQ?</a>
       </div>
     </div>
   </div>
@@ -215,8 +215,19 @@
   </div>
 </section>
 
-<!-- The hero's "See it work" and every card in #demos open this one player. It replaced the
-     single film modal (leadq-video-ae.mp4), which the overview supersedes. -->
+<!-- The hero's "What is LeadQ?" button plays the UAE cut of the LeadQ film (leadq-video-ae.mp4); the home page's
+     names SMS and the phone line. initVideo() binds whatever [data-video] and .vmodal it finds, and with
+     JS off the button keeps its href. Keep this film: the demo library below does not replace it. -->
+<dialog class="vmodal" aria-label="See LeadQ work">
+  <div class="vmodal-in">
+    <button class="vmodal-x" type="button" aria-label="Close video"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <video class="vmodal-v" controls playsinline preload="none" poster="img/video-poster-ae.jpg" width="1920" height="1080">
+      <source src="leadq-video-ae.mp4" type="video/mp4">
+    </video>
+  </div>
+</dialog>
+
+<!-- Every card in #demos opens this player. -->
 <dialog class="dmodal" aria-label="LeadQ demo">
   <div class="dmodal-in">
     <button class="vmodal-x dmodal-x" type="button" aria-label="Close video"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
