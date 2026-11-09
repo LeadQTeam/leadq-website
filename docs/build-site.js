@@ -487,7 +487,7 @@ const demoPlayer = `<dialog class="dmodal" aria-label="LeadQ demo">
   </div>
 </dialog>`;
 const NA_DEMOS = [
-  ["00-overview", "Overview", "LeadQ in one minute", "Coolwave Heating & Air · Phoenix", "1:01"],
+  ["00-overview", "Overview", "LeadQ in one minute", "Coolwave Heating & Air · Phoenix", "1:04"],
   ["01-set-up-in-minutes", "Set up in minutes", "Go live in an afternoon", "Willow Beauty Bar · Austin", "0:51"],
   ["02-persona", "Persona", "Sounds like you", "Harbor & Vine · Boston", "0:58"],
   ["03-knowledge-base", "Knowledge base", "Answers it can stand behind", "Keystone Realty · Toronto", "1:03"],
@@ -501,7 +501,7 @@ const NA_DEMOS = [
   ["11-tech-support", "Tech support", "Help, the moment they need it", "FixPoint Electronics · Houston", "0:50"],
   ["12-customer-support", "Customer support", "Support that never sleeps", "Northwood Home · online, US and Canada", "0:58"],
   ["13-inventory", "Inventory", "“Is it still available?”", "Lakeside Motors · Dallas", "0:53"],
-  ["14-what-leadq-does", "Why LeadQ", "What it does for your business", "Time back, lower costs, more revenue", "1:01"],
+  ["14-what-leadq-does", "Why LeadQ", "What it does for your business", "Time back, lower costs, more revenue", "1:03"],
 ];
 /* North American films only: visitors the site treats as a WhatsApp market get the section hidden, like the rest of the NA-only copy. */
 const naDemos = demoSection("na", NA_DEMOS, {
