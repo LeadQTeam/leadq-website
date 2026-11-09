@@ -431,33 +431,39 @@ const homeFaq = [
    ending on the distributor's contact card). Each folder holds the films and a poster frame per film. */
 const esc = (t) => t.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
 /* With JS off every card is a plain link to its film, so nothing here depends on the player. */
-const demoAttrs = (dir, [slug, kicker, title], i) => `href="demos/${dir}/${slug}.mp4" data-demo="demos/${dir}/${slug}.mp4" data-poster="demos/${dir}/${slug}.jpg" data-kicker="${esc(i ? String(i).padStart(2, "0") + " · " + kicker : kicker)}" data-title="${esc(title)}"`;
+const demoAttrs = (dir, [slug, , title], kick) => `href="demos/${dir}/${slug}.mp4" data-demo="demos/${dir}/${slug}.mp4" data-poster="demos/${dir}/${slug}.jpg" data-kicker="${esc(kick)}" data-title="${esc(title)}"`;
 const demoThumb = (dir, [slug, , title, , dur], lazy = true) => `<span class="demo-thumb"><img src="demos/${dir}/${slug}.jpg" alt="" width="1280" height="720"${lazy ? ' loading="lazy"' : ""} decoding="async"><span class="demo-play">${I.play}</span><span class="demo-dur">${dur}</span></span>`;
-function demoSection(dir, films, nFeatures, { lead, ov: ovCopy, attrs = "" }) {
-  const [ov, ...rest] = films;
-  const feats = rest.slice(0, nFeatures), cases = rest.slice(nFeatures);
-  const card = (d, n) => `      <li><a ${demoAttrs(dir, d, n)}>${demoThumb(dir, d)}<span class="demo-k">${String(n).padStart(2, "0")} · ${d[1]}</span><b>${d[2]}</b><span class="demo-biz">${d[3]}</span></a></li>`;
+/* Order of viewing: the one-minute "what it does for your business" film is the one every visitor
+   should see, so it leads; the overview and the use cases come next; the ten feature films are the
+   detail, for whoever wants it. The player's Next button follows the same order. */
+function demoSection(dir, films, { lead, why: whyCopy, attrs = "" }) {
+  const by = (n) => films.find((d) => d[0].startsWith(n + "-"));
+  const why = by("14");
+  const intro = [by("00"), by("11"), by("12"), by("13")];
+  const feats = films.filter((d) => /^(0[1-9]|10)-/.test(d[0]));
+  const card = (d, kick) => `      <li><a ${demoAttrs(dir, d, kick)}>${demoThumb(dir, d)}<span class="demo-k">${kick}</span><b>${d[2]}</b><span class="demo-biz">${d[3]}</span></a></li>`;
   return `<section class="sec" id="demos"${attrs}>
   <div class="wrap">
     <div class="sec-head">
       <h2 class="h-sec">Watch it work.</h2>
       <p class="lead">${lead}</p>
     </div>
-    <a class="demo-feature" ${demoAttrs(dir, ov, 0)} aria-label="Play the overview, ${ov[4]}">
-      ${demoThumb(dir, ov, false)}
+    <a class="demo-feature" ${demoAttrs(dir, why, "Start here")} aria-label="Play: ${esc(why[2])}, ${why[4]}">
+      ${demoThumb(dir, why, false)}
       <span class="demo-copy">
-        <span class="demo-k">Overview · ${ov[4]}</span>
-        <b>${ov[2]}</b>
-        <span class="demo-p">${ovCopy}</span>
-        <span class="demo-biz">Featuring ${ov[3]}</span>
+        <span class="demo-k">Start here · ${why[4]}</span>
+        <b>${why[2]}</b>
+        <span class="demo-p">${whyCopy}</span>
+        <span class="demo-biz">Time back · Lower costs · More revenue</span>
       </span>
     </a>
-    <ol class="demo-grid">
-${feats.map((d, i) => card(d, i + 1)).join("\n")}
-    </ol>
-    <h3 class="demo-sub">Use cases</h3>
+    <h3 class="demo-sub">See it in action</h3>
     <ol class="demo-grid demo-grid4">
-${cases.map((d, i) => card(d, nFeatures + i + 1)).join("\n")}
+${intro.map((d) => card(d, d[1])).join("\n")}
+    </ol>
+    <h3 class="demo-sub">Feature by feature</h3>
+    <ol class="demo-grid">
+${feats.map((d, i) => card(d, String(i + 1).padStart(2, "0") + " · " + d[1])).join("\n")}
     </ol>
     <p class="fine demo-note">All businesses shown are fictional. The app is real.</p>
   </div>
@@ -491,9 +497,9 @@ const NA_DEMOS = [
   ["14-what-leadq-does", "Why LeadQ", "What it does for your business", "Time back, lower costs, more revenue", "1:01"],
 ];
 /* North American films only: visitors the site treats as a WhatsApp market get the section hidden, like the rest of the NA-only copy. */
-const naDemos = demoSection("na", NA_DEMOS, 10, {
-  lead: "Start with the one-minute overview, then pick any feature, or see it at work in tech support, customer support and a car dealership. Each film follows a different kind of business, from a beauty bar in Austin to a car rental in Miami.",
-  ov: "Ten at night in Phoenix, the office closed hours ago, and the customer still gets an answer and a booking.",
+const naDemos = demoSection("na", NA_DEMOS, {
+  lead: "Start with one minute on what LeadQ does for your business. Then see it in action, or go feature by feature. Each film follows a different kind of business, from a beauty bar in Austin to a car dealer in Dallas.",
+  why: "Every missed message is a missed customer. See how LeadQ gives you time back, keeps running costs down and wins you more bookings.",
   attrs: " data-na-only",
 });
 
@@ -1629,10 +1635,9 @@ const AE_DEMOS = [
   ["13-inventory", "Inventory", "“Is it still available?”", "Marina Motors · Al Quoz", "0:56"],
   ["14-what-leadq-does", "Why LeadQ", "What it does for your business", "Time back, lower costs, more revenue", "1:03"],
 ];
-const AE_FEATURES = 10;   /* 01–10 are features; the rest are use cases, in their own row */
-const aeDemos = demoSection("ae", AE_DEMOS, AE_FEATURES, {
-  lead: "Start with the one-minute overview, then pick any feature, or see it at work in tech support, customer support and a car showroom. Each film follows a different kind of UAE business, from a beauty lounge in Jumeirah to a car rental in Al Quoz.",
-  ov: "Ten at night in Dubai, the office closed hours ago, and the customer still gets an answer and a booking.",
+const aeDemos = demoSection("ae", AE_DEMOS, {
+  lead: "Start with one minute on what LeadQ does for your business. Then see it in action, or go feature by feature. Each film follows a different kind of UAE business, from a beauty lounge in Jumeirah to a car showroom in Al Quoz.",
+  why: "Every missed message is a missed customer. See how LeadQ gives you time back, keeps running costs down and wins you more bookings.",
 });
 const aeDemoPlayer = demoPlayer;
 
@@ -1657,7 +1662,7 @@ page({
       <p class="lead">Here, business happens on WhatsApp. LeadQ answers WhatsApp, web chat and email in seconds, then books the appointment. At midnight, on a weekend, or while you are with a customer.</p>
       <div class="ctas">
         <a class="btn btn-primary btn-lg" href="#demo" data-open-chat>Book a demo</a>
-        <a class="btn btn-ghost btn-lg btn-play" ${demoAttrs("ae", AE_DEMOS[0], 0).replace(/^href="[^"]*"/, 'href="#demos"')}>${I.play}See it work</a>
+        <a class="btn btn-ghost btn-lg btn-play" ${demoAttrs("ae", AE_DEMOS.find((d) => d[0].startsWith("14-")), "Start here").replace(/^href="[^"]*"/, 'href="#demos"')}>${I.play}See it work</a>
       </div>
     </div>
   </div>
