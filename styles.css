@@ -429,20 +429,38 @@ main{display:block}
 
 /* ===== enterprise ===== */
 /* The row under the plan cards matches their width in every market: three cards, two, or one
-   column on a narrow screen. It is the same lit blue band in both themes, so its ink is white
-   whichever theme is on. */
-.ent-row{max-width:940px;margin:26px auto 0;border-radius:24px;padding:32px 34px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:26px 32px;color:#fff;
-  background:radial-gradient(60% 150% at 100% 0%,rgba(150,225,255,.28),transparent 58%),linear-gradient(115deg,#12307f 0%,#2259dc 60%,#2570d0 100%);
-  border:1px solid rgba(255,255,255,.2);box-shadow:0 1px 0 rgba(255,255,255,.28) inset,0 34px 70px -30px rgba(47,109,246,.9)}
-.ent-row h3{font-size:clamp(32px,3.6vw,42px);line-height:1.05;letter-spacing:-.025em;color:#fff}
-.ent-row p{font-size:16px;color:rgba(255,255,255,.88);margin-top:8px}
-.ent-row .btn{box-shadow:0 14px 30px -12px rgba(5,15,60,.7)}
-.ent-pts{grid-column:1/-1;list-style:none;margin:0;padding:22px 0 0;border-top:1px solid rgba(255,255,255,.2);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 20px}
-.ent-pts li{display:flex;align-items:center;gap:12px;min-width:0;font-size:15.5px;font-weight:600;color:#fff}
-.ent-pts span{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.2)}
-.ent-pts svg{width:18px;height:18px}
-.plans[data-count="2"] + .ent-row{max-width:660px}
-@media (max-width:980px){.ent-row{max-width:460px;grid-template-columns:minmax(0,1fr);padding:28px 24px}.ent-pts{grid-template-columns:minmax(0,1fr)}}
+   column on a narrow screen. It is the same night panel in both themes, so its colours are fixed
+   here rather than read from the theme tokens. */
+.ent-row{position:relative;isolation:isolate;max-width:940px;margin:26px auto 0;border-radius:24px;padding:38px 32px 38px 38px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.14fr);align-items:center;gap:30px;color:#fff;
+  border:1px solid transparent;
+  background:radial-gradient(62% 95% at 0% 0%,rgba(47,109,246,.5),transparent 72%) padding-box,radial-gradient(46% 70% at 100% 100%,rgba(22,150,170,.22),transparent 72%) padding-box,linear-gradient(#0c1426,#0c1426) padding-box,
+    linear-gradient(115deg,rgba(77,134,255,.75),rgba(77,134,255,.22) 38%,rgba(169,140,240,.6) 64%,rgba(56,200,235,.9)) border-box;
+  box-shadow:0 34px 70px -30px rgba(47,109,246,.85)}
+.ent-row::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:30px 30px;
+  -webkit-mask-image:radial-gradient(70% 100% at 12% 25%,#000,transparent 78%);mask-image:radial-gradient(70% 100% at 12% 25%,#000,transparent 78%)}
+.ent-l{min-width:0}
+.ent-row h3{font-size:clamp(46px,5.4vw,58px);line-height:1;letter-spacing:-.035em;font-weight:700;background:linear-gradient(95deg,#fff 42%,#bcd0ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.ent-tag{font-size:17.5px;color:#e8eefb;margin-top:12px}
+.ent-for{font-size:14.5px;line-height:1.55;color:#a3afc2;margin-top:9px}
+.ent-cta{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin-top:22px}
+.ent-cta .btn{box-shadow:0 0 0 4px rgba(255,255,255,.1),0 14px 30px -12px rgba(120,160,255,.65)}
+.ent-cta .btn svg{width:16px;height:16px}
+.ent-price{display:grid;gap:1px;font-size:13px;color:#a3afc2}
+.ent-price b{font-size:13.5px;font-weight:600;color:#fff}
+.ent-pts{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:1fr;gap:10px;min-width:0}
+.ent-pts li{min-width:0;display:grid;align-content:start;padding:15px;border-radius:15px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);font-size:12.5px;line-height:1.4;color:#a3afc2}
+.ent-pts li:nth-child(1){--a:#2a86ff;--b:#1fb0f5}
+.ent-pts li:nth-child(2){--a:#6d55ee;--b:#9a6cf6}
+.ent-pts li:nth-child(3){--a:#10a9c9;--b:#27c8d8}
+.ent-pts li:nth-child(4){--a:#3f68ee;--b:#6c83f7}
+.ent-ic{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;color:#fff;background:linear-gradient(135deg,var(--a),var(--b));box-shadow:0 8px 20px -8px var(--a);margin-bottom:11px}
+.ent-ic svg{width:18px;height:18px}
+.ent-pts b{font-size:15px;font-weight:650;color:#fff;margin-bottom:3px}
+.ent-pts small{font-size:inherit}
+.plans[data-count="2"] + .ent-row{max-width:660px;grid-template-columns:minmax(0,1fr)}
+@media (max-width:980px){.ent-row{max-width:460px;grid-template-columns:minmax(0,1fr);padding:30px 22px}}
+@media (max-width:440px){.ent-pts{grid-template-columns:minmax(0,1fr)}.ent-pts li{grid-template-columns:36px minmax(0,1fr);column-gap:12px;padding:13px}.ent-ic{grid-row:1/3;margin:0}.ent-pts b,.ent-pts small{grid-column:2}}
 .ent-top{text-align:center;max-width:780px;margin:0 auto 40px}
 .ent-top .h-hero{font-size:clamp(44px,6vw,80px)}
 .ent-top .lead{margin:0 auto}
