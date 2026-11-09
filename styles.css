@@ -689,7 +689,7 @@ main{display:block}
 .horizon{position:relative;isolation:isolate;overflow:hidden;text-align:center;padding:calc(var(--sec-gap) / 2) 0}
 .horizon::before{content:"";position:absolute;left:50%;bottom:-320px;width:1200px;height:620px;transform:translateX(-50%);z-index:-1;border-radius:50%;
   background:radial-gradient(closest-side, color-mix(in srgb,var(--c) 48%, transparent), transparent)}
-.horizon::after{content:"";position:absolute;left:0;right:0;bottom:120px;height:1px;z-index:-1;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--c) 45%, transparent),transparent)}
+.horizon::after{content:"";position:absolute;left:0;right:0;bottom:calc(var(--sec-gap) / 4);height:1px;z-index:-1;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--c) 45%, transparent),transparent)}
 .horizon h2{font-size:clamp(44px,7vw,92px);line-height:.92;font-stretch:78%;letter-spacing:-.045em;max-width:14ch;margin:0 auto}
 .horizon .lead{margin:22px auto 0;max-width:46ch}
 .horizon .ctas{justify-content:center}

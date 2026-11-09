@@ -446,7 +446,8 @@ const demoCard = (dir, d, kick, title = d[2], biz = d[3]) => `      <li><a ${dem
 function demoSection(dir, films, { lead, why: whyCopy, attrs = "" }) {
   const by = (n) => films.find((d) => d[0].startsWith(n + "-"));
   const why = by("14");
-  const intro = [by("00"), by("11"), by("12"), by("13")];
+  // The AI receptionist film is North American only (the UAE edition has no phone line), so it drops out there.
+  const intro = [by("00"), by("15"), by("11"), by("12"), by("13")].filter(Boolean);
   const feats = films.filter((d) => /^(0[1-9]|10)-/.test(d[0]));
   const card = (d, kick) => `      <li><a ${demoAttrs(dir, d, kick)}>${demoThumb(dir, d)}<span class="demo-k">${kick}</span><b>${d[2]}</b><span class="demo-biz">${d[3]}</span></a></li>`;
   return `<section class="sec" id="demos"${attrs}>
@@ -465,7 +466,7 @@ function demoSection(dir, films, { lead, why: whyCopy, attrs = "" }) {
       </span>
     </a>
     <h3 class="demo-sub">See it in action</h3>
-    <ol class="demo-grid demo-grid4">
+    <ol class="demo-grid${intro.length === 4 ? " demo-grid4" : ""}">
 ${intro.map((d) => card(d, d[1])).join("\n")}
     </ol>
     <h3 class="demo-sub">Feature by feature</h3>
@@ -502,6 +503,7 @@ const NA_DEMOS = [
   ["12-customer-support", "Customer support", "Support that never sleeps", "Northwood Home · online, US and Canada", "0:58"],
   ["13-inventory", "Inventory", "“Is it still available?”", "Lakeside Motors · Dallas", "0:53"],
   ["14-what-leadq-does", "Why LeadQ", "What it does for your business", "Time back, lower costs, more revenue", "1:03"],
+  ["15-ai-receptionist", "AI receptionist", "Every call, answered", "Ridgeline Plumbing · Denver", "1:14"],
 ];
 /* North American films only: visitors the site treats as a WhatsApp market get the section hidden, like the rest of the NA-only copy. */
 const naDemos = demoSection("na", NA_DEMOS, {
@@ -1189,10 +1191,11 @@ const naFilm = (n) => NA_DEMOS.find((d) => d[0].startsWith(n + "-"));
 const NA_TILES = [
   ["04", "#2dd4bf", "dental", "A patient in a modern dental clinic", "Dental and clinics", "Fill chairs, cut no-shows"],
   ["01", "#f27eb4", "salon", "A stylist working in a hair salon", "Salons", "Reply while your hands are full"],
-  ["00", "#f5a524", "home", "A technician on a home services job", "Home services", "Book jobs from the field"],
+  ["15", "#f5a524", "home", "A technician on a home services job", "Home services", "Book jobs from the field"],
   ["03", "#7dd3fc", "realestate", "A modern home exterior for sale", "Real estate", "Answer leads in seconds"],
 ];
 const NA_MORE = [
+  ["00", "Heating and cooling", "Answered at 10 PM, booked by morning"],
   ["02", "Restaurants", "Reservations in your own voice"],
   ["05", "Car rental", "Every inquiry, qualified"],
   ["06", "Fitness", "Classes and PT sessions, filled"],
