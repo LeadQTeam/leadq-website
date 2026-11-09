@@ -437,7 +437,11 @@ const homeFaq = [
    ending on the distributor's contact card). Each folder holds the films and a poster frame per film. */
 const esc = (t) => t.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
 /* With JS off every card is a plain link to its film, so nothing here depends on the player. */
-const demoAttrs = (dir, [slug, , title], kick) => `href="demos/${dir}/${slug}.mp4" data-demo="demos/${dir}/${slug}.mp4" data-poster="demos/${dir}/${slug}.jpg" data-kicker="${esc(kick)}" data-title="${esc(title)}"`;
+/* The films are served from the LeadQTeam/leadq-media repo's own Pages site, not from this repo:
+   256 MB of video made this site's deploys time out. The .mp4 files still sit in demos/ and at the
+   root on your machine (git ignores them); docs/push-media.bat uploads new or replaced ones. Posters stay here. */
+const MEDIA = "https://leadqteam.github.io/leadq-media/";
+const demoAttrs = (dir, [slug, , title], kick) => `href="${MEDIA}demos/${dir}/${slug}.mp4" data-demo="${MEDIA}demos/${dir}/${slug}.mp4" data-poster="demos/${dir}/${slug}.jpg" data-kicker="${esc(kick)}" data-title="${esc(title)}"`;
 const demoThumb = (dir, [slug, , title, , dur], lazy = true) => `<span class="demo-thumb"><img src="demos/${dir}/${slug}.jpg" alt="" width="1280" height="720"${lazy ? ' loading="lazy"' : ""} decoding="async"><span class="demo-play">${I.play}</span><span class="demo-dur">${dur}</span></span>`;
 /* Order of viewing: the one-minute "what it does for your business" film is the one every visitor
    should see, so it leads; the overview and the use cases come next; the ten feature films are the
@@ -893,7 +897,7 @@ ${demoPlayer}
   <div class="vmodal-in">
     <button class="vmodal-x" type="button" aria-label="Close video">${I.x}</button>
     <video class="vmodal-v" controls playsinline preload="none" poster="img/video-poster.jpg" width="1920" height="1080">
-      <source src="leadq-video.mp4" type="video/mp4">
+      <source src="${MEDIA}leadq-video.mp4" type="video/mp4">
     </video>
   </div>
 </dialog>`,
@@ -1828,7 +1832,7 @@ ${aeDemos}
   <div class="vmodal-in">
     <button class="vmodal-x" type="button" aria-label="Close video">${I.x}</button>
     <video class="vmodal-v" controls playsinline preload="none" poster="img/video-poster-ae.jpg" width="1920" height="1080">
-      <source src="leadq-video-ae.mp4" type="video/mp4">
+      <source src="${MEDIA}leadq-video-ae.mp4" type="video/mp4">
     </video>
   </div>
 </dialog>

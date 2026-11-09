@@ -1,1 +1,4 @@
 test/shots/
+
+# Videos are served from LeadQTeam/leadq-media (see docs/push-media.bat); keep them here locally only.
+*.mp4
