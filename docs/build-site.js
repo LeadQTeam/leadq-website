@@ -343,7 +343,7 @@ const plans = `<div class="plans">
       <div class="plan" data-plan="starter">
         <h3 data-plan-name="starter">Starter</h3><p class="for">Solo, or just trying it out</p>
         <div class="amt"><span data-price="starter">$59</span><small> <span data-code>USD</span> /mo</small></div>
-        <ul><li><span data-cell="starter.credits">20,000</span> credits a month</li><li data-na-only>1 seat</li><li data-na-only>1 text-based channel (no voice)</li><li data-wa-only hidden>3 seats</li><li data-wa-only hidden>1 channel</li><li>Booking, calendar and reminders</li><li>Calendar sync with Google and Outlook</li><li data-wa-only hidden>Follow-ups, custom fields, profiles</li><li>Assistant, FAQ and lead capture</li></ul>
+        <ul><li><span data-cell="starter.credits">20,000</span> credits a month</li><li data-na-only>1 seat</li><li data-na-only>1 text-based channel (no voice)</li><li data-wa-only hidden>3 seats</li><li data-wa-only hidden>1 channel</li><li>Booking, calendar and reminders</li><li>Calendar sync with Google and Outlook</li><li>Follow-ups, custom fields, profiles</li><li>Assistant, FAQ and lead capture</li></ul>
         <a class="btn btn-ghost btn-block" href="${SIGNUP}&plan=starter">Choose Starter</a>
       </div>
       <div class="plan hot" data-plan="growth">
@@ -929,7 +929,7 @@ page({
           <tr><th scope="row">Channels</th><td data-cell="starter.channels">1</td><td data-plan="growth" class="hot" data-cell="growth.channels">3</td><td data-pro-channels>All</td></tr>
           <tr><th scope="row">Assistant, FAQ and lead capture</th><td>${yes}</td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
           <tr><th scope="row">Booking, calendar and reminders</th><td>${yes}</td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
-          <tr><th scope="row">Follow-ups, custom fields, profiles</th><td><span data-na-only>${no}</span><span data-wa-only hidden>${yes}</span></td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
+          <tr><th scope="row">Follow-ups, custom fields, profiles</th><td>${yes}</td><td data-plan="growth" class="hot">${yes}</td><td>${yes}</td></tr>
           <tr><th scope="row">Contact Summary</th><td>${no}</td><td data-plan="growth" class="hot">${no}</td><td>${yes}</td></tr>
           <tr><th scope="row">Insights and reporting</th><td>${no}</td><td data-plan="growth" class="hot">${no}</td><td>${yes}</td></tr>
           <tr><th scope="row">Claude connector</th><td>${no}</td><td data-plan="growth" class="hot">${no}</td><td>${yes}</td></tr>
