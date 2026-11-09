@@ -215,6 +215,8 @@ const picture = (name, alt, eager) =>
 
 const NAV_LINKS = [
   ["index.html#how", "How it works", "how"],
+  // "na": the demo films are the North American cut, shown only where that copy is shown.
+  ["index.html#demos", "Watch it work", "demos", "na"],
   ["use-cases.html", "Use cases", "use-cases"],
   ["pricing.html", "Pricing", "pricing"],
   // The fourth field marks a link that only exists where voice may be sold. The UAE does not
@@ -225,7 +227,7 @@ const NAV_LINKS = [
 
 function nav(current, { voice = false } = {}) {
   const links = NAV_LINKS.map(([href, text, key, needs]) =>
-    `<a href="${href}"${key === current ? ' aria-current="page"' : ""}${needs === "voice" ? " data-needs-voice" : ""}>${text}</a>`).join("");
+    `<a href="${href}"${key === current ? ' aria-current="page"' : ""}${needs === "voice" ? " data-needs-voice" : needs === "na" ? " data-na-only" : ""}>${text}</a>`).join("");
   const cta = voice
     ? `<a class="btn btn-voice btn-sm" href="${SIGNUP}&plan=pro">Get Pro</a>`
     : `<a class="btn btn-primary btn-sm" href="${SIGNUP}">Try it Free</a>`;
@@ -436,6 +438,7 @@ const demoThumb = (dir, [slug, , title, , dur], lazy = true) => `<span class="de
 /* Order of viewing: the one-minute "what it does for your business" film is the one every visitor
    should see, so it leads; the overview and the use cases come next; the ten feature films are the
    detail, for whoever wants it. The player's Next button follows the same order. */
+const demoCard = (dir, d, kick, title = d[2], biz = d[3]) => `      <li><a ${demoAttrs(dir, d, kick)}>${demoThumb(dir, d)}<span class="demo-k">${kick}</span><b>${title}</b><span class="demo-biz">${biz}</span></a></li>`;
 function demoSection(dir, films, { lead, why: whyCopy, attrs = "" }) {
   const by = (n) => films.find((d) => d[0].startsWith(n + "-"));
   const why = by("14");
@@ -1566,7 +1569,21 @@ legal("terms-of-service.html", "Terms of Service", "Last updated: 2026", "LeadQ'
    Not in sitemap.xml and noindex on purpose: it would otherwise compete with the real home page
    for UAE search traffic while showing no prices, and the arrangement is not exclusive, so
    LeadQ's own direct UAE visitors should still land on the normal site. */
-const AE_NAV_LINKS = '<a href="#how">How it works</a><a href="#demos">Watch it work</a><a href="#included">What you get</a><a href="#faq">Questions</a>';
+const AE_NAV = [["ae.html#how", "How it works"], ["ae.html#demos", "Watch it work"], ["ae-use-cases.html", "Use cases", "use-cases"], ["ae.html#included", "What you get"], ["ae.html#faq", "Questions"]];
+const aeLinks = (current) => AE_NAV.map(([h, t, k]) => `<a href="${h}"${k && k === current ? ' aria-current="page"' : ""}>${t}</a>`).join("");
+const AE_NAV_LINKS = aeLinks();
+const aeNavFor = (current) => `<header class="nav">
+  <div class="nav-pill">
+    <a class="brand" href="ae.html" aria-label="LeadQ">${wordmark()}</a>
+    <nav class="nav-links" aria-label="Main">${aeLinks(current)}</nav>
+    <div class="nav-actions">
+      <a class="btn btn-ghost btn-sm login" href="${APP}">Log in</a>
+      <a class="btn btn-primary btn-sm" href="#demo" data-open-chat>Book a demo</a>
+      <button class="nav-menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav-sheet">${I.menu}</button>
+    </div>
+    <div class="nav-sheet" id="nav-sheet" hidden>${aeLinks(current)}<a href="${APP}">Log in</a></div>
+  </div>
+</header>`;
 const aeNav = `<header class="nav">
   <div class="nav-pill">
     <a class="brand" href="ae.html" aria-label="LeadQ">${wordmark()}</a>
@@ -1588,7 +1605,7 @@ const aeFooter = `<footer class="footer">
         <p class="footer-tag">Answered. Booked. While you work.</p>
       </div>
       <nav class="footer-links" aria-label="Footer">
-        <a href="#how">How it works</a><a href="#demos">Watch it work</a><a href="#included">What you get</a><a href="#faq">Questions</a><a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a>
+        ${AE_NAV_LINKS}<a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a>
       </nav>
     </div>
     <div class="footer-legal">&copy; 2026 LeadQ Inc.</div>
@@ -1777,6 +1794,105 @@ ${aeDemos}
 
 <!-- Every card in #demos opens this player. -->
 ${aeDemoPlayer}`,
+});
+
+
+/* ======================================================= UAE USE CASES (ae-use-cases.html)
+   The UAE twin of use-cases.html, under the same rules as ae.html: no prices, no signup or
+   pricing links, only the three UAE channels, "Book a demo" as the one call to action, and
+   noindex/out of the sitemap. Each card plays a UAE film; the industry is the way in. */
+const aeFilm = (n) => AE_DEMOS.find((d) => d[0].startsWith(n + "-"));
+const AE_INDUSTRIES = [
+  ["00", "Home services", "The 10 PM AC emergency, answered"],
+  ["01", "Beauty and spa", "A salon live in one afternoon"],
+  ["02", "Restaurants", "Reservations in your own voice"],
+  ["03", "Real estate", "Buyers' questions, answered right"],
+  ["04", "Dental and clinics", "Patients booked around the clock"],
+  ["05", "Car rental", "Every enquiry, qualified"],
+  ["06", "Fitness", "Classes and PT sessions, filled"],
+  ["07", "Interiors and design", "The right designer, every time"],
+  ["08", "Retail", "Instagram and WhatsApp sales, answered"],
+  ["09", "Education", "From enquiry to enrolment"],
+];
+const AE_JOBS = [
+  ["11", "Tech support", "Troubleshooting, step by step"],
+  ["12", "Customer support", "Support that never sleeps"],
+  ["13", "Inventory enquiries", "“Is it still available?”"],
+];
+const AE_TRADES = ["Clinics", "Dental", "Salons and spas", "Barbers", "AC and maintenance", "Cleaning", "Real estate", "Car rental", "Car dealers", "Restaurants", "Fitness studios", "Tutoring centres", "Interiors", "Retail", "Electronics repair"];
+page({
+  file: "ae-use-cases.html",
+  title: "Use cases | LeadQ for UAE businesses",
+  desc: "See LeadQ answer WhatsApp, web chat and email for UAE businesses, from clinics and salons to car rental and real estate, and book the appointment.",
+  ogDesc: "Pick your kind of business and watch LeadQ answer and book, on WhatsApp, web chat and email.",
+  canonical: "https://www.leadq.co/ae-use-cases.html",
+  robots: "noindex,follow",
+  bodyAttr: 'style="--c:#2dd4bf;--c2:#4d86ff"',
+  htmlAttr: 'data-market="UAE"',
+  widget: AE_WIDGET,
+  navHtml: aeNavFor("use-cases"),
+  footerHtml: aeFooter,
+  main: `
+<section class="lit-hero">
+  <div class="wrap">
+    <div class="sec-head hero-head">
+      <h1 class="h-hero">Built for how <span class="hi">your business</span> works.</h1>
+      <p class="lead">Clinics, salons, agents, showrooms, trades. LeadQ answers every WhatsApp, web chat and email in seconds, asks the right questions for your kind of business, and books the appointment. Pick yours and watch it work.</p>
+      <div class="ctas">
+        <a class="btn btn-primary btn-lg" href="#demo" data-open-chat>Book a demo</a>
+        <a class="btn btn-ghost btn-lg" href="#industries">Find your business</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="industries">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="h-sec">Pick your kind of business.</h2>
+      <p class="lead">Each film follows a different UAE business through the real LeadQ app, about a minute each.</p>
+    </div>
+    <ol class="demo-grid">
+${AE_INDUSTRIES.map(([n, k, t]) => demoCard("ae", aeFilm(n), k, t)).join("\n")}
+    </ol>
+    <h3 class="demo-sub">By the job it does</h3>
+    <ol class="demo-grid demo-grid3">
+${AE_JOBS.map(([n, k, t]) => demoCard("ae", aeFilm(n), k, t)).join("\n")}
+    </ol>
+    <p class="fine demo-note">All businesses shown are fictional. The app is real.</p>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head"><h2 class="h-sec">The same problems, in every trade.</h2></div>
+    <div class="ww">
+      <div class="without"><h3>Without LeadQ</h3><ul><li>Messages arrive while you're with a customer</li><li>WhatsApps sit unread until tonight</li><li>New leads book with whoever answers first</li></ul></div>
+      <div class="with"><h3>With LeadQ</h3><ul><li>Every message answered in seconds, day or night</li><li>Booked straight into your calendar, reminders sent</li><li>Follow-ups go out while you work</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="h-sec">If your customers message you, LeadQ is for you.</h2>
+      <p class="lead">It learns any business the same way. These are just the ones we hear from most.</p>
+    </div>
+    <div class="chips" role="group" aria-label="Businesses LeadQ works with"><div class="chips-run">${AE_TRADES.map((t) => `<span>${t}</span>`).join("")}${AE_TRADES.map((t) => `<span aria-hidden="true">${t}</span>`).join("")}</div></div>
+  </div>
+</section>
+
+<section class="horizon">
+  <div class="wrap">
+    <h2>See it with your own customers.</h2>
+    <p class="lead">Book a short demo and we'll show you LeadQ answering and booking for a business like yours.</p>
+    <div class="ctas"><a class="btn btn-primary btn-lg" href="#demo" data-open-chat>Book a demo</a><a class="btn btn-ghost btn-lg" href="ae.html#demos">Watch it work</a></div>
+  </div>
+</section>
+
+<!-- Every card on this page opens this player. -->
+${demoPlayer}`,
 });
 
 /* ======================================================= intake redirect + sitemap */
