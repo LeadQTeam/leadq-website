@@ -481,7 +481,7 @@ const NA_DEMOS = [
   ["04-services-hours", "Services & hours", "Bookable, around the clock", "Maple Grove Dental · Vancouver", "0:47"],
   ["05-inbox-contacts", "Inbox & contacts", "Every lead, qualified", "Coastline Car Rental · Miami", "0:47"],
   ["06-schedule", "Schedule", "Every booking, in one place", "Ironside Fitness · Chicago", "0:41"],
-  ["07-team-hand-overs", "Team & hand-overs", "The right person, every time", "Hudson Interiors · Brooklyn", "0:45"],
+  ["07-team-hand-overs", "Team & hand-overs", "The right person, every time", "Hudson Interiors · Brooklyn", "0:44"],
   ["08-channels", "Channels", "Wherever customers message", "Ember & Oak Candle Co. · Montreal", "0:48"],
   ["09-insights", "Insights", "Proof it’s working", "Summit Learning Center · Seattle", "0:44"],
   ["10-account-claude", "Account & Claude", "Change it by just asking", "Coolwave Heating & Air · Phoenix", "0:42"],
