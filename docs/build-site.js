@@ -1566,7 +1566,7 @@ legal("terms-of-service.html", "Terms of Service", "Last updated: 2026", "LeadQ'
    Not in sitemap.xml and noindex on purpose: it would otherwise compete with the real home page
    for UAE search traffic while showing no prices, and the arrangement is not exclusive, so
    LeadQ's own direct UAE visitors should still land on the normal site. */
-const AE_NAV_LINKS = '<a href="#how">How it works</a><a href="#demos">Demos</a><a href="#included">What you get</a><a href="#faq">Questions</a>';
+const AE_NAV_LINKS = '<a href="#how">How it works</a><a href="#demos">Watch it work</a><a href="#included">What you get</a><a href="#faq">Questions</a>';
 const aeNav = `<header class="nav">
   <div class="nav-pill">
     <a class="brand" href="ae.html" aria-label="LeadQ">${wordmark()}</a>
@@ -1588,7 +1588,7 @@ const aeFooter = `<footer class="footer">
         <p class="footer-tag">Answered. Booked. While you work.</p>
       </div>
       <nav class="footer-links" aria-label="Footer">
-        <a href="#how">How it works</a><a href="#demos">Demos</a><a href="#included">What you get</a><a href="#faq">Questions</a><a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a>
+        <a href="#how">How it works</a><a href="#demos">Watch it work</a><a href="#included">What you get</a><a href="#faq">Questions</a><a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a>
       </nav>
     </div>
     <div class="footer-legal">&copy; 2026 LeadQ Inc.</div>
