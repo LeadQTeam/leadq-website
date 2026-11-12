@@ -633,7 +633,7 @@ page({
   <div class="wrap">
     <div class="sec-head hero-head">
       <h1 class="h-hero">Stop <span class="ko">chasing.</span><br>Start <span class="hi">closing.</span></h1>
-      <p class="lead">Every message you miss is a job someone else books. LeadQ answers ${mkt("WhatsApp, texts, web chat, email and your phone line", "WhatsApp, web chat and email")} in seconds, then books the appointment. At midnight, on a Sunday, or while you are with a customer.</p>
+      <p class="lead">Every missed message is a job someone else books. LeadQ answers every channel in seconds${mkt(", your phone line too,", "")} and books the appointment.</p>
       <div class="ctas">
         <a class="btn btn-primary btn-lg" href="${SIGNUP}">Try it Free</a>
         <a class="btn btn-ghost btn-lg btn-play" href="#how" data-video>${I.play}What is LeadQ?</a>
