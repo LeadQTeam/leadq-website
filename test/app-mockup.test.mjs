@@ -44,12 +44,13 @@ for (const [what, sel, size] of [
 // ── the driver drives markup that is already there ───────────────────────────
 // It builds no app SHELL, so the DOM and the stylesheet cannot drift apart. It does inject the
 // appointment card and the caption items, which is what the reference does too.
-ok("the app shell is static in the page", ["dk-side", "dk-list", "dk-thread", "dk-contact", "dk-stats"].every((c) => html.includes(c)))
+ok("the app shell is static in the page", ["dk-side", "dk-list", "dk-thread", "dk-contact"].every((c) => html.includes(c)))
   // The driver only ever rewrites the captions, the appointment card and the composer label.
 ok("the driver rewrites only small parts", (js.match(/\.innerHTML\s*=/g) || []).length <= 4,
    `found ${(js.match(/\.innerHTML\s*=/g) || []).length}`)
-for (const hook of ["id=\"heroDk\"", "id=\"tourDk\"", "id=\"tourSeg\"", "data-hphone", "data-hrow",
-                    "data-happt", "data-cap-title", "data-caps", "data-scr", "data-go"])
+// The clickable tour (tourDk, tourSeg, its captions and screens) was retired for the four desks
+// layout on 2026-11-11. app-mockup.js still carries its handlers and returns early without it.
+for (const hook of ["id=\"heroDk\"", "data-hphone", "data-hrow", "data-happt", "data-go"])
   ok(`the page carries ${hook}`, html.includes(hook))
 
 // `reduce` is declared in the reference's outer wrapper, which is not part of the extract.
@@ -57,10 +58,9 @@ for (const hook of ["id=\"heroDk\"", "id=\"tourDk\"", "id=\"tourSeg\"", "data-hp
 ok("the hero's reduced-motion flag is declared", /var reduce\s*=/.test(js))
 ok("and the hero actually reads it", /if\(reduce\)/.test(js))
 
-// ── the three screens and the interactions ───────────────────────────────────
-ok("all three screens are in the DOM", ["home", "inbox", "schedule"].every((s) => html.includes(`data-scr="${s}"`)))
+// ── the tour's handlers, kept in the driver though no page carries the tour now ──
+ok("the tour code bails out cleanly when there is no tour", /var dk=document\.getElementById\('tourDk'\); if\(!dk\) return;/.test(js))
 ok("switching hides the others rather than re-rendering", /s\.hidden = s\.dataset\.scr!==key/.test(js))
-ok("the tour has three tabs", ["home", "inbox", "schedule"].every((s) => html.includes(`data-tab="${s}"`)))
 // The totals come from the rows actually shown, because a WhatsApp-first market hides two of
 // the five and "5 of 5" above three switches is a screenshot arguing with itself.
 // A literal check, not a regex: the string is full of + signs, which a regex reads as quantifiers.
@@ -170,9 +170,9 @@ ok("the hero picture is labelled", /class="pstage" role="img" aria-label="LeadQ 
 const heroPic = html.slice(html.indexOf('<div class="pstage"'), html.indexOf('</section>', html.indexOf('<div class="pstage"')))
 ok("nothing in the hero picture takes keyboard focus", !/<button(?![^>]*tabindex="-1")/.test(heroPic),
    `${(heroPic.match(/<button(?![^>]*tabindex="-1")/g) || []).length} focusable`)
-// The tour is the opposite case: there the controls genuinely work, so they must stay reachable.
-const tourPart = html.slice(html.indexOf('id="tourDk"'))
-ok("but the tour's controls stay reachable", (tourPart.match(/<button(?![^>]*tabindex="-1")/g) || []).length > 20)
+// The controls that genuinely work (the films button, the voice chips) must stay reachable.
+const afterHero = html.slice(html.indexOf('</section>', html.indexOf('<div class="pstage"')))
+ok("but the page's real controls stay reachable", (afterHero.match(/<button(?![^>]*tabindex="-1")/g) || []).length >= 5)
 
 // ── nothing of my hand-rolled version survives ───────────────────────────────
 for (const dead of ["class=\"lqa", "lqa-side", "hstage", "appwin-url", "data-app="])

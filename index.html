@@ -23,8 +23,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=JetBrains+Mono:wght@400;600&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="styles.css?v=aeaf87bd">
-<script src="site.js?v=902a45be" defer></script>
+<link rel="stylesheet" href="styles.css?v=f4193f74">
+<script src="site.js?v=8822f642" defer></script>
 <script src="app-mockup.js?v=d9fe23f5" defer></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"LeadQ","url":"https://www.leadq.co","logo":"https://www.leadq.co/icon-512.png"}
@@ -131,43 +131,155 @@
   </div>
 </section>
 
-<!-- outcomes -->
-<section class="sec">
-  <div class="wrap">
-    <div class="sec-head"><h2 class="h-sec">Time saved. Costs down. Sales never missed.</h2></div>
-    <div class="outcomes">
-      <div class="outcome"><b>Answers in seconds</b><span>24/7, so no lead waits for a callback.</span></div>
-      <div class="outcome"><b>Costs less than a shift</b><span data-price-sentence="starter">Plans start at $59 USD a month. No receptionist hours to cover.</span></div>
-      <div class="outcome"><b>Books itself</b><span>Straight into your calendar, while you do the actual work.</span></div>
+<!-- 01 front desk -->
+<section class="sec" id="how">
+  <div class="wrap desk-front">
+    <div class="desk-vis">
+      <div class="flow" style="--n:7" data-live data-na-only>
+        <ul class="flow-ch" aria-label="Channels">
+          <li><i class="ch-ic" style="background:rgba(139,110,240,.16)"><svg viewBox="0 0 24 24" fill="#9B8CF0" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.74-.24 1.02l-2.2 2.2z"/></svg></i>Phone</li>
+          <li><i class="ch-ic" style="background:rgba(55,138,221,.16)"><svg viewBox="0 0 24 24" fill="#7ba6ff" aria-hidden="true"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></i>Texts</li>
+          <li><i class="ch-ic" style="background:rgba(37,211,102,.15)"><svg viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></i>WhatsApp</li>
+          <li><i class="ch-ic" style="background:rgba(91,140,255,.16)"><svg viewBox="0 0 24 24" fill="#5B8CFF" aria-hidden="true"><path d="M12 2C6.36 2 2 6.13 2 11.7c0 2.91 1.19 5.43 3.14 7.17.16.14.26.35.27.57l.05 1.78c.02.57.6.94 1.12.71l1.98-.87c.17-.08.36-.09.54-.04.91.25 1.88.38 2.9.38 5.64 0 10-4.13 10-9.7S17.64 2 12 2Zm6 7.46-2.94 4.66c-.47.74-1.47.93-2.17.4l-2.34-1.75a.6.6 0 0 0-.72 0l-3.16 2.4c-.42.32-.97-.18-.69-.63l2.94-4.66c.47-.74 1.47-.93 2.17-.4l2.34 1.75a.6.6 0 0 0 .72 0l3.16-2.4c.42-.32.97.18.69.63Z"/></svg></i>Messenger</li>
+          <li><i class="ch-ic" style="background:rgba(240,86,140,.15)"><svg viewBox="0 0 24 24" fill="#F0568C" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.2" fill="none" stroke="#F0568C" stroke-width="2"/><circle cx="12" cy="12" r="4.1" fill="none" stroke="#F0568C" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.3"/></svg></i>Instagram</li>
+          <li><i class="ch-ic" style="background:rgba(45,200,170,.16)"><svg viewBox="0 0 24 24" fill="#2EC8AA" fill-rule="evenodd" aria-hidden="true"><path d="M4 3h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm8 2.7a2.1 2.1 0 1 0 0 4.2 2.1 2.1 0 1 0 0-4.2Zm0 5.1c-2.6 0-4.7 1.5-4.7 3.4h9.4c0-1.9-2.1-3.4-4.7-3.4ZM10.8 16h2.4v2.6h-2.4ZM7 18.6h10a1.1 1.1 0 0 1 0 2.2H7a1.1 1.1 0 0 1 0-2.2Z"/></svg></i>Web chat</li>
+          <li><i class="ch-ic" style="background:rgba(122,130,232,.16)"><svg viewBox="0 0 24 24" fill="#8A92F0" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></i>Email</li>
+        </ul>
+        <svg class="flow-lines" viewBox="0 0 100 700" preserveAspectRatio="none" aria-hidden="true"><path d="M0 50C55 50 45 350 100 350" vector-effect="non-scaling-stroke"/><path d="M0 150C55 150 45 350 100 350" vector-effect="non-scaling-stroke"/><path d="M0 250C55 250 45 350 100 350" vector-effect="non-scaling-stroke"/><path d="M0 350C55 350 45 350 100 350" vector-effect="non-scaling-stroke"/><path d="M0 450C55 450 45 350 100 350" vector-effect="non-scaling-stroke"/><path d="M0 550C55 550 45 350 100 350" vector-effect="non-scaling-stroke"/><path d="M0 650C55 650 45 350 100 350" vector-effect="non-scaling-stroke"/></svg>
+        <div class="flow-card">
+          <div class="flow-top"><span class="k">New booking</span><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Booked</span></div>
+          <div class="flow-when">Thu, Nov 12<br>10:30 AM</div>
+          <div class="flow-what">Furnace tune-up</div>
+          <ul class="flow-meta">
+            <li><i class="ch-ic" style="background:rgba(37,211,102,.15)"><svg viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></i>Maria via WhatsApp, 10:02 PM</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Added to your calendar</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Reminder set for Wed</li>
+          </ul>
+        </div>
+      </div>
+      <div class="flow" style="--n:5" data-live data-wa-only hidden>
+        <ul class="flow-ch" aria-label="Channels">
+          <li><i class="ch-ic" style="background:rgba(37,211,102,.15)"><svg viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></i>WhatsApp</li>
+          <li><i class="ch-ic" style="background:rgba(240,86,140,.15)"><svg viewBox="0 0 24 24" fill="#F0568C" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.2" fill="none" stroke="#F0568C" stroke-width="2"/><circle cx="12" cy="12" r="4.1" fill="none" stroke="#F0568C" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.3"/></svg></i>Instagram</li>
+          <li><i class="ch-ic" style="background:rgba(91,140,255,.16)"><svg viewBox="0 0 24 24" fill="#5B8CFF" aria-hidden="true"><path d="M12 2C6.36 2 2 6.13 2 11.7c0 2.91 1.19 5.43 3.14 7.17.16.14.26.35.27.57l.05 1.78c.02.57.6.94 1.12.71l1.98-.87c.17-.08.36-.09.54-.04.91.25 1.88.38 2.9.38 5.64 0 10-4.13 10-9.7S17.64 2 12 2Zm6 7.46-2.94 4.66c-.47.74-1.47.93-2.17.4l-2.34-1.75a.6.6 0 0 0-.72 0l-3.16 2.4c-.42.32-.97-.18-.69-.63l2.94-4.66c.47-.74 1.47-.93 2.17-.4l2.34 1.75a.6.6 0 0 0 .72 0l3.16-2.4c.42-.32.97.18.69.63Z"/></svg></i>Messenger</li>
+          <li><i class="ch-ic" style="background:rgba(45,200,170,.16)"><svg viewBox="0 0 24 24" fill="#2EC8AA" fill-rule="evenodd" aria-hidden="true"><path d="M4 3h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm8 2.7a2.1 2.1 0 1 0 0 4.2 2.1 2.1 0 1 0 0-4.2Zm0 5.1c-2.6 0-4.7 1.5-4.7 3.4h9.4c0-1.9-2.1-3.4-4.7-3.4ZM10.8 16h2.4v2.6h-2.4ZM7 18.6h10a1.1 1.1 0 0 1 0 2.2H7a1.1 1.1 0 0 1 0-2.2Z"/></svg></i>Web chat</li>
+          <li><i class="ch-ic" style="background:rgba(122,130,232,.16)"><svg viewBox="0 0 24 24" fill="#8A92F0" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></i>Email</li>
+        </ul>
+        <svg class="flow-lines" viewBox="0 0 100 500" preserveAspectRatio="none" aria-hidden="true"><path d="M0 50C55 50 45 250 100 250" vector-effect="non-scaling-stroke"/><path d="M0 150C55 150 45 250 100 250" vector-effect="non-scaling-stroke"/><path d="M0 250C55 250 45 250 100 250" vector-effect="non-scaling-stroke"/><path d="M0 350C55 350 45 250 100 250" vector-effect="non-scaling-stroke"/><path d="M0 450C55 450 45 250 100 250" vector-effect="non-scaling-stroke"/></svg>
+        <div class="flow-card">
+          <div class="flow-top"><span class="k">New booking</span><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Booked</span></div>
+          <div class="flow-when">Thu, Nov 12<br>10:30 AM</div>
+          <div class="flow-what">AC service</div>
+          <ul class="flow-meta">
+            <li><i class="ch-ic" style="background:rgba(37,211,102,.15)"><svg viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></i>Mariam via WhatsApp, 10:02 PM</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Added to your calendar</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Reminder set for Wed</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="desk-copy">
+      <h2 class="h-desk">Your 24/7<br><span class="hi">Front Desk.</span></h2>
+      <p class="lead"><span data-na-only>Calls, texts, DMs and web chats</span><span data-wa-only hidden>WhatsApp messages, DMs, web chats and emails</span> all land at one desk that never closes. It answers in seconds, finds a time that works, and puts the booking straight into your calendar.</p>
+      <ul class="checks">
+        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Books into your real calendar</b><span class="t">Checks your availability and booking rules before it offers a time.</span></span></li>
+        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Follows up so leads don't go cold</b><span class="t">Reminders before the appointment and nudges when someone goes quiet, never during your quiet hours.</span></span></li>
+        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><span><b><span data-na-only>One assistant, 7 channels</span><span data-wa-only hidden>One assistant, 5 channels</span></b><span class="t">Same answers and the same tone on every channel, Instagram and Messenger DMs included, set up once. Leads from your Facebook lead forms come straight in too.</span></span></li>
+      </ul>
     </div>
   </div>
 </section>
 
+<!-- the front desk phone -->
+<section class="sec">
+  <div class="wrap">
+    <div class="voice-band" style="--c:#a98cf0" data-needs-voice>
+      <div>
+        <p class="voice-k">AI receptionist · Included in Pro</p>
+        <h2 class="h-sec">Even the front<br>desk phone.</h2>
+        <p class="lead" style="margin-top:18px">A receptionist that sounds human picks up the calls you can't, answers questions, books the job, and warm-transfers to you when it matters. No more voicemail.</p>
+        <div class="vchips left" role="group" aria-label="Voices" data-press-group>
+          <button type="button" aria-pressed="true">Ava</button><button type="button" aria-pressed="false">Noah</button><button type="button" aria-pressed="false">Mia</button><button type="button" aria-pressed="false">Sarah</button>
+        </div>
+        <a class="btn btn-voice btn-lg" href="voice.html">Meet the AI Receptionist</a>
+        <p class="fine">The AI Receptionist runs on US and Canadian phone numbers only.</p>
+      </div>
+      <a class="voice-film" href="https://leadqteam.github.io/leadq-media/demos/na/15-ai-receptionist.mp4" data-demo="https://leadqteam.github.io/leadq-media/demos/na/15-ai-receptionist.mp4" data-poster="demos/na/15-ai-receptionist.jpg" data-kicker="AI receptionist" data-title="Every call, answered"><span class="demo-thumb"><img src="demos/na/15-ai-receptionist.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async"><span class="demo-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="demo-dur">1:14</span></span><span class="demo-k">Voice AI · 1:14</span><b>Meet your AI Receptionist</b><span class="demo-biz">Ridgeline Plumbing · Denver</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- 02 help desk -->
+<section class="sec" id="support">
+  <div class="wrap">
+    <div class="sec-head left">
+      <h2 class="h-desk">and <span class="hi">Help Desk.</span></h2>
+      <p class="lead">The same assistant handles support after the sale. It answers from your own guides and policies, and hands anything tricky to a team member with the whole conversation summarized.</p>
+    </div>
+    <div class="help-grid">
+      <article class="help-card">
+        <span class="k">Tech support</span>
+        <h3>Fixes it at 11 PM, no ticket queue.</h3>
+        <div class="chatbox">
+          <div class="chatbox-h"><i class="ch-ic" style="background:rgba(45,200,170,.16)"><svg viewBox="0 0 24 24" fill="#2EC8AA" fill-rule="evenodd" aria-hidden="true"><path d="M4 3h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm8 2.7a2.1 2.1 0 1 0 0 4.2 2.1 2.1 0 1 0 0-4.2Zm0 5.1c-2.6 0-4.7 1.5-4.7 3.4h9.4c0-1.9-2.1-3.4-4.7-3.4ZM10.8 16h2.4v2.6h-2.4ZM7 18.6h10a1.1 1.1 0 0 1 0 2.2H7a1.1 1.1 0 0 1 0-2.2Z"/></svg></i><b>FixPoint Electronics</b><small>Web chat</small></div>
+          <div class="chatbox-m">
+            <p class="cb in">My soundbar won't connect to the TV anymore.</p>
+            <p class="cb out">Let's fix that. Hold the Bluetooth button for 5 seconds until the light blinks blue, then pick “FP-200” on your TV.</p>
+            <p class="cb in">That did it, thank you!</p>
+            <p class="cb-end">Resolved · No one on your team needed</p>
+          </div>
+        </div>
+        <p>Walks customers through the fixes you already know, step by step, from your own guides and FAQs.</p>
+        <a class="watch" href="https://leadqteam.github.io/leadq-media/demos/na/11-tech-support.mp4" data-demo="https://leadqteam.github.io/leadq-media/demos/na/11-tech-support.mp4" data-poster="demos/na/11-tech-support.jpg" data-kicker="Tech support" data-title="Help, the moment they need it" data-na-only><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Watch the tech support film</a>
+      </article>
+      <article class="help-card">
+        <span class="k">Customer support</span>
+        <h3>Answers the questions you get every day.</h3>
+        <div class="chatbox">
+          <div class="chatbox-h"><i class="ch-ic" style="background:rgba(122,130,232,.16)"><svg viewBox="0 0 24 24" fill="#8A92F0" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></i><b>Northwood Home</b><small>Email</small></div>
+          <div class="chatbox-m">
+            <p class="cb in">Can I still return a lamp I bought three weeks ago?</p>
+            <p class="cb out">Yes, returns are accepted within 30 days with the receipt. Want me to have a team member start the return for you?</p>
+            <p class="cb in">Yes please.</p>
+            <p class="cb-end hand">Handed to a team member · With a summary</p>
+          </div>
+        </div>
+        <p>Policies, order questions and the usual “how do I” requests, in your tone. Anything it shouldn't handle goes to a team member.</p>
+        <a class="watch" href="https://leadqteam.github.io/leadq-media/demos/na/12-customer-support.mp4" data-demo="https://leadqteam.github.io/leadq-media/demos/na/12-customer-support.mp4" data-poster="demos/na/12-customer-support.jpg" data-kicker="Customer support" data-title="Support that never sleeps" data-na-only><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Watch the customer support film</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 03 at your desk: the films (North American cut, so a WhatsApp-market visitor does not see it) -->
 <section class="sec" id="demos" data-na-only>
   <div class="wrap">
-    <div class="sec-head">
-      <h2 class="h-sec">Watch it work.</h2>
-      <p class="lead">Start with one minute on what LeadQ does for your business. Then see it in action, or go feature by feature. Each film follows a different kind of business, from a beauty bar in Austin to a car dealer in Dallas.</p>
+    <div class="desk-head">
+      <div>
+        <h2 class="h-desk">at <span class="hi">Your Desk.</span></h2>
+        <p class="lead">Grab a coffee and see how it works, one short film at a time.</p>
+        <p class="fine">All businesses shown are fictional. The app is real.</p>
+      </div>
+      <button class="btn btn-ghost films-all" type="button" aria-expanded="false" aria-controls="films-na" hidden>All 15 films</button>
     </div>
     <a class="demo-feature" href="https://leadqteam.github.io/leadq-media/demos/na/14-what-leadq-does.mp4" data-demo="https://leadqteam.github.io/leadq-media/demos/na/14-what-leadq-does.mp4" data-poster="demos/na/14-what-leadq-does.jpg" data-kicker="Start here" data-title="What it does for your business" aria-label="Play: What it does for your business, 1:03">
       <span class="demo-thumb"><img src="demos/na/14-what-leadq-does.jpg" alt="" width="1280" height="720" decoding="async"><span class="demo-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="demo-dur">1:03</span></span>
       <span class="demo-copy">
         <span class="demo-k">Start here · 1:03</span>
         <b>What it does for your business</b>
-        <span class="demo-p">Every missed message is a missed customer. See how LeadQ gives you time back, keeps running costs down and wins you more bookings.</span>
-        <span class="demo-biz">Time back · Lower costs · More revenue</span>
+        <span class="demo-p">Time back, lower running costs and more bookings, in about a minute.</span>
       </span>
     </a>
     <h3 class="demo-sub">See it in action</h3>
-    <ol class="demo-grid">
+    <ol class="demo-grid demo-grid4">
       <li><a href="https://leadqteam.github.io/leadq-media/demos/na/00-overview.mp4" data-demo="https://leadqteam.github.io/leadq-media/demos/na/00-overview.mp4" data-poster="demos/na/00-overview.jpg" data-kicker="Overview" data-title="LeadQ in one minute"><span class="demo-thumb"><img src="demos/na/00-overview.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async"><span class="demo-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="demo-dur">1:04</span></span><span class="demo-k">Overview</span><b>LeadQ in one minute</b><span class="demo-biz">Coolwave Heating & Air · Phoenix</span></a></li>
-      <li><a href="https://leadqteam.github.io/leadq-media/demos/na/15-ai-receptionist.mp4" data-demo="https://leadqteam.github.io/leadq-media/demos/na/15-ai-receptionist.mp4" data-poster="demos/na/15-ai-receptionist.jpg" data-kicker="AI receptionist" data-title="Every call, answered"><span class="demo-thumb"><img src="demos/na/15-ai-receptionist.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async"><span class="demo-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="demo-dur">1:14</span></span><span class="demo-k">AI receptionist</span><b>Every call, answered</b><span class="demo-biz">Ridgeline Plumbing · Denver</span></a></li>
       <li><a href="https://leadqteam.github.io/leadq-media/demos/na/11-tech-support.mp4" data-demo="https://leadqteam.github.io/leadq-media/demos/na/11-tech-support.mp4" data-poster="demos/na/11-tech-support.jpg" data-kicker="Tech support" data-title="Help, the moment they need it"><span class="demo-thumb"><img src="demos/na/11-tech-support.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async"><span class="demo-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="demo-dur">0:50</span></span><span class="demo-k">Tech support</span><b>Help, the moment they need it</b><span class="demo-biz">FixPoint Electronics · Houston</span></a></li>
       <li><a href="https://leadqteam.github.io/leadq-media/demos/na/12-customer-support.mp4" data-demo="https://leadqteam.github.io/leadq-media/demos/na/12-customer-support.mp4" data-poster="demos/na/12-customer-support.jpg" data-kicker="Customer support" data-title="Support that never sleeps"><span class="demo-thumb"><img src="demos/na/12-customer-support.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async"><span class="demo-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="demo-dur">0:58</span></span><span class="demo-k">Customer support</span><b>Support that never sleeps</b><span class="demo-biz">Northwood Home · online, US and Canada</span></a></li>
       <li><a href="https://leadqteam.github.io/leadq-media/demos/na/13-inventory.mp4" data-demo="https://leadqteam.github.io/leadq-media/demos/na/13-inventory.mp4" data-poster="demos/na/13-inventory.jpg" data-kicker="Inventory" data-title="“Is it still available?”"><span class="demo-thumb"><img src="demos/na/13-inventory.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async"><span class="demo-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="demo-dur">0:53</span></span><span class="demo-k">Inventory</span><b>“Is it still available?”</b><span class="demo-biz">Lakeside Motors · Dallas</span></a></li>
     </ol>
-    <h3 class="demo-sub">Feature by feature</h3>
-    <ol class="demo-grid">
+    <div class="films-more" id="films-na">
+      <h3 class="demo-sub">Feature by feature</h3>
+      <ol class="demo-grid">
       <li><a href="https://leadqteam.github.io/leadq-media/demos/na/01-set-up-in-minutes.mp4" data-demo="https://leadqteam.github.io/leadq-media/demos/na/01-set-up-in-minutes.mp4" data-poster="demos/na/01-set-up-in-minutes.jpg" data-kicker="01 · Set up in minutes" data-title="Go live in an afternoon"><span class="demo-thumb"><img src="demos/na/01-set-up-in-minutes.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async"><span class="demo-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="demo-dur">0:51</span></span><span class="demo-k">01 · Set up in minutes</span><b>Go live in an afternoon</b><span class="demo-biz">Willow Beauty Bar · Austin</span></a></li>
       <li><a href="https://leadqteam.github.io/leadq-media/demos/na/02-persona.mp4" data-demo="https://leadqteam.github.io/leadq-media/demos/na/02-persona.mp4" data-poster="demos/na/02-persona.jpg" data-kicker="02 · Persona" data-title="Sounds like you"><span class="demo-thumb"><img src="demos/na/02-persona.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async"><span class="demo-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="demo-dur">0:58</span></span><span class="demo-k">02 · Persona</span><b>Sounds like you</b><span class="demo-biz">Harbor & Vine · Boston</span></a></li>
       <li><a href="https://leadqteam.github.io/leadq-media/demos/na/03-knowledge-base.mp4" data-demo="https://leadqteam.github.io/leadq-media/demos/na/03-knowledge-base.mp4" data-poster="demos/na/03-knowledge-base.jpg" data-kicker="03 · Knowledge base" data-title="Answers it can stand behind"><span class="demo-thumb"><img src="demos/na/03-knowledge-base.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async"><span class="demo-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="demo-dur">1:03</span></span><span class="demo-k">03 · Knowledge base</span><b>Answers it can stand behind</b><span class="demo-biz">Keystone Realty · Toronto</span></a></li>
@@ -178,361 +290,51 @@
       <li><a href="https://leadqteam.github.io/leadq-media/demos/na/08-channels.mp4" data-demo="https://leadqteam.github.io/leadq-media/demos/na/08-channels.mp4" data-poster="demos/na/08-channels.jpg" data-kicker="08 · Channels" data-title="Wherever customers message"><span class="demo-thumb"><img src="demos/na/08-channels.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async"><span class="demo-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="demo-dur">0:48</span></span><span class="demo-k">08 · Channels</span><b>Wherever customers message</b><span class="demo-biz">Ember & Oak Candle Co. · Montreal</span></a></li>
       <li><a href="https://leadqteam.github.io/leadq-media/demos/na/09-insights.mp4" data-demo="https://leadqteam.github.io/leadq-media/demos/na/09-insights.mp4" data-poster="demos/na/09-insights.jpg" data-kicker="09 · Insights" data-title="Proof it’s working"><span class="demo-thumb"><img src="demos/na/09-insights.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async"><span class="demo-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="demo-dur">0:44</span></span><span class="demo-k">09 · Insights</span><b>Proof it’s working</b><span class="demo-biz">Summit Learning Center · Seattle</span></a></li>
       <li><a href="https://leadqteam.github.io/leadq-media/demos/na/10-account-claude.mp4" data-demo="https://leadqteam.github.io/leadq-media/demos/na/10-account-claude.mp4" data-poster="demos/na/10-account-claude.jpg" data-kicker="10 · Account &amp; Claude" data-title="Change it by just asking"><span class="demo-thumb"><img src="demos/na/10-account-claude.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async"><span class="demo-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="demo-dur">0:42</span></span><span class="demo-k">10 · Account & Claude</span><b>Change it by just asking</b><span class="demo-biz">Coolwave Heating & Air · Phoenix</span></a></li>
-    </ol>
-    <p class="fine demo-note">All businesses shown are fictional. The app is real.</p>
-  </div>
-</section>
-
-<!-- one brain -->
-<section class="sec">
-  <div class="wrap brain">
-    <div class="orbit" data-live data-na-only role="img" aria-label="WhatsApp, SMS, Messenger, Web chat, Email, Instagram and Voice, all run by one assistant">
-      <span class="orbit-ring" aria-hidden="true"></span>
-      <span class="orbit-ring r2" aria-hidden="true"></span>
-      <span class="spoke" style="--len:170px;--ang:-90.0deg;--d:0.00s" aria-hidden="true"><i></i></span>
-      <span class="spoke" style="--len:177px;--ang:-36.7deg;--d:0.42s" aria-hidden="true"><i></i></span>
-      <span class="spoke" style="--len:184px;--ang:8.1deg;--d:0.84s" aria-hidden="true"><i></i></span>
-      <span class="spoke" style="--len:191px;--ang:57.0deg;--d:1.26s" aria-hidden="true"><i></i></span>
-      <span class="spoke" style="--len:191px;--ang:123.0deg;--d:1.68s" aria-hidden="true"><i></i></span>
-      <span class="spoke" style="--len:184px;--ang:171.9deg;--d:2.10s" aria-hidden="true"><i></i></span>
-      <span class="spoke" style="--len:177px;--ang:-143.3deg;--d:2.52s" aria-hidden="true"><i></i></span>
-      <span class="hub" aria-hidden="true">
-        <img src="img/brand/leadq-app.png" alt="" width="1052" height="1066" loading="lazy" decoding="async">
-        <span class="hub-wave"><b></b><b></b><b></b></span>
-      </span>
-      <span class="hub-tag" aria-hidden="true"><b>Baxter</b><small><i></i><span>On, 7 channels</span></small></span>
-      <span class="chan" style="--x:0px;--y:-170px;--i:0" aria-hidden="true"><i class="ch-ic" style="background:rgba(37,211,102,.15)"><svg viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></i><span>WhatsApp</span></span>
-      <span class="chan" style="--x:142px;--y:-106px;--i:1" aria-hidden="true"><i class="ch-ic" style="background:rgba(55,138,221,.16)"><svg viewBox="0 0 24 24" fill="#7ba6ff" aria-hidden="true"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></i><span>SMS</span></span>
-      <span class="chan" style="--x:182px;--y:26px;--i:2" aria-hidden="true"><i class="ch-ic" style="background:rgba(91,140,255,.16)"><svg viewBox="0 0 24 24" fill="#5B8CFF" aria-hidden="true"><path d="M12 2C6.36 2 2 6.13 2 11.7c0 2.91 1.19 5.43 3.14 7.17.16.14.26.35.27.57l.05 1.78c.02.57.6.94 1.12.71l1.98-.87c.17-.08.36-.09.54-.04.91.25 1.88.38 2.9.38 5.64 0 10-4.13 10-9.7S17.64 2 12 2Zm6 7.46-2.94 4.66c-.47.74-1.47.93-2.17.4l-2.34-1.75a.6.6 0 0 0-.72 0l-3.16 2.4c-.42.32-.97-.18-.69-.63l2.94-4.66c.47-.74 1.47-.93 2.17-.4l2.34 1.75a.6.6 0 0 0 .72 0l3.16-2.4c.42-.32.97.18.69.63Z"/></svg></i><span>Messenger</span></span>
-      <span class="chan" style="--x:104px;--y:160px;--i:3" aria-hidden="true"><i class="ch-ic" style="background:rgba(45,200,170,.16)"><svg viewBox="0 0 24 24" fill="#2EC8AA" fill-rule="evenodd" aria-hidden="true"><path d="M4 3h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm8 2.7a2.1 2.1 0 1 0 0 4.2 2.1 2.1 0 1 0 0-4.2Zm0 5.1c-2.6 0-4.7 1.5-4.7 3.4h9.4c0-1.9-2.1-3.4-4.7-3.4ZM10.8 16h2.4v2.6h-2.4ZM7 18.6h10a1.1 1.1 0 0 1 0 2.2H7a1.1 1.1 0 0 1 0-2.2Z"/></svg></i><span>Web chat</span></span>
-      <span class="chan" style="--x:-104px;--y:160px;--i:4" aria-hidden="true"><i class="ch-ic" style="background:rgba(122,130,232,.16)"><svg viewBox="0 0 24 24" fill="#8A92F0" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></i><span>Email</span></span>
-      <span class="chan" style="--x:-182px;--y:26px;--i:5" aria-hidden="true"><i class="ch-ic" style="background:rgba(240,86,140,.15)"><svg viewBox="0 0 24 24" fill="#F0568C" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.2" fill="none" stroke="#F0568C" stroke-width="2"/><circle cx="12" cy="12" r="4.1" fill="none" stroke="#F0568C" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.3"/></svg></i><span>Instagram</span></span>
-      <span class="chan" style="--x:-142px;--y:-106px;--i:6" aria-hidden="true"><i class="ch-ic" style="background:rgba(139,110,240,.16)"><svg viewBox="0 0 24 24" fill="#9B8CF0" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.74-.24 1.02l-2.2 2.2z"/></svg></i><span>Voice</span></span>
-    </div>
-    <div class="orbit" data-live data-wa-only hidden role="img" aria-label="WhatsApp, Messenger, Web chat, Email and Instagram, all run by one assistant">
-      <span class="orbit-ring" aria-hidden="true"></span>
-      <span class="orbit-ring r2" aria-hidden="true"></span>
-      <span class="spoke" style="--len:166px;--ang:-90.0deg;--d:0.00s" aria-hidden="true"><i></i></span>
-      <span class="spoke" style="--len:179px;--ang:-14.2deg;--d:0.42s" aria-hidden="true"><i></i></span>
-      <span class="spoke" style="--len:187px;--ang:53.3deg;--d:0.84s" aria-hidden="true"><i></i></span>
-      <span class="spoke" style="--len:187px;--ang:126.7deg;--d:1.26s" aria-hidden="true"><i></i></span>
-      <span class="spoke" style="--len:179px;--ang:-165.8deg;--d:1.68s" aria-hidden="true"><i></i></span>
-      <span class="hub" aria-hidden="true">
-        <img src="img/brand/leadq-app.png" alt="" width="1052" height="1066" loading="lazy" decoding="async">
-        <span class="hub-wave"><b></b><b></b><b></b></span>
-      </span>
-      <span class="hub-tag" aria-hidden="true"><b>Baxter</b><small><i></i><span>On, 5 channels</span></small></span>
-      <span class="chan" style="--x:0px;--y:-166px;--i:0" aria-hidden="true"><i class="ch-ic" style="background:rgba(37,211,102,.15)"><svg viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></i><span>WhatsApp</span></span>
-      <span class="chan" style="--x:174px;--y:-44px;--i:1" aria-hidden="true"><i class="ch-ic" style="background:rgba(91,140,255,.16)"><svg viewBox="0 0 24 24" fill="#5B8CFF" aria-hidden="true"><path d="M12 2C6.36 2 2 6.13 2 11.7c0 2.91 1.19 5.43 3.14 7.17.16.14.26.35.27.57l.05 1.78c.02.57.6.94 1.12.71l1.98-.87c.17-.08.36-.09.54-.04.91.25 1.88.38 2.9.38 5.64 0 10-4.13 10-9.7S17.64 2 12 2Zm6 7.46-2.94 4.66c-.47.74-1.47.93-2.17.4l-2.34-1.75a.6.6 0 0 0-.72 0l-3.16 2.4c-.42.32-.97-.18-.69-.63l2.94-4.66c.47-.74 1.47-.93 2.17-.4l2.34 1.75a.6.6 0 0 0 .72 0l3.16-2.4c.42-.32.97.18.69.63Z"/></svg></i><span>Messenger</span></span>
-      <span class="chan" style="--x:112px;--y:150px;--i:2" aria-hidden="true"><i class="ch-ic" style="background:rgba(45,200,170,.16)"><svg viewBox="0 0 24 24" fill="#2EC8AA" fill-rule="evenodd" aria-hidden="true"><path d="M4 3h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm8 2.7a2.1 2.1 0 1 0 0 4.2 2.1 2.1 0 1 0 0-4.2Zm0 5.1c-2.6 0-4.7 1.5-4.7 3.4h9.4c0-1.9-2.1-3.4-4.7-3.4ZM10.8 16h2.4v2.6h-2.4ZM7 18.6h10a1.1 1.1 0 0 1 0 2.2H7a1.1 1.1 0 0 1 0-2.2Z"/></svg></i><span>Web chat</span></span>
-      <span class="chan" style="--x:-112px;--y:150px;--i:3" aria-hidden="true"><i class="ch-ic" style="background:rgba(122,130,232,.16)"><svg viewBox="0 0 24 24" fill="#8A92F0" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></i><span>Email</span></span>
-      <span class="chan" style="--x:-174px;--y:-44px;--i:4" aria-hidden="true"><i class="ch-ic" style="background:rgba(240,86,140,.15)"><svg viewBox="0 0 24 24" fill="#F0568C" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.2" fill="none" stroke="#F0568C" stroke-width="2"/><circle cx="12" cy="12" r="4.1" fill="none" stroke="#F0568C" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.3"/></svg></i><span>Instagram</span></span>
-    </div>
-    <div>
-      <h2 class="h-sec">One assistant, multiple channels.</h2>
-      <p class="lead" style="margin-top:18px"><span data-na-only>Most businesses juggle a chat widget, a texting app, an inbox, a booking tool and a voicemail box, and still drop messages.</span><span data-wa-only hidden>Most businesses run WhatsApp off one person's phone, with a chat widget, an inbox and a booking tool beside it, and still drop messages.</span> LeadQ is one assistant that knows your business and works every channel the same way. Leads from your Facebook lead forms come straight in too. Instagram and Messenger DMs are answered the same way.</p>
-      <div class="items">
-        <div class="item"><b>Change it once</b><span>Update your hours or add a service, and every channel knows.<span data-na-only> The phone too.</span><span data-wa-only hidden></span></span></div>
-        <div class="item"><b>Sounds like you</b><span>Warm, brisk, formal, luxe. Pick a tone and it talks like your front desk.</span></div>
-        <div class="item"><b>Hands off on your rules</b><span>Decide when a person takes over, and what it should never say.</span></div>
-      </div>
+      </ol>
     </div>
   </div>
 </section>
 
-<!-- what it does -->
-<section class="sec">
-  <div class="wrap">
-    <div class="sec-head"><h2 class="h-sec">Runs the whole conversation. And the booking.</h2></div>
-    <div class="tiles">
-      <div class="tile">
-        <h3>Books into your calendar</h3>
-        <p>Checks real availability, respects your booking rules, books and reminds.</p>
-        <div class="vis"><div class="shot" aria-hidden="true">
-          <div class="sc-calhd"><span class="sc-calm">September</span><span class="sc-calnav"><span>&lsaquo;</span><span>&rsaquo;</span></span></div>
-          <div class="sc-dow"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
-          <div class="sc-grid">
-            <span class="sc-day">8</span><span class="sc-day">9</span><span class="sc-day">10</span><span class="sc-day">11</span><span class="sc-day">12</span><span class="sc-day">13</span><span class="sc-day">14</span>
-            <span class="sc-day today">15</span><span class="sc-day">16</span><span class="sc-day sel">17</span><span class="sc-day">18</span><span class="sc-day">19</span><span class="sc-day">20</span><span class="sc-day">21</span>
-            <span class="sc-day">22</span><span class="sc-day">23</span><span class="sc-day">24</span><span class="sc-day">25</span><span class="sc-day">26</span><span class="sc-day">27</span><span class="sc-day">28</span>
-          </div>
-          <div class="sc-slots"><span class="sc-slot">9:30 AM</span><span class="sc-slot sel">2:00 PM</span><span class="sc-slot">4:30 PM</span></div>
-        </div></div>
-      </div>
-      <div class="tile">
-        <h3>Follows up for you</h3>
-        <p>A lead goes quiet, it nudges them on a schedule. Never during your quiet hours.</p>
-        <div class="vis"><div class="shot" aria-hidden="true">
-          <span class="shot-lbl">Follow-up, sent 10:00 AM</span>
-          <div class="ap-chat" style="padding:0;height:auto">
-            <div class="ap-bubble in">How much is a whitening?</div>
-            <div class="ap-bubble out">It's $249 and takes about an hour. Want me to find you a time?</div>
-            <div class="ap-bubble out">Hi Sam, just checking in. I still have Friday at 11:00 AM open if you'd like it.</div>
-            <div class="ap-bubble in">Friday works!</div>
-          </div>
-        </div></div>
-      </div>
-      <div class="tile">
-        <h3>Answers questions 24/7</h3>
-        <p>Hours, pricing, insurance, parking. It answers from your own information, at 11 PM on a Sunday.</p>
-        <div class="vis"><div class="shot" aria-hidden="true">
-          <span class="shot-lbl">Sunday, 11:42 PM</span>
-          <div class="ap-chat" style="padding:0;height:auto">
-            <div class="ap-bubble in">Do you take Delta Dental?</div>
-            <div class="ap-bubble out">We do, both PPO and Premier. Want me to check your coverage before you come in?</div>
-            <div class="ap-bubble in">And where do I park?</div>
-            <div class="ap-bubble out">Free parking behind the building off 4th, or street parking out front.</div>
-          </div>
-        </div></div>
-      </div>
-      <div class="tile">
-        <h3>You're always in control</h3>
-        <p>Pause it on one channel or all of them. For an hour, or until you say so.</p>
-        <div class="vis"><div class="shot" aria-hidden="true">
-          <div class="sc-ph">Pause Baxter</div>
-          <p class="sc-psub">Baxter stops replying on all channels.</p>
-          <div class="sc-scope"><span>Just WhatsApp</span><span class="sel">All channels</span></div>
-          <div class="sc-opt"><b>For one hour</b><small>Back at 3:30 PM</small></div>
-          <div class="sc-opt"><b>Until tomorrow morning</b><small>Back at 8:00 AM, when you open</small></div>
-          <div class="sc-opt"><b>Until I turn it back on</b><small>No automatic resume</small></div>
-        </div></div>
-      </div>
-      <div class="tile">
-        <h3>Contacts, ready at a glance</h3>
-        <p>Every detail and an AI summary* of the chat, before you ever <span data-na-only>pick up the phone</span><span data-wa-only hidden>open the thread</span>.</p>
-        <div class="vis"><div class="shot" aria-hidden="true">
-          <div class="sc-cp"><span class="sc-cpav">J</span><span><span class="sc-name" style="font-size:15px">Jane Doe</span><span class="sc-chip">Booked</span></span></div>
-          <div class="sc-sum"><div class="sc-sumhd">Summary*</div><div class="sc-sumbody">New patient, prefers afternoons. Booked a cleaning for Wed 2:30 PM with Dr. Rivera.</div></div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">+1 (555) 123-4567</span><span class="sc-sub"><span data-na-only>Mobile, WhatsApp and SMS</span><span data-wa-only hidden>Mobile and WhatsApp</span></span></span></div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">jane.doe@email.com</span><span class="sc-sub">Reminders and confirmations</span></span></div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">First seen 12 Aug</span><span class="sc-sub">4 conversations, 2 bookings</span></span></div>
-        </div></div>
-      </div>
-      <div class="tile">
-        <h3>Learns from your website</h3>
-        <p>It reads your site and suggests answers. Nothing goes live until you approve it.</p>
-        <div class="vis"><div class="shot" aria-hidden="true">
-          <div class="sc-url"><span class="sc-ic" style="width:22px;height:22px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>riveradental.com</div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">Services</span></span><span class="sc-tag">6 found</span></div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">FAQ answers</span></span><span class="sc-tag">12 to review</span></div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">Business hours</span></span><span class="sc-tag">Mon to Fri</span></div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">Prices</span></span><span class="sc-tag">9 found</span></div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">Policies</span></span><span class="sc-tag">Cancellations, deposits</span></div>
-        </div></div>
-      </div>
-    </div>
-    <p class="fine">*Pro Plan</p>
-  </div>
-</section>
-
-<!-- inside the app: centred header over a full-width working tour -->
-<section class="sec" id="app">
+<!-- 04 no desk -->
+<section class="sec" id="on-the-go">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="h-sec">Your whole front desk, on one screen. Big and small.</h2>
-      <p class="lead">Control LeadQ from your computer or mobile device and see everything at once. Who needs you, what your assistant handled, and what is booked next.</p>
+      <h2 class="h-desk">Or with <span class="hi">No Desk</span> at all.</h2>
+      <p class="lead">Under a sink or mid-manicure, your front desk goes wherever you do.</p>
     </div>
-    <div class="tour-tabs"><div class="seg" role="group" aria-label="App screen" id="tourSeg">
-            <button type="button" data-tab="home" aria-pressed="true">Home</button>
-            <button type="button" data-tab="inbox" aria-pressed="false">Inbox</button>
-            <button type="button" data-tab="schedule" aria-pressed="false">Schedule</button>
-          </div></div>
-          <div class="tour-stage">
-          <div class="appwin"><div class="abar"><i></i><i></i><i></i><span>app.leadq.co</span></div><div class="dkw"><div class="dk" id="tourDk"><aside class="dk-side"><div class="dk-brand"><svg class="app" viewBox="0 0 100 100" aria-hidden="true"><use href="#rd-app"/></svg><span class="nm">Rivera Dental</span><svg class="ic" aria-hidden="true"><use href="#i-chev"/></svg></div><button type="button" class="dk-nav on" data-go="home"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg>Home</button><button type="button" class="dk-nav" data-go="inbox"><svg class="ic" aria-hidden="true"><use href="#i-inbox"/></svg>Inbox</button><button type="button" class="dk-nav" data-go="schedule"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Schedule</button><button type="button" class="dk-nav"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg>Assistant<span class="badge">2</span></button><button type="button" class="dk-nav"><svg class="ic" aria-hidden="true"><use href="#i-gear"/></svg>Settings</button><div class="dk-bax"><span class="bot"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg></span><span><b>Baxter</b><small>On, 5 channels</small></span></div><div class="dk-user"><svg class="app" viewBox="0 0 100 100" aria-hidden="true"><use href="#rd-app"/></svg>info@riveradental.com</div></aside>
-<div class="dk-main">
-<div data-scr="home" class="dk-page"><div class="dk-top"><div><div class="dk-h6">Good afternoon</div><p><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Monday, September 21. Open until 6:00 PM, then Baxter answers overnight.</p></div><button type="button" class="dk-bell" aria-label="Notifications"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg></button></div><div class="dk-scr"><div class="dk-home"><div class="dk-stats">
-<div class="dk-card dk-stat need" style="--c:#e0ae5a"><div class="hd"><span class="dk-lbl" style="color:#f3cf8f">Needs you</span><span class="dk-link">Open queue</span></div><div class="n"><b>1</b><span>conversation waiting</span></div><p>Oldest has waited 2 h</p></div>
-<div class="dk-card dk-stat" style="--c:#4d86ff"><div class="hd"><span class="dk-lbl" style="color:#a9c5ff">Conversations today</span><span class="dk-link">Open inbox</span></div><div class="n"><b>7</b><span>+3 vs. yesterday</span></div><p><strong>6</strong> handled by Baxter end to end, <strong>1</strong> needed you</p></div>
-<div class="dk-card dk-stat" style="--c:#37c98b"><div class="hd"><span class="dk-lbl" style="color:#7fe3b6">Booked</span><span class="dk-link">Schedule</span></div><div class="n"><b>3</b><span>this week by Baxter</span></div><p>Next: today, 2:30 PM</p></div>
-</div><div class="dk-colL">
-<div class="dk-card"><div class="dk-sec-h"><b>Waiting on you</b><span class="cnt">1</span><span class="hint">Reply to take over.</span></div>
-<div class="dk-wait"><span class="dk-av">MB</span><div><div class="who"><b>Marcus Bell</b><span><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg><span data-na-only>SMS</span><span data-wa-only hidden>WhatsApp</span></span><em>waiting 2 h</em></div><q>Can I talk to someone about my insurance first?</q><div class="dk-tags"><span>Asked for a human</span><span>Booked before</span></div></div><div class="acts"><button type="button" class="dk-btn">Let Baxter continue</button><button type="button" class="dk-btn white" data-go="inbox">Reply</button></div></div></div>
-<div class="dk-card"><div class="dk-sec-h"><b>Recent conversations</b><span class="dk-link" data-go="inbox" style="cursor:pointer">Open inbox</span></div><div class="dk-row"><span class="dk-av">JD</span><div class="t"><b>Jane Doe<svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></b><span>Booked a cleaning for Wed 2:30 PM with Dr. Rivera.</span></div><span class="dk-chip green">Booked</span><time>12m</time></div><div class="dk-row"><span class="dk-av">PN</span><div class="t"><b>Priya Nair<svg class="ic" aria-hidden="true"><use href="#i-wa"/></svg></b><span>New patient, booked Thu 4:00 PM.</span></div><span class="dk-chip green">Booked</span><time>1h</time></div><div class="dk-row"><span class="dk-av">TA</span><div class="t"><b>Tom Alvarez<svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg></b><span><span data-na-only>Called about a follow-up, Baxter is confirming a time.</span><span data-wa-only hidden>Asked about a follow-up, Baxter is confirming a time.</span></span></div><span class="dk-chip blue">Baxter replying</span><time>2h</time></div><div class="dk-row"><span class="dk-av">WV</span><div class="t"><b>Website visitor<svg class="ic" aria-hidden="true"><use href="#i-web"/></svg></b><span>Asked if you take Delta Dental insurance.</span></div><span class="dk-chip grey">Went quiet</span><time>5h</time></div></div>
-</div><div class="dk-colR">
-<div class="dk-card"><div class="dk-master"><span class="chn wa"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg></span><span><b data-master-label>Baxter is on</b><small data-master-sub>Answering on <span data-chan-n>5</span> connected channels</small></span><button type="button" class="tg" aria-pressed="true" aria-label="Baxter on or off" data-master></button></div>
-<div class="dk-chl"><div class="hd"><span class="dk-lbl">Channels</span><span class="dk-lbl" data-chcount data-chan-count>5 connected</span></div><div class="dk-ch" data-na-only><span class="chn "><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></span><b>SMS</b><span>+1 (555) 123-4567</span><button type="button" class="tg" aria-pressed="true" aria-label="SMS replies" data-chtg></button></div><div class="dk-ch" data-needs-voice><span class="chn vo"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg></span><b>Voice</b><span>+1 (555) 123-4567</span><button type="button" class="tg" aria-pressed="true" aria-label="Voice replies" data-chtg></button></div><div class="dk-ch"><span class="chn wa"><svg class="ic" aria-hidden="true"><use href="#i-wa"/></svg></span><b>WhatsApp</b><span>+1 (555) 771-0064</span><button type="button" class="tg" aria-pressed="true" aria-label="WhatsApp replies" data-chtg></button></div><div class="dk-ch"><span class="chn web"><svg class="ic" aria-hidden="true"><use href="#i-web"/></svg></span><b>Website chat</b><span>riveradental.com</span><button type="button" class="tg" aria-pressed="true" aria-label="Website chat replies" data-chtg></button></div><div class="dk-ch"><span class="chn em"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg></span><b>Email</b><span>hi@riveradental.com</span><button type="button" class="tg" aria-pressed="true" aria-label="Email replies" data-chtg></button></div></div></div>
-<div class="dk-card"><div class="dk-sec-h" style="border:0"><b>Up next</b><span class="dk-link" data-go="schedule" style="cursor:pointer">Schedule</span></div><div class="dk-next"><span class="dk-lbl">Today</span><div class="dk-slot"><time>2:30 PM</time><div><b>Jane Doe</b><small>Cleaning, 30 min, booked via <span data-na-only>SMS</span><span data-wa-only hidden>WhatsApp</span></small></div><svg class="ic ok" aria-hidden="true"><use href="#i-check"/></svg></div></div></div>
-</div></div></div></div>
-<div data-scr="inbox" class="dk-page" hidden><div class="dk-top"><div><div class="dk-h6">Inbox</div><p>1 conversation needs you. Baxter is handling 1.</p></div><button type="button" class="dk-bell" aria-label="Notifications"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg></button></div><div class="dk-scr"><div class="dk-inbox"><div class="dk-list"><div class="dk-search"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>Search people and messages</div>
-<div class="dk-filters"><span class="on">All<i>11</i></span><span>Needs you<i>1</i></span><span>Handed off<i>1</i></span><span>Booked<i>3</i></span><span>Went quiet<i>4</i></span><span>All channels<i>11</i></span></div><div class="dk-conv sel"><span class="dk-av">MB</span><div><b>Marcus Bell</b><span>You: Hi Marcus, this is Sarah from Rivera...</span><em class="amber">Taken over</em></div><time>2h</time></div><div class="dk-conv"><span class="dk-av">JD</span><div><b>Jane Doe</b><span>Baxter: You're booked. Reminder coming...</span><em class="green">Booked</em></div><time>12m</time></div><div class="dk-conv"><span class="dk-av">PN</span><div><b>Priya Nair</b><span>Baxter: See you Thursday at 4:00 PM.</span><em class="green">Booked</em></div><time>1h</time></div><div class="dk-conv"><span class="dk-av">TA</span><div><b>Tom Alvarez</b><span><span data-na-only>Tom called about a follow-up visit.</span><span data-wa-only hidden>Tom asked about a follow-up visit.</span></span><em class="blue">Baxter replying</em></div><time>2h</time></div><div class="dk-conv"><span class="dk-av">WV</span><div><b>Website visitor</b><span>Do you take Delta Dental?</span><em class="grey">Went quiet</em></div><time>5h</time></div><div class="dk-conv"><span class="dk-av">OJ</span><div><b>Olivia Johnson</b><span>Baxter: Thanks for reaching out, Olivia.</span><em class="grey">Went quiet</em></div><time>1d</time></div></div><div class="dk-thread"><div class="dk-th-h"><span class="chn"><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></span><div><b>Marcus Bell</b><small><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg><span data-na-only>SMS</span><span data-wa-only hidden>WhatsApp</span></small></div>
-<div class="right"><span class="dk-chip amber" data-ho-chip>Taken over</span><button type="button" class="dk-btn" data-ho>Hand back</button></div></div>
-<div class="dk-msgs"><div class="dk-b cust">Hi, do you take Delta Dental?<small>2:41 PM</small></div>
-<div class="dk-b bax">We do. Would you like to book a cleaning? I have Thursday at 10:00 AM open.<small>2:41 PM</small></div>
-<div class="dk-b cust">Can I talk to someone about my insurance first?<small>2:43 PM</small></div>
-<div class="dk-b bax">Of course. I've let the team know, and someone will reply here shortly.<small>2:43 PM</small></div>
-<div class="dk-b you">Hi Marcus, this is Sarah from Rivera Dental. Happy to walk you through your coverage.<small>You, 4:51 PM</small></div></div>
-<div class="dk-comp"><div class="via" data-ho-via>Replying as you via <b><span data-na-only>SMS</span><span data-wa-only hidden>WhatsApp</span></b></div><div class="row"><span class="inp">Type a message</span><button type="button" class="dk-btn"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Book</button><button type="button" class="dk-send" aria-label="Send"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg></button></div></div></div><div class="dk-contact"><div class="who"><span class="dk-av">MB</span><div><b>Marcus Bell</b><span class="dk-chip grey">Patient</span></div></div>
-<div class="acts"><button type="button" class="dk-btn"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svgdata-needs-voice>Call</button><button type="button" class="dk-btn blue"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Book</button></div>
-<div class="dk-kv"><span class="dk-lbl">Summary*</span><p>Existing patient. Asked about Delta Dental coverage before booking a cleaning. Prefers mornings.</p></div>
-<div class="dk-kv"><span class="dk-lbl">Details</span><dl><div><dt>Phone</dt><dd>+1 (555) 018-0142</dd></div><div><dt>Email</dt><dd>marcus.bell@example.com</dd></div></dl></div>
-<div class="dk-kv"><span class="dk-lbl">Appointments</span><div class="dk-appt"><span class="cal"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><b>Mon, Aug 25, 10:00 AM</b><small>Consultation with Sarah</small></div></div></div>
-<div class="dk-kv"><span class="dk-lbl">Internal notes</span><p style="color:var(--ink-3)">No notes yet.</p></div></div></div></div></div>
-<div data-scr="schedule" class="dk-page" hidden><div class="dk-top"><div><div class="dk-h6">Schedule</div><p><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Everything Baxter booked, without anyone typing it in.</p></div><button type="button" class="dk-bell" aria-label="Notifications"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg></button></div><div class="dk-scr"><div class="dk-sched"><div class="dk-schside"><div class="dk-cal"><div class="hd"><b>September</b><span class="dk-chip blue">Today</span></div><div class="dow"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div><div class="days"><span class="pad"></span><span class="has">1</span><span class="has">2</span><span class="has">3</span><span>4</span><span>5</span><span>6</span><span>7</span><span class="has">8</span><span class="has">9</span><span class="has">10</span><span class="has">11</span><span>12</span><span>13</span><span>14</span><span class="has">15</span><span class="has">16</span><span class="has">17</span><span class="has">18</span><span>19</span><span>20</span><span class="has">21</span><span class="on">22</span><span class="has">23</span><span class="has">24</span><span class="has">25</span><span>26</span><span>27</span><span class="has">28</span><span class="has">29</span><span class="has">30</span></div></div>
-<div class="dk-card dk-schsum"><span class="dk-lbl">This week</span><div class="r"><span>Booked by Baxter</span><b>14</b></div><div class="r"><span>Reminders sent</span><b>22</b></div><div class="r"><span>Rescheduled by Baxter</span><b>3</b></div><div class="r"><span>No-shows</span><b>0</b></div></div></div>
-<div class="dk-schbody"><div class="dk-sec-h"><b>Tuesday, September 22</b><span class="hint">6 booked, 2 openings left</span></div><div class="dk-day"><div class="dk-ev"><time>8:30 AM</time><div class="ev"><div><b>Olivia Johnson</b><small>Check-up, 30 min</small></div><span class="dk-chip blue">Booked by Baxter</span></div></div><div class="dk-ev"><time>9:15 AM</time><div class="ev"><div><b>Tom Alvarez</b><small>Follow-up, 20 min</small></div><span class="dk-chip blue">Booked by Baxter</span></div></div><div class="dk-ev open"><time>10:00 AM</time><div class="ev">Open, 45 min</div></div><div class="dk-ev"><time>10:45 AM</time><div class="ev"><div><b>Priya Nair</b><small>New patient exam, 45 min</small></div><span class="dk-chip blue">Booked by Baxter</span></div></div><div class="dk-ev"><time>1:00 PM</time><div class="ev"><div><b>Marcus Bell</b><small>Consultation with Sarah</small></div><span class="dk-chip grey">Added by you</span></div></div><div class="dk-ev"><time>2:30 PM</time><div class="ev"><div><b>Jane Doe</b><small>Cleaning, 30 min</small></div><span class="dk-chip green">Reminder sent</span></div></div><div class="dk-ev open"><time>4:00 PM</time><div class="ev">Open, 30 min</div></div></div></div></div></div></div>
-</div></div></div></div>
-          <div class="tour-phone" role="img" aria-label="The same screens in the LeadQ app on a phone">
-          <div class="phone">
-            <div class="ap-screen">
-              <div class="ap-island"></div>
-              <div class="ap-status"><span>9:41</span><span>5G</span></div>
-            <div class="ap-view" data-scr="home">
-              <div class="ap-header plain"><span class="ap-hname big">Good afternoon</span></div>
-              <div class="ap-body"><div class="ap-scr">
-                <div class="ap-dayhd">Waiting on you<span class="ln"></span>1</div>
-                <div class="ap-appt"><span class="ap-appt-time"><span class="ap-appt-t">2h</span><span class="ap-appt-ap">waited</span></span><span class="ap-appt-mid"><span class="ap-appt-nm">Marcus Bell</span><span class="ap-appt-sub">Asked to talk about insurance</span><span class="ap-appt-stat"><span class="d"></span>Needs you</span></span></div>
-                <div class="ap-dayhd">Today<span class="ln"></span>7</div>
-                <div class="ap-booked"><b>6 handled end to end</b>3 booked, 1 needed you</div>
-                <div class="ap-dayhd">Recent<span class="ln"></span>3</div>
-                <div class="ap-appt"><span class="ap-appt-time"><span class="ap-appt-t">12m</span><span class="ap-appt-ap">ago</span></span><span class="ap-appt-mid"><span class="ap-appt-nm">Jane Doe</span><span class="ap-appt-sub">Booked a cleaning, Wed 2:30 PM</span><span class="ap-appt-stat"><span class="d"></span>Booked</span></span></div>
-                <div class="ap-appt"><span class="ap-appt-time"><span class="ap-appt-t">1h</span><span class="ap-appt-ap">ago</span></span><span class="ap-appt-mid"><span class="ap-appt-nm">Priya Nair</span><span class="ap-appt-sub">New patient, booked Thu 4:00 PM</span><span class="ap-appt-stat"><span class="d"></span>Booked</span></span></div>
-              </div></div>
-              <div class="ap-nav"><span class="ap-tab on" data-go="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</span><span class="ap-tab" data-go="inbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>Inbox</span><span class="ap-tab" data-go="schedule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Schedule</span><span class="ap-tab" data-go="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="3.1"/><path d="M19.5 12.9a7.5 7.5 0 0 0 0-1.8l1.9-1.5-1.9-3.3-2.3 1a7.5 7.5 0 0 0-1.6-.9L15.2 4H8.8l-.4 2.4a7.5 7.5 0 0 0-1.6.9l-2.3-1-1.9 3.3 1.9 1.5a7.5 7.5 0 0 0 0 1.8l-1.9 1.5 1.9 3.3 2.3-1a7.5 7.5 0 0 0 1.6.9l.4 2.4h6.4l.4-2.4a7.5 7.5 0 0 0 1.6-.9l2.3 1 1.9-3.3z"/></svg>Settings</span></div>
-            </div>
-            <div class="ap-view" data-scr="inbox" hidden>
-              <div class="ap-header"><span class="ap-av">M</span><span><span class="ap-hname">Marcus Bell</span><span class="ap-hsub"><span class="ch">SMS</span>, you took over</span></span></div>
-              <div class="ap-body"><div class="ap-chat">
-                <div class="ap-bubble in">Hi, do you take Delta Dental?</div>
-                <div class="ap-bubble out">We do. Would you like to book a cleaning?</div>
-                <div class="ap-bubble in">Can I talk to someone about my insurance first?</div>
-                <div class="ap-bubble out">Of course. Someone will reply here shortly.</div>
-              </div></div>
-              <div class="ap-nav"><span class="ap-tab" data-go="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</span><span class="ap-tab on" data-go="inbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>Inbox</span><span class="ap-tab" data-go="schedule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Schedule</span><span class="ap-tab" data-go="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="3.1"/><path d="M19.5 12.9a7.5 7.5 0 0 0 0-1.8l1.9-1.5-1.9-3.3-2.3 1a7.5 7.5 0 0 0-1.6-.9L15.2 4H8.8l-.4 2.4a7.5 7.5 0 0 0-1.6.9l-2.3-1-1.9 3.3 1.9 1.5a7.5 7.5 0 0 0 0 1.8l-1.9 1.5 1.9 3.3 2.3-1a7.5 7.5 0 0 0 1.6.9l.4 2.4h6.4l.4-2.4a7.5 7.5 0 0 0 1.6-.9l2.3 1 1.9-3.3z"/></svg>Settings</span></div>
-            </div>
-            <div class="ap-view" data-scr="schedule" hidden>
-              <div class="ap-header plain"><span class="ap-hname big">Schedule</span></div>
-              <div class="ap-body"><div class="ap-scr">
-              <div class="ap-seg"><span class="sel">Upcoming</span><span>Past</span></div>
-              <div class="ap-dayhd">Today, Mon Sep 21<span class="ln"></span>4</div>
-              <div class="ap-appt"><span class="ap-appt-time"><span class="ap-appt-t">8:30</span><span class="ap-appt-ap">AM</span></span><span class="ap-appt-mid"><span class="ap-appt-nm">Olivia Johnson</span><span class="ap-appt-sub">Check-up, 30 min</span><span class="ap-appt-stat"><span class="d"></span>Booked</span></span></div>
-              <div class="ap-appt"><span class="ap-appt-time"><span class="ap-appt-t">10:45</span><span class="ap-appt-ap">AM</span></span><span class="ap-appt-mid"><span class="ap-appt-nm">Priya Nair</span><span class="ap-appt-sub">New patient exam, 45 min</span><span class="ap-appt-stat"><span class="d"></span>Booked</span></span></div>
-              <div class="ap-appt"><span class="ap-appt-time"><span class="ap-appt-t">1:00</span><span class="ap-appt-ap">PM</span></span><span class="ap-appt-mid"><span class="ap-appt-nm">Marcus Bell</span><span class="ap-appt-sub">Consultation with Sarah</span><span class="ap-appt-stat"><span class="d"></span>Added by you</span></span></div>
-              <div class="ap-appt"><span class="ap-appt-time"><span class="ap-appt-t">2:30</span><span class="ap-appt-ap">PM</span></span><span class="ap-appt-mid"><span class="ap-appt-nm">Jane Doe</span><span class="ap-appt-sub">Cleaning, 30 min</span><span class="ap-appt-stat"><span class="d"></span>Reminder sent</span></span></div>
-              
-            </div></div>
-              <div class="ap-nav"><span class="ap-tab" data-go="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</span><span class="ap-tab" data-go="inbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>Inbox</span><span class="ap-tab on" data-go="schedule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Schedule</span><span class="ap-tab" data-go="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="3.1"/><path d="M19.5 12.9a7.5 7.5 0 0 0 0-1.8l1.9-1.5-1.9-3.3-2.3 1a7.5 7.5 0 0 0-1.6-.9L15.2 4H8.8l-.4 2.4a7.5 7.5 0 0 0-1.6.9l-2.3-1-1.9 3.3 1.9 1.5a7.5 7.5 0 0 0 0 1.8l-1.9 1.5 1.9 3.3 2.3-1a7.5 7.5 0 0 0 1.6.9l.4 2.4h6.4l.4-2.4a7.5 7.5 0 0 0 1.6-.9l2.3 1 1.9-3.3z"/></svg>Settings</span></div>
-            </div>
-            </div>
+    <div class="nodesk">
+      <figure style="--c:#4d86ff">
+        <div class="nodesk-stage"><div class="phone" role="img" aria-label="The LeadQ inbox on a plumber's phone">
+          <div class="ap-screen">
+            <div class="ap-island"></div>
+            <div class="ap-status"><span>9:41</span><span>5G</span></div>
+            <div class="ap-header plain"><span class="ap-av" style="background:#7ba6ff">P</span><span><span class="ap-hname">Pipeline Plumbing</span><span class="ap-hsub">Inbox</span></span></div>
+            <div class="ap-body"><div class="ap-list"><div class="ap-it need"><span class="need-k">Needs you</span><b>Burst pipe, Oak St.</b><p>Wants someone tonight. Asked for you.</p></div><div class="ap-it"><div class="ap-it-h"><b>Dave</b><span class="ap-ch"><span data-na-only><i class="ch-ic" style="background:rgba(139,110,240,.16)"><svg viewBox="0 0 24 24" fill="#9B8CF0" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.74-.24 1.02l-2.2 2.2z"/></svg></i></span><span data-wa-only hidden><i class="ch-ic" style="background:rgba(37,211,102,.15)"><svg viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></i></span></span></div><p>Water heater quote, booked for Fri 9 AM</p><span class="ap-pill">Booked</span></div><div class="ap-it"><div class="ap-it-h"><b>Lena</b><span class="ap-ch"><span data-na-only><i class="ch-ic" style="background:rgba(55,138,221,.16)"><svg viewBox="0 0 24 24" fill="#7ba6ff" aria-hidden="true"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></i></span><span data-wa-only hidden><i class="ch-ic" style="background:rgba(240,86,140,.15)"><svg viewBox="0 0 24 24" fill="#F0568C" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.2" fill="none" stroke="#F0568C" stroke-width="2"/><circle cx="12" cy="12" r="4.1" fill="none" stroke="#F0568C" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.3"/></svg></i></span></span></div><p>“Do you do drain cleaning?” Answered.</p></div><div class="ap-it"><div class="ap-it-h"><b>Marcus</b><span class="ap-ch"><i class="ch-ic" style="background:rgba(45,200,170,.16)"><svg viewBox="0 0 24 24" fill="#2EC8AA" fill-rule="evenodd" aria-hidden="true"><path d="M4 3h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm8 2.7a2.1 2.1 0 1 0 0 4.2 2.1 2.1 0 1 0 0-4.2Zm0 5.1c-2.6 0-4.7 1.5-4.7 3.4h9.4c0-1.9-2.1-3.4-4.7-3.4ZM10.8 16h2.4v2.6h-2.4ZM7 18.6h10a1.1 1.1 0 0 1 0 2.2H7a1.1 1.1 0 0 1 0-2.2Z"/></svg></i></span></div><p>Asked about pricing. Follow-up sent.</p></div><div class="ap-it"><div class="ap-it-h"><b>Rosa</b><span class="ap-ch"><i class="ch-ic" style="background:rgba(122,130,232,.16)"><svg viewBox="0 0 24 24" fill="#8A92F0" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></i></span></div><p>“Tankless heaters too?” Answered.</p></div></div></div>
+            
+            <div class="ap-nav"><span class="ap-tab" data-go="assistant"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.4l1.65 4.45a3 3 0 0 0 1.78 1.78L19.6 10.3l-4.17 1.55a3 3 0 0 0-1.78 1.78L12 18.2l-1.65-4.45a3 3 0 0 0-1.78-1.78L4.4 10.3l4.17-1.67a3 3 0 0 0 1.78-1.78z"/></svg>Assistant</span><span class="ap-tab on" data-go="inbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>Inbox</span><span class="ap-tab" data-go="schedule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Schedule</span><span class="ap-tab" data-go="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="3.1"/><path d="M19.5 12.9a7.5 7.5 0 0 0 0-1.8l1.9-1.5-1.9-3.3-2.3 1a7.5 7.5 0 0 0-1.6-.9L15.2 4H8.8l-.4 2.4a7.5 7.5 0 0 0-1.6.9l-2.3-1-1.9 3.3 1.9 1.5a7.5 7.5 0 0 0 0 1.8l-1.9 1.5 1.9 3.3 2.3-1a7.5 7.5 0 0 0 1.6.9l.4 2.4h6.4l.4-2.4a7.5 7.5 0 0 0 1.6-.9l2.3 1 1.9-3.3z"/></svg>Settings</span></div>
           </div>
-        </div>
+        </div></div>
+        <figcaption><span class="k">Plumbers</span>Booked a water-heater job and flagged tonight's emergency while the owner was on another call.</figcaption>
+      </figure>
+      <figure style="--c:#f27eb4">
+        <div class="nodesk-stage"><div class="phone" role="img" aria-label="The LeadQ inbox on a nail salon owner's phone">
+          <div class="ap-screen">
+            <div class="ap-island"></div>
+            <div class="ap-status"><span>9:41</span><span>5G</span></div>
+            <div class="ap-header plain"><span class="ap-av" style="background:#f0a6c8">G</span><span><span class="ap-hname">Glossy Nail Studio</span><span class="ap-hsub">Inbox</span></span></div>
+            <div class="ap-body"><div class="ap-list"><div class="ap-it"><div class="ap-it-h"><b>Priya</b><span class="ap-ch"><i class="ch-ic" style="background:rgba(240,86,140,.15)"><svg viewBox="0 0 24 24" fill="#F0568C" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.2" fill="none" stroke="#F0568C" stroke-width="2"/><circle cx="12" cy="12" r="4.1" fill="none" stroke="#F0568C" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.3"/></svg></i></span></div><p>Gel fill, Saturday 11 AM with Jess</p><span class="ap-pill">Booked</span></div><div class="ap-it"><div class="ap-it-h"><b>Amanda</b><span class="ap-ch"><i class="ch-ic" style="background:rgba(37,211,102,.15)"><svg viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></i></span></div><p>Moved her appointment to Tue 3 PM</p><span class="ap-pill">Rebooked</span></div><div class="ap-it"><div class="ap-it-h"><b>Chloe</b><span class="ap-ch"><i class="ch-ic" style="background:rgba(91,140,255,.16)"><svg viewBox="0 0 24 24" fill="#5B8CFF" aria-hidden="true"><path d="M12 2C6.36 2 2 6.13 2 11.7c0 2.91 1.19 5.43 3.14 7.17.16.14.26.35.27.57l.05 1.78c.02.57.6.94 1.12.71l1.98-.87c.17-.08.36-.09.54-.04.91.25 1.88.38 2.9.38 5.64 0 10-4.13 10-9.7S17.64 2 12 2Zm6 7.46-2.94 4.66c-.47.74-1.47.93-2.17.4l-2.34-1.75a.6.6 0 0 0-.72 0l-3.16 2.4c-.42.32-.97-.18-.69-.63l2.94-4.66c.47-.74 1.47-.93 2.17-.4l2.34 1.75a.6.6 0 0 0 .72 0l3.16-2.4c.42-.32.97.18.69.63Z"/></svg></i></span></div><p>“Do you take walk-ins?” Answered.</p></div><div class="ap-it"><div class="ap-it-h"><b>Tara</b><span class="ap-ch"><span data-na-only><i class="ch-ic" style="background:rgba(55,138,221,.16)"><svg viewBox="0 0 24 24" fill="#7ba6ff" aria-hidden="true"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></i></span><span data-wa-only hidden><i class="ch-ic" style="background:rgba(122,130,232,.16)"><svg viewBox="0 0 24 24" fill="#8A92F0" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></i></span></span></div><p>Reminder sent for tomorrow 2 PM</p></div><div class="ap-it"><div class="ap-it-h"><b>Mei</b><span class="ap-ch"><i class="ch-ic" style="background:rgba(45,200,170,.16)"><svg viewBox="0 0 24 24" fill="#2EC8AA" fill-rule="evenodd" aria-hidden="true"><path d="M4 3h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm8 2.7a2.1 2.1 0 1 0 0 4.2 2.1 2.1 0 1 0 0-4.2Zm0 5.1c-2.6 0-4.7 1.5-4.7 3.4h9.4c0-1.9-2.1-3.4-4.7-3.4ZM10.8 16h2.4v2.6h-2.4ZM7 18.6h10a1.1 1.1 0 0 1 0 2.2H7a1.1 1.1 0 0 1 0-2.2Z"/></svg></i></span></div><p>Asked about gift cards. Answered.</p></div></div></div>
+            
+            <div class="ap-nav"><span class="ap-tab" data-go="assistant"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.4l1.65 4.45a3 3 0 0 0 1.78 1.78L19.6 10.3l-4.17 1.55a3 3 0 0 0-1.78 1.78L12 18.2l-1.65-4.45a3 3 0 0 0-1.78-1.78L4.4 10.3l4.17-1.67a3 3 0 0 0 1.78-1.78z"/></svg>Assistant</span><span class="ap-tab on" data-go="inbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>Inbox</span><span class="ap-tab" data-go="schedule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Schedule</span><span class="ap-tab" data-go="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="3.1"/><path d="M19.5 12.9a7.5 7.5 0 0 0 0-1.8l1.9-1.5-1.9-3.3-2.3 1a7.5 7.5 0 0 0-1.6-.9L15.2 4H8.8l-.4 2.4a7.5 7.5 0 0 0-1.6.9l-2.3-1-1.9 3.3 1.9 1.5a7.5 7.5 0 0 0 0 1.8l-1.9 1.5 1.9 3.3 2.3-1a7.5 7.5 0 0 0 1.6.9l.4 2.4h6.4l.4-2.4a7.5 7.5 0 0 0 1.6-.9l2.3 1 1.9-3.3z"/></svg>Settings</span></div>
           </div>
-          <p class="scroll-hint">Swipe sideways to see the full screen</p>
-          <p class="tour-title" data-cap-title>Know what needs you in five seconds.</p><div class="tour-caps" data-caps><div class="it"><b>Needs you, first</b><span>The one conversation waiting on a person sits at the top, with one-tap Reply, or let your assistant carry on.</span></div><div class="it"><b>What your assistant handled</b><span>Today's conversations, bookings and who needed you, at a glance.</span></div><div class="it"><b>Every channel, one switch</b><span>Pause your assistant everywhere, or channel by channel. Try the switches.</span></div></div>
-          <p class="tour-note">Runs in your browser. Log in from any computer or phone, and invite your team. The mobile app is coming soon.</p>
-          <p class="tour-note" style="margin-top:4px">*Pro Plan</p>
+        </div></div>
+        <figcaption><span class="k">Nail salons</span>Filled Saturday and handled a reschedule over Instagram and WhatsApp, without putting the brush down.</figcaption>
+      </figure>
+    </div>
+    <p class="fine nodesk-note">Runs in your browser. Log in from any computer or phone, and invite your team. The mobile app is coming soon.</p>
   </div>
 </section>
 
-<!-- voice teaser -->
-<section class="sec">
-  <div class="wrap">
-    <div class="voice-band" style="--c:#a98cf0" data-live data-needs-voice>
-      <div>
-        <h2 class="h-sec">Then it picks up the phone too.</h2>
-        <p class="lead" style="margin:18px 0 28px">A receptionist that sounds human, takes the calls you can't, books the job, and warm-transfers to you when it matters. No more voicemail.</p>
-        <a class="btn btn-voice btn-lg" href="voice.html">Meet the AI Receptionist</a>
-        <p class="fine">The AI Receptionist runs on US and Canadian phone numbers only.</p>
-      </div>
-      <div>
-        <div class="ring-wrap" aria-hidden="true"><div class="ring-core"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></div></div>
-        <div class="vchips" role="group" aria-label="Voices" data-press-group>
-          <button type="button" aria-pressed="true">Ava</button><button type="button" aria-pressed="false">Noah</button><button type="button" aria-pressed="false">Mia</button><button type="button" aria-pressed="false">Sarah</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- how it works -->
-<section class="sec" id="how">
-  <div class="wrap">
-    <div class="sec-head"><h2 class="h-sec">Live in minutes, from any browser.</h2></div>
-    <div class="steps">
-      <div class="step">
-        <span class="n">1</span>
-        <h3>Paste your website</h3>
-        <p>It drafts your FAQ, services and prices. You approve.</p>
-        <div class="shot" aria-hidden="true">
-          <div class="sc-url"><span class="sc-ok" style="margin:0"></span>riveradental.com</div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">Services</span></span><span class="sc-tag">6 found</span></div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">FAQ answers</span></span><span class="sc-tag">12 drafted</span></div>
-        </div>
-      </div>
-      <div class="step">
-        <span class="n">2</span>
-        <h3>Connect your channels</h3>
-        <p><span data-na-only>WhatsApp, text, web chat, email and voice.</span><span data-wa-only hidden>WhatsApp, web chat and email. We guide you through WhatsApp Business approval.</span> Plus Instagram and Messenger.</p>
-        <div class="shot" aria-hidden="true">
-          <div class="sc-row"><span class="sc-ic"><i class="ch-ic" style="background:rgba(37,211,102,.15)"><svg viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></i></span><span class="sc-tx"><span class="sc-name">WhatsApp</span></span><span class="sc-ok">Connected</span></div>
-          <div class="sc-row"><span class="sc-ic"><i class="ch-ic" style="background:rgba(55,138,221,.16)"><svg viewBox="0 0 24 24" fill="#7ba6ff" aria-hidden="true"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></i></span><span class="sc-tx"><span class="sc-name"><span data-na-only>SMS</span><span data-wa-only hidden>WhatsApp</span></span></span><span class="sc-ok">Connected</span></div>
-          <div class="sc-row"><span class="sc-ic"><i class="ch-ic" style="background:rgba(45,200,170,.16)"><svg viewBox="0 0 24 24" fill="#2EC8AA" fill-rule="evenodd" aria-hidden="true"><path d="M4 3h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm8 2.7a2.1 2.1 0 1 0 0 4.2 2.1 2.1 0 1 0 0-4.2Zm0 5.1c-2.6 0-4.7 1.5-4.7 3.4h9.4c0-1.9-2.1-3.4-4.7-3.4ZM10.8 16h2.4v2.6h-2.4ZM7 18.6h10a1.1 1.1 0 0 1 0 2.2H7a1.1 1.1 0 0 1 0-2.2Z"/></svg></i></span><span class="sc-tx"><span class="sc-name">Web chat</span></span><span class="sc-ok">Connected</span></div>
-        </div>
-      </div>
-      <div class="step">
-        <span class="n">3</span>
-        <h3>It answers and books</h3>
-        <p>With reminders and follow-ups built in. You watch it work.</p>
-        <div class="shot" aria-hidden="true">
-          <div class="ap-bubble in">Can I come in Thursday?</div>
-          <div class="ap-bubble out" style="margin-left:auto">Thursday at 3:00 PM works. You're booked.</div>
-          <div class="ap-booked"><b>Booked, reminder set</b>Thu, 3:00 PM</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- pricing preview -->
-<section class="lit-hero midway" style="--c:#2fc6e8;--c2:#4d86ff">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2 class="h-sec">One recovered lead covers the month.</h2>
-      <p class="lead">Every plan includes the full assistant and a monthly credit pool that covers every channel. Pick the one that fits today and move up when you're ready.</p>
-    </div>
-    <div class="plans">
-      <div class="plan" data-plan="starter">
-        <h3 data-plan-name="starter">Starter</h3><p class="for">Solo, or just trying it out</p>
-        <div class="amt"><span data-price="starter">$59</span><small> <span data-code>USD</span> /mo</small></div>
-        <ul><li><span data-cell="starter.credits">20,000</span> credits a month</li><li data-na-only>1 seat</li><li data-na-only>1 text-based channel (no voice)</li><li data-wa-only hidden>3 seats</li><li data-wa-only hidden>1 channel</li><li>Booking, calendar and reminders</li><li>Calendar sync with Google and Outlook</li><li>Follow-ups, custom fields, profiles</li><li>Assistant, FAQ and lead capture</li></ul>
-        <a class="btn btn-ghost btn-block" href="https://app.leadq.co/?signup&plan=starter">Choose Starter</a>
-      </div>
-      <div class="plan hot" data-plan="growth">
-        <span class="flag">Most popular</span>
-        <h3 data-plan-name="growth">Growth</h3><p class="for">Multi-channel assistant for a growing business</p>
-        <div class="amt"><span data-price="growth">$149</span><small> <span data-code>USD</span> /mo</small></div>
-        <ul><li><span data-cell="growth.credits">45,000</span> credits a month</li><li><span data-cell="growth.seats">3</span> seats</li><li data-na-only>1 phone number</li><li><span data-cell="growth.channels" data-unit="text-based channel">3 text-based channels</span> (no voice)</li><li>Booking, calendar and reminders</li><li>Follow-ups, custom fields, profiles</li><li>Calendar sync with Google and Outlook</li></ul>
-        <a class="btn btn-primary btn-block" href="https://app.leadq.co/?signup&plan=growth">Start with Growth</a>
-      </div>
-      <div class="plan" data-plan="pro">
-        <h3 data-plan-name="pro">Pro</h3><p class="for"><span data-na-only>Live voice receptionist, high volume, insights &amp; reporting</span><span data-wa-only hidden>High volume, every channel, insights &amp; reporting</span></p>
-        <div class="amt"><span data-price="pro">$399</span><small> <span data-code>USD</span> /mo</small></div>
-        <p class="plus" data-plus>Everything in Growth, plus:</p>
-        <ul><li><span data-cell="pro.credits">120,000</span> credits a month</li><li><span data-cell="pro.seats">10</span> seats</li><li data-na-only>2 phone numbers</li><li data-needs-a2p>A2P registration fee waived</li><li class="voice" data-needs-voice>AI voice receptionist</li><li data-pro-channels>All channels</li><li>Contact Summary</li><li>Insights and reporting</li><li>Claude connector</li><li>Priority support</li></ul>
-        <a class="btn btn-ghost btn-block" href="https://app.leadq.co/?signup&plan=pro">Choose Pro</a>
-      </div>
-    </div>
-    <div class="ent-row">
-      <div class="ent-l">
-        <h3>Enterprise</h3>
-        <p class="ent-tag">A plan built around your business.</p>
-        <p class="ent-for">For multi-location businesses, larger teams and high volume. Everything in Pro, sized to how you actually run.</p>
-        <div class="ent-cta">
-          <a class="btn btn-white btn-lg" href="enterprise.html">Contact us<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-        </div>
-      </div>
-      <ul class="ent-pts">
-        <li><span class="ent-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></span><b>More locations</b><small>Every branch on a single plan.</small></li>
-        <li><span class="ent-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><b>Bigger teams</b><small>Seats for your whole team.</small></li>
-        <li><span class="ent-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></svg></span><b>Higher volume</b><small>Credits sized to your real volume.</small></li>
-        <li><span class="ent-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 8-6 4 6 4V8z"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg></span><b>Top priority support</b><small>Video call support when you need it.</small></li>
-      </ul>
-    </div>
-    <p class="plans-note">Create your account, then subscribe inside the app. No contracts, cancel anytime.</p>
-    <div class="ctas" style="justify-content:center;margin-top:18px"><a class="btn btn-ghost" href="pricing.html">See all plans</a></div>
-  </div>
-</section>
-
-<!-- faq -->
+<!-- faq: plans and credits live on the pricing page, not here -->
 <section class="sec">
   <div class="wrap">
     <div class="sec-head"><h2 class="h-sec">Questions, answered.</h2></div>
@@ -544,25 +346,7 @@
       <details><summary>Can I keep my WhatsApp number?</summary><p>Yes. Connect a new number or bring the one your customers already message.</p></details>
       <details><summary>Can I take over a conversation?</summary><p>Any time. Pause the assistant for one contact or a whole channel, reply yourself, then hand it back.</p></details>
     </div>
-  </div>
-</section>
-
-<!-- signup path -->
-<section class="sec" style="--c:#37c98b">
-  <div class="wrap signup">
-    <div>
-      <h2 class="h-sec" style="margin-top:18px">Create your account. Your assistant is minutes away.</h2>
-      <p class="lead" style="margin-top:18px">Sign up, paste your website, and watch it draft your FAQ and services. Pick your plan inside the app when you're ready to go live.</p>
-      <div class="ctas"><a class="btn btn-primary btn-lg" href="https://app.leadq.co/?signup">Try it Free</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
-      <p class="fine">Set it up from your computer or your phone. No contracts, cancel anytime.</p>
-    </div>
-    <ol class="path" aria-label="How signup works" style="list-style:none;margin:0">
-      <li class="path-row"><span>1. Create your account</span><b>app.leadq.co</b></li>
-      <li class="path-row"><span>2. Paste your website</span><b>In the app</b></li>
-      <li class="path-row"><span>3. Approve your answers</span><b>In the app</b></li>
-      <li class="path-row"><span>4. Connect channels and test</span><b>In the app</b></li>
-      <li class="path-row"><span>5. Choose a plan and go live</span><b>In the app</b></li>
-    </ol>
+    <p class="faq-more">Plans and credits are on the <a href="pricing.html">pricing page</a>.</p>
   </div>
 </section>
 
@@ -572,6 +356,7 @@
     <h2>Your next lead isn't going to wait.</h2>
     <p class="lead">Set up your assistant in minutes, from any browser.</p>
     <div class="ctas"><a class="btn btn-primary btn-lg" href="https://app.leadq.co/?signup">Try it Free</a></div>
+    <p class="fine">7-day free trial. No contracts, cancel anytime.</p>
   </div>
 </section>
 

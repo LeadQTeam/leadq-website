@@ -166,49 +166,6 @@ const scheduleBody = (rows, { day = "Today, Wed Aug 27", rowCls = "", tail = "" 
               ${tail}
             </div>`;
 const scheduleHeader = '<div class="ap-header plain"><span class="ap-hname big">Schedule</span></div>';
-/* The same three screens on a phone, driven by the same tabs as the window beside it. Each view
-   carries its own header, body and tab bar, because on a phone those change with the screen. */
-const tourPhoneView = (key, header, body) =>
-  `<div class="ap-view" data-scr="${key}"${key === "home" ? "" : " hidden"}>
-              ${header}
-              <div class="ap-body">${body}</div>
-              ${tabbar(key, ["home", "inbox", "schedule", "settings"])}
-            </div>`;
-
-const tourPhone = `<div class="tour-phone" role="img" aria-label="The same screens in the LeadQ app on a phone">
-          <div class="phone">
-            <div class="ap-screen">
-              <div class="ap-island"></div>
-              <div class="ap-status"><span>9:41</span><span>5G</span></div>
-            ${tourPhoneView("home",
-              '<div class="ap-header plain"><span class="ap-hname big">Good afternoon</span></div>',
-              `<div class="ap-scr">
-                <div class="ap-dayhd">Waiting on you<span class="ln"></span>1</div>
-                ${appt("2h", "waited", "Marcus Bell", "Asked to talk about insurance", "Needs you")}
-                <div class="ap-dayhd">Today<span class="ln"></span>7</div>
-                <div class="ap-booked"><b>6 handled end to end</b>3 booked, 1 needed you</div>
-                <div class="ap-dayhd">Recent<span class="ln"></span>3</div>
-                ${appt("12m", "ago", "Jane Doe", "Booked a cleaning, Wed 2:30 PM")}
-                ${appt("1h", "ago", "Priya Nair", "New patient, booked Thu 4:00 PM")}
-              </div>`)}
-            ${tourPhoneView("inbox",
-              '<div class="ap-header"><span class="ap-av">M</span><span><span class="ap-hname">Marcus Bell</span><span class="ap-hsub"><span class="ch">SMS</span>, you took over</span></span></div>',
-              `<div class="ap-chat">
-                <div class="ap-bubble in">Hi, do you take Delta Dental?</div>
-                <div class="ap-bubble out">We do. Would you like to book a cleaning?</div>
-                <div class="ap-bubble in">Can I talk to someone about my insurance first?</div>
-                <div class="ap-bubble out">Of course. Someone will reply here shortly.</div>
-              </div>`)}
-            ${tourPhoneView("schedule", scheduleHeader,
-              scheduleBody([["8:30", "AM", "Olivia Johnson", "Check-up, 30 min"],
-                            ["10:45", "AM", "Priya Nair", "New patient exam, 45 min"],
-                            ["1:00", "PM", "Marcus Bell", "Consultation with Sarah", "Added by you"],
-                            ["2:30", "PM", "Jane Doe", "Cleaning, 30 min", "Reminder sent"]],
-                           { day: "Today, Mon Sep 21" }))}
-            </div>
-          </div>
-        </div>`;
-
 
 const picture = (name, alt, eager) =>
   `<picture><source srcset="img/verticals/${name}.webp" type="image/webp"><img src="img/verticals/${name}.jpg" alt="${alt}" width="1600" height="1067"${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async"></picture>`;
@@ -447,40 +404,144 @@ const demoThumb = (dir, [slug, , title, , dur], lazy = true) => `<span class="de
    should see, so it leads; the overview and the use cases come next; the ten feature films are the
    detail, for whoever wants it. The player's Next button follows the same order. */
 const demoCard = (dir, d, kick, title = d[2], biz = d[3]) => `      <li><a ${demoAttrs(dir, d, kick)}>${demoThumb(dir, d)}<span class="demo-k">${kick}</span><b>${title}</b><span class="demo-biz">${biz}</span></a></li>`;
-function demoSection(dir, films, { lead, why: whyCopy, attrs = "" }) {
+/* ======================================================= THE FOUR DESKS
+   The home page and ae.html read as one sentence down the page: Your 24/7 Front Desk, and Help
+   Desk, at Your Desk, or with No Desk at all. Each desk is a helper here, so the two pages share
+   one layout and differ only in their channels, businesses and films. */
+const tick = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+
+/* 01 Front Desk: every channel runs into one booking. Each dashed line leaves the middle of its
+   channel's row and lands on the middle of the card. The lines are worked out from the row
+   count, so the same drawing serves seven channels or five. */
+const deskFlow = (chans, card, attr = "") => {
+  const H = chans.length * 100;
+  const line = (_, i) => `<path d="M0 ${i * 100 + 50}C55 ${i * 100 + 50} 45 ${H / 2} 100 ${H / 2}" vector-effect="non-scaling-stroke"/>`;
+  return `<div class="flow" style="--n:${chans.length}" data-live${attr}>
+        <ul class="flow-ch" aria-label="Channels">
+          ${chans.map(([k, label]) => `<li>${chIcon(k)}${label}</li>`).join("\n          ")}
+        </ul>
+        <svg class="flow-lines" viewBox="0 0 100 ${H}" preserveAspectRatio="none" aria-hidden="true">${chans.map(line).join("")}</svg>
+        <div class="flow-card">
+          <div class="flow-top"><span class="k">New booking</span><span class="ok">${tick}Booked</span></div>
+          <div class="flow-when">${card.when}</div>
+          <div class="flow-what">${card.what}</div>
+          <ul class="flow-meta">
+            <li>${chIcon(card.via)}${card.from}</li>
+            <li>${tick}Added to your calendar</li>
+            <li>${tick}Reminder set for ${card.remind}</li>
+          </ul>
+        </div>
+      </div>`;
+};
+const deskFront = ({ flows, lead, checks }) => `<section class="sec" id="how">
+  <div class="wrap desk-front">
+    <div class="desk-vis">
+      ${flows}
+    </div>
+    <div class="desk-copy">
+      <h2 class="h-desk">Your 24/7<br><span class="hi">Front Desk.</span></h2>
+      <p class="lead">${lead}</p>
+      <ul class="checks">
+        ${checks.map(([b, t]) => `<li><span class="ck">${tick}</span><span><b>${b}</b><span class="t">${t}</span></span></li>`).join("\n        ")}
+      </ul>
+    </div>
+  </div>
+</section>`;
+
+/* 02 Help Desk: support after the sale, shown as the conversation itself, each with its film. */
+const supportCard = (dir, film, { kick, h, biz, ch, via, msgs, end, hand = false, p, attr = "" }) => `<article class="help-card">
+        <span class="k">${kick}</span>
+        <h3>${h}</h3>
+        <div class="chatbox">
+          <div class="chatbox-h">${chIcon(ch)}<b>${biz}</b><small>${via}</small></div>
+          <div class="chatbox-m">
+            ${msgs.map(([who, t]) => `<p class="cb ${who}">${t}</p>`).join("\n            ")}
+            <p class="cb-end${hand ? " hand" : ""}">${end}</p>
+          </div>
+        </div>
+        <p>${p}</p>
+        <a class="watch" ${demoAttrs(dir, film, kick)}${attr}>${I.play}Watch the ${kick.toLowerCase()} film</a>
+      </article>`;
+const deskHelp = (lead, cards) => `<section class="sec" id="support">
+  <div class="wrap">
+    <div class="sec-head left">
+      <h2 class="h-desk">and <span class="hi">Help Desk.</span></h2>
+      <p class="lead">${lead}</p>
+    </div>
+    <div class="help-grid">
+      ${cards.join("\n      ")}
+    </div>
+  </div>
+</section>`;
+
+/* 03 At Your Desk: the films. The one-minute "what it does for your business" film leads, the four
+   use cases follow, and the ten feature films sit behind one button (site.js initFilmsMore). With
+   JS off that row is simply shown and the button never appears. The player's Next button walks
+   the films in page order. */
+function deskFilms(dir, films, attrs = "") {
   const by = (n) => films.find((d) => d[0].startsWith(n + "-"));
   const why = by("14");
-  // The AI receptionist film is North American only (the UAE edition has no phone line), so it drops out there.
-  const intro = [by("00"), by("15"), by("11"), by("12"), by("13")].filter(Boolean);
+  const intro = [by("00"), by("11"), by("12"), by("13")];
   const feats = films.filter((d) => /^(0[1-9]|10)-/.test(d[0]));
+  const total = 1 + intro.length + feats.length;
   const card = (d, kick) => `      <li><a ${demoAttrs(dir, d, kick)}>${demoThumb(dir, d)}<span class="demo-k">${kick}</span><b>${d[2]}</b><span class="demo-biz">${d[3]}</span></a></li>`;
   return `<section class="sec" id="demos"${attrs}>
   <div class="wrap">
-    <div class="sec-head">
-      <h2 class="h-sec">Watch it work.</h2>
-      <p class="lead">${lead}</p>
+    <div class="desk-head">
+      <div>
+        <h2 class="h-desk">at <span class="hi">Your Desk.</span></h2>
+        <p class="lead">Grab a coffee and see how it works, one short film at a time.</p>
+        <p class="fine">All businesses shown are fictional. The app is real.</p>
+      </div>
+      <button class="btn btn-ghost films-all" type="button" aria-expanded="false" aria-controls="films-${dir}" hidden>All ${total} films</button>
     </div>
     <a class="demo-feature" ${demoAttrs(dir, why, "Start here")} aria-label="Play: ${esc(why[2])}, ${why[4]}">
       ${demoThumb(dir, why, false)}
       <span class="demo-copy">
         <span class="demo-k">Start here · ${why[4]}</span>
         <b>${why[2]}</b>
-        <span class="demo-p">${whyCopy}</span>
-        <span class="demo-biz">Time back · Lower costs · More revenue</span>
+        <span class="demo-p">Time back, lower running costs and more bookings, in about a minute.</span>
       </span>
     </a>
     <h3 class="demo-sub">See it in action</h3>
-    <ol class="demo-grid${intro.length === 4 ? " demo-grid4" : ""}">
+    <ol class="demo-grid demo-grid4">
 ${intro.map((d) => card(d, d[1])).join("\n")}
     </ol>
-    <h3 class="demo-sub">Feature by feature</h3>
-    <ol class="demo-grid">
+    <div class="films-more" id="films-${dir}">
+      <h3 class="demo-sub">Feature by feature</h3>
+      <ol class="demo-grid">
 ${feats.map((d, i) => card(d, String(i + 1).padStart(2, "0") + " · " + d[1])).join("\n")}
-    </ol>
-    <p class="fine demo-note">All businesses shown are fictional. The app is real.</p>
+      </ol>
+    </div>
   </div>
 </section>`;
 }
+
+/* 04 No Desk: the app's inbox as two very different owners see it on a phone, mid-job. A row's
+   channel is one key, or [North America, WhatsApp market] where the home page needs both. */
+const rowCh = (ch) => `<span class="ap-ch">${Array.isArray(ch) ? mkt(chIcon(ch[0]), chIcon(ch[1])) : chIcon(ch)}</span>`;
+const inboxRow = (r) => r.need
+  ? `<div class="ap-it need"><span class="need-k">Needs you</span><b>${r.name}</b><p>${r.text}</p></div>`
+  : `<div class="ap-it"><div class="ap-it-h"><b>${r.name}</b>${rowCh(r.ch)}</div><p>${r.text}</p>${r.pill ? `<span class="ap-pill">${r.pill}</span>` : ""}</div>`;
+const deskNoDesk = (lead, figs, note) => `<section class="sec" id="on-the-go">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="h-desk">Or with <span class="hi">No Desk</span> at all.</h2>
+      <p class="lead">${lead}</p>
+    </div>
+    <div class="nodesk">
+      ${figs.map((f) => `<figure style="--c:${f.glow}">
+        <div class="nodesk-stage">${phone({
+          label: f.label, tab: "inbox",
+          header: `<div class="ap-header plain"><span class="ap-av" style="background:${f.color}">${f.biz[0]}</span><span><span class="ap-hname">${f.biz}</span><span class="ap-hsub">Inbox</span></span></div>`,
+          body: `<div class="ap-list">${f.rows.map(inboxRow).join("")}</div>`,
+        })}</div>
+        <figcaption><span class="k">${f.kick}</span>${f.cap}</figcaption>
+      </figure>`).join("\n      ")}
+    </div>
+    <p class="fine nodesk-note">${note}</p>
+  </div>
+</section>`;
 const demoPlayer = `<dialog class="dmodal" aria-label="LeadQ demo">
   <div class="dmodal-in">
     <button class="vmodal-x dmodal-x" type="button" aria-label="Close video">${I.x}</button>
@@ -509,12 +570,6 @@ const NA_DEMOS = [
   ["14-what-leadq-does", "Why LeadQ", "What it does for your business", "Time back, lower costs, more revenue", "1:03"],
   ["15-ai-receptionist", "AI receptionist", "Every call, answered", "Ridgeline Plumbing · Denver", "1:14"],
 ];
-/* North American films only: visitors the site treats as a WhatsApp market get the section hidden, like the rest of the NA-only copy. */
-const naDemos = demoSection("na", NA_DEMOS, {
-  lead: "Start with one minute on what LeadQ does for your business. Then see it in action, or go feature by feature. Each film follows a different kind of business, from a beauty bar in Austin to a car dealer in Dallas.",
-  why: "Every missed message is a missed customer. See how LeadQ gives you time back, keeps running costs down and wins you more bookings.",
-  attrs: " data-na-only",
-});
 
 page({
   file: "index.html",
@@ -608,276 +663,84 @@ page({
   </div>
 </section>
 
-<!-- outcomes -->
+<!-- 01 front desk -->
+${deskFront({
+  flows: deskFlow([["voice", "Phone"], ["sms", "Texts"], ["whatsapp", "WhatsApp"], ["messenger", "Messenger"], ["instagram", "Instagram"], ["webchat", "Web chat"], ["email", "Email"]],
+                  { when: "Thu, Nov 12<br>10:30 AM", what: "Furnace tune-up", via: "whatsapp", from: "Maria via WhatsApp, 10:02 PM", remind: "Wed" }, " data-na-only")
+    + "\n      " + deskFlow([["whatsapp", "WhatsApp"], ["instagram", "Instagram"], ["messenger", "Messenger"], ["webchat", "Web chat"], ["email", "Email"]],
+                  { when: "Thu, Nov 12<br>10:30 AM", what: "AC service", via: "whatsapp", from: "Mariam via WhatsApp, 10:02 PM", remind: "Wed" }, " data-wa-only hidden"),
+  lead: `${mkt("Calls, texts, DMs and web chats", "WhatsApp messages, DMs, web chats and emails")} all land at one desk that never closes. It answers in seconds, finds a time that works, and puts the booking straight into your calendar.`,
+  checks: [
+    ["Books into your real calendar", "Checks your availability and booking rules before it offers a time."],
+    ["Follows up so leads don't go cold", "Reminders before the appointment and nudges when someone goes quiet, never during your quiet hours."],
+    [mkt("One assistant, 7 channels", "One assistant, 5 channels"), "Same answers and the same tone on every channel, Instagram and Messenger DMs included, set up once. Leads from your Facebook lead forms come straight in too."],
+  ],
+})}
+
+<!-- the front desk phone -->
 <section class="sec">
   <div class="wrap">
-    <div class="sec-head"><h2 class="h-sec">Time saved. Costs down. Sales never missed.</h2></div>
-    <div class="outcomes">
-      <div class="outcome"><b>Answers in seconds</b><span>24/7, so no lead waits for a callback.</span></div>
-      <div class="outcome"><b>Costs less than a shift</b><span data-price-sentence="starter">Plans start at $59 USD a month. No receptionist hours to cover.</span></div>
-      <div class="outcome"><b>Books itself</b><span>Straight into your calendar, while you do the actual work.</span></div>
-    </div>
-  </div>
-</section>
-
-${naDemos}
-
-<!-- one brain -->
-<section class="sec">
-  <div class="wrap brain">
-    ${orbit([["whatsapp", "WhatsApp", 0, -170], ["sms", "SMS", 142, -106], ["messenger", "Messenger", 182, 26],
-              ["webchat", "Web chat", 104, 160], ["email", "Email", -104, 160], ["instagram", "Instagram", -182, 26],
-              ["voice", "Voice", -142, -106]], " data-na-only")}
-    ${orbit([["whatsapp", "WhatsApp", 0, -166], ["messenger", "Messenger", 174, -44], ["webchat", "Web chat", 112, 150],
-              ["email", "Email", -112, 150], ["instagram", "Instagram", -174, -44]], " data-wa-only hidden")}
-    <div>
-      <h2 class="h-sec">One assistant, multiple channels.</h2>
-      <p class="lead" style="margin-top:18px"><span data-na-only>Most businesses juggle a chat widget, a texting app, an inbox, a booking tool and a voicemail box, and still drop messages.</span><span data-wa-only hidden>Most businesses run WhatsApp off one person's phone, with a chat widget, an inbox and a booking tool beside it, and still drop messages.</span> LeadQ is one assistant that knows your business and works every channel the same way. Leads from your Facebook lead forms come straight in too. Instagram and Messenger DMs are answered the same way.</p>
-      <div class="items">
-        <div class="item"><b>Change it once</b><span>Update your hours or add a service, and every channel knows.${mkt(" The phone too.", "")}</span></div>
-        <div class="item"><b>Sounds like you</b><span>Warm, brisk, formal, luxe. Pick a tone and it talks like your front desk.</span></div>
-        <div class="item"><b>Hands off on your rules</b><span>Decide when a person takes over, and what it should never say.</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- what it does -->
-<section class="sec">
-  <div class="wrap">
-    <div class="sec-head"><h2 class="h-sec">Runs the whole conversation. And the booking.</h2></div>
-    <div class="tiles">
-      <div class="tile">
-        <h3>Books into your calendar</h3>
-        <p>Checks real availability, respects your booking rules, books and reminds.</p>
-        <div class="vis"><div class="shot" aria-hidden="true">
-          <div class="sc-calhd"><span class="sc-calm">September</span><span class="sc-calnav"><span>&lsaquo;</span><span>&rsaquo;</span></span></div>
-          <div class="sc-dow"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
-          <div class="sc-grid">
-            <span class="sc-day">8</span><span class="sc-day">9</span><span class="sc-day">10</span><span class="sc-day">11</span><span class="sc-day">12</span><span class="sc-day">13</span><span class="sc-day">14</span>
-            <span class="sc-day today">15</span><span class="sc-day">16</span><span class="sc-day sel">17</span><span class="sc-day">18</span><span class="sc-day">19</span><span class="sc-day">20</span><span class="sc-day">21</span>
-            <span class="sc-day">22</span><span class="sc-day">23</span><span class="sc-day">24</span><span class="sc-day">25</span><span class="sc-day">26</span><span class="sc-day">27</span><span class="sc-day">28</span>
-          </div>
-          <div class="sc-slots"><span class="sc-slot">9:30 AM</span><span class="sc-slot sel">2:00 PM</span><span class="sc-slot">4:30 PM</span></div>
-        </div></div>
-      </div>
-      <div class="tile">
-        <h3>Follows up for you</h3>
-        <p>A lead goes quiet, it nudges them on a schedule. Never during your quiet hours.</p>
-        <div class="vis"><div class="shot" aria-hidden="true">
-          <span class="shot-lbl">Follow-up, sent 10:00 AM</span>
-          <div class="ap-chat" style="padding:0;height:auto">
-            <div class="ap-bubble in">How much is a whitening?</div>
-            <div class="ap-bubble out">It's $249 and takes about an hour. Want me to find you a time?</div>
-            <div class="ap-bubble out">Hi Sam, just checking in. I still have Friday at 11:00 AM open if you'd like it.</div>
-            <div class="ap-bubble in">Friday works!</div>
-          </div>
-        </div></div>
-      </div>
-      <div class="tile">
-        <h3>Answers questions 24/7</h3>
-        <p>Hours, pricing, insurance, parking. It answers from your own information, at 11 PM on a Sunday.</p>
-        <div class="vis"><div class="shot" aria-hidden="true">
-          <span class="shot-lbl">Sunday, 11:42 PM</span>
-          <div class="ap-chat" style="padding:0;height:auto">
-            <div class="ap-bubble in">Do you take Delta Dental?</div>
-            <div class="ap-bubble out">We do, both PPO and Premier. Want me to check your coverage before you come in?</div>
-            <div class="ap-bubble in">And where do I park?</div>
-            <div class="ap-bubble out">Free parking behind the building off 4th, or street parking out front.</div>
-          </div>
-        </div></div>
-      </div>
-      <div class="tile">
-        <h3>You're always in control</h3>
-        <p>Pause it on one channel or all of them. For an hour, or until you say so.</p>
-        <div class="vis"><div class="shot" aria-hidden="true">
-          <div class="sc-ph">Pause Baxter</div>
-          <p class="sc-psub">Baxter stops replying on all channels.</p>
-          <div class="sc-scope"><span>Just WhatsApp</span><span class="sel">All channels</span></div>
-          <div class="sc-opt"><b>For one hour</b><small>Back at 3:30 PM</small></div>
-          <div class="sc-opt"><b>Until tomorrow morning</b><small>Back at 8:00 AM, when you open</small></div>
-          <div class="sc-opt"><b>Until I turn it back on</b><small>No automatic resume</small></div>
-        </div></div>
-      </div>
-      <div class="tile">
-        <h3>Contacts, ready at a glance</h3>
-        <p>Every detail and an AI summary* of the chat, before you ever ${mkt("pick up the phone", "open the thread")}.</p>
-        <div class="vis"><div class="shot" aria-hidden="true">
-          <div class="sc-cp"><span class="sc-cpav">J</span><span><span class="sc-name" style="font-size:15px">Jane Doe</span><span class="sc-chip">Booked</span></span></div>
-          <div class="sc-sum"><div class="sc-sumhd">Summary*</div><div class="sc-sumbody">New patient, prefers afternoons. Booked a cleaning for Wed 2:30 PM with Dr. Rivera.</div></div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">+1 (555) 123-4567</span><span class="sc-sub"><span data-na-only>Mobile, WhatsApp and SMS</span><span data-wa-only hidden>Mobile and WhatsApp</span></span></span></div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">jane.doe@email.com</span><span class="sc-sub">Reminders and confirmations</span></span></div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">First seen 12 Aug</span><span class="sc-sub">4 conversations, 2 bookings</span></span></div>
-        </div></div>
-      </div>
-      <div class="tile">
-        <h3>Learns from your website</h3>
-        <p>It reads your site and suggests answers. Nothing goes live until you approve it.</p>
-        <div class="vis"><div class="shot" aria-hidden="true">
-          <div class="sc-url"><span class="sc-ic" style="width:22px;height:22px">${I.globe}</span>riveradental.com</div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">Services</span></span><span class="sc-tag">6 found</span></div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">FAQ answers</span></span><span class="sc-tag">12 to review</span></div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">Business hours</span></span><span class="sc-tag">Mon to Fri</span></div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">Prices</span></span><span class="sc-tag">9 found</span></div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">Policies</span></span><span class="sc-tag">Cancellations, deposits</span></div>
-        </div></div>
-      </div>
-    </div>
-    <p class="fine">*Pro Plan</p>
-  </div>
-</section>
-
-<!-- inside the app: centred header over a full-width working tour -->
-<section class="sec" id="app">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2 class="h-sec">Your whole front desk, on one screen. Big and small.</h2>
-      <p class="lead">Control LeadQ from your computer or mobile device and see everything at once. Who needs you, what your assistant handled, and what is booked next.</p>
-    </div>
-    <div class="tour-tabs"><div class="seg" role="group" aria-label="App screen" id="tourSeg">
-            <button type="button" data-tab="home" aria-pressed="true">Home</button>
-            <button type="button" data-tab="inbox" aria-pressed="false">Inbox</button>
-            <button type="button" data-tab="schedule" aria-pressed="false">Schedule</button>
-          </div></div>
-          <div class="tour-stage">
-          <div class="appwin"><div class="abar"><i></i><i></i><i></i><span>app.leadq.co</span></div><div class="dkw"><div class="dk" id="tourDk"><aside class="dk-side"><div class="dk-brand"><svg class="app" viewBox="0 0 100 100" aria-hidden="true"><use href="#rd-app"/></svg><span class="nm">Rivera Dental</span><svg class="ic" aria-hidden="true"><use href="#i-chev"/></svg></div><button type="button" class="dk-nav on" data-go="home"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg>Home</button><button type="button" class="dk-nav" data-go="inbox"><svg class="ic" aria-hidden="true"><use href="#i-inbox"/></svg>Inbox</button><button type="button" class="dk-nav" data-go="schedule"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Schedule</button><button type="button" class="dk-nav"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg>Assistant<span class="badge">2</span></button><button type="button" class="dk-nav"><svg class="ic" aria-hidden="true"><use href="#i-gear"/></svg>Settings</button><div class="dk-bax"><span class="bot"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg></span><span><b>Baxter</b><small>On, 5 channels</small></span></div><div class="dk-user"><svg class="app" viewBox="0 0 100 100" aria-hidden="true"><use href="#rd-app"/></svg>info@riveradental.com</div></aside>
-<div class="dk-main">
-<div data-scr="home" class="dk-page"><div class="dk-top"><div><div class="dk-h6">Good afternoon</div><p><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Monday, September 21. Open until 6:00 PM, then Baxter answers overnight.</p></div><button type="button" class="dk-bell" aria-label="Notifications"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg></button></div><div class="dk-scr"><div class="dk-home"><div class="dk-stats">
-<div class="dk-card dk-stat need" style="--c:#e0ae5a"><div class="hd"><span class="dk-lbl" style="color:#f3cf8f">Needs you</span><span class="dk-link">Open queue</span></div><div class="n"><b>1</b><span>conversation waiting</span></div><p>Oldest has waited 2 h</p></div>
-<div class="dk-card dk-stat" style="--c:#4d86ff"><div class="hd"><span class="dk-lbl" style="color:#a9c5ff">Conversations today</span><span class="dk-link">Open inbox</span></div><div class="n"><b>7</b><span>+3 vs. yesterday</span></div><p><strong>6</strong> handled by Baxter end to end, <strong>1</strong> needed you</p></div>
-<div class="dk-card dk-stat" style="--c:#37c98b"><div class="hd"><span class="dk-lbl" style="color:#7fe3b6">Booked</span><span class="dk-link">Schedule</span></div><div class="n"><b>3</b><span>this week by Baxter</span></div><p>Next: today, 2:30 PM</p></div>
-</div><div class="dk-colL">
-<div class="dk-card"><div class="dk-sec-h"><b>Waiting on you</b><span class="cnt">1</span><span class="hint">Reply to take over.</span></div>
-<div class="dk-wait"><span class="dk-av">MB</span><div><div class="who"><b>Marcus Bell</b><span><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg>${mkt("SMS", "WhatsApp")}</span><em>waiting 2 h</em></div><q>Can I talk to someone about my insurance first?</q><div class="dk-tags"><span>Asked for a human</span><span>Booked before</span></div></div><div class="acts"><button type="button" class="dk-btn">Let Baxter continue</button><button type="button" class="dk-btn white" data-go="inbox">Reply</button></div></div></div>
-<div class="dk-card"><div class="dk-sec-h"><b>Recent conversations</b><span class="dk-link" data-go="inbox" style="cursor:pointer">Open inbox</span></div><div class="dk-row"><span class="dk-av">JD</span><div class="t"><b>Jane Doe<svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></b><span>Booked a cleaning for Wed 2:30 PM with Dr. Rivera.</span></div><span class="dk-chip green">Booked</span><time>12m</time></div><div class="dk-row"><span class="dk-av">PN</span><div class="t"><b>Priya Nair<svg class="ic" aria-hidden="true"><use href="#i-wa"/></svg></b><span>New patient, booked Thu 4:00 PM.</span></div><span class="dk-chip green">Booked</span><time>1h</time></div><div class="dk-row"><span class="dk-av">TA</span><div class="t"><b>Tom Alvarez<svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg></b><span>${mkt("Called about a follow-up, Baxter is confirming a time.", "Asked about a follow-up, Baxter is confirming a time.")}</span></div><span class="dk-chip blue">Baxter replying</span><time>2h</time></div><div class="dk-row"><span class="dk-av">WV</span><div class="t"><b>Website visitor<svg class="ic" aria-hidden="true"><use href="#i-web"/></svg></b><span>Asked if you take Delta Dental insurance.</span></div><span class="dk-chip grey">Went quiet</span><time>5h</time></div></div>
-</div><div class="dk-colR">
-<div class="dk-card"><div class="dk-master"><span class="chn wa"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg></span><span><b data-master-label>Baxter is on</b><small data-master-sub>Answering on <span data-chan-n>5</span> connected channels</small></span><button type="button" class="tg" aria-pressed="true" aria-label="Baxter on or off" data-master></button></div>
-<div class="dk-chl"><div class="hd"><span class="dk-lbl">Channels</span><span class="dk-lbl" data-chcount data-chan-count>5 connected</span></div><div class="dk-ch" data-na-only><span class="chn "><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></span><b>SMS</b><span>+1 (555) 123-4567</span><button type="button" class="tg" aria-pressed="true" aria-label="SMS replies" data-chtg></button></div><div class="dk-ch" data-needs-voice><span class="chn vo"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg></span><b>Voice</b><span>+1 (555) 123-4567</span><button type="button" class="tg" aria-pressed="true" aria-label="Voice replies" data-chtg></button></div><div class="dk-ch"><span class="chn wa"><svg class="ic" aria-hidden="true"><use href="#i-wa"/></svg></span><b>WhatsApp</b><span>+1 (555) 771-0064</span><button type="button" class="tg" aria-pressed="true" aria-label="WhatsApp replies" data-chtg></button></div><div class="dk-ch"><span class="chn web"><svg class="ic" aria-hidden="true"><use href="#i-web"/></svg></span><b>Website chat</b><span>riveradental.com</span><button type="button" class="tg" aria-pressed="true" aria-label="Website chat replies" data-chtg></button></div><div class="dk-ch"><span class="chn em"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg></span><b>Email</b><span>hi@riveradental.com</span><button type="button" class="tg" aria-pressed="true" aria-label="Email replies" data-chtg></button></div></div></div>
-<div class="dk-card"><div class="dk-sec-h" style="border:0"><b>Up next</b><span class="dk-link" data-go="schedule" style="cursor:pointer">Schedule</span></div><div class="dk-next"><span class="dk-lbl">Today</span><div class="dk-slot"><time>2:30 PM</time><div><b>Jane Doe</b><small>Cleaning, 30 min, booked via <span data-na-only>SMS</span><span data-wa-only hidden>WhatsApp</span></small></div><svg class="ic ok" aria-hidden="true"><use href="#i-check"/></svg></div></div></div>
-</div></div></div></div>
-<div data-scr="inbox" class="dk-page" hidden><div class="dk-top"><div><div class="dk-h6">Inbox</div><p>1 conversation needs you. Baxter is handling 1.</p></div><button type="button" class="dk-bell" aria-label="Notifications"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg></button></div><div class="dk-scr"><div class="dk-inbox"><div class="dk-list"><div class="dk-search"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>Search people and messages</div>
-<div class="dk-filters"><span class="on">All<i>11</i></span><span>Needs you<i>1</i></span><span>Handed off<i>1</i></span><span>Booked<i>3</i></span><span>Went quiet<i>4</i></span><span>All channels<i>11</i></span></div><div class="dk-conv sel"><span class="dk-av">MB</span><div><b>Marcus Bell</b><span>You: Hi Marcus, this is Sarah from Rivera...</span><em class="amber">Taken over</em></div><time>2h</time></div><div class="dk-conv"><span class="dk-av">JD</span><div><b>Jane Doe</b><span>Baxter: You're booked. Reminder coming...</span><em class="green">Booked</em></div><time>12m</time></div><div class="dk-conv"><span class="dk-av">PN</span><div><b>Priya Nair</b><span>Baxter: See you Thursday at 4:00 PM.</span><em class="green">Booked</em></div><time>1h</time></div><div class="dk-conv"><span class="dk-av">TA</span><div><b>Tom Alvarez</b><span>${mkt("Tom called about a follow-up visit.", "Tom asked about a follow-up visit.")}</span><em class="blue">Baxter replying</em></div><time>2h</time></div><div class="dk-conv"><span class="dk-av">WV</span><div><b>Website visitor</b><span>Do you take Delta Dental?</span><em class="grey">Went quiet</em></div><time>5h</time></div><div class="dk-conv"><span class="dk-av">OJ</span><div><b>Olivia Johnson</b><span>Baxter: Thanks for reaching out, Olivia.</span><em class="grey">Went quiet</em></div><time>1d</time></div></div><div class="dk-thread"><div class="dk-th-h"><span class="chn"><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg></span><div><b>Marcus Bell</b><small><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg>${mkt("SMS", "WhatsApp")}</small></div>
-<div class="right"><span class="dk-chip amber" data-ho-chip>Taken over</span><button type="button" class="dk-btn" data-ho>Hand back</button></div></div>
-<div class="dk-msgs"><div class="dk-b cust">Hi, do you take Delta Dental?<small>2:41 PM</small></div>
-<div class="dk-b bax">We do. Would you like to book a cleaning? I have Thursday at 10:00 AM open.<small>2:41 PM</small></div>
-<div class="dk-b cust">Can I talk to someone about my insurance first?<small>2:43 PM</small></div>
-<div class="dk-b bax">Of course. I've let the team know, and someone will reply here shortly.<small>2:43 PM</small></div>
-<div class="dk-b you">Hi Marcus, this is Sarah from Rivera Dental. Happy to walk you through your coverage.<small>You, 4:51 PM</small></div></div>
-<div class="dk-comp"><div class="via" data-ho-via>Replying as you via <b>${mkt("SMS", "WhatsApp")}</b></div><div class="row"><span class="inp">Type a message</span><button type="button" class="dk-btn"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Book</button><button type="button" class="dk-send" aria-label="Send"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg></button></div></div></div><div class="dk-contact"><div class="who"><span class="dk-av">MB</span><div><b>Marcus Bell</b><span class="dk-chip grey">Patient</span></div></div>
-<div class="acts"><button type="button" class="dk-btn"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svgdata-needs-voice>Call</button><button type="button" class="dk-btn blue"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Book</button></div>
-<div class="dk-kv"><span class="dk-lbl">Summary*</span><p>Existing patient. Asked about Delta Dental coverage before booking a cleaning. Prefers mornings.</p></div>
-<div class="dk-kv"><span class="dk-lbl">Details</span><dl><div><dt>Phone</dt><dd>+1 (555) 018-0142</dd></div><div><dt>Email</dt><dd>marcus.bell@example.com</dd></div></dl></div>
-<div class="dk-kv"><span class="dk-lbl">Appointments</span><div class="dk-appt"><span class="cal"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><b>Mon, Aug 25, 10:00 AM</b><small>Consultation with Sarah</small></div></div></div>
-<div class="dk-kv"><span class="dk-lbl">Internal notes</span><p style="color:var(--ink-3)">No notes yet.</p></div></div></div></div></div>
-<div data-scr="schedule" class="dk-page" hidden><div class="dk-top"><div><div class="dk-h6">Schedule</div><p><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Everything Baxter booked, without anyone typing it in.</p></div><button type="button" class="dk-bell" aria-label="Notifications"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg></button></div><div class="dk-scr"><div class="dk-sched"><div class="dk-schside"><div class="dk-cal"><div class="hd"><b>September</b><span class="dk-chip blue">Today</span></div><div class="dow"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div><div class="days"><span class="pad"></span><span class="has">1</span><span class="has">2</span><span class="has">3</span><span>4</span><span>5</span><span>6</span><span>7</span><span class="has">8</span><span class="has">9</span><span class="has">10</span><span class="has">11</span><span>12</span><span>13</span><span>14</span><span class="has">15</span><span class="has">16</span><span class="has">17</span><span class="has">18</span><span>19</span><span>20</span><span class="has">21</span><span class="on">22</span><span class="has">23</span><span class="has">24</span><span class="has">25</span><span>26</span><span>27</span><span class="has">28</span><span class="has">29</span><span class="has">30</span></div></div>
-<div class="dk-card dk-schsum"><span class="dk-lbl">This week</span><div class="r"><span>Booked by Baxter</span><b>14</b></div><div class="r"><span>Reminders sent</span><b>22</b></div><div class="r"><span>Rescheduled by Baxter</span><b>3</b></div><div class="r"><span>No-shows</span><b>0</b></div></div></div>
-<div class="dk-schbody"><div class="dk-sec-h"><b>Tuesday, September 22</b><span class="hint">6 booked, 2 openings left</span></div><div class="dk-day"><div class="dk-ev"><time>8:30 AM</time><div class="ev"><div><b>Olivia Johnson</b><small>Check-up, 30 min</small></div><span class="dk-chip blue">Booked by Baxter</span></div></div><div class="dk-ev"><time>9:15 AM</time><div class="ev"><div><b>Tom Alvarez</b><small>Follow-up, 20 min</small></div><span class="dk-chip blue">Booked by Baxter</span></div></div><div class="dk-ev open"><time>10:00 AM</time><div class="ev">Open, 45 min</div></div><div class="dk-ev"><time>10:45 AM</time><div class="ev"><div><b>Priya Nair</b><small>New patient exam, 45 min</small></div><span class="dk-chip blue">Booked by Baxter</span></div></div><div class="dk-ev"><time>1:00 PM</time><div class="ev"><div><b>Marcus Bell</b><small>Consultation with Sarah</small></div><span class="dk-chip grey">Added by you</span></div></div><div class="dk-ev"><time>2:30 PM</time><div class="ev"><div><b>Jane Doe</b><small>Cleaning, 30 min</small></div><span class="dk-chip green">Reminder sent</span></div></div><div class="dk-ev open"><time>4:00 PM</time><div class="ev">Open, 30 min</div></div></div></div></div></div></div>
-</div></div></div></div>
-          ${tourPhone}
-          </div>
-          <p class="scroll-hint">Swipe sideways to see the full screen</p>
-          <p class="tour-title" data-cap-title>Know what needs you in five seconds.</p><div class="tour-caps" data-caps><div class="it"><b>Needs you, first</b><span>The one conversation waiting on a person sits at the top, with one-tap Reply, or let your assistant carry on.</span></div><div class="it"><b>What your assistant handled</b><span>Today's conversations, bookings and who needed you, at a glance.</span></div><div class="it"><b>Every channel, one switch</b><span>Pause your assistant everywhere, or channel by channel. Try the switches.</span></div></div>
-          <p class="tour-note">Runs in your browser. Log in from any computer or phone, and invite your team. The mobile app is coming soon.</p>
-          <p class="tour-note" style="margin-top:4px">*Pro Plan</p>
-  </div>
-</section>
-
-<!-- voice teaser -->
-<section class="sec">
-  <div class="wrap">
-    <div class="voice-band" style="--c:#a98cf0" data-live data-needs-voice>
+    <div class="voice-band" style="--c:#a98cf0" data-needs-voice>
       <div>
-        <h2 class="h-sec">Then it picks up the phone too.</h2>
-        <p class="lead" style="margin:18px 0 28px">A receptionist that sounds human, takes the calls you can't, books the job, and warm-transfers to you when it matters. No more voicemail.</p>
+        <p class="voice-k">AI receptionist · Included in Pro</p>
+        <h2 class="h-sec">Even the front<br>desk phone.</h2>
+        <p class="lead" style="margin-top:18px">A receptionist that sounds human picks up the calls you can't, answers questions, books the job, and warm-transfers to you when it matters. No more voicemail.</p>
+        <div class="vchips left" role="group" aria-label="Voices" data-press-group>
+          <button type="button" aria-pressed="true">Ava</button><button type="button" aria-pressed="false">Noah</button><button type="button" aria-pressed="false">Mia</button><button type="button" aria-pressed="false">Sarah</button>
+        </div>
         <a class="btn btn-voice btn-lg" href="voice.html">Meet the AI Receptionist</a>
         <p class="fine">The AI Receptionist runs on US and Canadian phone numbers only.</p>
       </div>
-      <div>
-        <div class="ring-wrap" aria-hidden="true"><div class="ring-core">${I.phone}</div></div>
-        <div class="vchips" role="group" aria-label="Voices" data-press-group>
-          <button type="button" aria-pressed="true">Ava</button><button type="button" aria-pressed="false">Noah</button><button type="button" aria-pressed="false">Mia</button><button type="button" aria-pressed="false">Sarah</button>
-        </div>
-      </div>
+      ${((d) => `<a class="voice-film" ${demoAttrs("na", d, d[1])}>${demoThumb("na", d)}<span class="demo-k">Voice AI · ${d[4]}</span><b>Meet your AI Receptionist</b><span class="demo-biz">${d[3]}</span></a>`)(NA_DEMOS.find((d) => d[0].startsWith("15-")))}
     </div>
   </div>
 </section>
 
-<!-- how it works -->
-<section class="sec" id="how">
-  <div class="wrap">
-    <div class="sec-head"><h2 class="h-sec">Live in minutes, from any browser.</h2></div>
-    <div class="steps">
-      <div class="step">
-        <span class="n">1</span>
-        <h3>Paste your website</h3>
-        <p>It drafts your FAQ, services and prices. You approve.</p>
-        <div class="shot" aria-hidden="true">
-          <div class="sc-url"><span class="sc-ok" style="margin:0"></span>riveradental.com</div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">Services</span></span><span class="sc-tag">6 found</span></div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">FAQ answers</span></span><span class="sc-tag">12 drafted</span></div>
-        </div>
-      </div>
-      <div class="step">
-        <span class="n">2</span>
-        <h3>Connect your channels</h3>
-        <p><span data-na-only>WhatsApp, text, web chat, email and voice.</span><span data-wa-only hidden>WhatsApp, web chat and email. We guide you through WhatsApp Business approval.</span> Plus Instagram and Messenger.</p>
-        <div class="shot" aria-hidden="true">
-          <div class="sc-row"><span class="sc-ic">${chIcon('whatsapp')}</span><span class="sc-tx"><span class="sc-name">WhatsApp</span></span><span class="sc-ok">Connected</span></div>
-          <div class="sc-row"><span class="sc-ic">${chIcon('sms')}</span><span class="sc-tx"><span class="sc-name">${mkt("SMS", "WhatsApp")}</span></span><span class="sc-ok">Connected</span></div>
-          <div class="sc-row"><span class="sc-ic">${chIcon('webchat')}</span><span class="sc-tx"><span class="sc-name">Web chat</span></span><span class="sc-ok">Connected</span></div>
-        </div>
-      </div>
-      <div class="step">
-        <span class="n">3</span>
-        <h3>It answers and books</h3>
-        <p>With reminders and follow-ups built in. You watch it work.</p>
-        <div class="shot" aria-hidden="true">
-          <div class="ap-bubble in">Can I come in Thursday?</div>
-          <div class="ap-bubble out" style="margin-left:auto">Thursday at 3:00 PM works. You're booked.</div>
-          <div class="ap-booked"><b>Booked, reminder set</b>Thu, 3:00 PM</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- 02 help desk -->
+${deskHelp("The same assistant handles support after the sale. It answers from your own guides and policies, and hands anything tricky to a team member with the whole conversation summarized.", [
+  supportCard("na", NA_DEMOS.find((d) => d[0].startsWith("11-")), {
+    kick: "Tech support", h: "Fixes it at 11 PM, no ticket queue.", biz: "FixPoint Electronics", ch: "webchat", via: "Web chat",
+    msgs: [["in", "My soundbar won't connect to the TV anymore."],
+           ["out", "Let's fix that. Hold the Bluetooth button for 5 seconds until the light blinks blue, then pick “FP-200” on your TV."],
+           ["in", "That did it, thank you!"]],
+    end: "Resolved · No one on your team needed",
+    p: "Walks customers through the fixes you already know, step by step, from your own guides and FAQs.", attr: " data-na-only" }),
+  supportCard("na", NA_DEMOS.find((d) => d[0].startsWith("12-")), {
+    kick: "Customer support", h: "Answers the questions you get every day.", biz: "Northwood Home", ch: "email", via: "Email",
+    msgs: [["in", "Can I still return a lamp I bought three weeks ago?"],
+           ["out", "Yes, returns are accepted within 30 days with the receipt. Want me to have a team member start the return for you?"],
+           ["in", "Yes please."]],
+    end: "Handed to a team member · With a summary", hand: true,
+    p: "Policies, order questions and the usual “how do I” requests, in your tone. Anything it shouldn't handle goes to a team member.", attr: " data-na-only" }),
+])}
 
-<!-- pricing preview -->
-<section class="lit-hero midway" style="--c:#2fc6e8;--c2:#4d86ff">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2 class="h-sec">One recovered lead covers the month.</h2>
-      <p class="lead">Every plan includes the full assistant and a monthly credit pool that covers every channel. Pick the one that fits today and move up when you're ready.</p>
-    </div>
-    ${plans}
-    <p class="plans-note">Create your account, then subscribe inside the app. No contracts, cancel anytime.</p>
-    <div class="ctas" style="justify-content:center;margin-top:18px"><a class="btn btn-ghost" href="pricing.html">See all plans</a></div>
-  </div>
-</section>
+<!-- 03 at your desk: the films (North American cut, so a WhatsApp-market visitor does not see it) -->
+${deskFilms("na", NA_DEMOS, " data-na-only")}
 
-<!-- faq -->
+<!-- 04 no desk -->
+${deskNoDesk("Under a sink or mid-manicure, your front desk goes wherever you do.", [
+  { biz: "Pipeline Plumbing", color: "#7ba6ff", glow: "#4d86ff", kick: "Plumbers", label: "The LeadQ inbox on a plumber's phone",
+    cap: "Booked a water-heater job and flagged tonight's emergency while the owner was on another call.",
+    rows: [{ need: true, name: "Burst pipe, Oak St.", text: "Wants someone tonight. Asked for you." },
+           { name: "Dave", ch: ["voice", "whatsapp"], text: "Water heater quote, booked for Fri 9 AM", pill: "Booked" },
+           { name: "Lena", ch: ["sms", "instagram"], text: "“Do you do drain cleaning?” Answered." },
+           { name: "Marcus", ch: "webchat", text: "Asked about pricing. Follow-up sent." },
+           { name: "Rosa", ch: "email", text: "“Tankless heaters too?” Answered." }] },
+  { biz: "Glossy Nail Studio", color: "#f0a6c8", glow: "#f27eb4", kick: "Nail salons", label: "The LeadQ inbox on a nail salon owner's phone",
+    cap: "Filled Saturday and handled a reschedule over Instagram and WhatsApp, without putting the brush down.",
+    rows: [{ name: "Priya", ch: "instagram", text: "Gel fill, Saturday 11 AM with Jess", pill: "Booked" },
+           { name: "Amanda", ch: "whatsapp", text: "Moved her appointment to Tue 3 PM", pill: "Rebooked" },
+           { name: "Chloe", ch: "messenger", text: "“Do you take walk-ins?” Answered." },
+           { name: "Tara", ch: ["sms", "email"], text: "Reminder sent for tomorrow 2 PM" },
+           { name: "Mei", ch: "webchat", text: "Asked about gift cards. Answered." }] },
+], "Runs in your browser. Log in from any computer or phone, and invite your team. The mobile app is coming soon.")}
+
+<!-- faq: plans and credits live on the pricing page, not here -->
 <section class="sec">
   <div class="wrap">
     <div class="sec-head"><h2 class="h-sec">Questions, answered.</h2></div>
     ${faqHtml(homeFaq)}
-  </div>
-</section>
-
-<!-- signup path -->
-<section class="sec" style="--c:#37c98b">
-  <div class="wrap signup">
-    <div>
-      <h2 class="h-sec" style="margin-top:18px">Create your account. Your assistant is minutes away.</h2>
-      <p class="lead" style="margin-top:18px">Sign up, paste your website, and watch it draft your FAQ and services. Pick your plan inside the app when you're ready to go live.</p>
-      <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Try it Free</a><a class="btn btn-ghost btn-lg" href="pricing.html">See pricing</a></div>
-      <p class="fine">Set it up from your computer or your phone. No contracts, cancel anytime.</p>
-    </div>
-    <ol class="path" aria-label="How signup works" style="list-style:none;margin:0">
-      <li class="path-row"><span>1. Create your account</span><b>app.leadq.co</b></li>
-      <li class="path-row"><span>2. Paste your website</span><b>In the app</b></li>
-      <li class="path-row"><span>3. Approve your answers</span><b>In the app</b></li>
-      <li class="path-row"><span>4. Connect channels and test</span><b>In the app</b></li>
-      <li class="path-row"><span>5. Choose a plan and go live</span><b>In the app</b></li>
-    </ol>
+    <p class="faq-more">Plans and credits are on the <a href="pricing.html">pricing page</a>.</p>
   </div>
 </section>
 
@@ -887,6 +750,7 @@ ${naDemos}
     <h2>Your next lead isn't going to wait.</h2>
     <p class="lead">Set up your assistant in minutes, from any browser.</p>
     <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Try it Free</a></div>
+    <p class="fine">7-day free trial. No contracts, cancel anytime.</p>
   </div>
 </section>
 
@@ -1614,7 +1478,7 @@ legal("terms-of-service.html", "Terms of Service", "Last updated: 2026", "LeadQ'
    Not in sitemap.xml and noindex on purpose: it would otherwise compete with the real home page
    for UAE search traffic while showing no prices, and the arrangement is not exclusive, so
    LeadQ's own direct UAE visitors should still land on the normal site. */
-const AE_NAV = [["ae.html#how", "How it works"], ["ae.html#demos", "Watch it work"], ["ae-use-cases.html", "Use cases", "use-cases"], ["ae.html#included", "What you get"], ["ae.html#faq", "Questions"]];
+const AE_NAV = [["ae.html#how", "How it works"], ["ae.html#demos", "Watch it work"], ["ae-use-cases.html", "Use cases", "use-cases"], ["ae.html#faq", "Questions"]];
 const aeLinks = (current) => AE_NAV.map(([h, t, k]) => `<a href="${h}"${k && k === current ? ' aria-current="page"' : ""}>${t}</a>`).join("");
 const AE_NAV_LINKS = aeLinks();
 const aeNavFor = (current) => `<header class="nav">
@@ -1697,10 +1561,6 @@ const AE_DEMOS = [
   ["13-inventory", "Inventory", "“Is it still available?”", "Marina Motors · Al Quoz", "0:56"],
   ["14-what-leadq-does", "Why LeadQ", "What it does for your business", "Time back, lower costs, more revenue", "1:03"],
 ];
-const aeDemos = demoSection("ae", AE_DEMOS, {
-  lead: "Start with one minute on what LeadQ does for your business. Then see it in action, or go feature by feature. Each film follows a different kind of UAE business, from a beauty lounge in Jumeirah to a car showroom in Al Quoz.",
-  why: "Every missed message is a missed customer. See how LeadQ gives you time back, keeps running costs down and wins you more bookings.",
-});
 const aeDemoPlayer = demoPlayer;
 
 page({
@@ -1730,75 +1590,52 @@ page({
   </div>
 </section>
 
-${aeDemos}
+${deskFront({
+  flows: deskFlow([["whatsapp", "WhatsApp"], ["instagram", "Instagram"], ["messenger", "Messenger"], ["webchat", "Web chat"], ["email", "Email"]],
+                  { when: "Thu, Nov 12<br>10:30 AM", what: "AC service", via: "whatsapp", from: "Mariam via WhatsApp, 11:40 PM", remind: "Wed" }),
+  lead: "WhatsApp messages, DMs, web chats and emails all land at one desk that never closes. It answers in seconds, finds a time that works, and puts the booking straight into your calendar.",
+  checks: [
+    ["Books into your real calendar", "Google Calendar or Outlook. It offers times you are genuinely free and writes the appointment straight in."],
+    ["Follows up so leads don't go cold", "A reminder the day before, and a nudge when someone goes quiet, never during your quiet hours."],
+    ["One assistant, 5 channels", "Same answers and the same tone on every channel, in whatever language your customer writes in."],
+  ],
+})}
 
-<section class="sec">
-  <div class="wrap brain">
-    ${orbit([["whatsapp", "WhatsApp", 0, -166], ["messenger", "Messenger", 174, -44], ["webchat", "Web chat", 112, 150],
-              ["email", "Email", -112, 150], ["instagram", "Instagram", -174, -44]])}
-    <div>
-      <h2 class="h-sec">One assistant, every message.</h2>
-      <p class="lead" style="margin-top:18px">Most businesses run WhatsApp off one person's phone, with a chat widget and an inbox beside it, and still drop messages. LeadQ is one assistant that knows your business and works every channel the same way.</p>
-      <div class="items">
-        <div class="item"><b>Change it once</b><span>Update your hours or add a service, and every channel knows.</span></div>
-        <div class="item"><b>Sounds like you</b><span>Warm, brisk, formal, luxe. Pick a tone and it talks like your front desk.</span></div>
-        <div class="item"><b>Hands off on your rules</b><span>Decide when a person takes over, and what it should never say.</span></div>
-      </div>
-    </div>
-  </div>
-</section>
+${deskHelp("The same assistant handles support after the sale. It answers from your own guides and policies, and hands anything tricky to a team member with the whole conversation summarised.", [
+  supportCard("ae", AE_DEMOS.find((d) => d[0].startsWith("11-")), {
+    kick: "Tech support", h: "Fixes it at 11 PM, no ticket queue.", biz: "SwiftFix Electronics", ch: "webchat", via: "Web chat",
+    msgs: [["in", "My soundbar won't connect to the TV anymore."],
+           ["out", "Let's fix that. Hold the Bluetooth button for 5 seconds until the light blinks blue, then pick “SF-200” on your TV."],
+           ["in", "That did it, thank you!"]],
+    end: "Resolved · No one on your team needed",
+    p: "Walks customers through the fixes you already know, step by step, from your own guides and FAQs." }),
+  supportCard("ae", AE_DEMOS.find((d) => d[0].startsWith("12-")), {
+    kick: "Customer support", h: "Answers the questions you get every day.", biz: "Dunes Home", ch: "whatsapp", via: "WhatsApp",
+    msgs: [["in", "Can I still return a lamp I bought three weeks ago?"],
+           ["out", "Yes, returns are accepted within 30 days with the receipt. Shall I ask the team to arrange a collection?"],
+           ["in", "Yes please."]],
+    end: "Handed to a team member · With a summary", hand: true,
+    p: "Policies, order questions and the usual “how do I” requests, in your tone. Anything it shouldn't handle goes to a team member." }),
+])}
 
-<section class="sec" id="how">
-  <div class="wrap">
-    <div class="sec-head"><h2 class="h-sec">Live in minutes, not weeks.</h2></div>
-    <div class="steps">
-      <div class="step">
-        <span class="n">1</span>
-        <h3>Paste your website</h3>
-        <p>It drafts your FAQ, services and prices. You approve.</p>
-        <div class="shot" aria-hidden="true">
-          <div class="sc-url"><span class="sc-ok" style="margin:0"></span>yourbusiness.ae</div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">Services</span></span><span class="sc-tag">6 found</span></div>
-          <div class="sc-row"><span class="sc-tx"><span class="sc-name">FAQ answers</span></span><span class="sc-tag">12 drafted</span></div>
-        </div>
-      </div>
-      <div class="step">
-        <span class="n">2</span>
-        <h3>Connect WhatsApp</h3>
-        <p>We take you through WhatsApp Business approval, then connect web chat and email.</p>
-        <div class="shot" aria-hidden="true">
-          <div class="sc-row"><span class="sc-ic">${chIcon('whatsapp')}</span><span class="sc-tx"><span class="sc-name">WhatsApp</span></span><span class="sc-ok">Connected</span></div>
-          <div class="sc-row"><span class="sc-ic">${chIcon('webchat')}</span><span class="sc-tx"><span class="sc-name">Web chat</span></span><span class="sc-ok">Connected</span></div>
-          <div class="sc-row"><span class="sc-ic">${chIcon('email')}</span><span class="sc-tx"><span class="sc-name">Email</span></span><span class="sc-ok">Connected</span></div>
-        </div>
-      </div>
-      <div class="step">
-        <span class="n">3</span>
-        <h3>It answers and books</h3>
-        <p>With reminders and follow-ups built in. You watch it work.</p>
-        <div class="shot" aria-hidden="true">
-          <div class="ap-bubble in">Can I come in Thursday?</div>
-          <div class="ap-bubble out" style="margin-left:auto">Thursday at 3:00 PM works. You're booked.</div>
-          <div class="ap-booked"><b>Booked, reminder set</b>Thu, 3:00 PM</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+${deskFilms("ae", AE_DEMOS)}
 
-<section class="sec" id="included">
-  <div class="wrap">
-    <div class="sec-head"><h2 class="h-sec">What you get.</h2></div>
-    <div class="outcomes">
-      <div class="outcome"><b>Answers in seconds</b><span>Day and night, so no enquiry waits until someone is free.</span></div>
-      <div class="outcome"><b>Books itself</b><span>Real free times from your calendar, written straight back into it.</span></div>
-      <div class="outcome"><b>Never forgets a lead</b><span>Reminders the day before, and follow-ups for the ones who went quiet.</span></div>
-      <div class="outcome"><b>One inbox</b><span>Every conversation in one place, with the ones needing a person marked.</span></div>
-      <div class="outcome"><b>Takes over cleanly</b><span>Step in mid-conversation whenever you want. It steps back out.</span></div>
-      <div class="outcome"><b>Priority support</b><span>Set it up with help, and have someone on hand after you go live.</span></div>
-    </div>
-  </div>
-</section>
+${deskNoDesk("Up a ladder or mid-blow-dry, your front desk goes wherever you do.", [
+  { biz: "Frostline AC Services", color: "#7dd3fc", glow: "#38bdf8", kick: "AC and maintenance", label: "The LeadQ inbox on an AC company owner's phone",
+    cap: "Booked an AC service and flagged a same-day breakdown while the team was out on a job.",
+    rows: [{ need: true, name: "AC not cooling, Al Barsha", text: "Wants someone today. Asked for you." },
+           { name: "Ahmed", ch: "whatsapp", text: "AC service, booked for Sat 9 AM", pill: "Booked" },
+           { name: "Rajesh", ch: "webchat", text: "“Do you do duct cleaning?” Answered." },
+           { name: "Fatima", ch: "instagram", text: "Yearly contract? Follow-up sent." },
+           { name: "Omar", ch: "email", text: "“Office units too?” Answered." }] },
+  { biz: "Noor Beauty Lounge", color: "#f0a6c8", glow: "#f27eb4", kick: "Salons and spas", label: "The LeadQ inbox on a beauty lounge owner's phone",
+    cap: "Filled Saturday and handled a reschedule over Instagram and WhatsApp, without putting the brush down.",
+    rows: [{ name: "Layla", ch: "instagram", text: "Blow-dry, Saturday 11 AM with Leila", pill: "Booked" },
+           { name: "Aisha", ch: "whatsapp", text: "Moved her appointment to Tue 3 PM", pill: "Rebooked" },
+           { name: "Sophie", ch: "messenger", text: "“Do you take walk-ins?” Answered." },
+           { name: "Mariam", ch: "whatsapp", text: "Reminder sent for tomorrow 2 PM" },
+           { name: "Hessa", ch: "webchat", text: "Bridal packages? Follow-up sent." }] },
+], "Runs in your browser. Log in from any computer or phone, and invite your team.")}
 
 <section class="lit-hero midway" style="--c:#2fc6e8;--c2:#4d86ff">
   <div class="wrap">

@@ -114,13 +114,16 @@ await load()
 ok('no uncaught exceptions', cdp.errors.length === 0, cdp.errors.join(' | '))
 ok('no console errors', cdp.console.length === 0, cdp.console.join(' | '))
 ok('the hero app rendered', await evalJs('return !!document.getElementById("heroDk")'))
-ok('the tour app rendered', await evalJs('return !!document.getElementById("tourDk")'))
+ok('the four desks rendered', await evalJs(`
+  return ['#how .flow', '#support .help-card', '#demos .demo-feature', '#on-the-go .phone'].every((s) => !!document.querySelector(s));`))
 ok('the icon sprite resolved', await evalJs(`
   const u = document.querySelector('#heroDk use'); if (!u) return false;
   const id = u.getAttribute('href').slice(1); return !!document.getElementById(id);`))
-ok('pricing still works (site.js untouched)', await evalJs(`
-  const el = [...document.querySelectorAll('*')].find(e => /\\$\\d/.test(e.textContent) && e.children.length === 0);
-  return !!el;`))
+// The home page carries no prices since the four desks layout (2026-11-11). The FAQ points to the
+// pricing page, whose plans are checked further down.
+ok('no price on the home page', await evalJs(`
+  return ![...document.querySelectorAll('main *')].some(e => /\\$\\d/.test(e.textContent) && e.children.length === 0 && e.offsetParent);`))
+ok('and the FAQ points to the plans', await evalJs(`return !!document.querySelector('.faq-more a[href="pricing.html"]')`))
 
 // ── B. layout across widths ─────────────────────────────────────────────────
 console.log('\n═══ B. layout, measured in the browser ═══')
@@ -129,159 +132,129 @@ for (const w of [1440, 1280, 1024, 980, 800, 768, 700, 620, 414, 390, 360]) {
   await sleep(220)
   const m = await evalJs(`
     const de = document.documentElement;
-    const dkw = document.querySelector('#tourDk').closest('.dkw');
-    const dk  = document.getElementById('tourDk');
+    const dk  = document.getElementById('heroDk');
+    const dkw = dk.closest('.dkw');
     const win = document.querySelector('.pstage .appwin');
-    const hint = document.querySelector('.scroll-hint');
     const ph  = document.querySelector('.cphone');
+    const flow = [...document.querySelectorAll('#how .flow')].find(f => !f.hidden);
+    const card = flow.querySelector('.flow-card').getBoundingClientRect();
+    const pills = [...flow.querySelectorAll('.flow-ch li')].map(l => l.getBoundingClientRect());
     const cs = (el) => el ? getComputedStyle(el) : null;
     return {
       pageOverflow: de.scrollWidth - de.clientWidth,
       appFont: parseFloat(cs(dk).fontSize),
-      appW: Math.round(dk.getBoundingClientRect().width),
+      // layout width, not the on-screen box: the hero window is drawn tilted in 3D
+      appW: dk.offsetWidth,
       dkwW: Math.round(dkw.clientWidth),
       dkwScrolls: dkw.scrollWidth > dkw.clientWidth + 1,
       heroWin: win ? cs(win).display : 'absent',
-      hint: hint ? cs(hint).display : 'absent',
       phoneVisible: ph ? cs(ph).display !== 'none' && ph.getBoundingClientRect().width > 0 : false,
+      lines: cs(flow.querySelector('.flow-lines')).display,
+      pillOnCard: pills.some(p => p.right > card.left && p.left < card.right && p.bottom > card.top && p.top < card.bottom),
+      helpCols: cs(document.querySelector('.help-grid')).gridTemplateColumns.split(' ').length,
+      offRight: [...document.querySelectorAll('.flow, .help-card, .nodesk-stage, .demo-feature, .voice-band')]
+        .filter(e => e.offsetParent && e.getBoundingClientRect().right > de.clientWidth + 1).map(e => e.className),
     };`)
   const tag = `${String(w).padStart(4)}px`
   ok(`${tag} no horizontal page scroll`, m.pageOverflow <= 0, `overflows by ${m.pageOverflow}px`)
-  ok(`${tag} app type never below 7px`, m.appFont >= 6.99, `${m.appFont}px`)
   ok(`${tag} the customer's phone is visible`, m.phoneVisible)
   // max-width:700px is inclusive, so the rule applies AT 700.
   if (w <= 700) {
     ok(`${tag} hero window hidden (05 s1)`, m.heroWin === 'none', m.heroWin)
-    ok(`${tag} swipe hint shown`, m.hint === 'block', m.hint)
   } else {
     ok(`${tag} hero window shown`, m.heroWin !== 'none', m.heroWin)
-    ok(`${tag} swipe hint hidden`, m.hint === 'none', m.hint)
+    ok(`${tag} app type never below 7px`, m.appFont >= 6.99, `${m.appFont}px`)
+    // 03 s4.9: once the app hits its 7px floor it must scroll INSIDE .dkw, not push the page.
+    if (m.appW > m.dkwW + 1) ok(`${tag} app scrolls inside its own box`, m.dkwScrolls)
+    else ok(`${tag} app fits its box (${m.appW} in ${m.dkwW})`, !m.dkwScrolls)
   }
-  // 03 s4.9: once the app hits its 7px floor it must scroll INSIDE .dkw, not push the page.
-  if (m.appW > m.dkwW + 1) ok(`${tag} app scrolls inside its own box`, m.dkwScrolls)
-  else ok(`${tag} app fits its box (${m.appW} in ${m.dkwW})`, !m.dkwScrolls)
+  ok(`${tag} no desk runs off the right edge`, m.offRight.length === 0, m.offRight.join(' | '))
+  ok(`${tag} the booking card never sits on a channel`, !m.pillOnCard)
+  // Under 620px the channels wrap above the card, so the drawn lines would point at nothing.
+  if (w <= 620) ok(`${tag} the flow stacks without its lines`, m.lines === 'none', m.lines)
+  else ok(`${tag} the flow lines are drawn`, m.lines !== 'none', m.lines)
+  ok(`${tag} help desk in ${w <= 860 ? 'one column' : 'two columns'}`, m.helpCols === (w <= 860 ? 1 : 2), String(m.helpCols))
   if ([1440, 768, 390].includes(w)) await shot('width-' + w)
 }
 
-// ── C. tour interactions ────────────────────────────────────────────────────
-console.log('\n═══ C. the tour actually responds ═══')
+// ── C. the four desks respond ───────────────────────────────────────────────
+// The clickable app tour was retired for the four desks layout on 2026-11-11. What responds now
+// is the films button, the film links in each desk, and the voice chips.
+console.log('\n═══ C. the four desks respond ═══')
 await view(1440, 1100)
 await load()
-const screenState = async () => evalJs(`
-  const dk = document.getElementById('tourDk');
-  const vis = [...dk.querySelectorAll('[data-scr]')].filter(s => !s.hidden).map(s => s.dataset.scr);
-  return { visible: vis, title: document.querySelector('[data-cap-title]').textContent.trim(),
-           caps: document.querySelectorAll('[data-caps] .it').length,
-           tabs: [...document.querySelectorAll('#tourSeg button')].map(b => b.dataset.tab + ':' + b.getAttribute('aria-pressed')),
-           navOn: [...dk.querySelectorAll('.dk-side .dk-nav.on')].map(n => n.dataset.go || n.textContent.trim()) };`)
+const films = async () => evalJs(`
+  const b = document.querySelector('.films-all'), box = document.getElementById(b.getAttribute('aria-controls'));
+  return { btnShown: !b.hidden && b.offsetParent !== null, label: b.textContent.trim(), exp: b.getAttribute('aria-expanded'),
+           shown: box.offsetParent !== null, cards: box.querySelectorAll('a[data-demo]').length,
+           total: document.querySelectorAll('#demos a[data-demo]').length };`)
+const f0 = await films()
+ok('the films button appears once JS runs', f0.btnShown)
+ok('and counts every film in the section', f0.label === `All ${f0.total} films` && f0.total === 15, `${f0.label} / ${f0.total}`)
+ok('the feature films start tucked away', !f0.shown && f0.exp === 'false', `${f0.shown} ${f0.exp}`)
+ok('and there are ten of them', f0.cards === 10, String(f0.cards))
+await evalJs(`document.querySelector('.films-all').click(); return 1`)
+await sleep(150)
+const f1 = await films()
+ok('clicking shows them', f1.shown && f1.exp === 'true' && f1.label === 'Fewer films', `${f1.shown} ${f1.exp} ${f1.label}`)
+await evalJs(`document.querySelector('.films-all').click(); return 1`)
+await sleep(150)
+const f2 = await films()
+ok('and clicking again tucks them away', !f2.shown && f2.exp === 'false' && f2.label === f0.label, `${f2.shown} ${f2.exp} ${f2.label}`)
 
-let s = await screenState()
-ok('starts on Home, alone', s.visible.length === 1 && s.visible[0] === 'home', JSON.stringify(s.visible))
-ok('with its caption and three points', /five seconds/.test(s.title) && s.caps === 3, `${s.title} / ${s.caps}`)
+// Each desk's film link opens the shared player on that film, not on the first one in the page.
+const opened = await evalJs(`
+  const out = [];
+  for (const a of document.querySelectorAll('.help-card .watch, .voice-film')) {
+    a.click(); const d = document.querySelector('.dmodal');
+    out.push({ open: d.open, t: d.querySelector('.dmodal-t').textContent, want: a.dataset.title }); d.close();
+  }
+  return out;`)
+ok('the help desk and voice films open in the player', opened.length === 3 && opened.every((o) => o.open && o.t === o.want), JSON.stringify(opened))
 
-for (const [tab, phrase] of [['inbox', 'hand it back'], ['schedule', 'already filled in'], ['home', 'five seconds']]) {
-  await evalJs(`document.querySelector('#tourSeg [data-tab="${tab}"]').click(); return 1`)
-  await sleep(120)
-  s = await screenState()
-  ok(`tab ${tab}: only that screen is visible`, s.visible.length === 1 && s.visible[0] === tab, JSON.stringify(s.visible))
-  ok(`tab ${tab}: caption follows`, s.title.includes(phrase), s.title)
-  ok(`tab ${tab}: aria-pressed is right`, s.tabs.filter((t) => t.endsWith(':true')).join() === tab + ':true', s.tabs.join(' '))
-  ok(`tab ${tab}: the app's own sidebar highlights it`, s.navOn.length === 1 && s.navOn[0] === tab, JSON.stringify(s.navOn))
-}
+await evalJs(`document.querySelectorAll('.vchips button')[1].click(); return 1`)
+const chips = await evalJs(`return [...document.querySelectorAll('.vchips button')].map(b => b.textContent + ':' + b.getAttribute('aria-pressed'))`)
+ok('the voice chips press one at a time', chips.filter((c) => c.endsWith(':true')).join() === 'Noah:true', chips.join(' '))
 
-// the sidebar itself switches screens
-await evalJs(`document.querySelector('#tourDk .dk-side [data-go="schedule"]').click(); return 1`)
-await sleep(120)
-s = await screenState()
-ok('the app sidebar switches screens too', s.visible[0] === 'schedule', JSON.stringify(s.visible))
-ok('and the tabs above stay in sync', s.tabs.find((t) => t.startsWith('schedule')).endsWith(':true'))
+const posters = await evalJs(`return [...document.querySelectorAll('.demo-thumb img')].map(i => i.getAttribute('src'))`)
+const missing = posters.filter((p) => !fs.existsSync(path.join(ROOT, p)))
+ok(`every film poster is a real file (${posters.length})`, posters.length === 16 && missing.length === 0, missing.join(' '))
 
-ok('Settings is not reachable from the tour', await evalJs(`
-  const dk = document.getElementById('tourDk');
-  return !dk.querySelector('[data-scr="settings"]') && !dk.querySelector('[data-go="settings"]');`))
+// A WhatsApp-market visitor on the home page gets the five-channel Front Desk instead.
+await cdp.send('Page.navigate', { url: PAGE + '?market=UAE' })
+for (let i = 0; i < 80; i++) { if (await evalJs('return document.readyState === "complete"')) break; await sleep(100) }
+await sleep(400)
+const wa = await evalJs(`
+  const flows = [...document.querySelectorAll('#how .flow')].filter(f => f.offsetParent);
+  return { n: flows.length, pills: flows[0] ? [...flows[0].querySelectorAll('.flow-ch li')].map(l => l.textContent.trim()) : [],
+           films: !!document.getElementById('demos').offsetParent, voice: !!document.querySelector('.voice-band').offsetParent,
+           links: [...document.querySelectorAll('.help-card .watch')].filter(a => a.offsetParent).length };`)
+ok('a WhatsApp-market visitor sees one Front Desk', wa.n === 1, String(wa.n))
+ok('with its five channels', wa.pills.join() === 'WhatsApp,Instagram,Messenger,Web chat,Email', wa.pills.join())
+ok('and no North American films or voice band', !wa.films && !wa.voice && wa.links === 0, JSON.stringify(wa))
 
-// the Schedule screen shows a day that is actually booked
-const sched = await evalJs(`
-  const s = document.querySelector('#tourDk [data-scr="schedule"]');
-  return { appts: s.querySelectorAll('.dk-ev:not(.open)').length,
-           open: s.querySelectorAll('.dk-ev.open').length,
-           today: s.querySelectorAll('.dk-cal .days .on').length,
-           dotted: s.querySelectorAll('.dk-cal .days .has').length };`)
-ok('Schedule shows booked appointments', sched.appts >= 5, JSON.stringify(sched))
-ok('and leaves the openings visible', sched.open >= 1, String(sched.open))
-ok('the month marks one day as today', sched.today === 1, String(sched.today))
-ok('and dots the days that carry bookings', sched.dotted > 10, String(sched.dotted))
-
-// channel switches, which now live on the Home screen
-await evalJs(`document.querySelector('#tourSeg [data-tab="home"]').click(); return 1`)
-await sleep(120)
-const chState = async () => evalJs(`
-  const dk = document.getElementById('tourDk');
-  const vis = [...dk.querySelectorAll('[data-scr]')].find(x => !x.hidden);
-  const tg = [...vis.querySelectorAll('[data-chtg]')];
-  const count = vis.querySelector('[data-chcount]');
-  return { n: tg.length, on: tg.filter(t => t.getAttribute('aria-pressed') === 'true').length,
-           dimmed: tg.filter(t => t.closest('.dk-ch,.dk-chrow')?.classList.contains('off')).length,
-           count: count ? count.textContent.trim() : null };`)
-let c0 = await chState()
-ok('Home lists five channel switches', c0.n === 5, String(c0.n))
-ok('all on to begin with', c0.on === 5 && c0.count === '5 connected', `${c0.on} / ${c0.count}`)
-await evalJs(`const v=[...document.getElementById('tourDk').querySelectorAll('[data-scr]')].find(x=>!x.hidden);
-  v.querySelectorAll('[data-chtg]')[0].click(); return 1`)
-await sleep(120)
-let c1 = await chState()
-ok('switching one off updates aria-pressed', c1.on === 4, String(c1.on))
-ok('and the count text', c1.count === '4 of 5 replying', c1.count)
-ok('and dims that row', c1.dimmed === 1, String(c1.dimmed))
-await evalJs(`const v=[...document.getElementById('tourDk').querySelectorAll('[data-scr]')].find(x=>!x.hidden);
-  v.querySelectorAll('[data-chtg]')[0].click(); return 1`)
-await sleep(120)
-let c2 = await chState()
-ok('switching back restores it', c2.on === 5 && c2.count === '5 connected' && c2.dimmed === 0, `${c2.on}/${c2.count}/${c2.dimmed}`)
-
-// master switch on Home
-await evalJs(`document.querySelector('#tourSeg [data-tab="home"]').click(); return 1`)
-await sleep(120)
-const master = async () => evalJs(`
-  const dk = document.getElementById('tourDk');
-  const m = dk.querySelector('[data-master]');
-  return { pressed: m.getAttribute('aria-pressed'),
-           label: dk.querySelector('[data-master-label]').textContent.trim(),
-           sub: dk.querySelector('[data-master-sub]').textContent.trim() };`)
-let m0 = await master()
-ok('master switch starts on', m0.pressed === 'true' && /Baxter is on/.test(m0.label), `${m0.pressed} ${m0.label}`)
-await evalJs(`document.getElementById('tourDk').querySelector('[data-master]').click(); return 1`)
-await sleep(120)
-let m1 = await master()
-ok('pausing changes the heading', /Baxter is paused/.test(m1.label), m1.label)
-ok('and explains what that means', /You answer everything/.test(m1.sub), m1.sub)
-await evalJs(`document.getElementById('tourDk').querySelector('[data-master]').click(); return 1`)
-await sleep(120)
-ok('and it comes back on', /Baxter is on/.test((await master()).label))
-
-// hand back, on the Inbox screen
-await evalJs(`document.querySelector('#tourSeg [data-tab="inbox"]').click(); return 1`)
-await sleep(120)
-const ho = async () => evalJs(`
-  const dk = document.getElementById('tourDk');
-  return { btn: dk.querySelector('[data-ho]').textContent.trim(),
-           chip: dk.querySelector('[data-ho-chip]').textContent.trim(),
-           via: dk.querySelector('[data-ho-via]').textContent.trim(),
-           row: dk.querySelector('.dk-conv.sel em').textContent.trim() };`)
-let h0 = await ho()
-ok('inbox starts taken over', h0.btn === 'Hand back' && /Taken over/.test(h0.chip), `${h0.btn} / ${h0.chip}`)
-await evalJs(`document.getElementById('tourDk').querySelector('[data-ho]').click(); return 1`)
-await sleep(120)
-let h1 = await ho()
-ok('handing back flips the button', h1.btn === 'Take over', h1.btn)
-ok('the thread chip', /Baxter is handling/.test(h1.chip), h1.chip)
-ok('the composer label', /Baxter is replying via/.test(h1.via), h1.via)
-ok('and the row in the list', /Baxter replying/.test(h1.row), h1.row)
-await evalJs(`document.getElementById('tourDk').querySelector('[data-ho]').click(); return 1`)
-await sleep(120)
-let h2 = await ho()
-ok('taking over again reverses all four', h2.btn === 'Hand back' && /Taken over/.test(h2.chip) && /Replying as you/.test(h2.via) && /Taken over/.test(h2.row))
-await shot('tour-inbox')
+// ae.html is the UAE edition of the same layout, under the distributor page's own rules.
+await cdp.send('Page.navigate', { url: pageUrl('ae.html') })
+for (let i = 0; i < 80; i++) { if (await evalJs('return document.readyState === "complete"')) break; await sleep(100) }
+await sleep(400)
+const ae = await evalJs(`
+  return { desks: ['#how .flow', '#support .help-card', '#demos .demo-feature', '#on-the-go .phone'].every(s => !!document.querySelector(s)),
+           pills: [...document.querySelectorAll('#how .flow-ch li')].map(l => l.textContent.trim()),
+           cut: [...document.querySelectorAll('main a[data-demo]')].every(a => a.dataset.demo.includes('/demos/ae/')),
+           btn: (document.querySelector('.films-all') || {}).textContent,
+           price: [...document.querySelectorAll('main *')].some(e => /\\$\\d|\\bAED\\b|\\bUSD\\b|\\bCAD\\b/.test(e.textContent) && e.children.length === 0),
+           signup: !!document.querySelector('main a[href*="signup"], main a[href*="pricing"]'),
+           demo: document.querySelectorAll('main a[data-open-chat]').length,
+           nav: [...document.querySelectorAll('.nav-links a')].map(a => a.getAttribute('href')) };`)
+ok('ae.html: all four desks', ae.desks)
+ok('ae.html: five channels, WhatsApp first', ae.pills.join() === 'WhatsApp,Instagram,Messenger,Web chat,Email', ae.pills.join())
+ok('ae.html: every film is the UAE cut', ae.cut)
+ok('ae.html: the films button counts the UAE library', (ae.btn || '').trim() === 'All 15 films', ae.btn)
+ok('ae.html: still no price, signup or pricing link', !ae.price && !ae.signup, `${ae.price} ${ae.signup}`)
+ok('ae.html: still books demos', ae.demo >= 3, String(ae.demo))
+ok('ae.html: every nav link lands on something', await evalJs(`
+  return [...document.querySelectorAll('.nav-links a')].every(a => { const h = a.getAttribute('href');
+    return !h.startsWith('ae.html#') || !!document.getElementById(h.split('#')[1]); });`), ae.nav.join(' '))
 
 // ── D. the hero timeline ────────────────────────────────────────────────────
 console.log('\n═══ D. the hero timeline, sampled while it runs ═══')
@@ -364,24 +337,22 @@ await cdp.send('Emulation.setEmulatedMedia', { features: [] })
 console.log('\n═══ F. accessibility ═══')
 await load()
 const a11y = await evalJs(`
-  const dk = document.getElementById('tourDk');
-  const tg = [...dk.querySelectorAll('.tg')];
-  const tabs = [...document.querySelectorAll('#tourSeg button')];
+  const chips = [...document.querySelectorAll('.vchips button')];
+  const b = document.querySelector('.films-all');
+  const deco = [...document.querySelectorAll('.flow svg, .checks svg, .help-card svg')];
   return {
-    switchesAreButtons: tg.every(t => t.tagName === 'BUTTON'),
-    switchesPressed: tg.every(t => t.hasAttribute('aria-pressed')),
-    switchesLabelled: tg.every(t => (t.getAttribute('aria-label') || t.textContent).trim().length > 0),
-    tabsPressed: tabs.every(t => t.hasAttribute('aria-pressed')),
-    segLabelled: !!document.getElementById('tourSeg').getAttribute('aria-label'),
-    decorativeHidden: [...document.querySelectorAll('#tourDk svg')].every(s => s.getAttribute('aria-hidden') === 'true' || s.closest('[aria-hidden="true"]')),
+    chipsPressed: chips.length === 4 && chips.every(c => c.tagName === 'BUTTON' && c.hasAttribute('aria-pressed')),
+    chipsLabelled: !!document.querySelector('.vchips').getAttribute('aria-label'),
+    filmsBtn: b.tagName === 'BUTTON' && b.hasAttribute('aria-expanded') && !!document.getElementById(b.getAttribute('aria-controls')),
+    decorativeHidden: deco.length > 20 && deco.every(s => s.getAttribute('aria-hidden') === 'true' || s.closest('[aria-hidden="true"]')),
+    phonesLabelled: [...document.querySelectorAll('#on-the-go .phone')].every(p => p.getAttribute('role') === 'img' && !!p.getAttribute('aria-label')),
     oneH1: document.querySelectorAll('h1').length,
   };`)
-ok('switches are real buttons', a11y.switchesAreButtons)
-ok('with aria-pressed', a11y.switchesPressed)
-ok('and a label', a11y.switchesLabelled)
-ok('tabs report their state', a11y.tabsPressed)
-ok('the tab group is labelled', a11y.segLabelled)
+ok('the voice chips are real buttons with aria-pressed', a11y.chipsPressed)
+ok('and their group is labelled', a11y.chipsLabelled)
+ok('the films button says what it opens and whether it is open', a11y.filmsBtn)
 ok('decorative icons are hidden from screen readers', a11y.decorativeHidden)
+ok('the phone pictures are labelled', a11y.phonesLabelled)
 ok('exactly one h1', a11y.oneH1 === 1, String(a11y.oneH1))
 
 // ── G. light mode ───────────────────────────────────────────────────────────
@@ -550,7 +521,7 @@ const entRow = async (url, w) => {
              href: a ? a.getAttribute('href') : '', text: a ? a.textContent.trim() : '',
              overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth };`)
 }
-for (const [p, w] of [['pricing.html', 1280], ['pricing.html?market=UAE', 1280], ['pricing.html', 390], ['index.html', 1280]]) {
+for (const [p, w] of [['pricing.html', 1280], ['pricing.html?market=UAE', 1280], ['pricing.html', 390]]) {
   const r = await entRow(pageUrl(p.split('?')[0]) + (p.includes('?') ? '?' + p.split('?')[1] : ''), w)
   ok(`${p} at ${w}: an Enterprise row, as wide as the plans (${r.rowW} vs ${r.plansW})`, r.row && Math.abs(r.rowW - r.plansW) <= 1)
   ok(`${p} at ${w}: its Contact us goes to the form`, r.text === 'Contact us' && r.href === 'enterprise.html', `${r.text} -> ${r.href}`)

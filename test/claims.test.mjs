@@ -50,7 +50,9 @@ ok("the app section says where it runs", /Runs in your browser\. Log in from any
 // links for something that does not exist. So the promise is allowed, the hard claims are not.
 ok("it says the mobile app is coming", /The mobile app is coming soon\./.test(home))
 ok("but makes no hard claim it exists", !/download the app|app store|get it on|available on the/i.test(home))
-ok("setup no longer claims to be phone-first", /Live in minutes, from any browser/.test(home))
+// The four desks layout (2026-11-11) dropped the "Live in minutes, from any browser" steps; the
+// closing section carries the same promise now, and No Desk shows the phone as a browser screen.
+ok("setup no longer claims to be phone-first", /Set up your assistant in minutes, from any browser\./.test(home))
 
 // ── Instagram and Messenger are live ─────────────────────────────────────────
 // From 2026-10-02 they were "coming soon" (Meta's access verification checks the site shows the
@@ -63,7 +65,8 @@ for (const f of pages.filter((f) => !/privacy|terms/.test(f))) {
   ok(`${f}: Instagram and Messenger are never "coming soon"`, !named.some((s) => /coming soon/i.test(s)),
      named.filter((s) => /coming soon/i.test(s)).join(" | ").slice(0, 160))
 }
-ok("the home page sells them", /Instagram and Messenger DMs are answered the same way\./.test(home) && /Plus Instagram and Messenger\./.test(home))
+// Since the four desks layout they are two of the Front Desk's channels, and its copy names them.
+ok("the home page sells them", /Instagram and Messenger DMs included/.test(home) && /\/svg><\/i>Instagram<\/li>/.test(home) && /\/svg><\/i>Messenger<\/li>/.test(home))
 ok("and names the Facebook lead forms that already work", /Leads from your Facebook lead forms come straight in too\./.test(home))
 const privacy = read("privacy-policy.html")
 ok("the privacy policy covers Facebook and Instagram data", /<h2>Facebook and Instagram Data<\/h2>/.test(privacy))
@@ -72,12 +75,14 @@ ok("and keeps everything it carried before", /<h2>Google User Data<\/h2>/.test(p
 
 // ── the desktop app is actually shown, not just described ────────────────────
 // The markup is static in the page and the driver only animates it. Covered in depth by
-// app-mockup.test.mjs, which pins it to the brief's reference implementation.
-ok("the page carries the desktop app", /id="tourDk"/.test(home))
+// app-mockup.test.mjs, which pins it to the brief's reference implementation. The clickable tour
+// below the fold was retired for the four desks layout on 2026-11-11, so the hero is where it lives.
+ok("the page carries the desktop app", /id="heroDk"/.test(home))
 ok("and loads the driver that animates it", /<script src="app-mockup\.js(\?v=[a-f0-9]+)?" defer><\/script>/.test(home))
 ok("the app sits in a browser window", /class="appwin"/.test(home))
 ok("with a real address bar", /<span>app\.leadq\.co<\/span>/.test(home))
-ok("and you can click through three screens", /data-tab="schedule"/.test(home))
+// No Desk shows the app on a phone as the app's own four tabs, not a made-up phone app.
+ok("the phone screens use the app's real tabs", ["Assistant", "Inbox", "Schedule", "Settings"].every((t) => home.includes(`</svg>${t}</span>`)))
 
 // ── nothing still references the artwork the tour replaced ───────────────────
 const css = read("styles.css")

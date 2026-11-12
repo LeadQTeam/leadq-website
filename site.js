@@ -373,6 +373,28 @@ function initDemos() {
   dlg.addEventListener("close", () => { video.pause(); video.removeAttribute("src"); video.load(); });
 }
 
+/* ===== "All 15 films": the feature films sit behind one button =====
+   styles.css hides .films-more once JS is running. With JS off the row is simply shown and the
+   button, which is hidden in the markup, never appears. */
+function initFilmsMore() {
+  $$(".films-all").forEach((b) => {
+    const box = document.getElementById(b.getAttribute("aria-controls"));
+    if (!box) return;
+    const label = b.textContent;
+    b.hidden = false;
+    b.addEventListener("click", () => {
+      const open = !box.classList.contains("open");
+      box.classList.toggle("open", open);
+      b.setAttribute("aria-expanded", String(open));
+      b.textContent = open ? "Fewer films" : label;
+      if (!open) return;
+      // the phone rail places its cards from measured positions, which a hidden row did not have
+      $$(".demo-grid", box).forEach((r) => r.dispatchEvent(new Event("scroll")));
+      box.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" });
+    });
+  });
+}
+
 /* ===== visibility helpers ===== */
 const io = (cb, opts) => ("IntersectionObserver" in window ? new IntersectionObserver(cb, opts) : null);
 
@@ -644,6 +666,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initVideo();
   initDemos();
   initDemoRails();
+  initFilmsMore();
   initReveal();
   initLiveZones();
   initLiveChat();
