@@ -216,7 +216,7 @@ const footer = `<footer class="footer">
     <div class="footer-top">
       <div>
         <a class="brand" href="index.html" aria-label="LeadQ home">${wordmark()}</a>
-        <p class="footer-tag">Answered. Booked. While you work.</p>
+        <p class="footer-tag">Always on. Always You.</p>
       </div>
       <nav class="footer-links" aria-label="Footer">
         <a href="index.html#how">How it works</a><a href="index.html#demos">Watch it work</a><a href="use-cases.html">Use cases</a><a href="voice.html" data-needs-voice>Voice AI</a><a href="pricing.html">Pricing</a><a href="about.html">About</a><a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a>
@@ -1519,7 +1519,7 @@ const aeFooter = `<footer class="footer">
     <div class="footer-top">
       <div>
         <a class="brand" href="ae.html" aria-label="LeadQ">${wordmark()}</a>
-        <p class="footer-tag">Answered. Booked. While you work.</p>
+        <p class="footer-tag">Always on. Always You.</p>
       </div>
       <nav class="footer-links" aria-label="Footer">
         ${AE_NAV_LINKS}<a href="privacy-policy.html">Privacy</a><a href="terms-of-service.html">Terms</a>
