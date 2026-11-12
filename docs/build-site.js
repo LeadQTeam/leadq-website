@@ -460,7 +460,7 @@ const supportCard = (dir, film, { kick, h, biz, ch, via, msgs, end, hand = false
           </div>
         </div>
         <p>${p}</p>
-        <a class="watch" ${demoAttrs(dir, film, kick)}${attr}><span class="wb-ic">${I.play}</span>Watch the ${kick.toLowerCase()} film</a>
+        <a class="btn btn-ghost btn-sm btn-play watch" ${demoAttrs(dir, film, kick)}${attr}>${I.play}Watch the ${kick.toLowerCase()} film</a>
       </article>`;
 const deskHelp = (lead, cards) => `<section class="sec" id="support">
   <div class="wrap">
