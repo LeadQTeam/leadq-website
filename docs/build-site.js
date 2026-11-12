@@ -694,7 +694,7 @@ ${deskFront({
         <h2 class="h-sec">Even the front<br>desk phone.</h2>
         <p class="lead" style="margin-top:18px">A receptionist that sounds human picks up the calls you can't, answers questions, books the job, and warm-transfers to you when it matters. No more voicemail.</p>
         <div class="vchips left" role="group" aria-label="Hear the voices">
-          ${[["ava", "Ava"], ["noah", "Noah"], ["mia", "Mia"], ["sarah", "Sarah"]].map(([k, n]) => `<button type="button" class="vchip" data-voice="audio/voices/${k}.mp3" aria-pressed="false"><span class="vc-ic" aria-hidden="true">${I.play}<i></i><i></i><i></i></span><span class="sr-only">Hear </span>${n}</button>`).join("")}
+          ${[["ava", "Ava"], ["noah", "Noah"], ["sarah", "Sarah"], ["eric", "Eric"]].map(([k, n]) => `<button type="button" class="vchip" data-voice="audio/voices/${k}.mp3" aria-pressed="false"><span class="vc-ic" aria-hidden="true">${I.play}<i></i><i></i><i></i></span><span class="sr-only">Hear </span>${n}</button>`).join("")}
         </div>
         <a class="btn btn-voice btn-lg" href="voice.html">Meet the AI Receptionist</a>
         <p class="fine">The AI Receptionist runs on US and Canadian phone numbers only.</p>
