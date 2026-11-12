@@ -44,12 +44,12 @@ ok("and the customer's phone beside it", /class="cphone"/.test(home) && /data-hp
 // rather than two loops that drift apart.
 ok("driven by one timeline, not two", /function els\(k\)\{ return \[ph\.querySelector.*dk\.querySelector/.test(read("app-mockup.js")))
 ok("the fine print stays short", /Set it up in minutes\. No AI knowledge needed\./.test(home))
-ok("the app section says where it runs", /Runs in your browser\. Log in from any computer/.test(home))
 // 01 rule 10 says not to promise a mobile app. Rob overrode that on 2026-09-21: saying it is
 // coming shows progress, and the rule is really guarding against app-store badges and download
-// links for something that does not exist. So the promise is allowed, the hard claims are not.
-ok("it says the mobile app is coming", /The mobile app is coming soon\./.test(home))
-ok("but makes no hard claim it exists", !/download the app|app store|get it on|available on the/i.test(home))
+// links for something that does not exist. The "Runs in your browser... The mobile app is coming
+// soon." line under No Desk was removed at the owner's request on 2026-11-12, so only the hard
+// claims are still checked.
+ok("it makes no hard claim a mobile app exists", !/download the app|app store|get it on|available on the/i.test(home))
 // The four desks layout (2026-11-11) dropped the "Live in minutes, from any browser" steps; the
 // closing section carries the same promise now, and No Desk shows the phone as a browser screen.
 ok("setup no longer claims to be phone-first", /Set up your assistant in minutes, from any browser\./.test(home))

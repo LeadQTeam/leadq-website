@@ -456,11 +456,11 @@ const supportCard = (dir, film, { kick, h, biz, ch, via, msgs, end, hand = false
           <div class="chatbox-h">${chIcon(ch)}<b>${biz}</b><small>${via}</small></div>
           <div class="chatbox-m">
             ${msgs.map(([who, t]) => `<p class="cb ${who}">${t}</p>`).join("\n            ")}
-            <p class="cb-end${hand ? " hand" : ""}">${end}</p>
+            <p class="cb-end ${hand ? "hand" : "ok"}">${hand ? I.transfer : tick}${end}</p>
           </div>
         </div>
         <p>${p}</p>
-        <a class="watch" ${demoAttrs(dir, film, kick)}${attr}>${I.play}Watch the ${kick.toLowerCase()} film</a>
+        <a class="watch" ${demoAttrs(dir, film, kick)}${attr}><span class="wb-ic">${I.play}</span>Watch the ${kick.toLowerCase()} film</a>
       </article>`;
 const deskHelp = (lead, cards) => `<section class="sec" id="support">
   <div class="wrap">
@@ -475,15 +475,14 @@ const deskHelp = (lead, cards) => `<section class="sec" id="support">
 </section>`;
 
 /* 03 At Your Desk: the films. The one-minute "what it does for your business" film leads, the four
-   use cases follow, and the ten feature films sit behind one button (site.js initFilmsMore). With
-   JS off that row is simply shown and the button never appears. The player's Next button walks
-   the films in page order. */
+   use cases follow, and the ten feature films show only their top edge, fading out, until clicked
+   (site.js initFilmsMore). With JS off that row is simply shown in full and the peek button never
+   appears. The player's Next button walks the films in page order. */
 function deskFilms(dir, films, attrs = "") {
   const by = (n) => films.find((d) => d[0].startsWith(n + "-"));
   const why = by("14");
   const intro = [by("00"), by("11"), by("12"), by("13")];
   const feats = films.filter((d) => /^(0[1-9]|10)-/.test(d[0]));
-  const total = 1 + intro.length + feats.length;
   const card = (d, kick) => `      <li><a ${demoAttrs(dir, d, kick)}>${demoThumb(dir, d)}<span class="demo-k">${kick}</span><b>${d[2]}</b><span class="demo-biz">${d[3]}</span></a></li>`;
   return `<section class="sec" id="demos"${attrs}>
   <div class="wrap">
@@ -493,7 +492,6 @@ function deskFilms(dir, films, attrs = "") {
         <p class="lead">Grab a coffee and see how it works, one short film at a time.</p>
         <p class="fine">All businesses shown are fictional. The app is real.</p>
       </div>
-      <button class="btn btn-ghost films-all" type="button" aria-expanded="false" aria-controls="films-${dir}" hidden>All ${total} films</button>
     </div>
     <a class="demo-feature" ${demoAttrs(dir, why, "Start here")} aria-label="Play: ${esc(why[2])}, ${why[4]}">
       ${demoThumb(dir, why, false)}
@@ -507,11 +505,14 @@ function deskFilms(dir, films, attrs = "") {
     <ol class="demo-grid demo-grid4">
 ${intro.map((d) => card(d, d[1])).join("\n")}
     </ol>
-    <div class="films-more" id="films-${dir}">
-      <h3 class="demo-sub">Feature by feature</h3>
-      <ol class="demo-grid">
+    <div class="films-more">
+      <div class="films-in" id="films-${dir}">
+        <h3 class="demo-sub">Feature by feature</h3>
+        <ol class="demo-grid">
 ${feats.map((d, i) => card(d, String(i + 1).padStart(2, "0") + " · " + d[1])).join("\n")}
-      </ol>
+        </ol>
+      </div>
+      <button class="films-peek" type="button" aria-expanded="false" aria-controls="films-${dir}" hidden><span>${feats.length} more films<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
     </div>
   </div>
 </section>`;
@@ -523,7 +524,15 @@ const rowCh = (ch) => `<span class="ap-ch">${Array.isArray(ch) ? mkt(chIcon(ch[0
 const inboxRow = (r) => r.need
   ? `<div class="ap-it need"><span class="need-k">Needs you</span><b>${r.name}</b><p>${r.text}</p></div>`
   : `<div class="ap-it"><div class="ap-it-h"><b>${r.name}</b>${rowCh(r.ch)}</div><p>${r.text}</p>${r.pill ? `<span class="ap-pill">${r.pill}</span>` : ""}</div>`;
-const deskNoDesk = (lead, figs, note) => `<section class="sec" id="on-the-go">
+/* Made-up marks for the made-up businesses: an app-icon tile with one white glyph each. */
+const BIZ_LOGO = {
+  drop: ["#6aa8ff", "#2f6df6", '<path d="M12 3.2c3.3 3.9 6 7.1 6 10.4a6 6 0 0 1-12 0c0-3.3 2.7-6.5 6-10.4Z" fill="#fff"/><path d="M9.3 14.2a2.8 2.8 0 0 0 2.4 2.7" fill="none" stroke="#2f6df6" stroke-width="1.6" stroke-linecap="round"/>'],
+  polish: ["#f8b4d4", "#d9468c", '<rect x="9.8" y="2.8" width="4.4" height="6.6" rx="1.2" fill="#fff"/><rect x="7" y="9.6" width="10" height="11.6" rx="3" fill="#fff"/><path d="M9.6 12.6v5" stroke="#d9468c" stroke-width="1.6" stroke-linecap="round"/>'],
+  snow: ["#8ee0ff", "#0b8fd6", '<g fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9"/><path d="m9.4 4.6 2.6 2.4 2.6-2.4M9.4 19.4l2.6-2.4 2.6 2.4"/></g>'],
+  crescent: ["#f7cf96", "#c8698a", '<path d="M14.6 3.6a8.6 8.6 0 1 0 5.8 13.9A7 7 0 1 1 14.6 3.6Z" fill="#fff"/><path d="m17.6 7.4.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6Z" fill="#fff"/>'],
+};
+const bizLogo = (k) => `<span class="ap-logo" style="background:linear-gradient(145deg,${BIZ_LOGO[k][0]},${BIZ_LOGO[k][1]})"><svg viewBox="0 0 24 24" aria-hidden="true">${BIZ_LOGO[k][2]}</svg></span>`;
+const deskNoDesk = (lead, figs) => `<section class="sec" id="on-the-go">
   <div class="wrap">
     <div class="sec-head">
       <h2 class="h-desk">Or with <span class="hi">No Desk</span> at all.</h2>
@@ -533,13 +542,12 @@ const deskNoDesk = (lead, figs, note) => `<section class="sec" id="on-the-go">
       ${figs.map((f) => `<figure style="--c:${f.glow}">
         <div class="nodesk-stage">${phone({
           label: f.label, tab: "inbox",
-          header: `<div class="ap-header plain"><span class="ap-av" style="background:${f.color}">${f.biz[0]}</span><span><span class="ap-hname">${f.biz}</span><span class="ap-hsub">Inbox</span></span></div>`,
+          header: `<div class="ap-header plain">${bizLogo(f.logo)}<span><span class="ap-hname">${f.biz}</span><span class="ap-hsub">Inbox</span></span></div>`,
           body: `<div class="ap-list">${f.rows.map(inboxRow).join("")}</div>`,
         })}</div>
         <figcaption><span class="k">${f.kick}</span>${f.cap}</figcaption>
       </figure>`).join("\n      ")}
     </div>
-    <p class="fine nodesk-note">${note}</p>
   </div>
 </section>`;
 const demoPlayer = `<dialog class="dmodal" aria-label="LeadQ demo">
@@ -685,8 +693,8 @@ ${deskFront({
         <p class="voice-k">AI receptionist · Included in Pro</p>
         <h2 class="h-sec">Even the front<br>desk phone.</h2>
         <p class="lead" style="margin-top:18px">A receptionist that sounds human picks up the calls you can't, answers questions, books the job, and warm-transfers to you when it matters. No more voicemail.</p>
-        <div class="vchips left" role="group" aria-label="Voices" data-press-group>
-          <button type="button" aria-pressed="true">Ava</button><button type="button" aria-pressed="false">Noah</button><button type="button" aria-pressed="false">Mia</button><button type="button" aria-pressed="false">Sarah</button>
+        <div class="vchips left" role="group" aria-label="Hear the voices">
+          ${[["ava", "Ava"], ["noah", "Noah"], ["mia", "Mia"], ["sarah", "Sarah"]].map(([k, n]) => `<button type="button" class="vchip" data-voice="audio/voices/${k}.mp3" aria-pressed="false"><span class="vc-ic" aria-hidden="true">${I.play}<i></i><i></i><i></i></span><span class="sr-only">Hear </span>${n}</button>`).join("")}
         </div>
         <a class="btn btn-voice btn-lg" href="voice.html">Meet the AI Receptionist</a>
         <p class="fine">The AI Receptionist runs on US and Canadian phone numbers only.</p>
@@ -703,15 +711,15 @@ ${deskHelp("The same assistant handles support after the sale. It answers from y
     msgs: [["in", "My soundbar won't connect to the TV anymore."],
            ["out", "Let's fix that. Hold the Bluetooth button for 5 seconds until the light blinks blue, then pick “FP-200” on your TV."],
            ["in", "That did it, thank you!"]],
-    end: "Resolved · No one on your team needed",
-    p: "Walks customers through the fixes you already know, step by step, from your own guides and FAQs.", attr: " data-na-only" }),
+    end: "Resolved. No one on your team needed.",
+    p: "Step-by-step fixes from your own guides.", attr: " data-na-only" }),
   supportCard("na", NA_DEMOS.find((d) => d[0].startsWith("12-")), {
     kick: "Customer support", h: "Answers the questions you get every day.", biz: "Northwood Home", ch: "email", via: "Email",
     msgs: [["in", "Can I still return a lamp I bought three weeks ago?"],
            ["out", "Yes, returns are accepted within 30 days with the receipt. Want me to have a team member start the return for you?"],
            ["in", "Yes please."]],
-    end: "Handed to a team member · With a summary", hand: true,
-    p: "Policies, order questions and the usual “how do I” requests, in your tone. Anything it shouldn't handle goes to a team member.", attr: " data-na-only" }),
+    end: "Handed to your team, with a summary.", hand: true,
+    p: "Everyday questions answered. The rest goes to your team.", attr: " data-na-only" }),
 ])}
 
 <!-- 03 at your desk: the films (North American cut, so a WhatsApp-market visitor does not see it) -->
@@ -719,21 +727,21 @@ ${deskFilms("na", NA_DEMOS, " data-na-only")}
 
 <!-- 04 no desk -->
 ${deskNoDesk("Under a sink or mid-manicure, your front desk goes wherever you do.", [
-  { biz: "Pipeline Plumbing", color: "#7ba6ff", glow: "#4d86ff", kick: "Plumbers", label: "The LeadQ inbox on a plumber's phone",
+  { biz: "Pipeline Plumbing", logo: "drop", glow: "#4d86ff", kick: "Plumbers", label: "The LeadQ inbox on a plumber's phone",
     cap: "Booked a water-heater job and flagged tonight's emergency while the owner was on another call.",
     rows: [{ need: true, name: "Burst pipe, Oak St.", text: "Wants someone tonight. Asked for you." },
            { name: "Dave", ch: ["voice", "whatsapp"], text: "Water heater quote, booked for Fri 9 AM", pill: "Booked" },
            { name: "Lena", ch: ["sms", "instagram"], text: "“Do you do drain cleaning?” Answered." },
            { name: "Marcus", ch: "webchat", text: "Asked about pricing. Follow-up sent." },
            { name: "Rosa", ch: "email", text: "“Tankless heaters too?” Answered." }] },
-  { biz: "Glossy Nail Studio", color: "#f0a6c8", glow: "#f27eb4", kick: "Nail salons", label: "The LeadQ inbox on a nail salon owner's phone",
+  { biz: "Glossy Nail Studio", logo: "polish", glow: "#f27eb4", kick: "Nail salons", label: "The LeadQ inbox on a nail salon owner's phone",
     cap: "Filled Saturday and handled a reschedule over Instagram and WhatsApp, without putting the brush down.",
     rows: [{ name: "Priya", ch: "instagram", text: "Gel fill, Saturday 11 AM with Jess", pill: "Booked" },
            { name: "Amanda", ch: "whatsapp", text: "Moved her appointment to Tue 3 PM", pill: "Rebooked" },
            { name: "Chloe", ch: "messenger", text: "“Do you take walk-ins?” Answered." },
            { name: "Tara", ch: ["sms", "email"], text: "Reminder sent for tomorrow 2 PM" },
            { name: "Mei", ch: "webchat", text: "Asked about gift cards. Answered." }] },
-], "Runs in your browser. Log in from any computer or phone, and invite your team. The mobile app is coming soon.")}
+])}
 
 <!-- faq: plans and credits live on the pricing page, not here -->
 <section class="sec">
@@ -1607,35 +1615,35 @@ ${deskHelp("The same assistant handles support after the sale. It answers from y
     msgs: [["in", "My soundbar won't connect to the TV anymore."],
            ["out", "Let's fix that. Hold the Bluetooth button for 5 seconds until the light blinks blue, then pick “SF-200” on your TV."],
            ["in", "That did it, thank you!"]],
-    end: "Resolved · No one on your team needed",
-    p: "Walks customers through the fixes you already know, step by step, from your own guides and FAQs." }),
+    end: "Resolved. No one on your team needed.",
+    p: "Step-by-step fixes from your own guides." }),
   supportCard("ae", AE_DEMOS.find((d) => d[0].startsWith("12-")), {
     kick: "Customer support", h: "Answers the questions you get every day.", biz: "Dunes Home", ch: "whatsapp", via: "WhatsApp",
     msgs: [["in", "Can I still return a lamp I bought three weeks ago?"],
            ["out", "Yes, returns are accepted within 30 days with the receipt. Shall I ask the team to arrange a collection?"],
            ["in", "Yes please."]],
-    end: "Handed to a team member · With a summary", hand: true,
-    p: "Policies, order questions and the usual “how do I” requests, in your tone. Anything it shouldn't handle goes to a team member." }),
+    end: "Handed to your team, with a summary.", hand: true,
+    p: "Everyday questions answered. The rest goes to your team." }),
 ])}
 
 ${deskFilms("ae", AE_DEMOS)}
 
 ${deskNoDesk("Up a ladder or mid-blow-dry, your front desk goes wherever you do.", [
-  { biz: "Frostline AC Services", color: "#7dd3fc", glow: "#38bdf8", kick: "AC and maintenance", label: "The LeadQ inbox on an AC company owner's phone",
+  { biz: "Frostline AC Services", logo: "snow", glow: "#38bdf8", kick: "AC and maintenance", label: "The LeadQ inbox on an AC company owner's phone",
     cap: "Booked an AC service and flagged a same-day breakdown while the team was out on a job.",
     rows: [{ need: true, name: "AC not cooling, Al Barsha", text: "Wants someone today. Asked for you." },
            { name: "Ahmed", ch: "whatsapp", text: "AC service, booked for Sat 9 AM", pill: "Booked" },
            { name: "Rajesh", ch: "webchat", text: "“Do you do duct cleaning?” Answered." },
            { name: "Fatima", ch: "instagram", text: "Yearly contract? Follow-up sent." },
            { name: "Omar", ch: "email", text: "“Office units too?” Answered." }] },
-  { biz: "Noor Beauty Lounge", color: "#f0a6c8", glow: "#f27eb4", kick: "Salons and spas", label: "The LeadQ inbox on a beauty lounge owner's phone",
+  { biz: "Noor Beauty Lounge", logo: "crescent", glow: "#f27eb4", kick: "Salons and spas", label: "The LeadQ inbox on a beauty lounge owner's phone",
     cap: "Filled Saturday and handled a reschedule over Instagram and WhatsApp, without putting the brush down.",
     rows: [{ name: "Layla", ch: "instagram", text: "Blow-dry, Saturday 11 AM with Leila", pill: "Booked" },
            { name: "Aisha", ch: "whatsapp", text: "Moved her appointment to Tue 3 PM", pill: "Rebooked" },
            { name: "Sophie", ch: "messenger", text: "“Do you take walk-ins?” Answered." },
            { name: "Mariam", ch: "whatsapp", text: "Reminder sent for tomorrow 2 PM" },
            { name: "Hessa", ch: "webchat", text: "Bridal packages? Follow-up sent." }] },
-], "Runs in your browser. Log in from any computer or phone, and invite your team.")}
+])}
 
 <section class="lit-hero midway" style="--c:#2fc6e8;--c2:#4d86ff">
   <div class="wrap">

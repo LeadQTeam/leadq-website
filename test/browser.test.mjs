@@ -179,28 +179,28 @@ for (const w of [1440, 1280, 1024, 980, 800, 768, 700, 620, 414, 390, 360]) {
 
 // ── C. the four desks respond ───────────────────────────────────────────────
 // The clickable app tour was retired for the four desks layout on 2026-11-11. What responds now
-// is the films button, the film links in each desk, and the voice chips.
+// is the films peek, the film links in each desk, and the voice chips.
 console.log('\n═══ C. the four desks respond ═══')
 await view(1440, 1100)
 await load()
 const films = async () => evalJs(`
-  const b = document.querySelector('.films-all'), box = document.getElementById(b.getAttribute('aria-controls'));
+  const b = document.querySelector('.films-peek'), inner = document.getElementById(b.getAttribute('aria-controls'));
+  const thumb = inner.querySelector('.demo-thumb');
   return { btnShown: !b.hidden && b.offsetParent !== null, label: b.textContent.trim(), exp: b.getAttribute('aria-expanded'),
-           shown: box.offsetParent !== null, cards: box.querySelectorAll('a[data-demo]').length,
-           total: document.querySelectorAll('#demos a[data-demo]').length };`)
+           h: inner.clientHeight, full: inner.scrollHeight, inert: [...inner.querySelectorAll('.demo-grid')].every(r => r.inert),
+           thumbTop: thumb.getBoundingClientRect().top - inner.getBoundingClientRect().top, thumbH: thumb.offsetHeight,
+           cards: inner.querySelectorAll('a[data-demo]').length, total: document.querySelectorAll('#demos a[data-demo]').length };`)
 const f0 = await films()
-ok('the films button appears once JS runs', f0.btnShown)
-ok('and counts every film in the section', f0.label === `All ${f0.total} films` && f0.total === 15, `${f0.label} / ${f0.total}`)
-ok('the feature films start tucked away', !f0.shown && f0.exp === 'false', `${f0.shown} ${f0.exp}`)
-ok('and there are ten of them', f0.cards === 10, String(f0.cards))
-await evalJs(`document.querySelector('.films-all').click(); return 1`)
-await sleep(150)
+ok('the films peek appears once JS runs', f0.btnShown)
+ok('and says how many films it holds', f0.label === `${f0.cards} more films` && f0.cards === 10 && f0.total === 15, `${f0.label} / ${f0.cards} of ${f0.total}`)
+// Only the top of the next row shows: the thumbnails start inside the box and most of them is cut.
+ok('the feature films show only their top edge', f0.h < f0.full / 2 && f0.thumbTop < f0.h && f0.h - f0.thumbTop < f0.thumbH * 0.6,
+   `box ${f0.h} of ${f0.full}, thumb at ${f0.thumbTop}, ${f0.thumbH} tall`)
+ok('and cannot be tabbed to while faded', f0.inert && f0.exp === 'false')
+await evalJs(`document.querySelector('.films-peek').click(); return 1`)
+await sleep(900)
 const f1 = await films()
-ok('clicking shows them', f1.shown && f1.exp === 'true' && f1.label === 'Fewer films', `${f1.shown} ${f1.exp} ${f1.label}`)
-await evalJs(`document.querySelector('.films-all').click(); return 1`)
-await sleep(150)
-const f2 = await films()
-ok('and clicking again tucks them away', !f2.shown && f2.exp === 'false' && f2.label === f0.label, `${f2.shown} ${f2.exp} ${f2.label}`)
+ok('clicking reveals them all', f1.h >= f1.full - 1 && f1.exp === 'true' && !f1.btnShown && !f1.inert, `${f1.h}/${f1.full} ${f1.exp} ${f1.btnShown} ${f1.inert}`)
 
 // Each desk's film link opens the shared player on that film, not on the first one in the page.
 const opened = await evalJs(`
@@ -212,9 +212,22 @@ const opened = await evalJs(`
   return out;`)
 ok('the help desk and voice films open in the player', opened.length === 3 && opened.every((o) => o.open && o.t === o.want), JSON.stringify(opened))
 
-await evalJs(`document.querySelectorAll('.vchips button')[1].click(); return 1`)
-const chips = await evalJs(`return [...document.querySelectorAll('.vchips button')].map(b => b.textContent + ':' + b.getAttribute('aria-pressed'))`)
-ok('the voice chips press one at a time', chips.filter((c) => c.endsWith(':true')).join() === 'Noah:true', chips.join(' '))
+// Each voice chip plays that voice's sample from the app. play() is stubbed: a headless click is
+// not a user gesture, so the real one would be refused and this would test the browser's policy.
+const voices = await evalJs(`return [...document.querySelectorAll('.vchips [data-voice]')].map(b => b.dataset.voice)`)
+const silent = voices.filter((v) => !fs.existsSync(path.join(ROOT, v)) || fs.statSync(path.join(ROOT, v)).size < 20000)
+ok(`every voice chip has its sample (${voices.length})`, voices.length === 4 && silent.length === 0, silent.join(' '))
+const chipState = () => evalJs(`return [...document.querySelectorAll('.vchips [data-voice]')].map(b => b.textContent.replace('Hear', '').trim() + ':' + b.getAttribute('aria-pressed'))`)
+await evalJs(`window.__played = []; HTMLMediaElement.prototype.play = function () { window.__played.push(this.src.split('/').pop()); return Promise.resolve() };
+  HTMLMediaElement.prototype.pause = function () {}; document.querySelectorAll('.vchips [data-voice]')[1].click(); return 1`)
+let vc = await chipState()
+ok('a chip plays its own voice', vc.filter((c) => c.endsWith(':true')).join() === 'Noah:true' && (await evalJs('return window.__played.join()')) === 'noah.mp3', vc.join(' '))
+await evalJs(`document.querySelectorAll('.vchips [data-voice]')[2].click(); return 1`)
+vc = await chipState()
+ok('one voice at a time', vc.filter((c) => c.endsWith(':true')).join() === 'Mia:true', vc.join(' '))
+await evalJs(`document.querySelectorAll('.vchips [data-voice]')[2].click(); return 1`)
+vc = await chipState()
+ok('pressing the playing voice stops it', vc.every((c) => c.endsWith(':false')), vc.join(' '))
 
 const posters = await evalJs(`return [...document.querySelectorAll('.demo-thumb img')].map(i => i.getAttribute('src'))`)
 const missing = posters.filter((p) => !fs.existsSync(path.join(ROOT, p)))
@@ -241,7 +254,7 @@ const ae = await evalJs(`
   return { desks: ['#how .flow', '#support .help-card', '#demos .demo-feature', '#on-the-go .phone'].every(s => !!document.querySelector(s)),
            pills: [...document.querySelectorAll('#how .flow-ch li')].map(l => l.textContent.trim()),
            cut: [...document.querySelectorAll('main a[data-demo]')].every(a => a.dataset.demo.includes('/demos/ae/')),
-           btn: (document.querySelector('.films-all') || {}).textContent,
+           btn: (document.querySelector('.films-peek') || {}).textContent,
            price: [...document.querySelectorAll('main *')].some(e => /\\$\\d|\\bAED\\b|\\bUSD\\b|\\bCAD\\b/.test(e.textContent) && e.children.length === 0),
            signup: !!document.querySelector('main a[href*="signup"], main a[href*="pricing"]'),
            demo: document.querySelectorAll('main a[data-open-chat]').length,
@@ -249,7 +262,7 @@ const ae = await evalJs(`
 ok('ae.html: all four desks', ae.desks)
 ok('ae.html: five channels, WhatsApp first', ae.pills.join() === 'WhatsApp,Instagram,Messenger,Web chat,Email', ae.pills.join())
 ok('ae.html: every film is the UAE cut', ae.cut)
-ok('ae.html: the films button counts the UAE library', (ae.btn || '').trim() === 'All 15 films', ae.btn)
+ok('ae.html: the films peek counts the UAE feature films', (ae.btn || '').trim() === '10 more films', ae.btn)
 ok('ae.html: still no price, signup or pricing link', !ae.price && !ae.signup, `${ae.price} ${ae.signup}`)
 ok('ae.html: still books demos', ae.demo >= 3, String(ae.demo))
 ok('ae.html: every nav link lands on something', await evalJs(`
@@ -338,7 +351,7 @@ console.log('\n═══ F. accessibility ═══')
 await load()
 const a11y = await evalJs(`
   const chips = [...document.querySelectorAll('.vchips button')];
-  const b = document.querySelector('.films-all');
+  const b = document.querySelector('.films-peek');
   const deco = [...document.querySelectorAll('.flow svg, .checks svg, .help-card svg')];
   return {
     chipsPressed: chips.length === 4 && chips.every(c => c.tagName === 'BUTTON' && c.hasAttribute('aria-pressed')),
@@ -350,7 +363,7 @@ const a11y = await evalJs(`
   };`)
 ok('the voice chips are real buttons with aria-pressed', a11y.chipsPressed)
 ok('and their group is labelled', a11y.chipsLabelled)
-ok('the films button says what it opens and whether it is open', a11y.filmsBtn)
+ok('the films peek says what it opens and whether it is open', a11y.filmsBtn)
 ok('decorative icons are hidden from screen readers', a11y.decorativeHidden)
 ok('the phone pictures are labelled', a11y.phonesLabelled)
 ok('exactly one h1', a11y.oneH1 === 1, String(a11y.oneH1))

@@ -373,26 +373,60 @@ function initDemos() {
   dlg.addEventListener("close", () => { video.pause(); video.removeAttribute("src"); video.load(); });
 }
 
-/* ===== "All 15 films": the feature films sit behind one button =====
-   styles.css hides .films-more once JS is running. With JS off the row is simply shown and the
-   button, which is hidden in the markup, never appears. */
+/* ===== the feature films: a fading peek that opens on click =====
+   Once JS runs, styles.css shows only the top edge of the row, fading out, and the peek button
+   lies over it. With JS off the row is shown in full and the button (hidden in the markup) never
+   appears. The films under the fade are inert until revealed, so Tab never lands on a hidden one. */
 function initFilmsMore() {
-  $$(".films-all").forEach((b) => {
-    const box = document.getElementById(b.getAttribute("aria-controls"));
-    if (!box) return;
-    const label = b.textContent;
+  $$(".films-peek").forEach((b) => {
+    const inner = document.getElementById(b.getAttribute("aria-controls"));
+    const box = b.parentElement;
+    if (!inner || !box) return;
+    const rows = $$(".demo-grid", inner);
+    rows.forEach((r) => { r.inert = true; });
     b.hidden = false;
     b.addEventListener("click", () => {
-      const open = !box.classList.contains("open");
-      box.classList.toggle("open", open);
-      b.setAttribute("aria-expanded", String(open));
-      b.textContent = open ? "Fewer films" : label;
-      if (!open) return;
-      // the phone rail places its cards from measured positions, which a hidden row did not have
-      $$(".demo-grid", box).forEach((r) => r.dispatchEvent(new Event("scroll")));
-      box.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" });
+      const done = () => { inner.classList.remove("anim"); inner.style.maxHeight = ""; };
+      inner.style.maxHeight = inner.offsetHeight + "px";
+      inner.classList.add("anim");
+      box.classList.add("open");
+      b.hidden = true;
+      b.setAttribute("aria-expanded", "true");
+      // the phone rail places its cards from measured positions, so let it measure again
+      rows.forEach((r) => { r.inert = false; r.dispatchEvent(new Event("scroll")); });
+      const first = $("a", inner);
+      if (first) first.focus({ preventScroll: true });
+      if (REDUCED) { done(); return; }
+      void inner.offsetHeight;
+      inner.style.maxHeight = inner.scrollHeight + "px";
+      inner.addEventListener("transitionend", done, { once: true });
+      setTimeout(done, 800);
     });
   });
+}
+
+/* ===== voice chips: each plays that voice's real one-line sample from the app =====
+   One sample at a time. Pressing the playing chip again stops it. */
+function initVoiceSamples() {
+  const chips = $$("[data-voice]");
+  if (!chips.length) return;
+  let audio = null, on = null;
+  const stop = () => {
+    if (audio) { audio.pause(); audio = null; }
+    if (on) on.setAttribute("aria-pressed", "false");
+    on = null;
+  };
+  chips.forEach((b) => b.addEventListener("click", () => {
+    const same = on === b;
+    stop();
+    if (same) return;
+    const a = new Audio(b.dataset.voice);
+    audio = a; on = b;
+    b.setAttribute("aria-pressed", "true");
+    a.addEventListener("ended", () => { if (audio === a) stop(); });
+    const p = a.play();
+    if (p && p.catch) p.catch(() => { if (audio === a) stop(); });
+  }));
 }
 
 /* ===== visibility helpers ===== */
@@ -667,6 +701,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initDemos();
   initDemoRails();
   initFilmsMore();
+  initVoiceSamples();
   initReveal();
   initLiveZones();
   initLiveChat();
