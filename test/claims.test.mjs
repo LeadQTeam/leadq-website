@@ -126,5 +126,14 @@ ok("the Voice AI nav link is voice-gated", /\["voice\.html", "Voice AI", "voice"
 ok("the voice page tells a UAE visitor plainly", /isn't available in the UAE/.test(build))
 ok("no voice element is keyed to North America instead", !/voice-strip[^>]*data-na-only/.test(build))
 
+// ── the voices a visitor can hear are the app's own ──────────────────────────
+// The home page's voice band and voice.html share one chip list (voiceChips in build-site.js),
+// each chip playing that voice's real sample from the app. Every sample must be in the repo.
+const voicesOn = (f) => [...read(f).matchAll(/data-voice="(audio\/voices\/[a-z]+\.mp3)"/g)].map((m) => m[1])
+const homeVoices = voicesOn("index.html")
+ok("the home page lets you hear four voices", homeVoices.length === 4, homeVoices.join(" "))
+ok("voice.html plays the same four", voicesOn("voice.html").join() === homeVoices.join(), voicesOn("voice.html").join(" "))
+ok("and every sample is in the repo", homeVoices.every((v) => { try { return readFileSync(path.join(ROOT, v)).length > 20000 } catch { return false } }))
+
 console.log(bad ? `\n${bad} FAILED` : "\nOK site claims match the product")
 process.exit(bad ? 1 : 0)

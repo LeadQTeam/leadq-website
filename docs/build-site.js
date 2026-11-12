@@ -410,6 +410,13 @@ const demoCard = (dir, d, kick, title = d[2], biz = d[3]) => `      <li><a ${dem
    one layout and differ only in their channels, businesses and films. */
 const tick = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
 
+/* The voices a visitor can hear: each chip plays that voice's real sample from the app
+   (audio/voices/, copied from leadq-app/voices/), one at a time (site.js initVoiceSamples).
+   One list for the home page's voice band and voice.html, so the two never disagree. */
+const voiceChips = `<div class="vchips left" role="group" aria-label="Hear the voices">
+          ${[["ava", "Ava"], ["noah", "Noah"], ["sarah", "Sarah"], ["eric", "Eric"]].map(([k, n]) => `<button type="button" class="vchip" data-voice="audio/voices/${k}.mp3" aria-pressed="false"><span class="vc-ic" aria-hidden="true">${I.play}<i></i><i></i><i></i></span><span class="sr-only">Hear </span>${n}</button>`).join("")}
+        </div>`;
+
 /* 01 Front Desk: every channel runs into one booking. Each dashed line leaves the middle of its
    channel's row and lands on the middle of the card. The lines are worked out from the row
    count, so the same drawing serves seven channels or five. */
@@ -693,9 +700,7 @@ ${deskFront({
         <p class="voice-k">AI receptionist · Included in Pro</p>
         <h2 class="h-sec">Even the front<br>desk phone.</h2>
         <p class="lead" style="margin-top:18px">A receptionist that sounds human picks up the calls you can't, answers questions, books the job, and warm-transfers to you when it matters. No more voicemail.</p>
-        <div class="vchips left" role="group" aria-label="Hear the voices">
-          ${[["ava", "Ava"], ["noah", "Noah"], ["sarah", "Sarah"], ["eric", "Eric"]].map(([k, n]) => `<button type="button" class="vchip" data-voice="audio/voices/${k}.mp3" aria-pressed="false"><span class="vc-ic" aria-hidden="true">${I.play}<i></i><i></i><i></i></span><span class="sr-only">Hear </span>${n}</button>`).join("")}
-        </div>
+        ${voiceChips}
         <a class="btn btn-voice btn-lg" href="voice.html">Meet the AI Receptionist</a>
         <p class="fine">The AI Receptionist runs on US and Canadian phone numbers only.</p>
       </div>
@@ -950,9 +955,7 @@ page({
       <div>
         <h1 class="h-hero">The same assistant. Now it picks up.</h1>
         <p class="lead">It answers every inbound call in your assistant's persona and voice, books live against your real calendar, and hands off to you on your rules. No more voicemail.</p>
-        <div class="vchips" role="group" aria-label="Voices" data-press-group style="justify-content:flex-start">
-          <button type="button" aria-pressed="true">Ava</button><button type="button" aria-pressed="false">Noah</button><button type="button" aria-pressed="false">Mia</button><button type="button" aria-pressed="false">Sarah</button>
-        </div>
+        ${voiceChips}
         <div class="call-log" aria-label="Call transcript">
           <div class="ln"><span>00:02</span><span>"Hi, do you have any openings tomorrow?"</span></div>
           <div class="ln"><span>00:05</span><span>Baxter: "We do. I can offer 9:30 AM or 2:00 PM. Which works best?"</span></div>
