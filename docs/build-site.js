@@ -1025,15 +1025,16 @@ page({
         <div class="twin-h"><b>WhatsApp</b>Monday, 6:12 PM</div>
         <div class="thread">
           <div class="bub in">Do you do evening appointments?</div>
-          <div class="bub out">We're open until 7:00 PM on Thursdays. Want me to look at this week?</div>
-          <div class="bub in">I'll call tomorrow to sort it</div>
+          <div class="bub out">Yes, until 7:00 PM on Thursdays. Want me to check this week for you?</div>
+          <div class="bub in">Let me check with my partner first. Thanks!</div>
+          <div class="bub out">Of course. Message or call whenever you're ready.</div>
         </div>
       </div>
       <div class="card">
         <div class="twin-h"><b>Phone call</b>Tuesday, 9:04 AM</div>
         <div class="thread">
-          <div class="bub in">"Hi, I messaged yesterday about an evening slot."</div>
-          <div class="bub out">"I see that. Thursday at 6:00 PM is open. Shall I book it?"</div>
+          <div class="bub in">"Hi, we're ready to book that Thursday evening."</div>
+          <div class="bub out">"Great. 6:00 PM is still open. Shall I book it?"</div>
           <div class="bub in">"Yes, perfect."</div>
         </div>
         <div class="shared-booking"><b>Booked, Thu 6:00 PM</b>One contact, one conversation history, on both channels.</div>
