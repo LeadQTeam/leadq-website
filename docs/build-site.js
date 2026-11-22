@@ -590,15 +590,15 @@ page({
   file: "index.html",
   // Only the home page carries the desktop app mockups, so only it loads their driver.
   mockup: true,
-  title: "LeadQ | One AI assistant for every channel",
-  desc: "LeadQ answers WhatsApp, SMS, web chat, email and your phone line with one AI assistant, and books the appointment while you work. Live in minutes.",
-  ogDesc: "One AI assistant answers WhatsApp, SMS, web chat, email and your phone line, and books the appointment while you work.",
+  title: "LeadQ | Your AI front desk for every channel",
+  desc: "LeadQ is your AI front desk. It answers WhatsApp, SMS, web chat, email and your phone line in seconds, and books the appointment while you work. Live in minutes.",
+  ogDesc: "Your AI front desk. It answers WhatsApp, SMS, web chat, email and your phone line, and books the appointment while you work.",
   canonical: "https://www.leadq.co/",
   bodyAttr: 'style="--c:#4d86ff;--c2:#38d3ff"',
   jsonld: [
     '{"@context":"https://schema.org","@type":"Organization","name":"LeadQ","url":"https://www.leadq.co","logo":"https://www.leadq.co/icon-512.png"}',
     '{"@context":"https://schema.org","@type":"WebSite","name":"LeadQ","url":"https://www.leadq.co"}',
-    '{"@context":"https://schema.org","@type":"SoftwareApplication","name":"LeadQ","applicationCategory":"BusinessApplication","operatingSystem":"Web","description":"One AI assistant for your whole business. It answers WhatsApp, SMS, web chat, email and your phone line, and books the appointment automatically.","offers":{"@type":"Offer","price":"59","priceCurrency":"USD"}}',
+    '{"@context":"https://schema.org","@type":"SoftwareApplication","name":"LeadQ","applicationCategory":"BusinessApplication","operatingSystem":"Web","description":"An AI front desk for your whole business. It answers WhatsApp, SMS, web chat, email and your phone line, and books the appointment automatically.","offers":{"@type":"Offer","price":"59","priceCurrency":"USD"}}',
     faqLd(homeFaq),
   ],
   navHtml: nav(null),
@@ -640,7 +640,7 @@ page({
   <div class="wrap">
     <div class="sec-head hero-head">
       <h1 class="h-hero">Stop <span class="ko">chasing.</span><br>Start <span class="hi">closing.</span></h1>
-      <p class="lead">Every missed message is a job someone else books. LeadQ answers every channel in seconds${mkt(", your phone line too,", "")} and books the appointment.</p>
+      <p class="lead">Every missed message is a job someone else books. LeadQ is the AI&nbsp;front&nbsp;desk that answers every channel in seconds${mkt(", your phone line too,", "")} and books the appointment.</p>
       <div class="ctas">
         <a class="btn btn-primary btn-lg" href="${SIGNUP}">Try it Free</a>
         <a class="btn btn-ghost btn-lg btn-play" href="#how" data-video>${I.play}What is LeadQ?</a>
@@ -688,7 +688,7 @@ ${deskFront({
   checks: [
     ["Books into your real calendar", "Checks your availability and booking rules before it offers a time."],
     ["Follows up so leads don't go cold", "Reminders before the appointment and nudges when someone goes quiet, never during your quiet hours."],
-    [mkt("One assistant, 7 channels", "One assistant, 5 channels"), "Same answers and the same tone on every channel, Instagram and Messenger DMs included, set up once. Leads from your Facebook lead forms come straight in too."],
+    [mkt("One front desk, 7 channels", "One front desk, 5 channels"), "Same answers and the same tone on every channel, Instagram and Messenger DMs included, set up once. Leads from your Facebook lead forms come straight in too."],
   ],
 })}
 
@@ -761,7 +761,7 @@ ${deskNoDesk("Under a sink or mid-manicure, your front desk goes wherever you do
 <section class="horizon">
   <div class="wrap">
     <h2>Your next lead isn't going to wait.</h2>
-    <p class="lead">Set up your assistant in minutes, from any browser.</p>
+    <p class="lead">Set up your front desk in minutes, from any browser.</p>
     <div class="ctas"><a class="btn btn-primary btn-lg" href="${SIGNUP}">Try it Free</a></div>
     <p class="fine">7-day free trial. No contracts, cancel anytime.</p>
   </div>
@@ -796,7 +796,7 @@ page({
   <div class="wrap">
     <div class="price-top">
       <h1 class="h-hero">Plans, priced for your market.</h1>
-      <p class="lead">Every plan includes the full assistant and one credit pool for all your usage. Shown in your local currency, never a conversion.</p>
+      <p class="lead">Every plan includes the full AI front desk and one credit pool for all your usage, for less than it costs to staff one. Shown in your local currency, never a conversion.</p>
     </div>
     ${plans}
     <p class="plans-note">Create your account, then subscribe inside the app. No contracts, cancel anytime.</p>
@@ -934,8 +934,8 @@ const voicePicker = phone({
 page({
   file: "voice.html",
   title: "AI Receptionist | LeadQ Voice",
-  desc: "The same LeadQ assistant now answers the phone. It picks up every inbound call, books live against your calendar, and warm-transfers to you when it matters. Included in Pro.",
-  ogDesc: "The same assistant now answers the phone. It picks up every inbound call, books live, and warm-transfers to you when it matters.",
+  desc: "Your LeadQ front desk now answers the phone too. It picks up every inbound call, books live against your calendar, and warm-transfers to you when it matters. Included in Pro.",
+  ogDesc: "Your AI front desk now answers the phone too. It picks up every inbound call, books live, and warm-transfers to you when it matters.",
   canonical: "https://www.leadq.co/voice.html",
   bodyAttr: 'class="page-voice" style="--c:#a98cf0;--c2:#7b5bd6"',
   navHtml: nav("voice", { voice: true }),
@@ -1358,8 +1358,8 @@ VERTICALS.forEach((v) => {
 page({
   file: "about.html",
   title: "About LeadQ",
-  desc: "LeadQ is one AI assistant that answers every channel and books the appointment for local businesses. One app, instead of five tools and a front desk you can't always staff.",
-  ogDesc: "One AI assistant that answers every channel and books the appointment. One app, instead of five tools and a front desk you can't always staff.",
+  desc: "LeadQ is the AI front desk for local businesses. It answers every channel and books the appointment, instead of five tools and a front desk you can't always staff.",
+  ogDesc: "An AI front desk that answers every channel and books the appointment, instead of five tools and a front desk you can't always staff.",
   canonical: "https://www.leadq.co/about.html",
   bodyAttr: 'style="--c:#ffb38a;--c2:#4d86ff"',
   navHtml: nav(null),
@@ -1367,8 +1367,8 @@ page({
 <section class="lit-hero">
   <div class="wrap">
     <div class="about-hero">
-      <h1 class="h-hero">One app, instead of five tools and a front desk.</h1>
-      <p class="lead">LeadQ is one AI assistant for your whole business. It answers ${mkt("WhatsApp, SMS, web chat, email and your phone line", "WhatsApp, web chat and email")}, and it books the appointment while you work.</p>
+      <h1 class="h-hero">One front desk, instead of five tools.</h1>
+      <p class="lead">LeadQ is the AI front desk for your whole business. It answers ${mkt("WhatsApp, SMS, web chat, email and your phone line", "WhatsApp, web chat and email")}, and it books the appointment while you work.</p>
     </div>
     <div class="founders">
       <figure class="founder"><div class="frame"><picture><source srcset="img/team/rob.webp" type="image/webp"><img src="img/team/rob.jpg" alt="Rob, co-founder of LeadQ" width="520" height="688" decoding="async"></picture></div><figcaption><b>Rob</b><span>Co-founder</span></figcaption></figure>
@@ -1387,7 +1387,7 @@ page({
 <section class="sec">
   <div class="wrap story">
     <h2 class="h-sec">You shouldn't need five tools to answer a customer.</h2>
-    <p class="lead">Most small teams stitch together a chat widget, ${mkt("a texting app, an inbox, a booking tool and a receptionist", "an inbox, a booking tool and a WhatsApp number on someone's phone")}, and still drop messages. It should be one assistant that knows your business, speaks in your voice, and works every channel the same way. So that's what we built.</p>
+    <p class="lead">Most small teams stitch together a chat widget, ${mkt("a texting app, an inbox, a booking tool and a receptionist", "an inbox, a booking tool and a WhatsApp number on someone's phone")}, and still drop messages. It should be one front desk that knows your business, speaks in your voice, and works every channel the same way. So that's what we built.</p>
   </div>
 </section>
 
@@ -1578,8 +1578,8 @@ const aeDemoPlayer = demoPlayer;
 page({
   file: "ae.html",
   title: "LeadQ for the UAE | WhatsApp answered and booked, automatically",
-  desc: "An AI assistant that answers WhatsApp, web chat and email for UAE businesses and books the appointment, day and night.",
-  ogDesc: "One AI assistant answers WhatsApp, web chat and email, and books the appointment while you work.",
+  desc: "An AI front desk that answers WhatsApp, web chat and email for UAE businesses and books the appointment, day and night.",
+  ogDesc: "Your AI front desk answers WhatsApp, web chat and email, and books the appointment while you work.",
   canonical: "https://www.leadq.co/ae.html",
   robots: "noindex,follow",
   bodyAttr: 'style="--c:#4d86ff;--c2:#38d3ff"',
@@ -1593,7 +1593,7 @@ page({
   <div class="wrap">
     <div class="sec-head hero-head">
       <h1 class="h-hero">Stop <span class="ko">missing.</span><br>Start <span class="hi">booking.</span></h1>
-      <p class="lead">Here, business happens on WhatsApp. LeadQ answers WhatsApp, web chat and email in seconds, then books the appointment. At midnight, on a weekend, or while you are with a customer.</p>
+      <p class="lead">Here, business happens on WhatsApp. LeadQ is the AI front desk that answers WhatsApp, web chat and email in seconds, then books the appointment. At midnight, on a weekend, or while you are with a customer.</p>
       <div class="ctas">
         <a class="btn btn-primary btn-lg" href="#demo" data-open-chat>Book a demo</a>
         <a class="btn btn-ghost btn-lg btn-play" href="#how" data-video>${I.play}What is LeadQ?</a>
@@ -1609,7 +1609,7 @@ ${deskFront({
   checks: [
     ["Books into your real calendar", "Google Calendar or Outlook. It offers times you are genuinely free and writes the appointment straight in."],
     ["Follows up so leads don't go cold", "A reminder the day before, and a nudge when someone goes quiet, never during your quiet hours."],
-    ["One assistant, 5 channels", "Same answers and the same tone on every channel, in whatever language your customer writes in."],
+    ["One front desk, 5 channels", "Same answers and the same tone on every channel, in whatever language your customer writes in."],
   ],
 })}
 

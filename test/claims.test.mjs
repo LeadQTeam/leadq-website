@@ -52,7 +52,10 @@ ok("the fine print stays short", /Set it up in minutes\. No AI knowledge needed\
 ok("it makes no hard claim a mobile app exists", !/download the app|app store|get it on|available on the/i.test(home))
 // The four desks layout (2026-11-11) dropped the "Live in minutes, from any browser" steps; the
 // closing section carries the same promise now, and No Desk shows the phone as a browser screen.
-ok("setup no longer claims to be phone-first", /Set up your assistant in minutes, from any browser\./.test(home))
+// "assistant" became "front desk" on 2026-11-22, when LeadQ's positioning moved to "AI front desk".
+ok("setup no longer claims to be phone-first", /Set up your front desk in minutes, from any browser\./.test(home))
+// The positioning: the home page names the category in its title and hero.
+ok("the home page calls LeadQ an AI front desk", /<title>LeadQ \| Your AI front desk/.test(home) && /LeadQ is the AI&nbsp;front&nbsp;desk that answers every channel/.test(home))
 
 // ── Instagram and Messenger are live ─────────────────────────────────────────
 // From 2026-10-02 they were "coming soon" (Meta's access verification checks the site shows the
